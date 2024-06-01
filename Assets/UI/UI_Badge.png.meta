@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d24a00576fa433a40bb68c9aca1ac5e1
+guid: 6fc8fa6c8ee13e645a8dff8efb358473
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -149,13 +149,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Icon00-sheet_0
+      name: UI_Badge_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 378
-        height: 378
+        width: 97
+        height: 98
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,20 +163,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e82fc656486718468f106e6552acb24
-      internalID: 688418024
+      spriteID: d348588728401b64d83a4ea14b6a8aec
+      internalID: -663243362
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Icon00-sheet_1
+      name: UI_Badge_1
       rect:
         serializedVersion: 2
-        x: 378
+        x: 97
         y: 0
-        width: 378
-        height: 378
+        width: 97
+        height: 98
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,155 +184,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62958f7341b7052489d1eb9e5bf137f8
-      internalID: 35536023
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Icon00-sheet_2
-      rect:
-        serializedVersion: 2
-        x: 756
-        y: 0
-        width: 378
-        height: 378
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7f4e4e0523c09ef4fbcdc74cdb94d78c
-      internalID: 690115759
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Icon00-sheet_3
-      rect:
-        serializedVersion: 2
-        x: 1134
-        y: 0
-        width: 378
-        height: 378
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6e3de26bfed042e4792370ba8a91e2d2
-      internalID: 634970682
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Icon00-sheet_4
-      rect:
-        serializedVersion: 2
-        x: 1512
-        y: 0
-        width: 378
-        height: 378
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b54bfbb3bebdb204ebc6e08ba2bfa8ab
-      internalID: -571164360
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Icon00-sheet_5
-      rect:
-        serializedVersion: 2
-        x: 1890
-        y: 0
-        width: 378
-        height: 378
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f71bc8716de31214dbb3e36eb362e97a
-      internalID: -1061673449
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Icon00-sheet_6
-      rect:
-        serializedVersion: 2
-        x: 2268
-        y: 0
-        width: 378
-        height: 378
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 29ece38d806f1bf498af17e41d1e6d86
-      internalID: -1350288250
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Icon00-sheet_7
-      rect:
-        serializedVersion: 2
-        x: 2646
-        y: 0
-        width: 378
-        height: 378
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9321a54b763a0ff489aecd01aa8fe017
-      internalID: -536747216
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Icon00-sheet_8
-      rect:
-        serializedVersion: 2
-        x: 3024
-        y: 0
-        width: 378
-        height: 378
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b0aa2ac7240fab14d819d56055648aed
-      internalID: 240919233
+      spriteID: 6914a2dd0060f7948bfe55f5fe260082
+      internalID: -1998991543
       vertices: []
       indices: 
       edges: []
@@ -348,15 +201,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Icon00-sheet_0: 688418024
-      Icon00-sheet_1: 35536023
-      Icon00-sheet_2: 690115759
-      Icon00-sheet_3: 634970682
-      Icon00-sheet_4: -571164360
-      Icon00-sheet_5: -1061673449
-      Icon00-sheet_6: -1350288250
-      Icon00-sheet_7: -536747216
-      Icon00-sheet_8: 240919233
+      UI_Badge_0: -663243362
+      UI_Badge_1: -1998991543
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
