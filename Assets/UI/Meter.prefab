@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5452878888738661550}
   - component: {fileID: 3775716481125381049}
   m_Layer: 5
-  m_Name: UI_StatMeter
+  m_Name: Meter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
