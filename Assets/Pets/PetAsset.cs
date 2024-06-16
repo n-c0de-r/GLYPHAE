@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scripts
@@ -8,6 +10,7 @@ namespace Scripts
         #region Serialized Fields
 
         [SerializeField] private Sprite[] levelSprites;
+        [SerializeField] private List<GlyphAsset> literals;
 
         #endregion
 

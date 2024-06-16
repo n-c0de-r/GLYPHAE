@@ -6,7 +6,8 @@ namespace Scripts
     public class GameManager : MonoBehaviour
     {
         #region Serialized Fields
-        [SerializeField] private List<GlyphAsset> uniliterals, biliterals, triliterals, words;
+
+        //[SerializeField] private List<GlyphAsset> uniliterals, biliterals, triliterals, words;
 
         #endregion
 
