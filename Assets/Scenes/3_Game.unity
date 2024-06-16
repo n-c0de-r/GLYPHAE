@@ -2274,7 +2274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6696031646775163237, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
       propertyPath: m_fontSize
-      value: 24
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6703863999734258335, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
       propertyPath: m_AnchorMax.y
