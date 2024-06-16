@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ca7cad355202b458d0a024c0a8f9a1, type: 3}
   m_Name: uni03_a
   m_EditorClassIdentifier: 
-  symbol: {fileID: 1803603560, guid: c25ce839916d2a14f8f9028d1e5e424f, type: 3}
+  symbol: {fileID: 567228084, guid: b442477e76df41e4a90338d1373e6e87, type: 3}
   character: {fileID: -1481765881, guid: 87d6be13a6aef9f408bc65038d30e8b9, type: 3}
   sound: {fileID: 0}
