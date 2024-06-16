@@ -1,12 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-7700880107449558569
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 838d4661144c9de49bf537c998cee921
+  m_EffectName: Attenuation
+  m_MixLevel: e978af7f0bc0d6b41ac951cf4291248a
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!243 &-5226850866868813102
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sounds
+  m_Name: Sound
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 614361ebe4c7d284b923622bcd7f6eb4
   m_Children: []
@@ -16,6 +30,25 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: 8046071755621793746}
   m_UserColorIndex: 8
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &-2814854427722030229
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Voice
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 975290e9a58f94640ba7b3e756cfe746
+  m_Children: []
+  m_Volume: f6a01cb3a3ae3a4408f5a33246a53521
+  m_Pitch: c5fdb330887af3149b3030165aab1808
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -7700880107449558569}
+  m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
@@ -41,11 +74,14 @@ AudioMixerController:
     name: MusicVolume
   - guid: f115fc539899a1c4681b9698a8213042
     name: SoundVolume
+  - guid: f6a01cb3a3ae3a4408f5a33246a53521
+    name: VoiceVolume
   m_AudioMixerGroupViews:
   - guids:
     - 1e352004b9bddd647a7d55d506a91294
     - 614361ebe4c7d284b923622bcd7f6eb4
     - ad2cda5ddeac90b4196b217ff098fab9
+    - 975290e9a58f94640ba7b3e756cfe746
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -61,6 +97,7 @@ AudioMixerGroupController:
   m_Children:
   - {fileID: -5226850866868813102}
   - {fileID: 8173853675361948299}
+  - {fileID: -2814854427722030229}
   m_Volume: 4742c93283d64474bb77f3d1d92d2779
   m_Pitch: 1a8392842a68b714ab1de2b2599b32a3
   m_Send: 00000000000000000000000000000000

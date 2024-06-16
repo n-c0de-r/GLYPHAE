@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ca7cad355202b458d0a024c0a8f9a1, type: 3}
+  m_Name: uni19_k
+  m_EditorClassIdentifier: 
+  symbol: {fileID: -812700628, guid: c25ce839916d2a14f8f9028d1e5e424f, type: 3}
+  character: {fileID: -636473389, guid: 87d6be13a6aef9f408bc65038d30e8b9, type: 3}
+  sound: {fileID: 0}

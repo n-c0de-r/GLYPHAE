@@ -1,13 +1,13 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Scripts
 {
-    public class GlyphButton : MonoBehaviour, IClickable
+    [CreateAssetMenu(fileName = "Pet", menuName = "ScriptableObjects/Pet")]
+    public class PetAsset : ScriptableObject
     {
         #region Serialized Fields
 
+        [SerializeField] private Sprite[] levelSprites;
 
         #endregion
 
@@ -20,8 +20,8 @@ namespace Scripts
 
 
         #region GetSets / Properties
-        
-        
+
+
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace Scripts
 
         void Awake()
         {
-
+            
         }
 
         void Start()
@@ -52,15 +52,15 @@ namespace Scripts
 
 
         #region Events
-
-
+        
+        
 
         #endregion
 
 
         #region Methods
-
-
+        
+        
 
         public void TemplateMethod(bool param)
         {
@@ -71,20 +71,12 @@ namespace Scripts
 
 
         #region Helpers
+        
+        
 
-        public void OnClick()
+        private void TemplateHelper(bool param)
         {
-            Debug.Log(name + " clicked");
-        }
-
-        public void OnStartDrag()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnEndDrag()
-        {
-            throw new NotImplementedException();
+            
         }
 
         #endregion

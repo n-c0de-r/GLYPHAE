@@ -1,17 +1,19 @@
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class MainMenu : MonoBehaviour
 {
-    #region Serialized Fields
-
     //[SerializeField] private Settings dafaultSettings;
+    [SerializeField] private UnityEvent onInit;
 
-    #endregion
+    private void Awake()
+    {
+    }
 
-
-    #region Methods
+    private void Start()
+    {
+        onInit.Invoke();
+    }
 
     /// <summary>
     /// Loads the given scene.
@@ -30,6 +32,4 @@ public class MainMenu : MonoBehaviour
     #endif
         Application.Quit();
     }
-
-    #endregion
 }

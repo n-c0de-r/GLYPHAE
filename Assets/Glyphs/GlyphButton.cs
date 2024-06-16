@@ -1,19 +1,20 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.U2D;
 
 namespace Scripts
 {
-    public class GameManager : MonoBehaviour
+    public class GlyphButton : MonoBehaviour, IClickable
     {
         #region Serialized Fields
-        [SerializeField] private List<GlyphAsset> uniliterals, biliterals, triliterals, words;
 
         #endregion
 
 
         #region Fields
-        
-        
+
+
 
         #endregion
 
@@ -29,12 +30,12 @@ namespace Scripts
 
         void Awake()
         {
-            
+
         }
 
         void Start()
         {
-            
+
         }
 
         void FixedUpdate()
@@ -51,15 +52,15 @@ namespace Scripts
 
 
         #region Events
-        
-        
+
+
 
         #endregion
 
 
         #region Methods
-        
-        
+
+
 
         public void TemplateMethod(bool param)
         {
@@ -70,12 +71,20 @@ namespace Scripts
 
 
         #region Helpers
-        
-        
 
-        private void TemplateHelper(bool param)
+        public void OnClick()
         {
-            
+            Debug.Log(name + " clicked");
+        }
+
+        public void OnStartDrag()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnEndDrag()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
