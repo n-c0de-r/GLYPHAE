@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.U2D;
 
-namespace Scripts
+namespace GlyphaeScripts
 {
     public class GlyphButton : MonoBehaviour, IClickable
     {
@@ -83,6 +83,11 @@ namespace Scripts
         }
 
         public void OnEndDrag()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnClick(InputAction.CallbackContext context)
         {
             throw new NotImplementedException();
         }

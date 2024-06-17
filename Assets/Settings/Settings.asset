@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d8983f9321eb0642a3b14e859f5c9d0, type: 3}
+  m_Name: Settings
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: dcc6d6a5f32ecf14c98005122344b0fc, type: 2}
+  games:
+  - {fileID: 416405148533202103, guid: f2fc9d4f7ed0bb743bf1ac8b70dcc1a9, type: 3}
+  pets:
+  - {fileID: 3721469564461433512, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+  - {fileID: 3721469564461433512, guid: ee6b687fe77934f49af4646eb5f4a2c2, type: 3}
+  - {fileID: 3721469564461433512, guid: 65f40c1cc271b274fba6795ca5c3512f, type: 3}
+  - {fileID: 3721469564461433512, guid: 54898e67d8dbe7e45a0e40a89d22d215, type: 3}
+  main: -20
+  music: -13.632159
+  sound: 0
+  voice: 0

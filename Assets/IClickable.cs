@@ -1,10 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.InputSystem;
 
-public interface IClickable
+namespace GlyphaeScripts
 {
-    void OnClick();
-    void OnStartDrag();
-    void OnEndDrag();
+    public interface IClickable
+    {
+        #region Methods
+
+        void OnClick(InputAction.CallbackContext context);
+
+        #endregion
+    }
 }

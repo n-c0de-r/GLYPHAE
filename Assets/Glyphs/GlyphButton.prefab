@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1096907018739325800}
   - component: {fileID: 2099880099188352550}
-  - component: {fileID: 6845581244454366988}
   - component: {fileID: 7778475881883308116}
   m_Layer: 0
   m_Name: GlyphButton
@@ -36,18 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2099880099188352550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267301226437312151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36c59a1efb57cbd4ea411b5fdfa4ff5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6845581244454366988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
