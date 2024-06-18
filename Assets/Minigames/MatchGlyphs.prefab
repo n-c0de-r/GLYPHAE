@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed90b8749c0ff74ab7b6e182fa9a61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 6
   description: 
   instructionText: 
   successesToWin: 2

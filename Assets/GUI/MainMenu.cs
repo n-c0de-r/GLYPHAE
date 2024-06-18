@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -99,6 +101,31 @@ namespace GlyphaeScripts
         /// </summary>
         private void LoadSettings()
         {
+            if (PlayerPrefs.HasKey("SelectedPet"))
+            {
+                string petName = PlayerPrefs.GetString("SelectedPet");
+                foreach (Pet pet in settings.Pets)
+                {
+                    if (pet.name == petName)
+                    {
+                        settings.SelectedPet = pet;
+                        settings.SetupDictionary();
+                        break;
+                    }
+                }
+
+                if (PlayerPrefs.HasKey(petName))
+                {
+                    foreach (string item in PlayerPrefs.GetString(petName).Split(';'))
+                    {
+                        if (item == "") continue;
+
+                        Enum.TryParse(item.Split(":")[1], out MemoryLevel level);
+                        settings.Literals[item.Split(':')[0]].MemoryLevel = level;
+                    }
+                }
+            }
+
             if (PlayerPrefs.HasKey("MainVolume"))
             {
                 float value = PlayerPrefs.GetFloat("MainVolume");

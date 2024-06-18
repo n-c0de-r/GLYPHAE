@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472f8dcf2f7fc50448a87feb6fb2c698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 3721469564461433512}
   levelSprites:
   - {fileID: 21300000, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
   - {fileID: 1394146171, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
@@ -55,8 +56,9 @@ MonoBehaviour:
   - {fileID: 1289161388, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   - {fileID: -66341770, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   - {fileID: 2086382178, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
-  literals: []
   click: {fileID: -632152319304390262, guid: b9afe9bf0566e35488b5db6e230e7b3d, type: 3}
+  literals: []
+  critical: 10
   unlocked: 1
 --- !u!212 &5059000855819877809
 SpriteRenderer:

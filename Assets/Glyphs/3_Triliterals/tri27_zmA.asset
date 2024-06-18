@@ -15,3 +15,4 @@ MonoBehaviour:
   symbol: {fileID: 2121864379, guid: e8b5076262399884ba6eb2320a6a890f, type: 3}
   character: {fileID: -1301938267, guid: 3fdf974c82a3a554f906b64052a8c4bb, type: 3}
   sound: {fileID: 0}
+  memoryLevel: 1

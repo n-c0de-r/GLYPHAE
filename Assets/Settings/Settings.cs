@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 namespace GlyphaeScripts
 {
@@ -16,7 +18,12 @@ namespace GlyphaeScripts
 
         [Header("General Objects")]
         [SerializeField] private AudioMixer audioMixer;
-        [SerializeField] private List<GameObject> games, pets;
+
+        [Tooltip("List of Minigames to play.")]
+        [SerializeField] private List<Minigame> games;
+
+        [Tooltip("The list of Pets available in the whole game.")]
+        [SerializeField] private List<Pet> pets;
 
         [Header("Volume Settings")]
         [SerializeField][Range(-40,0)] private float main = -20.0f;
@@ -29,7 +36,8 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private GameObject _pet = null, _game = null;
+        private Pet _pet;
+        private Dictionary<string, Glyph> _literals = new();
 
         #endregion
 
@@ -37,9 +45,27 @@ namespace GlyphaeScripts
         #region GetSets / Properties
 
         /// <summary>
-        /// The selected game to play once in single or tutorial mode.
+        /// The list of <see cref="Minigame"/>s able to play.
         /// </summary>
-        public GameObject SelectedPet
+        public List<Minigame> Games
+        {
+            get => games;
+            set => games = value;
+        }
+
+        /// <summary>
+        /// The list of <see cref="Pets"/>s available in the game.
+        /// </summary>
+        public List<Pet> Pets
+        {
+            get => pets;
+            set => pets = value;
+        }
+
+        /// <summary>
+        /// The selected <see cref="Pet"/> to take care of.
+        /// </summary>
+        public Pet SelectedPet
         {
             get => _pet;
             set
@@ -47,33 +73,6 @@ namespace GlyphaeScripts
                 _pet = value;
                 PlayerPrefs.SetString("SelectedPet", value.name);
             }
-        }
-
-        /// <summary>
-        /// The selected game to play once in single or tutorial mode.
-        /// </summary>
-        public GameObject SelectedGame
-        {
-            get => _game;
-            set => _game = value;
-        }
-
-        /// <summary>
-        /// The list of Minigames able to play in combination with others.
-        /// </summary>
-        public List<GameObject> Games
-        {
-            get => games;
-            set => games = value;
-        }
-
-        /// <summary>
-        /// The list of Minigames able to play in combination with others.
-        /// </summary>
-        public List<GameObject> Pets
-        {
-            get => pets;
-            set => pets = value;
         }
 
         /// <summary>
@@ -132,6 +131,15 @@ namespace GlyphaeScripts
             }
         }
 
+        /// <summary>
+        /// The <see cref="Glyph"/> literals found in the saved data.
+        /// </summary>
+        public Dictionary<string, Glyph> Literals
+        {
+            get => _literals;
+            set =>_literals = value;
+        }
+
         #endregion
 
 
@@ -139,6 +147,7 @@ namespace GlyphaeScripts
 
         void Awake()
         {
+            
         }
 
         void Start()
@@ -182,11 +191,22 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-
-
-        private void TemplateHelper(bool param)
+        /// <summary>
+        /// Sets up a new dictionary
+        /// </summary>
+        public void SetupDictionary()
         {
-            
+            if (_pet != null)
+            {
+                string dict = "";
+                foreach (Glyph item in _pet.Literals)
+                {
+                    _literals.Add(item.name, item);
+                    dict += item.name + ":" + item.MemoryLevel.ToString() + ";";
+                }
+                // Store initial values in PlayerPrefs
+                if (!PlayerPrefs.HasKey(_pet.name)) PlayerPrefs.SetString(_pet.name, dict);
+            }
         }
 
         #endregion

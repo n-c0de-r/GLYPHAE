@@ -15,10 +15,24 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [Header("Internal values")]
+        [Tooltip("The prefab of this Pet")]
+        [SerializeField] private GameObject prefab;
+
+        [Tooltip("The sprites this Pet\r\ngoes through its evolutions")]
         [SerializeField] private Sprite[] levelSprites;
-        [SerializeField] private List<Glyph> literals;
+
+        // This can be removed
         [SerializeField] private InputActionReference click;
+
+        [Header("Game related values")]
+        [Tooltip("The list of Glyphs\r\nthis Pet needs to learn.")]
+        [SerializeField] private List<Glyph> literals;
+
+        [Tooltip("The value at which\r\na need sets a notification.")]
         [SerializeField][Range(0, 50)] private float critical = 10;
+
+        [Tooltip("Gets the current state\r\nif the Pet is already unlocked.")]
         [SerializeField] private bool unlocked;
 
         #endregion
@@ -39,11 +53,33 @@ namespace GlyphaeScripts
         private bool _clicked = false;
         private bool hasCalled = false;
 
-
         #endregion
 
 
         #region GetSets / Properties
+
+        /// <summary>
+        /// The prefab of this <see cref="Pet"/>.
+        /// </summary>
+        public GameObject Prefab { get => prefab; }
+
+        /// <summary>
+        /// The list of <see cref="Glyph"/>s
+        /// this <see cref="Pet"/> needs to learn.
+        /// </summary>
+        public List<Glyph> Literals { get => literals; }
+
+        /// <summary>
+        /// The current state if
+        /// the <see cref="Pet"/> is already unlocked.
+        /// </summary>
+        public bool Unlocked { get => unlocked; }
+
+        /// <summary>
+        /// The current <see cref="Evolution"/> level
+        /// enum of this <see cref="Pet"/>
+        /// </summary>
+        public Evolution CurrentLevel { get => _currentLevel; }
 
         #endregion
 

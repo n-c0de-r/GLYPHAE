@@ -8,21 +8,24 @@ namespace GlyphaeScripts
     /// <summary>
     /// Represents an abstract idea of a game.
     /// Encapsulates the basic values and functions
-    /// each game should have to function.
+    /// each <see cref="Minigame"/> should have to function.
     /// </summary>
     public abstract class Minigame : MonoBehaviour
     {
         #region Serialized Fields
 
         [Header("Base Values")]
-        [Tooltip("A short description of the game that can be shown in the help menu.")]
+        [Tooltip("The Evolution level\r\nthis game is played at.")]
+        [SerializeField] private Evolution level;
+
+        [Tooltip("A short description of the game\r\nthat can be shown in the help menu.")]
         [SerializeField][TextArea(2, 10)] private string description;
         
-        [Tooltip("A short instruction how the game is played that can be shown in the help menu.")]
+        [Tooltip("A short instruction how the game\r\nis played that can be shown in the help menu.")]
         [SerializeField][TextArea(3, 10)] private string instructionText;
 
         [Space]
-        [Tooltip("Rounds needed to win to pass the game.")]
+        [Tooltip("Rounds needed to win\r\nto pass the game.")]
         [SerializeField][Range(0,5)] protected int successesToWin = 2;
 
         [Tooltip("Rounds to play this game.")]
@@ -40,11 +43,19 @@ namespace GlyphaeScripts
         //public static event Action<Transform, AnimType, int, float, float> OnPlayAnimations;
 
         protected int _successes, _fails;
-        
+
 
         #endregion Fields
 
         #region GetSets / Properties
+
+        /// <summary>
+        /// The Evolution level this game is played at.
+        /// </summary>
+        public Evolution Level
+        {
+            get => level;
+        }
 
         /// <summary>
         /// The game's description.

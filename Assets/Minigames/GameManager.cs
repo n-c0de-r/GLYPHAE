@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,8 +10,10 @@ namespace GlyphaeScripts
 
         [SerializeField] private Settings currentSettings;
 
-        [Tooltip("Field where the Pet will 'live' in.")]
+        [Tooltip("List of Minigames to play.")]
         [SerializeField] private List<Minigame> minigames;
+
+        [Tooltip("Field where the Pet will 'live' in.")]
         [SerializeField] private RectTransform petContainer;
 
         #endregion
@@ -19,6 +22,7 @@ namespace GlyphaeScripts
         #region Fields
 
         private GameObject _petInstance;
+        private List<Glyph> _toLearn;
 
         #endregion
 
@@ -35,7 +39,7 @@ namespace GlyphaeScripts
         void Awake()
         {
             if (petContainer == null) TryGetComponent(out petContainer);
-            _petInstance = Instantiate(currentSettings.SelectedPet, petContainer);
+            _petInstance = Instantiate(currentSettings.SelectedPet.gameObject, petContainer);
         }
 
         void Start()
@@ -76,13 +80,8 @@ namespace GlyphaeScripts
 
 
         #region Helpers
-        
-        
 
-        private void TemplateHelper(bool param)
-        {
-            
-        }
+        
 
         #endregion
 
