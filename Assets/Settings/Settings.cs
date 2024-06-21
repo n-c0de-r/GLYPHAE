@@ -201,6 +201,7 @@ namespace GlyphaeScripts
                 string dict = "";
                 foreach (Glyph item in _pet.Literals)
                 {
+                    // TODO: Check double items
                     _literals.Add(item.name, item);
                     dict += item.name + ":" + item.MemoryLevel.ToString() + ";";
                 }

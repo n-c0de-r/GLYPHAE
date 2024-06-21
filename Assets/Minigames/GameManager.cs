@@ -69,7 +69,10 @@ namespace GlyphaeScripts
 
         #region Methods
         
-        
+        public void StartGame(GameObject minigame)
+        {
+            Instantiate(minigame, petContainer);
+        }
 
         public void TemplateMethod(bool param)
         {
