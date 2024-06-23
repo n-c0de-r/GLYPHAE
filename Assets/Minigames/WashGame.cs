@@ -107,7 +107,7 @@ namespace GlyphaeScripts
             }
         }
 
-        private void SetupRound()
+        protected override void SetupRound()
         {
             if (toMatch.Count == 0) return;
             List<Glyph> used = new();

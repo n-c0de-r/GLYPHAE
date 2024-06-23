@@ -78,7 +78,7 @@ namespace GlyphaeScripts
             int cost = minigame.GetComponent<Minigame>().energyCost;
             if (_pet.Needs.TryGetValue(Need.Energy, out float petEnergy) && petEnergy - cost >= 0)
             {
-                _pet.Needs[Need.Energy] = Mathf.Clamp(petEnergy - cost, Pet.MIN, Pet.MAX);
+                //_pet.Needs[Need.Energy] = Mathf.Clamp(petEnergy - cost, Pet.MIN, Pet.MAX);
 
                 gameMenu.gameObject.SetActive(false);
                 GameObject gameInstance = Instantiate(minigame, petContainer);

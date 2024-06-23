@@ -84,6 +84,11 @@ namespace GlyphaeScripts
             
         }
 
+        protected override void SetupRound()
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
     }
 }

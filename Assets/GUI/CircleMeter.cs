@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using static Unity.Collections.AllocatorManager;
 
 namespace GlyphaeScripts
 {
@@ -18,8 +17,13 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Animation Values")]
+        [Tooltip("The image to fill.")]
         [SerializeField] private Image slider;
+
+        [Tooltip("The delay before the start of animation.")]
         [SerializeField][Range(0.1f, 1f)] private float delay = 0.25f;
+
+        [Tooltip("The speed of animation and delay between frames.")]
         [SerializeField][Range(0.01f, 0.1f)] private float speed = 0.025f;
 
         #endregion

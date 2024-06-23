@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore;
 
 namespace GlyphaeScripts
 {
@@ -26,57 +27,23 @@ namespace GlyphaeScripts
         #endregion
 
 
-
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
         #region Methods
 
         public override void SetupGame(List<Glyph> glyphs, Evolution gameLevel)
         {
+            Glyph glyph;
             if (gameLevel == 0) return;
             currentGlyphs = glyphs.ToArray();
             toMatch = new();
 
             int baseline = (int)gameLevel / (Enum.GetNames(typeof(Evolution)).Length / 2);
-            int rounds = minimumRounds + baseline;
+            _failsToLose = baseline;
             buttonAmount = (1 + baseline) << 1;
 
-            while (toMatch.Count < rounds)
+            while (toMatch.Count < minimumRounds + baseline)
             {
                 int rand = UnityEngine.Random.Range(0, currentGlyphs.Length);
-                Glyph glyph = currentGlyphs[rand];
+                glyph = currentGlyphs[rand];
                 if (glyph == null) continue;
 
                 toMatch.Enqueue(glyph);
@@ -93,30 +60,30 @@ namespace GlyphaeScripts
 
         protected override void InputCheck(string message)
         {
-            Glyph glyph = toMatch.Peek();
-            if (glyph.Symbol.name == message || glyph.Character.name == message) toMatch.Dequeue();
+            Glyph glyph = toMatch.Dequeue();
 
-            if (toMatch.Count == 0)
+            if (glyph.Symbol.name == message || glyph.Character.name == message)
             {
-                SendMessageUpwards("CloseMinigame");
-                Destroy(gameObject);
-
-                Settings.NeedUpdate(needType, needAmount);
-                Settings.NeedUpdate(Need.Energy, -energyCost);
+                Success();
             }
             else
             {
-                SetupRound();
+                toMatch.Enqueue(glyph);
+                Fail();
             }
         }
 
-        private void SetupRound()
+        protected override void SetupRound()
         {
-            if (toMatch.Count == 0) return;
+            if (toMatch.Count == 0)
+            {
+                Win();
+                return;
+            }
+
             List<Glyph> used = new();
 
             Glyph glyph = toMatch.Peek();
-            needBubble.Setup(glyph.Sound, glyph.Symbol);
             used.Add(glyph);
 
             int correct = UnityEngine.Random.Range(0, buttonAmount);
@@ -139,6 +106,9 @@ namespace GlyphaeScripts
                 }
                 index++;
             }
+
+            needBubble.Setup(glyph.Sound, glyph.Symbol);
+            needBubble.Show(null);
         }
 
         #endregion

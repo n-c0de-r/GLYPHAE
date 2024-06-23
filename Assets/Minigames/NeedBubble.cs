@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,23 +14,31 @@ namespace GlyphaeScripts
         [Tooltip("The back image of the bubble.")]
         [SerializeField] private Image back;
 
-        [Tooltip("The icon shown inside the bubble.")]
-        [SerializeField] private Image icon;
+        [Tooltip("The icon back shown inside the bubble.")]
+        [SerializeField] private Image iconFill;
+
+        [Tooltip("The icon outline shown inside the bubble.")]
+        [SerializeField] private Image iconLine;
 
         [Tooltip("The outline of the bubble.")]
         [SerializeField] private Image outline;
+
+        [Tooltip("The current Settings for display values.")]
+        [SerializeField] private Settings settings;
 
         #endregion
 
 
         #region Fields
 
+        private string methodAfter;
+
         #endregion
 
 
         #region GetSets / Properties
-        
-        
+
+
 
         #endregion
 
@@ -71,8 +80,21 @@ namespace GlyphaeScripts
         public void Setup(AudioClip sound, Sprite display)
         {
             //sound.clip = sound;
-            icon.sprite = display;
-            gameObject.gameObject.SetActive(true);
+            Setup(display);
+        }
+
+        public void Setup(Sprite display)
+        {
+            if (iconLine.sprite == display) return;
+
+            iconLine.sprite = display;
+            gameObject.SetActive(true);
+        }
+
+        public void Show(string message)
+        {
+            methodAfter = message;
+            StartCoroutine(AnimateFade(0, 1, settings.SpeedFactor));
         }
 
         #endregion
@@ -80,10 +102,38 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-
-
-        private void TemplateHelper(bool param)
+        private IEnumerator AnimateFade(float start, float end, int speedFactor)
         {
+            Color color;
+
+            for (float i = start; i <= end; i += Time.deltaTime * speedFactor)
+            {
+                float value = Mathf.Abs(i);
+                color = back.color;
+                color.a = value;
+                back.color = color;
+
+
+                color = iconFill.color;
+                color.a = value;
+                iconFill.color = color;
+
+                color = iconLine.color;
+                color.a = value;
+                iconLine.color = color;
+
+                color = outline.color;
+                color.a = value;
+                outline.color = color;
+                yield return new WaitForEndOfFrame();
+            }
+
+            if (end > 0)
+            {
+                yield return new WaitForSeconds(1f/speedFactor);
+                yield return AnimateFade(-1, 0, settings.SpeedFactor * 2);
+                if (methodAfter != null) SendMessageUpwards(methodAfter);
+            }
             
         }
 

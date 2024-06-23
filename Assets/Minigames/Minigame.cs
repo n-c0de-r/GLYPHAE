@@ -33,7 +33,20 @@ namespace GlyphaeScripts
         [SerializeField] protected GameInput[] gameInputs;
 
         [Space]
+        [Header("Animation Values")]
+
+        [Tooltip("Display feedback emoji.")]
+        [SerializeField] protected NeedBubble reactionBubble;
+
+        [Tooltip("The display of the positive feedback.")]
+        [SerializeField] protected Sprite positiveFeedback;
+
+        [Tooltip("The display of the negative feedback.")]
+        [SerializeField] protected Sprite negativeFeedback;
+
+        [Space]
         [Header("Need Values")]
+
         [Tooltip("The type of need this game fills the current need.")]
         [SerializeField] protected Need needType;
 
@@ -43,20 +56,40 @@ namespace GlyphaeScripts
         [Tooltip("Minimum number of rounds to play this game.")]
         [SerializeField][Range(10, 50)] public int energyCost = 10;
 
-
         #endregion Serialized Fields
+
 
         #region Fields
 
-        public static event Action<GameObject> OnWin, OnLose;
-        //public static event Action<(string side, int score, float timer, int toWin, int toLose)> OnSetVariables;
-        //public static event Action<Transform, AnimType, int, float, float> OnPlayAnimations;
-
-        protected int successesToWin, failsToLose;
-        protected int _successes, _fails;
-
+        protected int _successes, _fails, _failsToLose;
 
         #endregion Fields
+
+
+        #region Unity Built-Ins
+
+        void Awake()
+        {
+
+        }
+
+        void Start()
+        {
+
+        }
+
+        void FixedUpdate()
+        {
+
+        }
+
+        void Update()
+        {
+
+        }
+
+        #endregion
+
 
         #region GetSets / Properties
 
@@ -101,99 +134,71 @@ namespace GlyphaeScripts
 
         protected abstract void InputCheck(string message);
 
-        protected void InitializeButtons()
-        {
-            //if (correct == null) continue;
-            //glyphs[rand] = null;
-            //gameInputs[index].Setup(correct.Sound, correct.Symbol, correct.Character);
-
-            //rand = Random.Range(0, glyphs.Count);
-
-            //if (wrong == null) continue;
-            //glyphs[rand] = null;
-            //gameInputs[index + 1].Setup(wrong.Sound, wrong.Symbol, wrong.Character);
-            //index++;
-        }
-
-        public void RestartGame()
-        {
-            StopAllCoroutines();
-        }
+        protected abstract void SetupRound();
 
         /// <summary>
-        /// Overload method.
         /// Trigger this when you achieved a success.
         /// It counts and manages everything else.
         /// </summary>
-        /// <param name="score">Pass a different score.</param>
-        protected void Success(int score)
+        protected void Success()
         {
             _successes++;
-            AnimateSuccess(_successes, successesToWin);
+            AnimateSuccess();
             
-            if (_successes >= successesToWin)
-            {
-                _successes = 0;
-                _fails = failsToLose;
-               
-                Win();
-            }
+            if (_successes >= minimumRounds) Win();
         }
 
         /// <summary>
-        /// Overload Method.
         /// Use this when you made a mistake.
         /// It counts and manages everything else.
         /// </summary>
-        /// <param name="parent">The place to play the animation.</param>
-        /// <param name="score">The score to reduce on fail.</param>
-        protected void Fail(int score)
+        protected void Fail()
         {
-            _fails--;
-            AnimateFail(_fails, failsToLose);
+            _fails++;
+            AnimateFail();
 
-            if (_fails <= 0)
-            {
-                _successes = 0;
-                _fails = failsToLose;
-                Lose();
-            }
+            if (_fails > _failsToLose) Lose();
         }
 
         /// <summary>
-        /// Informs the BaseGame Controller, that the game triggered a win condition
+        /// Informs the BaseGame Controller, that the game
+        /// triggered a win condition and stops the game.
         /// </summary>
-        protected void Win() =>
-            OnWin?.Invoke(gameObject);
-
-        /// <summary>
-        /// Informs the BaseGame Controller, that the game triggered a lose condition
-        /// </summary>
-        protected void Lose() =>
-            OnLose?.Invoke(gameObject);
-
-        /// <summary>
-        /// Overload method.
-        /// Runs the Win animation at a given parent position.
-        /// </summary>
-        /// <param name="parent">The parent object to attatch and play the animation at.</param>
-        /// <param name="successes">Current increasing count of successes achieved (or their equivalent in your game).</param>
-        /// <param name="successesToWin">The max number of successes to win (or their equivalent in your game).</param>
-        protected void AnimateSuccess(int successes, int successesToWin)
+        protected void Win()
         {
-            //OnPlayAnimations?.Invoke(parent, AnimType.Win, (int)difficulty, (float)successes, (float)successesToWin);
+            SendMessageUpwards("CloseMinigame");
+            Destroy(gameObject);
+            Settings.NeedUpdate(Need.Energy, -energyCost);
+            Settings.NeedUpdate(needType, needAmount);
         }
 
         /// <summary>
-        /// Overload method.
-        /// Runs the Lose animation at a given parent position.
+        /// Informs the BaseGame Controller, that the game
+        /// triggered a lose condition and stops the game.
         /// </summary>
-        /// <param name="parent">The parent object to attatch and play the animation at.</param>
-        /// <param name="fails">Current decreasing count of fails left (or their equivalent in your game).</param>
-        /// <param name="failsToLose">The max number of fails to lose (or their equivalent in your game).</param>
-        protected void AnimateFail(int fails, int failsToLose)
+        protected void Lose()
         {
-            //OnPlayAnimations?.Invoke(parent, AnimType.Lose, (int)difficulty, (float)(failsToLose - fails), (float)failsToLose);
+            SendMessageUpwards("CloseMinigame");
+            Destroy(gameObject);
+            Settings.NeedUpdate(Need.Energy, -energyCost);
+        }
+
+        /// <summary>
+        /// Runs the Win animation.
+        /// </summary>
+        protected void AnimateSuccess()
+        {
+            reactionBubble.Setup(positiveFeedback);
+            reactionBubble.Show(nameof(SetupRound));
+        }
+
+        /// <summary>
+        /// Runs the Lose animation.
+        /// </summary>
+        protected void AnimateFail()
+        {
+            reactionBubble.Setup(negativeFeedback);
+            reactionBubble.Show(nameof(SetupRound));
         }
 
         /// <summary>
