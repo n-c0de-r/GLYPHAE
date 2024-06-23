@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -50,15 +51,18 @@ namespace GlyphaeScripts
 
 
         #region Events
-        
-        
+
+
 
         #endregion
 
 
         #region Methods
-        
-        
+
+        public override void SetupGame(List<Glyph> glyphs, Evolution rounds)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public void TemplateMethod(bool param)
         {
@@ -69,8 +73,11 @@ namespace GlyphaeScripts
 
 
         #region Helpers
-        
-        
+
+        protected override void InputCheck(string message)
+        {
+            throw new System.NotImplementedException();
+        }
 
         private void TemplateHelper(bool param)
         {

@@ -48,7 +48,7 @@ namespace GlyphaeScripts
         private BoxCollider2D _boxCollider;
 
         private Dictionary<Need, float> needs = new() { { Need.Hunger, 100 }, { Need.Health, 100 }, { Need.Joy, 100 }, { Need.Energy, 100 } };
-        private Evolution _currentLevel;
+        public Evolution _currentLevel;
         private int _clickTimes;
         private bool _clicked = false;
         private bool hasCalled = false;
@@ -80,6 +80,11 @@ namespace GlyphaeScripts
         /// enum of this <see cref="Pet"/>
         /// </summary>
         public Evolution CurrentLevel { get => _currentLevel; }
+
+        /// <summary>
+        /// A Dictionary containing all basic <see cref="Need"/>s: Hunger, Health, Joy, Energy
+        /// </summary>
+        public Dictionary<Need, float> Needs { get => needs; set => needs = value; }
 
         #endregion
 

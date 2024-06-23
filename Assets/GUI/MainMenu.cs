@@ -118,9 +118,12 @@ namespace GlyphaeScripts
                     foreach (string item in PlayerPrefs.GetString(petName).Split(';'))
                     {
                         if (item == "") continue;
-
-                        Enum.TryParse(item.Split(":")[1], out MemoryLevel level);
-                        settings.Literals[item.Split(':')[0]].MemoryLevel = level;
+                        string[] keyValue = item.Split(":");
+                        Enum.TryParse(keyValue[1], out MemoryLevel level);
+                        if(settings.Literals.TryGetValue(keyValue[0], out Glyph glyph))
+                        {
+                            settings.Literals[keyValue[0]].MemoryLevel = level;
+                        }
                     }
                 }
             }

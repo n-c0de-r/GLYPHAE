@@ -12,8 +12,15 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [SerializeField] private Image slider;
+        [Header("Need Values")]
+        [SerializeField] private Need needType;
         [SerializeField][Range(0, 100)] private float value;
+
+        [Space]
+        [Header("Animation Values")]
+        [SerializeField] private Image slider;
+        [SerializeField][Range(0.1f, 1f)] private float delay = 0.25f;
+        [SerializeField][Range(0.01f, 0.1f)] private float speed = 0.025f;
 
         #endregion
 
@@ -95,7 +102,7 @@ namespace GlyphaeScripts
         /// <param name="amount">The amount to update the need value by.</param>
         private void UpdateValue(Need need, float amount)
         {
-            if (gameObject.name.ToLower() == need.ToString().ToLower())
+            if (needType == need)
             {
                 StartCoroutine(AnimateFill(value, value + amount, Mathf.Sign(amount)));
 
@@ -105,6 +112,7 @@ namespace GlyphaeScripts
 
         private IEnumerator AnimateFill(float start, float end, float inc)
         {
+            yield return new WaitForSeconds(delay);
             Color color = Color.black;
 
             for (float i = start; i != end; i += inc)
@@ -113,7 +121,7 @@ namespace GlyphaeScripts
                 color.r = (Pet.MAX - i) / _half;
                 color.g = i / _half;
                 slider.color = color;
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(speed);
             }
         }
 

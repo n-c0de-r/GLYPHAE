@@ -14,7 +14,35 @@ namespace GlyphaeScripts
     /// </summary>
     public enum MemoryLevel
     {
-        None, New, Seen, Unknown, Known, Memorized
+        /// <summary>
+        /// Same as null.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Not encountered yet.
+        /// </summary>
+        New,
+        
+        /// <summary>
+        /// Seen at least once
+        /// </summary>
+        Seen,
+        
+        /// <summary>
+        /// Seen but not yet well remembered.
+        /// </summary>
+        Unknown,
+        
+        /// <summary>
+        /// Seen and remembered.
+        /// </summary>
+        Known,
+        
+        /// <summary>
+        /// Fully memorized.
+        /// </summary>
+        Memorized
     }
 
     /// <summary>

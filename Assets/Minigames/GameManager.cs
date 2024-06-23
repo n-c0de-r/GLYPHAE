@@ -8,6 +8,8 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [SerializeField] private GameMenu gameMenu;
+
         [SerializeField] private Settings currentSettings;
 
         [Tooltip("List of Minigames to play.")]
@@ -22,6 +24,7 @@ namespace GlyphaeScripts
         #region Fields
 
         private GameObject _petInstance;
+        private Pet _pet;
         private List<Glyph> _toLearn;
 
         #endregion
@@ -39,7 +42,8 @@ namespace GlyphaeScripts
         void Awake()
         {
             if (petContainer == null) TryGetComponent(out petContainer);
-            _petInstance = Instantiate(currentSettings.SelectedPet.gameObject, petContainer);
+            _petInstance = Instantiate(currentSettings.SelectedPet.Prefab, petContainer);
+            _pet = _petInstance.GetComponent<Pet>();
         }
 
         void Start()
@@ -71,7 +75,19 @@ namespace GlyphaeScripts
         
         public void StartGame(GameObject minigame)
         {
-            Instantiate(minigame, petContainer);
+            int cost = minigame.GetComponent<Minigame>().energyCost;
+            if (_pet.Needs.TryGetValue(Need.Energy, out float petEnergy) && petEnergy - cost >= 0)
+            {
+                _pet.Needs[Need.Energy] = Mathf.Clamp(petEnergy - cost, Pet.MIN, Pet.MAX);
+
+                gameMenu.gameObject.SetActive(false);
+                GameObject gameInstance = Instantiate(minigame, petContainer);
+                Minigame game = gameInstance.GetComponent<Minigame>();
+
+                game.SetupGame(_pet.Literals, _pet.CurrentLevel);
+                return;
+            }
+            Debug.Log("Not enough Energy.");
         }
 
         public void TemplateMethod(bool param)
@@ -84,7 +100,10 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        
+        private void CloseMinigame()
+        {
+            gameMenu.gameObject.SetActive(true);
+        }
 
         #endregion
 

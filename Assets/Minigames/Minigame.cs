@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -15,24 +16,33 @@ namespace GlyphaeScripts
         #region Serialized Fields
 
         [Header("Base Values")]
-        [Tooltip("The Evolution level\r\nthis game is played at.")]
-        [SerializeField] private Evolution level;
-
         [Tooltip("A short description of the game\r\nthat can be shown in the help menu.")]
-        [SerializeField][TextArea(2, 10)] private string description;
-        
+        [SerializeField][TextArea(2, 10)] protected string description;
+
         [Tooltip("A short instruction how the game\r\nis played that can be shown in the help menu.")]
-        [SerializeField][TextArea(3, 10)] private string instructionText;
+        [SerializeField][TextArea(3, 10)] protected string instructionText;
+
+        [Tooltip("Minimum number of rounds to play this game.")]
+        [SerializeField][Range(1, 3)] protected int minimumRounds = 1;
 
         [Space]
-        [Tooltip("Rounds needed to win\r\nto pass the game.")]
-        [SerializeField][Range(0,5)] protected int successesToWin = 2;
+        [Tooltip("The Evolution level\r\nthis game is played at.")]
+        [SerializeField] protected Evolution level;
 
-        [Tooltip("Rounds to play this game.")]
-        [SerializeField][Range(0,5)] protected int roundsToPlay = 4;
+        [Tooltip("The Inputs to set up at start.")]
+        [SerializeField] protected GameInput[] gameInputs;
 
-        [Tooltip("Rounds to play this game.")]
-        [SerializeField][Range(0,5)] protected int failsToLose = 2;
+        [Space]
+        [Header("Need Values")]
+        [Tooltip("The type of need this game fills the current need.")]
+        [SerializeField] protected Need needType;
+
+        [Tooltip("The strength of need filling by the game.")]
+        [SerializeField][Range(10, 50)] protected int needAmount;
+
+        [Tooltip("Minimum number of rounds to play this game.")]
+        [SerializeField][Range(10, 50)] public int energyCost = 10;
+
 
         #endregion Serialized Fields
 
@@ -42,6 +52,7 @@ namespace GlyphaeScripts
         //public static event Action<(string side, int score, float timer, int toWin, int toLose)> OnSetVariables;
         //public static event Action<Transform, AnimType, int, float, float> OnPlayAnimations;
 
+        protected int successesToWin, failsToLose;
         protected int _successes, _fails;
 
 
@@ -73,9 +84,36 @@ namespace GlyphaeScripts
             get => instructionText;
         }
 
+        /// <summary>
+        /// Minimum number of rounds to play this game.
+        /// </summary>
+        public int MinimumRounds
+        {
+            get => minimumRounds;
+        }
+
         #endregion
 
+
         #region Methods
+
+        public abstract void SetupGame(List<Glyph> glyphs, Evolution rounds);
+
+        protected abstract void InputCheck(string message);
+
+        protected void InitializeButtons()
+        {
+            //if (correct == null) continue;
+            //glyphs[rand] = null;
+            //gameInputs[index].Setup(correct.Sound, correct.Symbol, correct.Character);
+
+            //rand = Random.Range(0, glyphs.Count);
+
+            //if (wrong == null) continue;
+            //glyphs[rand] = null;
+            //gameInputs[index + 1].Setup(wrong.Sound, wrong.Symbol, wrong.Character);
+            //index++;
+        }
 
         public void RestartGame()
         {

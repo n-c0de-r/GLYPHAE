@@ -181,9 +181,9 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public void OnHungerUpdate(float value)
+        public static void NeedUpdate(Need need, float value)
         {
-            OnNeedUpdate.Invoke(Need.Hunger, value);
+            OnNeedUpdate.Invoke(need, value);
         }
 
         #endregion
