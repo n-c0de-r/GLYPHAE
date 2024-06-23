@@ -149,15 +149,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pets_0
+      name: Pets_16
       rect:
         serializedVersion: 2
-        x: 305
-        y: 3379
-        width: 268
-        height: 308
+        x: 250
+        y: 3344
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -170,15 +170,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_1
+      name: Pets_17
       rect:
         serializedVersion: 2
-        x: 1060
-        y: 3379
-        width: 216
-        height: 310
+        x: 979
+        y: 3345
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -191,15 +191,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_2
+      name: Pets_18
       rect:
         serializedVersion: 2
-        x: 1764
-        y: 3379
-        width: 319
-        height: 306
+        x: 1734
+        y: 3343
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -212,15 +212,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_3
+      name: Pets_19
       rect:
         serializedVersion: 2
-        x: 2569
-        y: 3379
-        width: 317
-        height: 308
+        x: 2539
+        y: 3344
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -233,15 +233,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_4
+      name: Pets_20
       rect:
         serializedVersion: 2
-        x: 3373
-        y: 3379
-        width: 163
-        height: 308
+        x: 3266
+        y: 3344
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -254,15 +254,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_5
+      name: Pets_11
       rect:
         serializedVersion: 2
-        x: 274
-        y: 2163
-        width: 255
-        height: 311
+        x: 213
+        y: 2130
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -275,15 +275,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_6
+      name: Pets_12
       rect:
         serializedVersion: 2
-        x: 988
-        y: 2162
-        width: 301
-        height: 227
+        x: 949
+        y: 2087
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -296,15 +296,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_7
+      name: Pets_13
       rect:
         serializedVersion: 2
-        x: 1752
-        y: 2164
-        width: 311
-        height: 223
+        x: 1719
+        y: 2087
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -317,15 +317,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_8
+      name: Pets_14
       rect:
         serializedVersion: 2
-        x: 2524
-        y: 2163
-        width: 286
-        height: 311
+        x: 2478
+        y: 2130
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -338,15 +338,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_9
+      name: Pets_15
       rect:
         serializedVersion: 2
-        x: 3270
-        y: 2162
-        width: 230
-        height: 310
+        x: 3196
+        y: 2128
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -359,15 +359,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_10
+      name: Pets_06
       rect:
         serializedVersion: 2
-        x: 273
-        y: 1217
-        width: 311
-        height: 105
+        x: 237
+        y: 1080
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -380,15 +380,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_11
+      name: Pets_07
       rect:
         serializedVersion: 2
-        x: 1059
-        y: 1217
-        width: 310
-        height: 90
+        x: 1025
+        y: 1073
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -401,15 +401,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_12
+      name: Pets_08
       rect:
         serializedVersion: 2
-        x: 1845
-        y: 1217
-        width: 310
-        height: 248
+        x: 1811
+        y: 1152
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -422,15 +422,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_13
+      name: Pets_09
       rect:
         serializedVersion: 2
-        x: 2628
-        y: 1158
-        width: 213
-        height: 308
+        x: 2545
+        y: 1121
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -443,15 +443,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_14
+      name: Pets_10
       rect:
         serializedVersion: 2
-        x: 3316
-        y: 1217
-        width: 190
-        height: 246
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 3222
+        y: 1151
+        width: 378
+        height: 378
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -464,15 +464,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_15
+      name: Pets_01
       rect:
         serializedVersion: 2
-        x: 187
-        y: 91
-        width: 109
-        height: 133
+        x: 52
+        y: 0
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -485,15 +485,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_16
+      name: Pets_02
       rect:
         serializedVersion: 2
-        x: 885
-        y: 140
-        width: 140
-        height: 108
+        x: 766
+        y: 5
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -506,15 +506,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_17
+      name: Pets_03
       rect:
         serializedVersion: 2
-        x: 1599
-        y: 143
-        width: 329
-        height: 100
+        x: 1574
+        y: 4
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -527,15 +527,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_18
+      name: Pets_04
       rect:
         serializedVersion: 2
-        x: 2432
-        y: 108
-        width: 329
-        height: 161
+        x: 2407
+        y: 0
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -548,15 +548,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pets_19
+      name: Pets_05
       rect:
         serializedVersion: 2
-        x: 3264
-        y: 143
-        width: 329
-        height: 260
+        x: 3239
+        y: 84
+        width: 378
+        height: 378
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -579,26 +579,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Pets_0: 1394146171
-      Pets_1: -1137515681
-      Pets_10: -873353187
-      Pets_11: -903412119
-      Pets_12: 1290692651
-      Pets_13: -1048002338
-      Pets_14: -1838494466
-      Pets_15: 231761442
-      Pets_16: -571231054
-      Pets_17: 1705655371
-      Pets_18: 1947024395
-      Pets_19: 922343693
-      Pets_2: 1289161388
-      Pets_3: -66341770
-      Pets_4: 2086382178
-      Pets_5: 398739806
-      Pets_6: 338059647
-      Pets_7: -1953653176
-      Pets_8: 1315140101
-      Pets_9: 1564145084
+      Pets_01: 231761442
+      Pets_02: -571231054
+      Pets_03: 1705655371
+      Pets_04: 1947024395
+      Pets_05: 922343693
+      Pets_06: -873353187
+      Pets_07: -903412119
+      Pets_08: 1290692651
+      Pets_09: -1048002338
+      Pets_10: -1838494466
+      Pets_11: 398739806
+      Pets_12: 338059647
+      Pets_13: -1953653176
+      Pets_14: 1315140101
+      Pets_15: 1564145084
+      Pets_16: 1394146171
+      Pets_17: -1137515681
+      Pets_18: 1289161388
+      Pets_19: -66341770
+      Pets_20: 2086382178
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
