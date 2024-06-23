@@ -15,26 +15,26 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [Header("Base Values")]
-        [Tooltip("A short description of the game\r\nthat can be shown in the help menu.")]
-        [SerializeField][TextArea(2, 10)] protected string description;
+        [Header("Description Values")]
+        [Tooltip("The Text Mesh object dscription\r\nand instruction will be shown.")]
+        [SerializeField] protected TMP_Text helpText;
 
         [Tooltip("A short instruction how the game\r\nis played that can be shown in the help menu.")]
         [SerializeField][TextArea(3, 10)] protected string instructionText;
 
-        [Tooltip("Minimum number of rounds to play this game.")]
-        [SerializeField][Range(1, 3)] protected int minimumRounds = 1;
-
         [Space]
+        [Header("Base Values")]
         [Tooltip("The Evolution level\r\nthis game is played at.")]
         [SerializeField] protected Evolution level;
 
         [Tooltip("The Inputs to set up at start.")]
         [SerializeField] protected GameInput[] gameInputs;
 
+        [Tooltip("Minimum number of rounds to play this game.")]
+        [SerializeField][Range(1, 3)] protected int minimumRounds = 1;
+
         [Space]
         [Header("Animation Values")]
-
         [Tooltip("Display feedback emoji.")]
         [SerializeField] protected NeedBubble reactionBubble;
 
@@ -46,7 +46,6 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Need Values")]
-
         [Tooltip("The type of need this game fills the current need.")]
         [SerializeField] protected Need needType;
 
@@ -102,14 +101,6 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// The game's description.
-        /// </summary>
-        public string Description
-        {
-            get => description;
-        }
-
-        /// <summary>
         /// The text to display at game start.
         /// </summary>
         public string InstructionText
@@ -130,11 +121,16 @@ namespace GlyphaeScripts
 
         #region Methods
 
+        private void ShowInstructions()
+        {
+            if (helpText.text != instructionText) helpText.text = instructionText;
+        }
+
         public abstract void SetupGame(List<Glyph> glyphs, Evolution rounds);
 
-        protected abstract void InputCheck(string message);
-
         protected abstract void SetupRound();
+
+        protected abstract void InputCheck(string message);
 
         /// <summary>
         /// Trigger this when you achieved a success.
@@ -167,8 +163,6 @@ namespace GlyphaeScripts
         protected void Win()
         {
             SendMessageUpwards("CloseMinigame");
-            Destroy(gameObject);
-            Settings.NeedUpdate(Need.Energy, -energyCost);
             Settings.NeedUpdate(needType, needAmount);
         }
 
@@ -179,8 +173,6 @@ namespace GlyphaeScripts
         protected void Lose()
         {
             SendMessageUpwards("CloseMinigame");
-            Destroy(gameObject);
-            Settings.NeedUpdate(Need.Energy, -energyCost);
         }
 
         /// <summary>
@@ -201,33 +193,6 @@ namespace GlyphaeScripts
             reactionBubble.Show(nameof(SetupRound));
         }
 
-        /// <summary>
-        /// Does the actual animation.
-        /// </summary>
-        /// <param name="container">The GameObject holding the TMP_Text.</param>
-        /// <returns></returns>
-        protected IEnumerator AnimateInstruction(GameObject container)
-        {
-            GameObject obj = Instantiate(container, transform.position, Quaternion.identity, transform);
-            obj.SetActive(true);
-            TMP_Text tmp = obj.GetComponent<TMP_Text>();
-
-            float countdown = 3.0f;
-            tmp.text = countdown.ToString();
-            yield return new WaitForSeconds(Time.deltaTime);
-            while (0 < countdown)
-            {
-                countdown -= Time.deltaTime;
-                tmp.text = ((int)countdown+1).ToString();
-                yield return new WaitForSeconds(Time.deltaTime);
-            }
-            obj.SetActive(false);
-        }
-
         #endregion  Methods
-
-        #region GetSets
-
-        #endregion GetSets
     }
 }

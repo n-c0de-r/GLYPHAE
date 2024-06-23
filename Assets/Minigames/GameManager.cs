@@ -23,9 +23,10 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private GameObject _petInstance;
+        private GameObject _petInstance, _gameInstance;
         private Pet _pet;
         private List<Glyph> _toLearn;
+        private int playCost;
 
         #endregion
 
@@ -75,24 +76,19 @@ namespace GlyphaeScripts
         
         public void StartGame(GameObject minigame)
         {
-            int cost = minigame.GetComponent<Minigame>().energyCost;
-            if (_pet.Needs.TryGetValue(Need.Energy, out float petEnergy) && petEnergy - cost >= 0)
-            {
-                //_pet.Needs[Need.Energy] = Mathf.Clamp(petEnergy - cost, Pet.MIN, Pet.MAX);
+            if (_gameInstance != null) return;
 
+            Minigame game = minigame.GetComponent<Minigame>();
+            playCost = game.energyCost;
+
+            if (_pet.Needs.TryGetValue(Need.Energy, out float petEnergy) && petEnergy - playCost >= 0)
+            {
                 gameMenu.gameObject.SetActive(false);
-                GameObject gameInstance = Instantiate(minigame, petContainer);
-                Minigame game = gameInstance.GetComponent<Minigame>();
+                _gameInstance = Instantiate(minigame, petContainer);
+                game = _gameInstance.GetComponent<Minigame>();
 
                 game.SetupGame(_pet.Literals, _pet.CurrentLevel);
-                return;
             }
-            Debug.Log("Not enough Energy.");
-        }
-
-        public void TemplateMethod(bool param)
-        {
-            
         }
 
         #endregion
@@ -102,7 +98,9 @@ namespace GlyphaeScripts
 
         private void CloseMinigame()
         {
+            Destroy(_gameInstance);
             gameMenu.gameObject.SetActive(true);
+            Settings.NeedUpdate(Need.Energy, -playCost);
         }
 
         #endregion

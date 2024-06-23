@@ -556,8 +556,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 0, y: -25}
+  m_SizeDelta: {x: -100, y: -150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3265767891801742791
 GameObject:
@@ -1235,10 +1235,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db842f8d77f2ed4c8ac51b1579f6986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Your pet eats hieroglyphs, pick the right character to feed it.
-  instructionText: The pet will demand a hieroglyph, shown in a speech bubble. Select
-    the correct transliteration character.
-  minimumRounds: 3
+  helpText: {fileID: 2103354024173007667}
+  instructionText: 'The pet will demand a hieroglyph, shown in a speech bubble.
+
+    Select
+    the correct transliteration character to feed it.'
   level: 6
   gameInputs:
   - {fileID: 4239401871917707477}
@@ -1247,13 +1248,14 @@ MonoBehaviour:
   - {fileID: 7683561804214283367}
   - {fileID: 7854364454641466878}
   - {fileID: 6256241949153593531}
+  minimumRounds: 3
   reactionBubble: {fileID: 7296347420155972079}
+  positiveFeedback: {fileID: 346757764, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  negativeFeedback: {fileID: 618465814, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   needType: 1
   needAmount: 10
   energyCost: 10
   needBubble: {fileID: 2978565159656566722}
-  positiveFeedback: {fileID: 346757764, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
-  negativeFeedback: {fileID: 618465814, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
 --- !u!223 &6157846922432147688
 Canvas:
   m_ObjectHideFlags: 0
@@ -1543,6 +1545,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 5432827782634591610}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: BroadcastMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ShowInstructions
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 8351863093286345127}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -1550,18 +1564,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 309009668394467102}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1716,16 +1718,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6492491917505740474}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: SendMessageUpwards
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: CloseMinigame
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &5167901139524531687
@@ -2096,9 +2098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3662349760114435688, guid: 751a8d12de260bb49bf37bd57896f20a, type: 3}
       propertyPath: m_text
-      value: 'Stats View
-
-'
+      value: Help View
       objectReference: {fileID: 0}
     - target: {fileID: 7754053790651378173, guid: 751a8d12de260bb49bf37bd57896f20a, type: 3}
       propertyPath: m_Pivot.x
