@@ -53,7 +53,7 @@ namespace GlyphaeScripts
             fillColor.r = (Pet.MAX - value) / _half;
             fillColor.g = value / _half;
             slider.color = fillColor;
-            Settings.OnNeedUpdate += UpdateValue;
+            Pet.OnNeedUpdate += UpdateValue;
         }
 
         void Start()
@@ -72,7 +72,7 @@ namespace GlyphaeScripts
 
         void OnDestroy()
         {
-            Settings.OnNeedUpdate -= UpdateValue;
+            Pet.OnNeedUpdate -= UpdateValue;
         }
 
         #endregion

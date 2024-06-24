@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 namespace GlyphaeScripts
 {
     public class GameManager : MonoBehaviour
     {
         #region Serialized Fields
-
-        [SerializeField] private GameMenu gameMenu;
 
         [SerializeField] private Settings currentSettings;
 
@@ -23,7 +22,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private GameObject _petInstance, _gameInstance;
+        private GameObject _petInstance;
         private Pet _pet;
         private List<Glyph> _toLearn;
         private int playCost;
@@ -45,6 +44,8 @@ namespace GlyphaeScripts
             if (petContainer == null) TryGetComponent(out petContainer);
             _petInstance = Instantiate(currentSettings.SelectedPet.Prefab, petContainer);
             _pet = _petInstance.GetComponent<Pet>();
+
+            Minigame.OnGameLose += CloseMinigame;
         }
 
         void Start()
@@ -59,35 +60,38 @@ namespace GlyphaeScripts
 
         void Update()
         {
-            
+
+        }
+
+        void OnDestroy()
+        {
+            Minigame.OnGameLose -= CloseMinigame;
         }
 
         #endregion
 
 
         #region Events
-        
-        
+
+        public static event Action OnGameStart;
+        public static event Action OnGameEnd;
 
         #endregion
 
 
         #region Methods
-        
+
         public void StartGame(GameObject minigame)
         {
-            if (_gameInstance != null) return;
-
             Minigame game = minigame.GetComponent<Minigame>();
-            playCost = game.energyCost;
 
-            if (_pet.Needs.TryGetValue(Need.Energy, out float petEnergy) && petEnergy - playCost >= 0)
+            if (_pet.Needs.TryGetValue(Need.Energy, out float petEnergy) && petEnergy - game.EnergyCost >= 0)
             {
-                gameMenu.gameObject.SetActive(false);
-                _gameInstance = Instantiate(minigame, petContainer);
-                game = _gameInstance.GetComponent<Minigame>();
+                GameObject gameInstance = Instantiate(minigame, petContainer);
+                game = gameInstance.GetComponent<Minigame>();
 
-                game.SetupGame(_pet.Literals, _pet.CurrentLevel);
+                game.SetupGame(_pet.Literals, _pet.PetLevel);
+                OnGameStart?.Invoke();
             }
         }
 
@@ -96,28 +100,27 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private void CloseMinigame()
+        private void CloseMinigame(GameObject minigame)
         {
-            Destroy(_gameInstance);
-            gameMenu.gameObject.SetActive(true);
-            Settings.NeedUpdate(Need.Energy, -playCost);
+            Destroy(minigame);
+            OnGameEnd?.Invoke();
         }
 
         #endregion
 
         #region Gizmos
 
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = new Color(0, 0, 1, 0.2f);
-            Gizmos.DrawCube(petContainer.position, petContainer.rect.size);
-        }
+        //private void OnDrawGizmos()
+        //{
+        //    Gizmos.color = new Color(0, 0, 1, 0.2f);
+        //    Gizmos.DrawCube(petContainer.localPosition - new Vector3(0, petContainer.anchoredPosition.y + petContainer.pivot.y, 0), petContainer.rect.size);
+        //}
 
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = new Color(1, 0, 0, 0.3f);
-            Gizmos.DrawCube(petContainer.position, petContainer.rect.size);
-        }
+        //private void OnDrawGizmosSelected()
+        //{
+        //    Gizmos.color = new Color(1, 0, 0, 0.3f);
+        //    Gizmos.DrawCube(petContainer.localPosition - new Vector3(0, petContainer.anchoredPosition.y + petContainer.pivot.y, 0), petContainer.rect.size);
+        //}
 
         #endregion
     }

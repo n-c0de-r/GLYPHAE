@@ -1,11 +1,49 @@
+using System;
+using UnityEngine;
+
 namespace GlyphaeScripts
 {
+    #region Enums 
+
     /// <summary>
     /// The <see cref="Evolution"/> levels a <see cref="Pet"/> goes through.
     /// </summary>
     public enum Evolution
     {
-        None, Egg, Baby, Kid, Teen, Adult, God
+        /// <summary>
+        /// Same as null.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Initial starting form. Has no interactions.
+        /// </summary>
+        Egg,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Baby,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Kid,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Teen,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Adult,
+
+        /// <summary>
+        /// Final form. Can play any game.
+        /// </summary>
+        God
     }
 
     /// <summary>
@@ -50,6 +88,32 @@ namespace GlyphaeScripts
     /// </summary>
     public enum Need
     {
-        None, Hunger, Health, Joy, Energy
+
+        /// <summary>
+        /// Same as null.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Need is stilled when feeding the <see cref="Pet"/>.
+        /// </summary>
+        Hunger,
+
+        /// <summary>
+        /// Need is stilled when washing the <see cref="Pet"/>.
+        /// </summary>
+        Health,
+
+        /// <summary>
+        /// Need is stilled when playing with the <see cref="Pet"/>.
+        /// </summary>
+        Joy,
+
+        /// <summary>
+        /// Need is stilled when putting the <see cref="Pet"/> to sleep.
+        /// </summary>
+        Energy
     }
+
+    #endregion
 }

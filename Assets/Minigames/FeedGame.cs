@@ -29,14 +29,15 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<Glyph> glyphs, Evolution gameLevel)
+        public override void SetupGame(List<Glyph> glyphs, Evolution petLevel)
         {
+            if (petLevel == Evolution.None) return;
+
             Glyph glyph;
-            if (gameLevel == 0) return;
             currentGlyphs = glyphs.ToArray();
             toMatch = new();
 
-            int baseline = (int)gameLevel / (Enum.GetNames(typeof(Evolution)).Length / 2);
+            int baseline = (int)petLevel / (Enum.GetNames(typeof(Evolution)).Length / 2);
             _failsToLose = baseline;
             buttonAmount = (1 + baseline) << 1;
 
@@ -106,7 +107,7 @@ namespace GlyphaeScripts
                 }
                 index++;
             }
-
+            // TODO: pet event
             needBubble.Setup(glyph.Sound, glyph.Symbol);
             needBubble.Show(null);
         }

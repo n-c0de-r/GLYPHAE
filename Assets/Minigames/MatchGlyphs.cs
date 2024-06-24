@@ -59,7 +59,7 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<Glyph> glyphs, Evolution rounds)
+        public override void SetupGame(List<Glyph> glyphs, Evolution petLevel)
         {
             throw new System.NotImplementedException();
         }

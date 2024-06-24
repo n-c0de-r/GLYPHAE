@@ -101,8 +101,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2628438c79155c54ab52c104ba32e753, type: 2}
   - {fileID: 11400000, guid: 2cc9dff08db33a04699c1e4a96de4471, type: 2}
   critical: 10
-  unlocked: 1
-  _currentLevel: 0
+  unlocked: 0
+  _petLevel: 1
 --- !u!212 &5059000855819877809
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -47,8 +48,8 @@ namespace GlyphaeScripts
         private SpriteRenderer _spriteRenderer;
         private BoxCollider2D _boxCollider;
 
-        private Dictionary<Need, float> needs = new() { { Need.Hunger, 100 }, { Need.Health, 100 }, { Need.Joy, 100 }, { Need.Energy, 100 } };
-        public Evolution _currentLevel;
+        private Dictionary<Need, float> needs = new() { { Need.Hunger, 0 }, { Need.Health, 100 }, { Need.Joy, 0 }, { Need.Energy, 100 } };
+        public Evolution _petLevel = Evolution.Egg;
         private int _clickTimes;
         private bool _clicked = false;
         private bool hasCalled = false;
@@ -79,12 +80,14 @@ namespace GlyphaeScripts
         /// The current <see cref="Evolution"/> level
         /// enum of this <see cref="Pet"/>
         /// </summary>
-        public Evolution CurrentLevel { get => _currentLevel; }
+        public Evolution PetLevel { get => _petLevel; }
 
         /// <summary>
         /// A Dictionary containing all basic <see cref="Need"/>s: Hunger, Health, Joy, Energy
         /// </summary>
         public Dictionary<Need, float> Needs { get => needs; set => needs = value; }
+
+        float timer = 60;
 
         #endregion
 
@@ -98,20 +101,33 @@ namespace GlyphaeScripts
             if (_spriteRenderer == null) TryGetComponent(out _spriteRenderer);
             if (_boxCollider == null) TryGetComponent(out _boxCollider);
 
-            _spriteRenderer.sprite = levelSprites[(int)_currentLevel];
+            _spriteRenderer.sprite = levelSprites[(int)_petLevel];
 
             click.action.performed += OnClick;
-            Settings.OnNeedUpdate += UpdateNeed;
+            Minigame.OnGameStart += (cost) => UpdateNeed(Need.Energy, cost);
+            Minigame.OnGameWin += UpdateNeed;
+
+            OnNeedUpdate?.Invoke(Need.Hunger, needs[Need.Hunger] - MAX);
+            OnNeedUpdate?.Invoke(Need.Energy, needs[Need.Energy] - MAX);
+            OnNeedUpdate?.Invoke(Need.Joy, needs[Need.Joy] - MAX);
         }
 
         void Start()
         {
-            
+
         }
 
         void FixedUpdate()
         {
-            
+            timer -= Time.fixedDeltaTime;
+
+            if (timer <= 0)
+            {
+                timer = 60;
+                UpdateNeed(Need.Hunger, -1);
+                UpdateNeed(Need.Energy, -1);
+                UpdateNeed(Need.Joy, -1);
+            }
         }
 
         void Update()
@@ -122,13 +138,16 @@ namespace GlyphaeScripts
         void OnDestroy()
         {
             click.action.performed -= OnClick;
-            Settings.OnNeedUpdate -= UpdateNeed;
+            Minigame.OnGameStart -= (cost) => UpdateNeed(Need.Hunger, cost);
+            Minigame.OnGameWin += UpdateNeed;
         }
 
         #endregion
 
 
         #region Events
+
+        public static event Action<Need, float> OnNeedUpdate;
 
         #endregion
 
@@ -139,7 +158,7 @@ namespace GlyphaeScripts
         {
             if (!_clicked)
             {
-                switch (_currentLevel)
+                switch (_petLevel)
                 {
                     case Evolution.Egg:
                         SwitchSprite();
@@ -155,15 +174,11 @@ namespace GlyphaeScripts
             }
         }
 
-        #endregion
-
-
-        #region Helpers
-
         private void UpdateNeed(Need need, float amount)
         {
             float value = needs[need] + amount;
             needs[need] = Mathf.Clamp(value, MIN, MAX);
+            OnNeedUpdate?.Invoke(need, amount);
 
             if (!hasCalled && value <= critical)
             {
@@ -171,11 +186,16 @@ namespace GlyphaeScripts
                 Debug.Log(need + " is low!");
                 //MessageNeed();
             }
-            else if (hasCalled && value >= MAX/2)
+            else if (hasCalled && value >= MAX / 2)
             {
                 hasCalled = false;
             }
         }
+
+        #endregion
+
+
+        #region Helpers
 
         private void SwitchSprite()
         {
@@ -197,8 +217,8 @@ namespace GlyphaeScripts
             {
                 _animator.SetTrigger("OpenEgg");
                 _clickTimes = 0;
-                _currentLevel++;
-                _spriteRenderer.sprite = levelSprites[(int)_currentLevel % levelSprites.Length];
+                _petLevel++;
+                _spriteRenderer.sprite = levelSprites[(int)_petLevel % levelSprites.Length];
                 _boxCollider.size = _spriteRenderer.size;
             }
         }

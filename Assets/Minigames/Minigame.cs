@@ -52,8 +52,8 @@ namespace GlyphaeScripts
         [Tooltip("The strength of need filling by the game.")]
         [SerializeField][Range(10, 50)] protected int needAmount;
 
-        [Tooltip("Minimum number of rounds to play this game.")]
-        [SerializeField][Range(10, 50)] public int energyCost = 10;
+        [Tooltip("The costs of Energy to play this game.")]
+        [SerializeField][Range(10, 50)] protected int energyCost = 10;
 
         #endregion Serialized Fields
 
@@ -69,7 +69,7 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-
+            OnGameStart?.Invoke(-energyCost);
         }
 
         void Start()
@@ -90,31 +90,36 @@ namespace GlyphaeScripts
         #endregion
 
 
+        #region Events
+
+        public static event Action<int> OnGameStart;
+        public static event Action<Need, float> OnGameWin;
+        public static event Action<GameObject> OnGameLose;
+
+        #endregion
+
+
         #region GetSets / Properties
 
         /// <summary>
         /// The Evolution level this game is played at.
         /// </summary>
-        public Evolution Level
-        {
-            get => level;
-        }
+        public Evolution Level { get => level; }
 
         /// <summary>
         /// The text to display at game start.
         /// </summary>
-        public string InstructionText
-        {
-            get => instructionText;
-        }
+        public string InstructionText { get => instructionText; }
 
         /// <summary>
         /// Minimum number of rounds to play this game.
         /// </summary>
-        public int MinimumRounds
-        {
-            get => minimumRounds;
-        }
+        public int MinimumRounds { get => minimumRounds; }
+
+        /// <summary>
+        /// The costs of <see cref="Need.Energy"/> to play this game.
+        /// </summary>
+        public int EnergyCost { get => energyCost; }
 
         #endregion
 
@@ -126,7 +131,7 @@ namespace GlyphaeScripts
             if (helpText.text != instructionText) helpText.text = instructionText;
         }
 
-        public abstract void SetupGame(List<Glyph> glyphs, Evolution rounds);
+        public abstract void SetupGame(List<Glyph> glyphs, Evolution petLevel);
 
         protected abstract void SetupRound();
 
@@ -162,8 +167,8 @@ namespace GlyphaeScripts
         /// </summary>
         protected void Win()
         {
-            SendMessageUpwards("CloseMinigame");
-            Settings.NeedUpdate(needType, needAmount);
+            OnGameWin?.Invoke(needType, needAmount);
+            Lose();
         }
 
         /// <summary>
@@ -172,7 +177,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected void Lose()
         {
-            SendMessageUpwards("CloseMinigame");
+            OnGameLose?.Invoke(gameObject);
         }
 
         /// <summary>
@@ -180,6 +185,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected void AnimateSuccess()
         {
+            // TODO: Pet event calls
             reactionBubble.Setup(positiveFeedback);
             reactionBubble.Show(nameof(SetupRound));
         }

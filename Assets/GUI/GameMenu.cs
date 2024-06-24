@@ -1,12 +1,13 @@
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 namespace GlyphaeScripts
 {
     public class GameMenu : MonoBehaviour
     {
         #region Serialized Fields
-        
-        
+
+        [SerializeField] private GameObject[] sidePanels;
 
         #endregion
 
@@ -29,7 +30,8 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            
+            GameManager.OnGameStart += HideSides;
+            GameManager.OnGameEnd += ShowSides;
         }
 
         void Start()
@@ -44,22 +46,28 @@ namespace GlyphaeScripts
 
         void Update()
         {
-            
+
+        }
+
+        void OnDestroy()
+        {
+            GameManager.OnGameStart -= HideSides;
+            GameManager.OnGameEnd -= ShowSides;
         }
 
         #endregion
 
 
         #region Events
-        
-        
+
+
 
         #endregion
 
 
         #region Methods
-        
-        
+
+
 
         public void TemplateMethod(bool param)
         {
@@ -71,9 +79,20 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private void TemplateHelper(bool param)
+        private void HideSides()
         {
-            
+            foreach (GameObject go in sidePanels)
+            {
+                go.SetActive(false);
+            }
+        }
+
+        private void ShowSides()
+        {
+            foreach (GameObject go in sidePanels)
+            {
+                go.SetActive(true);
+            }
         }
 
         #endregion
