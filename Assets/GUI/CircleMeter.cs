@@ -12,8 +12,7 @@ namespace GlyphaeScripts
         #region Serialized Fields
 
         [Header("Need Values")]
-        [SerializeField] private Need needType;
-        [SerializeField][Range(0, 100)] private float value;
+        [SerializeField] private Need need;
 
         [Space]
         [Header("Animation Values")]
@@ -48,10 +47,10 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            _half = Pet.MAX / 2;
-            slider.fillAmount = value / Pet.MAX;
-            fillColor.r = (Pet.MAX - value) / _half;
-            fillColor.g = value / _half;
+            _half = Need.MAX / 2;
+            slider.fillAmount = need.Current / Need.MAX;
+            fillColor.r = (Need.MAX - need.Current) / _half;
+            fillColor.g = need.Current / _half;
             slider.color = fillColor;
             Pet.OnNeedUpdate += UpdateValue;
         }
@@ -102,16 +101,13 @@ namespace GlyphaeScripts
         /// <summary>
         /// Updates the messaged need value by a given amount.
         /// </summary>
-        /// <param name="need">The need enum to update.</param>
+        /// <param name="type">The need type enum to update.</param>
         /// <param name="amount">The amount to update the need value by.</param>
-        private void UpdateValue(Need need, float amount)
+        private void UpdateValue(Needs type, float amount)
         {
-            if (needType == need)
-            {
-                StartCoroutine(AnimateFill(value, value + amount, Mathf.Sign(amount)));
+            if (need.Type != type) return;
 
-                value = Mathf.Clamp(value + amount, Pet.MIN, Pet.MAX);
-            }
+            StartCoroutine(AnimateFill(need.Current, need.Current + amount, Mathf.Sign(amount)));
         }
 
         private IEnumerator AnimateFill(float start, float end, float inc)
@@ -121,8 +117,8 @@ namespace GlyphaeScripts
 
             for (float i = start; i != end; i += inc)
             {
-                slider.fillAmount = i / Pet.MAX;
-                color.r = (Pet.MAX - i) / _half;
+                slider.fillAmount = i / Need.MAX;
+                color.r = (Need.MAX - i) / _half;
                 color.g = i / _half;
                 slider.color = color;
                 yield return new WaitForSeconds(speed);

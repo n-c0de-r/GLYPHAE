@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 namespace GlyphaeScripts
 {
@@ -17,6 +16,9 @@ namespace GlyphaeScripts
         [Tooltip("Field where the Pet will 'live' in.")]
         [SerializeField] private RectTransform petContainer;
 
+        [Tooltip("The intro game to play on start.")]
+        [SerializeField] private GameObject initGame;
+
         #endregion
 
 
@@ -24,8 +26,6 @@ namespace GlyphaeScripts
 
         private GameObject _petInstance;
         private Pet _pet;
-        private List<Glyph> _toLearn;
-        private int playCost;
 
         #endregion
 
@@ -50,7 +50,7 @@ namespace GlyphaeScripts
 
         void Start()
         {
-            
+            if (_pet.PetLevel == Evolutions.Egg) StartGame(initGame);
         }
 
         void FixedUpdate()
@@ -83,16 +83,17 @@ namespace GlyphaeScripts
 
         public void StartGame(GameObject minigame)
         {
-            Minigame game = minigame.GetComponent<Minigame>();
+            GameObject gameInstance = Instantiate(minigame, petContainer);
+            Minigame game = gameInstance.GetComponent<Minigame>();
 
-            if (_pet.Needs.TryGetValue(Need.Energy, out float petEnergy) && petEnergy - game.EnergyCost >= 0)
+            if (_pet.Energy.Current < game.EnergyCost)
             {
-                GameObject gameInstance = Instantiate(minigame, petContainer);
-                game = gameInstance.GetComponent<Minigame>();
-
-                game.SetupGame(_pet.Literals, _pet.PetLevel);
-                OnGameStart?.Invoke();
+                Destroy(gameInstance);
+                return;
             }
+
+            game.SetupGame(_pet.Literals, _pet.PetLevel);
+            OnGameStart?.Invoke();
         }
 
         #endregion

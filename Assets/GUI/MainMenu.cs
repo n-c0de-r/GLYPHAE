@@ -119,7 +119,7 @@ namespace GlyphaeScripts
                     {
                         if (item == "") continue;
                         string[] keyValue = item.Split(":");
-                        Enum.TryParse(keyValue[1], out MemoryLevel level);
+                        Enum.TryParse(keyValue[1], out MemoryLevels level);
                         if(settings.Literals.TryGetValue(keyValue[0], out Glyph glyph))
                         {
                             settings.Literals[keyValue[0]].MemoryLevel = level;

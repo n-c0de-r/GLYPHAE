@@ -1,10 +1,9 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
-    public class NeedBubble : MonoBehaviour
+    public class PetMessage : MonoBehaviour
     {
         #region Serialized Fields
 
@@ -12,16 +11,16 @@ namespace GlyphaeScripts
         [SerializeField] private AudioSource sound;
 
         [Tooltip("The back image of the bubble.")]
-        [SerializeField] private Image back;
+        [SerializeField] private SpriteRenderer back;
 
         [Tooltip("The icon back shown inside the bubble.")]
-        [SerializeField] private Image iconFill;
+        [SerializeField] private SpriteRenderer iconBack;
 
         [Tooltip("The icon outline shown inside the bubble.")]
-        [SerializeField] private Image iconLine;
+        [SerializeField] private SpriteRenderer iconLine;
 
         [Tooltip("The outline of the bubble.")]
-        [SerializeField] private Image outline;
+        [SerializeField] private SpriteRenderer outline;
 
         [Tooltip("The current Settings for display values.")]
         [SerializeField] private Settings settings;
@@ -85,15 +84,14 @@ namespace GlyphaeScripts
 
         public void Setup(Sprite display)
         {
-            if (iconLine.sprite == display) return;
+            if (iconLine == display) return;
 
             iconLine.sprite = display;
             gameObject.SetActive(true);
         }
 
-        public void Show(string message)
+        public void Show()
         {
-            methodAfter = message;
             StartCoroutine(AnimateFade(0, 1, settings.SpeedFactor));
         }
 
@@ -114,9 +112,9 @@ namespace GlyphaeScripts
                 back.color = color;
 
 
-                color = iconFill.color;
+                color = iconBack.color;
                 color.a = value;
-                iconFill.color = color;
+                iconBack.color = color;
 
                 color = iconLine.color;
                 color.a = value;
@@ -132,9 +130,7 @@ namespace GlyphaeScripts
             {
                 yield return new WaitForSeconds(1f/speedFactor);
                 yield return AnimateFade(-1, 0, settings.SpeedFactor * 2);
-                if (methodAfter != null) SendMessageUpwards(methodAfter);
             }
-            
         }
 
         #endregion

@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore;
 
 namespace GlyphaeScripts
 {
     /// <summary>
     /// A Minigame played when executing basic functions.
     /// </summary>
-    public class FeedGame : Minigame
+    public class SymbolFeeder : Minigame
     {
         #region Serialized Fields
 
@@ -29,15 +28,15 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<Glyph> glyphs, Evolution petLevel)
+        public override void SetupGame(List<Glyph> glyphs, Evolutions petLevel)
         {
-            if (petLevel == Evolution.None) return;
+            if (petLevel == Evolutions.None) return;
 
             Glyph glyph;
             currentGlyphs = glyphs.ToArray();
             toMatch = new();
 
-            int baseline = (int)petLevel / (Enum.GetNames(typeof(Evolution)).Length / 2);
+            int baseline = (int)petLevel / (Enum.GetNames(typeof(Evolutions)).Length / 2);
             _failsToLose = baseline;
             buttonAmount = (1 + baseline) << 1;
 
@@ -51,7 +50,7 @@ namespace GlyphaeScripts
                 currentGlyphs[rand] = null;
             }
 
-            SetupRound();
+            //SetupRound();
         }
 
         #endregion
@@ -74,7 +73,7 @@ namespace GlyphaeScripts
             }
         }
 
-        protected override void SetupRound()
+        protected override void SetupRound(Glyph glyph, Glyph[] currentGlyphs)
         {
             if (toMatch.Count == 0)
             {
@@ -84,7 +83,7 @@ namespace GlyphaeScripts
 
             List<Glyph> used = new();
 
-            Glyph glyph = toMatch.Peek();
+            Glyph glyph1 = toMatch.Peek();
             used.Add(glyph);
 
             int correct = UnityEngine.Random.Range(0, buttonAmount);
@@ -94,7 +93,7 @@ namespace GlyphaeScripts
             {
                 if (index == correct)
                 {
-                    gameInputs[index].Setup(glyph.Sound, glyph.Character);
+                    gameInputs[index].Setup(glyph.Sound, glyph.Symbol);
                 }
                 else
                 {
@@ -103,12 +102,12 @@ namespace GlyphaeScripts
                     if (randGlyph == null || used.Contains(randGlyph)) continue;
 
                     used.Add(randGlyph);
-                    gameInputs[index].Setup(randGlyph.Sound, randGlyph.Character);
+                    gameInputs[index].Setup(randGlyph.Sound, randGlyph.Symbol);
                 }
                 index++;
             }
             // TODO: pet event
-            needBubble.Setup(glyph.Sound, glyph.Symbol);
+            needBubble.Setup(glyph.Sound, glyph.Character);
             needBubble.Show(null);
         }
 

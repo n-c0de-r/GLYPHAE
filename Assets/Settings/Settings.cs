@@ -189,14 +189,14 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action<Need, float> OnNeedUpdate;
+        public static event Action<Needs, float> OnNeedUpdate;
 
         #endregion
 
 
         #region Methods
 
-        public static void NeedUpdate(Need need, float value)
+        public static void NeedUpdate(Needs need, float value)
         {
             OnNeedUpdate.Invoke(need, value);
         }

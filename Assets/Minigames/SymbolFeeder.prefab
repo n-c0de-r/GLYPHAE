@@ -1196,7 +1196,7 @@ GameObject:
   - component: {fileID: 4843182920204244211}
   - component: {fileID: 4309206053363471870}
   m_Layer: 5
-  m_Name: FeedGame
+  m_Name: SymbolFeeder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1249,9 +1249,6 @@ MonoBehaviour:
   - {fileID: 7854364454641466878}
   - {fileID: 6256241949153593531}
   minimumRounds: 3
-  reactionBubble: {fileID: 7296347420155972079}
-  positiveFeedback: {fileID: 346757764, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
-  negativeFeedback: {fileID: 618465814, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   needType: 1
   needAmount: 10
   energyCost: 10
@@ -1718,10 +1715,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6492491917505740474}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SendMessageUpwards
-        m_Mode: 5
+      - m_Target: {fileID: 980374774865663699}
+        m_TargetAssemblyTypeName: GlyphaeScripts.Minigame, Assembly-CSharp
+        m_MethodName: Close
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2916,17 +2913,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92d495b8c7bd9f54ebecfd3795bc884a, type: 3}
---- !u!114 &7296347420155972079 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1880602369446699539, guid: 92d495b8c7bd9f54ebecfd3795bc884a, type: 3}
-  m_PrefabInstance: {fileID: 9176340109327133692}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32ebc2299eca9c349a204b57ed544532, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &8721499732001858513 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 454887176904001581, guid: 92d495b8c7bd9f54ebecfd3795bc884a, type: 3}

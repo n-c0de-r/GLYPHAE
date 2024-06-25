@@ -60,14 +60,14 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<Glyph> glyphs, Evolution petLevel)
+        public override void SetupGame(List<Glyph> glyphs, Evolutions petLevel)
         {
             if (petLevel == 0) return;
 
             currentGlyphs = glyphs.ToArray();
             toMatch = new();
 
-            int baseline = (int)petLevel / (Enum.GetNames(typeof(Evolution)).Length / 2);
+            int baseline = (int)petLevel / (Enum.GetNames(typeof(Evolutions)).Length / 2);
             int rounds = minimumRounds + baseline;
             buttonAmount = (1 + baseline) << 1;
 
@@ -81,7 +81,7 @@ namespace GlyphaeScripts
                 currentGlyphs[rand] = null;
             }
 
-            SetupRound();
+            //SetupRound();
         }
 
         #endregion
@@ -100,43 +100,17 @@ namespace GlyphaeScripts
                 Destroy(gameObject);
 
                 Settings.NeedUpdate(needType, needAmount);
-                Settings.NeedUpdate(Need.Energy, -energyCost);
+                Settings.NeedUpdate(Needs.Energy, -energyCost);
             }
             else
             {
-                SetupRound();
+                //SetupRound();
             }
         }
 
-        protected override void SetupRound()
+        protected override void SetupRound(Glyph glyph, Glyph[] currentGlyphs)
         {
-            if (toMatch.Count == 0) return;
-            List<Glyph> used = new();
-
-            Glyph glyph = toMatch.Peek();
-            needBubble.Setup(glyph.Sound, glyph.Character);
-            used.Add(glyph);
-
-            int correct = UnityEngine.Random.Range(0, buttonAmount);
-            int index = 0;
-
-            while (index < buttonAmount)
-            {
-                if (index == correct)
-                {
-                    gameInputs[index].Setup(glyph.Sound, glyph.Symbol);
-                }
-                else
-                {
-                    int rand = UnityEngine.Random.Range(0, currentGlyphs.Length);
-                    Glyph randGlyph = currentGlyphs[rand];
-                    if (randGlyph == null || used.Contains(randGlyph)) continue;
-
-                    used.Add(randGlyph);
-                    gameInputs[index].Setup(randGlyph.Sound, randGlyph.Symbol);
-                }
-                index++;
-            }
+            throw new NotImplementedException();
         }
 
         #endregion

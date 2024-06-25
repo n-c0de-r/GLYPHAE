@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -57,6 +58,8 @@ namespace GlyphaeScripts
 
         #region Events
 
+        public static event Action<string> OnInputCheck;
+
         #endregion
 
 
@@ -72,7 +75,10 @@ namespace GlyphaeScripts
 
         public void Clicked()
         {
-            SendMessageUpwards("InputCheck", toCheck);
+            // TODO: Play audio
+            //SendMessageUpwards("InputCheck", toCheck);
+            OnInputCheck?.Invoke(icon.sprite.name);
+
         }
 
         #endregion

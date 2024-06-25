@@ -17,14 +17,14 @@ namespace GlyphaeScripts
         [SerializeField] private AudioClip sound;
 
         [Tooltip("The strength of memorization,\r\nbased on Leitner flashcard system.")]
-        [SerializeField] private MemoryLevel memoryLevel;
+        [SerializeField] private MemoryLevels memoryLevel;
 
         #endregion
 
 
         #region Fields
 
-
+        private Sprite[] _sprites;
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace GlyphaeScripts
         /// The strength of memorization,
         /// based on Leitner flashcard system.
         /// </summary>
-        public MemoryLevel MemoryLevel { get => memoryLevel; set => memoryLevel = value; }
+        public MemoryLevels MemoryLevel { get => memoryLevel; set => memoryLevel = value; }
 
         #endregion
 
@@ -110,4 +110,45 @@ namespace GlyphaeScripts
 
         #endregion
     }
+
+    #region Enums
+
+    /// <summary>
+    /// The strength marker of memorization,
+    /// based on Leitner flashcard system.
+    /// </summary>
+    public enum MemoryLevels
+    {
+        /// <summary>
+        /// Same as null.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Not encountered yet.
+        /// </summary>
+        New,
+
+        /// <summary>
+        /// Seen at least once
+        /// </summary>
+        Seen,
+
+        /// <summary>
+        /// Seen but not yet well remembered.
+        /// </summary>
+        Unknown,
+
+        /// <summary>
+        /// Seen and remembered.
+        /// </summary>
+        Known,
+
+        /// <summary>
+        /// Fully memorized.
+        /// </summary>
+        Memorized
+    }
+
+    #endregion
 }

@@ -52,3 +52,4 @@ MonoBehaviour:
   minigames:
   - {fileID: 8523895787126546132, guid: f2fc9d4f7ed0bb743bf1ac8b70dcc1a9, type: 3}
   petContainer: {fileID: 373659876001025234}
+  initGame: {fileID: 5432827782634591610, guid: 9c670e40db45c6b4899285e93b55e730, type: 3}

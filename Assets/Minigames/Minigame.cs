@@ -25,7 +25,7 @@ namespace GlyphaeScripts
         [Space]
         [Header("Base Values")]
         [Tooltip("The Evolution level\r\nthis game is played at.")]
-        [SerializeField] protected Evolution level;
+        [SerializeField] protected Evolutions level;
 
         [Tooltip("The Inputs to set up at start.")]
         [SerializeField] protected GameInput[] gameInputs;
@@ -34,26 +34,15 @@ namespace GlyphaeScripts
         [SerializeField][Range(1, 3)] protected int minimumRounds = 1;
 
         [Space]
-        [Header("Animation Values")]
-        [Tooltip("Display feedback emoji.")]
-        [SerializeField] protected NeedBubble reactionBubble;
-
-        [Tooltip("The display of the positive feedback.")]
-        [SerializeField] protected Sprite positiveFeedback;
-
-        [Tooltip("The display of the negative feedback.")]
-        [SerializeField] protected Sprite negativeFeedback;
-
-        [Space]
         [Header("Need Values")]
         [Tooltip("The type of need this game fills the current need.")]
-        [SerializeField] protected Need needType;
+        [SerializeField] protected Needs needType;
 
         [Tooltip("The strength of need filling by the game.")]
         [SerializeField][Range(10, 50)] protected int needAmount;
 
         [Tooltip("The costs of Energy to play this game.")]
-        [SerializeField][Range(10, 50)] protected int energyCost = 10;
+        [SerializeField][Range(0, 50)] protected int energyCost;
 
         #endregion Serialized Fields
 
@@ -69,7 +58,10 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            OnGameStart?.Invoke(-energyCost);
+            OnGameStart?.Invoke(needType, - energyCost);
+
+            Pet.OnNeedCall += SetupRound;
+            Pet.OnNeedSatisfied += (state) => { if (state) Success(); else Fail(); };
         }
 
         void Start()
@@ -92,9 +84,9 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action<int> OnGameStart;
-        public static event Action<Need, float> OnGameWin;
+        public static event Action<Needs, float> OnGameStart, OnGameWin;
         public static event Action<GameObject> OnGameLose;
+        public static event Action<int> OnGameInit;
 
         #endregion
 
@@ -104,7 +96,7 @@ namespace GlyphaeScripts
         /// <summary>
         /// The Evolution level this game is played at.
         /// </summary>
-        public Evolution Level { get => level; }
+        public Evolutions Level { get => level; }
 
         /// <summary>
         /// The text to display at game start.
@@ -117,7 +109,7 @@ namespace GlyphaeScripts
         public int MinimumRounds { get => minimumRounds; }
 
         /// <summary>
-        /// The costs of <see cref="Need.Energy"/> to play this game.
+        /// The costs of <see cref="Needs.Energy"/> to play this game.
         /// </summary>
         public int EnergyCost { get => energyCost; }
 
@@ -126,16 +118,20 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        private void ShowInstructions()
+        public void ShowInstructions()
         {
             if (helpText.text != instructionText) helpText.text = instructionText;
         }
 
-        public abstract void SetupGame(List<Glyph> glyphs, Evolution petLevel);
+        public void Close()
+        {
+            OnGameLose?.Invoke(gameObject);
+        }
 
-        protected abstract void SetupRound();
-
-        protected abstract void InputCheck(string message);
+        protected void Init(int rounds)
+        {
+            OnGameInit?.Invoke(rounds);
+        }
 
         /// <summary>
         /// Trigger this when you achieved a success.
@@ -144,8 +140,6 @@ namespace GlyphaeScripts
         protected void Success()
         {
             _successes++;
-            AnimateSuccess();
-            
             if (_successes >= minimumRounds) Win();
         }
 
@@ -156,9 +150,7 @@ namespace GlyphaeScripts
         protected void Fail()
         {
             _fails++;
-            AnimateFail();
-
-            if (_fails > _failsToLose) Lose();
+            if (_fails > _failsToLose) Close();
         }
 
         /// <summary>
@@ -168,16 +160,7 @@ namespace GlyphaeScripts
         protected void Win()
         {
             OnGameWin?.Invoke(needType, needAmount);
-            Lose();
-        }
-
-        /// <summary>
-        /// Informs the BaseGame Controller, that the game
-        /// triggered a lose condition and stops the game.
-        /// </summary>
-        protected void Lose()
-        {
-            OnGameLose?.Invoke(gameObject);
+            Close();
         }
 
         /// <summary>
@@ -186,8 +169,8 @@ namespace GlyphaeScripts
         protected void AnimateSuccess()
         {
             // TODO: Pet event calls
-            reactionBubble.Setup(positiveFeedback);
-            reactionBubble.Show(nameof(SetupRound));
+            //reactionBubble.Setup(positiveFeedback);
+            //reactionBubble.Show(nameof(SetupRound));
         }
 
         /// <summary>
@@ -195,9 +178,15 @@ namespace GlyphaeScripts
         /// </summary>
         protected void AnimateFail()
         {
-            reactionBubble.Setup(negativeFeedback);
-            reactionBubble.Show(nameof(SetupRound));
+            //reactionBubble.Setup(negativeFeedback);
+            //reactionBubble.Show(nameof(SetupRound));
         }
+
+        public abstract void SetupGame(List<Glyph> glyphs, Evolutions petLevel);
+
+        protected abstract void SetupRound(Glyph glyph, Glyph[] allGlyphs);
+
+        protected abstract void InputCheck(string message);
 
         #endregion  Methods
     }

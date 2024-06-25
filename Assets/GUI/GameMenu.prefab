@@ -6901,8 +6901,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1268155883301744023, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: needType
-      value: 4
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
     - target: {fileID: 26544740141094941, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: m_text
       value: Energy
@@ -7110,6 +7110,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6716490819143004851, guid: 95cdc65f302038143a39d9b684d5ffeb, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6716490819143004851, guid: 95cdc65f302038143a39d9b684d5ffeb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -7176,6 +7180,18 @@ PrefabInstance:
     - target: {fileID: 6995936970813244060, guid: 95cdc65f302038143a39d9b684d5ffeb, type: 3}
       propertyPath: m_VerticalAlignment
       value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7318405260922570719, guid: 95cdc65f302038143a39d9b684d5ffeb, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5849056
+      objectReference: {fileID: 0}
+    - target: {fileID: 7318405260922570719, guid: 95cdc65f302038143a39d9b684d5ffeb, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5849056
+      objectReference: {fileID: 0}
+    - target: {fileID: 7318405260922570719, guid: 95cdc65f302038143a39d9b684d5ffeb, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5849056
       objectReference: {fileID: 0}
     - target: {fileID: 7323919564265772486, guid: 95cdc65f302038143a39d9b684d5ffeb, type: 3}
       propertyPath: m_Name
@@ -8216,12 +8232,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1268155883301744023, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: value
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1268155883301744023, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: needType
-      value: 1
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
     - target: {fileID: 26544740141094941, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: m_text
       value: Hunger
@@ -8256,7 +8272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1851635098836703853, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: m_FillAmount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1851635098836703853, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: m_FillClockwise
@@ -8650,12 +8666,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1268155883301744023, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: value
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1268155883301744023, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: needType
-      value: 3
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
     - target: {fileID: 26544740141094941, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: m_text
       value: Joy
@@ -8682,7 +8698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1851635098836703853, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: m_FillAmount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2724661977977000740, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: m_Pivot.x
@@ -9924,8 +9940,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1268155883301744023, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: needType
-      value: 2
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
     - target: {fileID: 26544740141094941, guid: 1f8041d319221694180f79f6f06e92a7, type: 3}
       propertyPath: m_text
       value: Health
