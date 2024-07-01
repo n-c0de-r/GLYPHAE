@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a470a06e82ca1f5499df1dade5b00963, type: 3}
   m_Name: tri21_htp
   m_EditorClassIdentifier: 
-  symbol: {fileID: 1329753003, guid: e8b5076262399884ba6eb2320a6a890f, type: 3}
-  character: {fileID: 1997856815, guid: 3fdf974c82a3a554f906b64052a8c4bb, type: 3}
+  symbol: {fileID: 1182419199, guid: 5c97d8effbbbf874b95af289f2f084c6, type: 3}
+  character: {fileID: -749963364, guid: 37bec2e1eae711147a4fe55b77b5b3cc, type: 3}
   sound: {fileID: 0}
   memoryLevel: 1

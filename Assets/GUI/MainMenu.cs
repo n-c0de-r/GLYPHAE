@@ -36,7 +36,7 @@ namespace GlyphaeScripts
 
         void Start()
         {
-            LoadSettings();
+            //LoadSettings();
 
         }
 

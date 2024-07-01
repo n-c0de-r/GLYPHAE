@@ -54,6 +54,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
   - {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   - {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
+  needCall: {fileID: 0}
+  needFeedback: {fileID: 0}
   prefab: {fileID: 3721469564461433512}
   levelSprites:
   - {fileID: 0}
@@ -63,7 +65,6 @@ MonoBehaviour:
   - {fileID: -1953653176, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   - {fileID: 1315140101, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   - {fileID: 1564145084, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
-  click: {fileID: -632152319304390262, guid: b9afe9bf0566e35488b5db6e230e7b3d, type: 3}
   literals:
   - {fileID: 11400000, guid: 83e4a3851c604444db0551402bad0df0, type: 2}
   - {fileID: 11400000, guid: 395a886686a725b4e99d7a9d4c53d268, type: 2}
@@ -89,15 +90,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ff00693e336faa4b8065207220f7eb7, type: 2}
   - {fileID: 11400000, guid: 384ee0ca7b9ae3c46a331281853c4b0e, type: 2}
   - {fileID: 11400000, guid: c67486dc4253b704c9c2e424b508913a, type: 2}
+  - {fileID: 11400000, guid: 0add247d858e31a438a7082f83a5190e, type: 2}
+  - {fileID: 11400000, guid: 37401e7cd64d6484a8dd36c5cb0d35d5, type: 2}
+  - {fileID: 11400000, guid: 793f4c5cb67c2ae4e9a0e90f3fe4440a, type: 2}
   - {fileID: 11400000, guid: 5920cefc506abe24989516805c1481d8, type: 2}
   - {fileID: 11400000, guid: 4424c9f8d8aa7e646a52def9ea693682, type: 2}
   - {fileID: 11400000, guid: a2daf0ac56749b74287bc544e3330a39, type: 2}
   - {fileID: 11400000, guid: f4b21c5dcdb79e94ea9ae9278d390776, type: 2}
   - {fileID: 11400000, guid: 6ed8a9b79c6f2444285e2085496b253e, type: 2}
-  - {fileID: 11400000, guid: 0add247d858e31a438a7082f83a5190e, type: 2}
-  - {fileID: 11400000, guid: 37401e7cd64d6484a8dd36c5cb0d35d5, type: 2}
-  - {fileID: 11400000, guid: 793f4c5cb67c2ae4e9a0e90f3fe4440a, type: 2}
-  - {fileID: 11400000, guid: f9023f3d86312bb429ece026506b3960, type: 2}
   - {fileID: 11400000, guid: be47b7fecf58e404ba1a44b8f4e92d3d, type: 2}
   - {fileID: 11400000, guid: e296362a6bafe264b905ebece6ed42a1, type: 2}
   - {fileID: 11400000, guid: aa479211dbe6c3244b61f39e03865dfb, type: 2}
@@ -105,8 +105,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8ab51018d4f68f94aa6edeb48f3f297f, type: 2}
   - {fileID: 11400000, guid: 7444d59cd525fc546a5fa5f882cc5bf4, type: 2}
   - {fileID: 11400000, guid: 2628438c79155c54ab52c104ba32e753, type: 2}
+  - {fileID: 11400000, guid: f9023f3d86312bb429ece026506b3960, type: 2}
   - {fileID: 11400000, guid: 2cc9dff08db33a04699c1e4a96de4471, type: 2}
-  critical: 10
   unlocked: 0
   _petLevel: 1
 --- !u!212 &5059000855819877809
