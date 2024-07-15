@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,6 +33,8 @@ namespace GlyphaeScripts
         void Awake()
         {
             if (_audioSource == null) TryGetComponent(out _audioSource);
+
+            MainMenu.OnGameStart += Load;
         }
 
         void Start()
@@ -49,7 +52,7 @@ namespace GlyphaeScripts
 
         void OnDestroy()
         {
-
+            MainMenu.OnGameStart -= Load;
         }
 
         #endregion
@@ -57,7 +60,7 @@ namespace GlyphaeScripts
 
         #region Events
 
-
+        
 
         #endregion
 

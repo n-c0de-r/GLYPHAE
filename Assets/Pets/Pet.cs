@@ -184,7 +184,14 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        
+        public void LevelUp()
+        {
+            int level = (int)_petLevel;
+            level = Mathf.Clamp(level + 1, (int)Evolutions.Egg, (int)Evolutions.God);
+            _petLevel = (Evolutions)level;
+
+            _spriteRenderer.sprite = levelSprites[level];
+        }
 
         #endregion
 

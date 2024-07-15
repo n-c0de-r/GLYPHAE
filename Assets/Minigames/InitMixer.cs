@@ -10,6 +10,9 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [Header("Game-Specific Values")]
+        [SerializeField] private Settings settings;
+
         #endregion
 
 
@@ -79,7 +82,8 @@ namespace GlyphaeScripts
 
         protected override void Win()
         {
-            Debug.Log("win");
+            settings.SelectedPet.LevelUp();
+            Close();
         }
 
         #endregion

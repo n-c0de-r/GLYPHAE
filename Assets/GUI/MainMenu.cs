@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GlyphaeScripts
@@ -42,6 +43,8 @@ namespace GlyphaeScripts
             music.SetValueWithoutNotify(settings.MusicVolume);
             sound.SetValueWithoutNotify(settings.SoundVolume);
             voice.SetValueWithoutNotify(settings.VoiceVolume);
+
+            if (settings.SelectedPet != null) StartGame();
         }
 
         void FixedUpdate()
@@ -59,7 +62,7 @@ namespace GlyphaeScripts
 
         #region Events
 
-
+        public static event Action<string> OnGameStart;
 
         #endregion
 
@@ -69,9 +72,8 @@ namespace GlyphaeScripts
         /// <summary>
         /// Loads the given scene.
         /// </summary>
-        /// <param name="scene">Scene name.</param>
-        public void StartGame() { }
-        // => SceneManager.LoadScene((int)Scenes.GAME);
+        public void StartGame()
+        => OnGameStart.Invoke("2_Game");
 
         /// <summary>
         /// Quits the application or editor.
