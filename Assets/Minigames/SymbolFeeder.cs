@@ -62,7 +62,7 @@ namespace GlyphaeScripts
         {
             Glyph glyph = toMatch.Dequeue();
 
-            if (glyph.Symbol.name == message || glyph.Character.name == message)
+            if (glyph.Symbol.name == message || glyph.Letter.name == message)
             {
                 Success();
             }
@@ -73,7 +73,7 @@ namespace GlyphaeScripts
             }
         }
 
-        protected override void SetupRound(Glyph glyph, Glyph[] currentGlyphs)
+        protected override void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, Glyph[] currentGlyphs)
         {
             if (toMatch.Count == 0)
             {
@@ -107,7 +107,7 @@ namespace GlyphaeScripts
                 index++;
             }
             // TODO: pet event
-            needBubble.Setup(glyph.Sound, glyph.Character);
+            needBubble.Setup(glyph.Sound, glyph.Letter);
             needBubble.Show(null);
         }
 

@@ -92,15 +92,15 @@ namespace GlyphaeScripts
         protected override void InputCheck(string message)
         {
             Glyph glyph = toMatch.Peek();
-            if (glyph.Symbol.name == message || glyph.Character.name == message) toMatch.Dequeue();
+            if (glyph.Symbol.name == message || glyph.Letter.name == message) toMatch.Dequeue();
 
             if (toMatch.Count == 0)
             {
                 SendMessageUpwards("CloseMinigame");
                 Destroy(gameObject);
 
-                Settings.NeedUpdate(needType, needAmount);
-                Settings.NeedUpdate(Needs.Energy, -energyCost);
+                //Settings.NeedUpdate(needType, needAmount);
+                //Settings.NeedUpdate(Needs.Energy, -energyCost);
             }
             else
             {
@@ -108,7 +108,7 @@ namespace GlyphaeScripts
             }
         }
 
-        protected override void SetupRound(Glyph glyph, Glyph[] currentGlyphs)
+        protected override void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, Glyph[] currentGlyphs)
         {
             throw new NotImplementedException();
         }

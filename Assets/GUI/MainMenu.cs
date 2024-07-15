@@ -36,8 +36,12 @@ namespace GlyphaeScripts
 
         void Start()
         {
-            //LoadSettings();
+            settings.LoadSettings();
 
+            main.SetValueWithoutNotify(settings.MainVolume);
+            music.SetValueWithoutNotify(settings.MusicVolume);
+            sound.SetValueWithoutNotify(settings.SoundVolume);
+            voice.SetValueWithoutNotify(settings.VoiceVolume);
         }
 
         void FixedUpdate()
@@ -63,15 +67,6 @@ namespace GlyphaeScripts
         #region Methods
 
         /// <summary>
-        /// Saves the settings to PlayerPrefs
-        /// from the game's settings asset.
-        /// </summary>
-        public void SaveSettings()
-        {
-
-        }
-
-        /// <summary>
         /// Loads the given scene.
         /// </summary>
         /// <param name="scene">Scene name.</param>
@@ -93,69 +88,6 @@ namespace GlyphaeScripts
 
 
         #region Helpers
-
-        /// <summary>
-        /// Loads the settings from PlayerPrefs
-        /// into the game's settings asset.
-        /// </summary>
-        private void LoadSettings()
-        {
-            if (PlayerPrefs.HasKey("SelectedPet"))
-            {
-                string petName = PlayerPrefs.GetString("SelectedPet");
-                foreach (Pet pet in settings.Pets)
-                {
-                    if (pet.name == petName)
-                    {
-                        settings.SelectedPet = pet;
-                        settings.SetupDictionary();
-                        break;
-                    }
-                }
-
-                if (PlayerPrefs.HasKey(petName))
-                {
-                    foreach (string item in PlayerPrefs.GetString(petName).Split(';'))
-                    {
-                        if (item == "") continue;
-                        string[] keyValue = item.Split(":");
-                        Enum.TryParse(keyValue[1], out MemoryLevels level);
-                        if(settings.Literals.TryGetValue(keyValue[0], out Glyph glyph))
-                        {
-                            settings.Literals[keyValue[0]].MemoryLevel = level;
-                        }
-                    }
-                }
-            }
-
-            if (PlayerPrefs.HasKey("MainVolume"))
-            {
-                float value = PlayerPrefs.GetFloat("MainVolume");
-                main.SetValueWithoutNotify(value);
-                settings.MainVolume = value;
-            }
-
-            if (PlayerPrefs.HasKey("MusicVolume"))
-            {
-                float value = PlayerPrefs.GetFloat("MusicVolume");
-                music.SetValueWithoutNotify(value);
-                settings.MusicVolume = value;
-            }
-
-            if (PlayerPrefs.HasKey("SoundVolume"))
-            {
-                float value = PlayerPrefs.GetFloat("SoundVolume");
-                sound.SetValueWithoutNotify(value);
-                settings.SoundVolume = value;
-            }
-
-            if (PlayerPrefs.HasKey("VoiceVolume"))
-            {
-                float value = PlayerPrefs.GetFloat("VoiceVolume");
-                voice.SetValueWithoutNotify(value);
-                settings.VoiceVolume = value;
-            }
-        }
 
         #endregion
 

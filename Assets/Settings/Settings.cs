@@ -39,7 +39,10 @@ namespace GlyphaeScripts
         #region Fields
 
         private Pet _pet;
-        private Dictionary<string, Glyph> _literals = new();
+        private List<Glyph> _literals;
+
+        public const char GLYPH_SPLIT = ';';
+        public const char MEMORY_SPLIT = ':';
 
         #endregion
 
@@ -56,7 +59,7 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// The list of <see cref="Pets"/>s available in the game.
+        /// The list of <see cref="Pet"/>s available in the game.
         /// </summary>
         public List<Pet> Pets
         {
@@ -70,11 +73,7 @@ namespace GlyphaeScripts
         public Pet SelectedPet
         {
             get => _pet;
-            set
-            {
-                _pet = value;
-                PlayerPrefs.SetString("SelectedPet", value.name);
-            }
+            set =>  _pet = value;
         }
 
         /// <summary>
@@ -86,8 +85,7 @@ namespace GlyphaeScripts
             set
             {
                 main = value;
-                audioMixer.SetFloat("MainVolume", value);
-                PlayerPrefs.SetFloat("MainVolume", value);
+                audioMixer.SetFloat(nameof(Keys.MainVolume), value);
             }
         }
 
@@ -100,8 +98,7 @@ namespace GlyphaeScripts
             set
             {
                 music = value;
-                audioMixer.SetFloat("MusicVolume", value);
-                PlayerPrefs.SetFloat("MusicVolume", value);
+                audioMixer.SetFloat(nameof(Keys.MusicVolume), value);
             }
         }
 
@@ -114,8 +111,7 @@ namespace GlyphaeScripts
             set
             {
                 sound = value;
-                audioMixer.SetFloat("SoundVolume", value);
-                PlayerPrefs.SetFloat("SoundVolume", value);
+                audioMixer.SetFloat(nameof(Keys.SoundVolume), value);
             }
         }
 
@@ -128,18 +124,8 @@ namespace GlyphaeScripts
             set
             {
                 voice = value;
-                audioMixer.SetFloat("VoiceVolume", value);
-                PlayerPrefs.SetFloat("VoiceVolume", value);
+                audioMixer.SetFloat(nameof(Keys.VoiceVolume), value);
             }
-        }
-
-        /// <summary>
-        /// The <see cref="Glyph"/> literals found in the saved data.
-        /// </summary>
-        public Dictionary<string, Glyph> Literals
-        {
-            get => _literals;
-            set =>_literals = value;
         }
 
         /// <summary>
@@ -148,11 +134,7 @@ namespace GlyphaeScripts
         public int SpeedFactor
         {
             get => speedFactor;
-            set
-            {
-                speedFactor = value;
-                PlayerPrefs.SetInt("SpeedFactor", value);
-            } 
+            set => speedFactor = value;
         }
 
         #endregion
@@ -162,7 +144,7 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            
+            Pet.OnNeedUpdate += NeedUpdate;
         }
 
         void Start()
@@ -182,6 +164,12 @@ namespace GlyphaeScripts
 
         private void OnDisable()
         {
+            //SaveSettings();
+        }
+
+        void OnDestroy()
+        {
+            Pet.OnNeedUpdate -= NeedUpdate;
         }
 
         #endregion
@@ -189,16 +177,83 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action<Needs, float> OnNeedUpdate;
+        //public static event Action<Needs, float> OnNeedUpdate;
 
         #endregion
 
 
         #region Methods
 
-        public static void NeedUpdate(Needs need, float value)
+
+
+        /// <summary>
+        /// Loads the settings from <see cref="PlayerPrefs"/>
+        /// into the game's settings asset.
+        /// </summary>
+        public void LoadSettings()
         {
-            OnNeedUpdate.Invoke(need, value);
+            if (PlayerPrefs.HasKey(nameof(Keys.SelectedPet)))
+                _pet = pets.Find(pet => pet.name == PlayerPrefs.GetString(nameof(Keys.SelectedPet)));
+
+            if (PlayerPrefs.HasKey(nameof(Keys.GlyphList)))
+            {
+                List<Glyph> glyphs = _pet.Literals;
+                foreach (string item in PlayerPrefs.GetString(nameof(Keys.GlyphList)).Split(GLYPH_SPLIT))
+                {
+                    if (item == "") continue;
+
+                    string[] glyphData = item.Split(MEMORY_SPLIT);
+                    if (Enum.TryParse(glyphData[1], out MemoryLevels level))
+                    {
+                        int.TryParse(glyphData[0].Substring(0, 3), out int index);
+                        glyphs[index].MemoryLevel = level;
+                    }
+                }
+            }
+
+
+            // Volume values
+            if (PlayerPrefs.HasKey(nameof(Keys.MainVolume)))
+                MainVolume = PlayerPrefs.GetFloat(nameof(Keys.MainVolume));
+
+            if (PlayerPrefs.HasKey(nameof(Keys.MusicVolume)))
+                MusicVolume = PlayerPrefs.GetFloat(nameof(Keys.MusicVolume));
+
+            if (PlayerPrefs.HasKey(nameof(Keys.SoundVolume)))
+                SoundVolume = PlayerPrefs.GetFloat(nameof(Keys.SoundVolume));
+
+            if (PlayerPrefs.HasKey(nameof(Keys.VoiceVolume)))
+                VoiceVolume = PlayerPrefs.GetFloat(nameof(Keys.VoiceVolume));
+        }
+
+        /// <summary>
+        /// Saves the settings to <see cref="PlayerPrefs"/>
+        /// from the game's settings asset.
+        /// </summary>
+        public void SaveSettings()
+        {
+            PlayerPrefs.SetString(nameof(Keys.SelectedPet), _pet.name);
+
+            string glyphs = "";
+            foreach (Glyph item in _pet.Literals)
+            {
+                glyphs += item.name + MEMORY_SPLIT + item.MemoryLevel.ToString() + GLYPH_SPLIT;
+            }
+            PlayerPrefs.SetString(nameof(Keys.GlyphList), glyphs);
+
+            PlayerPrefs.SetFloat(nameof(Keys.MainVolume), main);
+            PlayerPrefs.SetFloat(nameof(Keys.MusicVolume), music);
+            PlayerPrefs.SetFloat(nameof(Keys.SoundVolume), sound);
+            PlayerPrefs.SetFloat(nameof(Keys.VoiceVolume), voice);
+
+            PlayerPrefs.SetInt(nameof(Keys.AnimationSpeed), speedFactor);
+
+        }
+
+        public void NeedUpdate(Needs need, float value)
+        {
+            //OnNeedUpdate.Invoke(need, value);
+            Debug.Log(need);
         }
 
         #endregion
@@ -207,22 +262,28 @@ namespace GlyphaeScripts
         #region Helpers
 
         /// <summary>
-        /// Sets up a new dictionary
+        /// Sets up a new <see cref="Glyph"> list.
         /// </summary>
-        public void SetupDictionary()
+        public void SetupGlyphList()
         {
             if (_pet != null)
             {
-                string dict = "";
-                foreach (Glyph item in _pet.Literals)
-                {
-                    // TODO: Check double items
-                    _literals.Add(item.name, item);
-                    dict += item.name + ":" + item.MemoryLevel.ToString() + ";";
-                }
-                // Store initial values in PlayerPrefs
-                if (!PlayerPrefs.HasKey(_pet.name)) PlayerPrefs.SetString(_pet.name, dict);
+                List<Glyph> glyphs = new();
+
+                foreach (Glyph item in _pet.Literals) glyphs.Add(item);
             }
+        }
+
+        #endregion
+
+        #region Enums 
+
+        /// <summary>
+        /// The setting's keywords.
+        /// </summary>
+        public enum Keys
+        {
+            SelectedPet, GlyphList, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed
         }
 
         #endregion

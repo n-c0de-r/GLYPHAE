@@ -1237,7 +1237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   helpText: {fileID: 2103354024173007667}
   instructionText: The pet's egg will demand different things, either hieroglyphs
-    or literals. Matching it correctly causes the egg shell to break.
+    or letters. Matching it correctly causes the egg shell to break.
+  type: 5
   level: 1
   gameInputs:
   - {fileID: 4239401871917707477}

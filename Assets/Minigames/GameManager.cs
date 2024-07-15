@@ -17,7 +17,7 @@ namespace GlyphaeScripts
         [SerializeField] private RectTransform petContainer;
 
         [Tooltip("The intro game to play on start.")]
-        [SerializeField] private GameObject initGame;
+        [SerializeField] private Minigame initGame;
 
         #endregion
 
@@ -81,19 +81,17 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public void StartGame(GameObject minigame)
+        public void StartGame(Minigame original)
         {
-            GameObject gameInstance = Instantiate(minigame, petContainer);
-            Minigame game = gameInstance.GetComponent<Minigame>();
 
-            if (_pet.Energy.Current < game.EnergyCost)
+            if (_pet.Energy.Current >= original.EnergyCost)
             {
-                Destroy(gameInstance);
-                return;
-            }
+                GameObject instance = Instantiate(original.gameObject, petContainer);
+                Minigame game = instance.GetComponent<Minigame>();
 
-            game.SetupGame(_pet.Literals, _pet.PetLevel);
-            OnGameStart?.Invoke();
+                game.SetupGame(_pet.Literals, _pet.PetLevel);
+                OnGameStart?.Invoke();
+            }
         }
 
         #endregion

@@ -5688,15 +5688,35 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8303315411049734625, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303315411049734625, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303315411049734625, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
+    - target: {fileID: 8303315411049734625, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
+    - target: {fileID: 8303315411049734625, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8303315411049734625, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: set_MainVolume
       objectReference: {fileID: 0}
     - target: {fileID: 8303315411049734625, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GlyphaeScripts.Settings, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303315411049734625, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: GlyphaeScripts.Settings, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8324729445771185422, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}

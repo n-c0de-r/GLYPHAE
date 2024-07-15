@@ -1240,6 +1240,7 @@ MonoBehaviour:
 
     Select
     the correct transliteration character to feed it.'
+  type: 2
   level: 6
   gameInputs:
   - {fileID: 4239401871917707477}

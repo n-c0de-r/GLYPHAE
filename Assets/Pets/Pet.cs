@@ -50,9 +50,10 @@ namespace GlyphaeScripts
         private SpriteRenderer _spriteRenderer;
         private BoxCollider2D _boxCollider;
 
-        private Queue<Glyph> toMatch;
+        private Queue<Glyph> _toMatch;
         public Evolutions _petLevel = Evolutions.Egg;
-        private Needs feedbackType;
+        private Needs _feedbackType;
+        private int _evolutionCalls;
         private bool hasCalled = false;
 
         #endregion
@@ -117,17 +118,23 @@ namespace GlyphaeScripts
             if (_spriteRenderer == null) TryGetComponent(out _spriteRenderer);
             if (_boxCollider == null) TryGetComponent(out _boxCollider);
 
+            if (PlayerPrefs.HasKey(nameof(Evolutions))) _petLevel = (Evolutions)PlayerPrefs.GetInt(nameof(Evolutions));
+            if (PlayerPrefs.HasKey(nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(nameof(_evolutionCalls));
+
             _spriteRenderer.sprite = levelSprites[(int)_petLevel];
 
             GameInput.OnInputCheck += InputCheck;
 
             Minigame.OnGameStart += (need, cost) => UpdateNeed(Needs.Energy, cost);
-            Minigame.OnGameStart += (need, cost) => feedbackType = need;
+            Minigame.OnGameStart += (need, cost) => _feedbackType = need;
             Minigame.OnGameWin += UpdateNeed;
             Minigame.OnGameInit += SetNeeds;
+
             UpdateNeed(Needs.Hunger, needs[(int)Needs.Hunger].Current - Need.MAX);
             UpdateNeed(Needs.Joy, needs[(int)Needs.Joy].Current - Need.MAX);
             UpdateNeed(Needs.Energy, needs[(int)Needs.Energy].Current - Need.MAX);
+
+            CheckEvolution();
         }
 
         void Start()
@@ -158,7 +165,7 @@ namespace GlyphaeScripts
             GameInput.OnInputCheck -= InputCheck;
 
             Minigame.OnGameStart -= (need, cost) => UpdateNeed(Needs.Energy, cost);
-            Minigame.OnGameStart -= (need, cost) => feedbackType = need;
+            Minigame.OnGameStart -= (need, cost) => _feedbackType = need;
             Minigame.OnGameWin -= UpdateNeed;
             Minigame.OnGameInit -= SetNeeds;
         }
@@ -168,7 +175,7 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action<Glyph, Glyph[]> OnNeedCall;
+        public static event Action<Glyph, Sprite, Sprite, Glyph[]> OnNeedCall;
         public static event Action<Needs, float> OnNeedUpdate;
         public static event Action<bool> OnNeedSatisfied;
 
@@ -197,44 +204,70 @@ namespace GlyphaeScripts
             }
         }
 
+
+
         private void InputCheck(string message)
         {
-            Glyph glyph = toMatch.Dequeue();
+            if (_toMatch.Count == 0) return;
+            Glyph glyph = _toMatch.Dequeue();
 
-            if (glyph.Symbol.name == message || glyph.Character.name == message)
+            if (glyph.Symbol.name == message || glyph.Letter.name == message)
             {
-                needFeedback.Setup(glyph.Sound, needs[(int)feedbackType].Positive);
-                needFeedback.Show();
+                needFeedback.Setup(glyph.Sound, needs[(int)_feedbackType].Positive);
                 OnNeedSatisfied?.Invoke(true);
             }
             else
             {
-                needFeedback.Setup(glyph.Sound, needs[(int)feedbackType].Negative);
-                needFeedback.Show();
+                needFeedback.Setup(glyph.Sound, needs[(int)_feedbackType].Negative);
                 OnNeedSatisfied?.Invoke(false);
 
-                toMatch.Enqueue(glyph);
+                _toMatch.Enqueue(glyph);
             }
+            
+            needFeedback.Show();
+            GetNextNeed();
         }
 
-        private void SetNeeds(int rounds)
+
+
+        private void SetNeeds(int rounds, Minigame.Type type)
         {
-            if (rounds <= 0) return;
+            if (rounds <= 0 || type == Minigame.Type.None) return;
 
             Glyph[] currentGlyphs = literals.ToArray();
-            toMatch = new();
+            _toMatch = new();
 
-            while (toMatch.Count < rounds)
+            while (_toMatch.Count < rounds)
             {
                 int rand = UnityEngine.Random.Range(0, currentGlyphs.Length);
                 Glyph glyph = currentGlyphs[rand];
-                if (toMatch.Contains(glyph)) continue;
+                if (_toMatch.Contains(glyph)) continue;
 
-                toMatch.Enqueue(glyph);
+                _toMatch.Enqueue(glyph);
             }
 
             GetNextNeed();
         }
+
+
+
+        private void GetNextNeed()
+        {
+            if (_toMatch.Count == 0) return;
+            Glyph glyph = _toMatch.Peek();
+
+            int rnd = UnityEngine.Random.Range(0, 2);
+            Sprite correct, wrong;
+
+            correct = rnd == 0 ? glyph.Letter : glyph.Symbol;
+            wrong = rnd == 0 ? glyph.Symbol : glyph.Letter;
+
+            needCall.Setup(glyph.Sound, correct);
+            needCall.Show();
+            OnNeedCall?.Invoke(glyph, correct, wrong, literals.ToArray());
+        }
+
+
 
         private void UpdateNeed(Needs need, float amount)
         {
@@ -254,12 +287,14 @@ namespace GlyphaeScripts
             }
         }
 
-        private void GetNextNeed()
+
+
+        private void CheckEvolution()
         {
-            Glyph glyph = toMatch.Peek();
-            needCall.Setup(glyph.Sound, glyph.Character);
-            needCall.Show();
-            OnNeedCall?.Invoke(glyph, literals.ToArray());
+            if (_evolutionCalls >= Enum.GetValues(typeof(Evolutions)).Length - 1)
+            {
+                Debug.Log("Level Up");
+            }
         }
 
         #endregion

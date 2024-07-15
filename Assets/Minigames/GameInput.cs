@@ -18,8 +18,6 @@ namespace GlyphaeScripts
 
 
         #region Fields
-        
-        private string toCheck;
 
         #endregion
 
@@ -69,7 +67,6 @@ namespace GlyphaeScripts
         {
             //sound.clip = sound;
             icon.sprite = display;
-            toCheck = display.name;
             back.enabled = true;
         }
 

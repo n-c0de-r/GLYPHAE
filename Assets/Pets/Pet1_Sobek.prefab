@@ -61,6 +61,7 @@ MonoBehaviour:
   needCall: {fileID: 6938455041853530751}
   needFeedback: {fileID: 1200321587618790093}
   prefab: {fileID: 3721469564461433512}
+  _settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   levelSprites:
   - {fileID: 0}
   - {fileID: 21300000, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}

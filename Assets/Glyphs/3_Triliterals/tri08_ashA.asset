@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: tri08_ashA
   m_EditorClassIdentifier: 
   symbol: {fileID: -962505377, guid: 5c97d8effbbbf874b95af289f2f084c6, type: 3}
-  character: {fileID: 1042552321, guid: 37bec2e1eae711147a4fe55b77b5b3cc, type: 3}
+  letter: {fileID: 1042552321, guid: 37bec2e1eae711147a4fe55b77b5b3cc, type: 3}
   sound: {fileID: 0}
   memoryLevel: 1

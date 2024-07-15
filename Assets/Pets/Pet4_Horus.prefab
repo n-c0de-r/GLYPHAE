@@ -49,12 +49,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   needs:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 9aaf61937cb038f4abfa0744207055e9, type: 2}
   - {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
   - {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
   - {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   - {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
+  needCall: {fileID: 0}
+  needFeedback: {fileID: 0}
   prefab: {fileID: 3721469564461433512}
+  _settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   levelSprites:
   - {fileID: 0}
   - {fileID: 21300000, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
@@ -63,9 +66,7 @@ MonoBehaviour:
   - {fileID: 1289161388, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   - {fileID: -66341770, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   - {fileID: 2086382178, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
-  click: {fileID: -632152319304390262, guid: b9afe9bf0566e35488b5db6e230e7b3d, type: 3}
   literals: []
-  critical: 10
   unlocked: 0
   _petLevel: 1
 --- !u!212 &5059000855819877809

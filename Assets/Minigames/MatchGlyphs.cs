@@ -84,7 +84,7 @@ namespace GlyphaeScripts
             
         }
 
-        protected override void SetupRound(Glyph glyph, Glyph[] currentGlyphs)
+        protected override void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, Glyph[] currentGlyphs)
         {
             throw new System.NotImplementedException();
         }

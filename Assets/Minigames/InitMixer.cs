@@ -48,27 +48,20 @@ namespace GlyphaeScripts
             
         }
 
-        protected override void SetupRound(Glyph correctGlyph, Glyph[] allGlyphs)
+        protected override void SetupRound(Glyph correctGlyph, Sprite correctIcon, Sprite wrongIcon, Glyph[] allGlyphs)
         {
-            if (_successes >= minimumRounds)
-            {
-                Win();
-                return;
-            }
-
             List<Glyph> used = new() { correctGlyph };
 
             int correct = Random.Range(0, buttonAmount);
             int index = 0;
 
-            int selector = Random.Range(0, 2);
+            //int iconType = Random.Range(0, 2);
 
             while (index < buttonAmount)
             {
                 if (index == correct)
                 {
-                    if (selector == 0) gameInputs[index].Setup(correctGlyph.Sound, correctGlyph.Character);
-                    else gameInputs[index].Setup(correctGlyph.Sound, correctGlyph.Symbol);
+                    gameInputs[index].Setup(correctGlyph.Sound, correctIcon);
                 }
                 else
                 {
@@ -78,11 +71,15 @@ namespace GlyphaeScripts
 
                     used.Add(randGlyph);
 
-                    if (selector == 0) gameInputs[index].Setup(randGlyph.Sound, randGlyph.Character);
-                    else gameInputs[index].Setup(randGlyph.Sound, randGlyph.Symbol);
+                    gameInputs[index].Setup(randGlyph.Sound, wrongIcon);
                 }
                 index++;
             }
+        }
+
+        protected override void Win()
+        {
+            Debug.Log("win");
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace GlyphaeScripts
         [SerializeField] private Sprite symbol;
 
         [Tooltip("The common transiteration character of this Glyph.\r\nBased on 'Werning 2013 (‘Advanced’)'.")]
-        [SerializeField] private Sprite character;
+        [SerializeField] private Sprite letter;
 
         [Tooltip("The commonly approximated\r\nverbal pronounciation of this Glyph.")]
         [SerializeField] private AudioClip sound;
@@ -24,7 +24,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private Sprite[] _sprites;
+
 
         #endregion
 
@@ -37,10 +37,10 @@ namespace GlyphaeScripts
         public Sprite Symbol { get => symbol; }
 
         /// <summary>
-        /// The common transiteration character of this <see cref="Glyph"/>.
+        /// The common transiteration letter of this <see cref="Glyph"/>.
         /// Based on 'Werning 2013 (‘Advanced’)' in <see href="https://en.wiktionary.org/wiki/Appendix:Egyptian_transliteration_schemes"/>
         /// </summary>
-        public Sprite Character { get => character; }
+        public Sprite Letter { get => letter; }
 
         /// <summary>
         /// The commonly approximated verbal

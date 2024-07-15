@@ -24,6 +24,9 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Base Values")]
+        [Tooltip("The match type \r\nthis game belongs to.")]
+        [SerializeField] protected Type type;
+
         [Tooltip("The Evolution level\r\nthis game is played at.")]
         [SerializeField] protected Evolutions level;
 
@@ -86,7 +89,7 @@ namespace GlyphaeScripts
 
         public static event Action<Needs, float> OnGameStart, OnGameWin;
         public static event Action<GameObject> OnGameLose;
-        public static event Action<int> OnGameInit;
+        public static event Action<int, Type> OnGameInit;
 
         #endregion
 
@@ -130,14 +133,14 @@ namespace GlyphaeScripts
 
         protected void Init(int rounds)
         {
-            OnGameInit?.Invoke(rounds);
+            OnGameInit?.Invoke(rounds, type);
         }
 
         /// <summary>
         /// Trigger this when you achieved a success.
         /// It counts and manages everything else.
         /// </summary>
-        protected void Success()
+        protected virtual void Success()
         {
             _successes++;
             if (_successes >= minimumRounds) Win();
@@ -147,7 +150,7 @@ namespace GlyphaeScripts
         /// Use this when you made a mistake.
         /// It counts and manages everything else.
         /// </summary>
-        protected void Fail()
+        protected virtual void Fail()
         {
             _fails++;
             if (_fails > _failsToLose) Close();
@@ -157,7 +160,7 @@ namespace GlyphaeScripts
         /// Informs the BaseGame Controller, that the game
         /// triggered a win condition and stops the game.
         /// </summary>
-        protected void Win()
+        protected virtual void Win()
         {
             OnGameWin?.Invoke(needType, needAmount);
             Close();
@@ -184,10 +187,51 @@ namespace GlyphaeScripts
 
         public abstract void SetupGame(List<Glyph> glyphs, Evolutions petLevel);
 
-        protected abstract void SetupRound(Glyph glyph, Glyph[] allGlyphs);
+        protected abstract void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, Glyph[] allGlyphs);
 
         protected abstract void InputCheck(string message);
 
         #endregion  Methods
+
+        #region Enums
+
+        /// <summary>
+        /// The match type this  <see cref="Minigame"/> belongs to.
+        /// </summary>
+        public enum Type
+        {
+
+            /// <summary>
+            /// Same as null.
+            /// </summary>
+            None,
+
+            /// <summary>
+            /// Match the Egyptian symbol of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+            /// </summary>
+            Symbols,
+
+            /// <summary>
+            /// Match the transliteration letter of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+            /// </summary>
+            Letters,
+
+            /// <summary>
+            /// Match the changing icon of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+            /// </summary>
+            Alternate,
+
+            /// <summary>
+            /// Match multiple parts of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+            /// </summary>
+            Multiple,
+
+            /// <summary>
+            /// Match a random part of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+            /// </summary>
+            Random
+        }
+
+        #endregion
     }
 }

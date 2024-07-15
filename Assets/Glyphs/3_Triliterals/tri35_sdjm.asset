@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: tri35_sdjm
   m_EditorClassIdentifier: 
   symbol: {fileID: -624292434, guid: 5c97d8effbbbf874b95af289f2f084c6, type: 3}
-  character: {fileID: -1665389878, guid: 37bec2e1eae711147a4fe55b77b5b3cc, type: 3}
+  letter: {fileID: -1665389878, guid: 37bec2e1eae711147a4fe55b77b5b3cc, type: 3}
   sound: {fileID: 0}
   memoryLevel: 1

@@ -75,7 +75,7 @@ namespace GlyphaeScripts
 
             if (level >= MemoryLevels.Unknown) symbol.sprite = glyph.Symbol;
 
-            if (level >= MemoryLevels.Known) character.sprite = glyph.Character;
+            if (level >= MemoryLevels.Known) character.sprite = glyph.Letter;
 
             if (level >= MemoryLevels.Memorized) speech.clip = glyph.Sound;
 
