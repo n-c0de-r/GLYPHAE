@@ -100,7 +100,7 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private IEnumerator AnimateFade(float start, float end, int speedFactor)
+        private IEnumerator AnimateFade(float start, float end, float speedFactor)
         {
             Color color;
 

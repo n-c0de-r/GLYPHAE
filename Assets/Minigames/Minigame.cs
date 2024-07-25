@@ -31,7 +31,7 @@ namespace GlyphaeScripts
         [SerializeField] protected Evolutions level;
 
         [Tooltip("The Inputs to set up at start.")]
-        [SerializeField] protected GameInput[] gameInputs;
+        [SerializeField] protected GameButton[] gameInputs;
 
         [Tooltip("Minimum number of rounds to play this game.")]
         [SerializeField][Range(1, 3)] protected int minimumRounds = 1;

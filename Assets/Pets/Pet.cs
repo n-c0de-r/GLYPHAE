@@ -123,7 +123,7 @@ namespace GlyphaeScripts
 
             _spriteRenderer.sprite = levelSprites[(int)_petLevel];
 
-            GameInput.OnInputCheck += InputCheck;
+            GameButton.OnInputCheck += InputCheck;
 
             Minigame.OnGameStart += (need, cost) => UpdateNeed(Needs.Energy, cost);
             Minigame.OnGameStart += (need, cost) => _feedbackType = need;
@@ -139,7 +139,7 @@ namespace GlyphaeScripts
 
         void Start()
         {
-
+            
         }
 
         void FixedUpdate()
@@ -162,7 +162,7 @@ namespace GlyphaeScripts
 
         void OnDestroy()
         {
-            GameInput.OnInputCheck -= InputCheck;
+            GameButton.OnInputCheck -= InputCheck;
 
             Minigame.OnGameStart -= (need, cost) => UpdateNeed(Needs.Energy, cost);
             Minigame.OnGameStart -= (need, cost) => _feedbackType = need;

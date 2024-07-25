@@ -1,11 +1,10 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
-    public class GameInput : MonoBehaviour
+    public class GameButton : MonoBehaviour
     {
         #region Serialized Fields
 

@@ -30,8 +30,8 @@ namespace GlyphaeScripts
         [SerializeField][Range(-40,0)] private float voice;
 
         [Header("Display Values")]
-        [Tooltip("The speed of message animations animation.")]
-        [SerializeField][Range(1, 5)] private int speedFactor = 3;
+        [Tooltip("The speed of animations.")]
+        [SerializeField][Range(1, 5)] private float speedFactor = 3;
 
         #endregion
 
@@ -129,9 +129,9 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// The speed of message animations animation.
+        /// The speed of animations.
         /// </summary>
-        public int SpeedFactor
+        public float SpeedFactor
         {
             get => speedFactor;
             set => speedFactor = value;
@@ -246,7 +246,7 @@ namespace GlyphaeScripts
             PlayerPrefs.SetFloat(nameof(Keys.SoundVolume), sound);
             PlayerPrefs.SetFloat(nameof(Keys.VoiceVolume), voice);
 
-            PlayerPrefs.SetInt(nameof(Keys.AnimationSpeed), speedFactor);
+            PlayerPrefs.SetFloat(nameof(Keys.AnimationSpeed), speedFactor);
 
         }
 

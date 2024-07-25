@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -24,7 +25,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-
+        private int _guesses = 0;
 
         #endregion
 
@@ -66,7 +67,7 @@ namespace GlyphaeScripts
 
         void Start()
         {
-            
+
         }
 
         void FixedUpdate()
@@ -88,20 +89,61 @@ namespace GlyphaeScripts
 
 
         #region Methods
-        
-        
 
-        public void TemplateMethod(bool param)
+        /// <summary>
+        /// Increases the memory level if the <see cref="Glyph"/> is guessed often enough correctly.
+        /// </summary>
+        public void CorrectlyGuessed()
         {
-            
+            _guesses++;
+            int nr = (int)memoryLevel;
+
+            if (_guesses >= nr)
+            {
+                nr++;
+                Array enums = Enum.GetValues(typeof(MemoryLevels));
+                if (nr >= enums.Length)
+                {
+                    _guesses--; // reset
+                    return;
+                }
+
+                memoryLevel = (MemoryLevels)enums.GetValue(nr % enums.Length);
+                _guesses = 0;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Decreases the memory level if the <see cref="Glyph"/> is guessed often enough wrongly.
+        /// </summary>
+        public void WronglyGuessed()
+        {
+            _guesses--;
+            int nr = (int)memoryLevel;
+
+            if (_guesses < 0)
+            {
+                nr--;
+                Array enums = Enum.GetValues(typeof(MemoryLevels));
+                if (nr < 1)
+                {
+                    _guesses++; // reset
+                    return;
+                }
+
+                memoryLevel = (MemoryLevels)enums.GetValue(nr % enums.Length);
+                _guesses = 0;
+            }
         }
 
         #endregion
 
 
         #region Helpers
-        
-        
+
+
 
         private void TemplateHelper(bool param)
         {
