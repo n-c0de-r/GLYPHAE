@@ -10,12 +10,16 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [SerializeField] private Pet egg;
+        [SerializeField] private Settings settings;
+        private GameObject _instance;
+
         #endregion
 
 
         #region Fields
 
-        private int buttonAmount;
+        private bool _hasFailed = false;
 
         #endregion
 
@@ -24,15 +28,15 @@ namespace GlyphaeScripts
 
         public override void SetupGame(List<Glyph> glyphs, Evolutions petLevel)
         {
+            _instance = Instantiate(egg.gameObject, transform.parent);
+            _instance.GetComponent<Pet>().Literals = glyphs;
             SetupGame(petLevel);
+
+            foreach (GameButton button in gameInputs) button.SetupDrag(settings.SpeedFactor, _instance.GetComponent<Transform>());
         }
 
         public void SetupGame(Evolutions petLevel)
         {
-            if (petLevel == Evolutions.None) return;
-
-            buttonAmount = 2;
-
             _failsToLose = minimumRounds << 1;
 
             Init(minimumRounds);
@@ -48,38 +52,50 @@ namespace GlyphaeScripts
             
         }
 
-        protected override void SetupRound(Glyph correctGlyph, Sprite correctIcon, Sprite wrongIcon, Glyph[] allGlyphs)
+        protected override void SetupRound(Glyph correctGlyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> allGlyphs)
         {
-            List<Glyph> used = new() { correctGlyph };
+            string original = correctIcon.name;
+            allGlyphs.Remove(correctGlyph);
+            Glyph wrongGlyph = allGlyphs[Random.Range(0, allGlyphs.Count)];
 
-            int correct = Random.Range(0, buttonAmount);
-            int index = 0;
+            int rng = Random.Range(0, gameInputs.Length);
 
-            //int iconType = Random.Range(0, 2);
+            Glyph[] glyphs = { correctGlyph, wrongGlyph };
+            Color[] colors = { Color.green, Color.red };
 
-            while (index < buttonAmount)
+            foreach (GameButton button in gameInputs)
             {
-                if (index == correct)
-                {
-                    gameInputs[index].Setup(correctGlyph.Sound, correctIcon);
-                }
-                else
-                {
-                    int rand = Random.Range(0, allGlyphs.Length);
-                    Glyph randGlyph = allGlyphs[rand];
-                    if (used.Contains(randGlyph)) continue;
-
-                    used.Add(randGlyph);
-
-                    gameInputs[index].Setup(randGlyph.Sound, wrongIcon);
-                }
-                index++;
+                Sprite icon = original.Contains("letter") ? glyphs[rng].Symbol : glyphs[rng].Letter;
+                button.Setup(glyphs[rng].Sound, icon);
+                if (_hasFailed) button.SetSColor(colors[rng]);
+                
+                rng--;
+                rng = Mathf.Abs(rng);
             }
         }
 
         protected override void Win()
         {
             Debug.Log("win");
+        }
+
+        protected override void Success()
+        {
+            _successes++;
+            if (_successes >= minimumRounds) Win();
+        }
+
+
+        protected override void Fail()
+        {
+            _fails++;
+            if (_fails > _failsToLose) ResetGame();
+        }
+
+        private void ResetGame()
+        {
+            _fails = 0;
+            _hasFailed = true;
         }
 
         #endregion

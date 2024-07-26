@@ -34,14 +34,19 @@ namespace GlyphaeScripts
         {
         }
 
-        void Start()
+        private void OnEnable()
         {
-            settings.LoadSettings();
-
             main.SetValueWithoutNotify(settings.MainVolume);
             music.SetValueWithoutNotify(settings.MusicVolume);
             sound.SetValueWithoutNotify(settings.SoundVolume);
             voice.SetValueWithoutNotify(settings.VoiceVolume);
+
+            settings.FirstRun = false;
+        }
+
+        void Start()
+        {
+            
         }
 
         void FixedUpdate()

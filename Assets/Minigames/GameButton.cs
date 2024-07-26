@@ -8,10 +8,10 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [SerializeField] private AudioSource sound;
-        [SerializeField] private Button button;
-        [SerializeField] private Image back;
-        [SerializeField] private Image icon;
+        [SerializeField] protected AudioSource sound;
+        [SerializeField] protected Button button;
+        [SerializeField] protected Image back;
+        [SerializeField] protected Image icon;
 
         #endregion
 
@@ -76,6 +76,10 @@ namespace GlyphaeScripts
             OnInputCheck?.Invoke(icon.sprite.name);
 
         }
+
+        public virtual void SetupDrag(float animationSpeed, Transform rect) { }
+
+        public virtual void SetSColor(Color color) { }
 
         #endregion
 

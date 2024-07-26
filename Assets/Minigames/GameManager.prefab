@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d26ff5c2b684d445b91c02f72802b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
+  settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   minigames:
+  - {fileID: 158209947391556878, guid: 9c670e40db45c6b4899285e93b55e730, type: 3}
   - {fileID: 8523895787126546132, guid: f2fc9d4f7ed0bb743bf1ac8b70dcc1a9, type: 3}
   petContainer: {fileID: 373659876001025234}
-  initGame: {fileID: 5432827782634591610, guid: 9c670e40db45c6b4899285e93b55e730, type: 3}

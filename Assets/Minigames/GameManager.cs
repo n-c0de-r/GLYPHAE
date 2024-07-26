@@ -8,16 +8,13 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [SerializeField] private Settings currentSettings;
+        [SerializeField] private Settings settings;
 
         [Tooltip("List of Minigames to play.")]
         [SerializeField] private List<Minigame> minigames;
 
         [Tooltip("Field where the Pet will 'live' in.")]
         [SerializeField] private RectTransform petContainer;
-
-        [Tooltip("The intro game to play on start.")]
-        [SerializeField] private Minigame initGame;
 
         #endregion
 
@@ -32,7 +29,14 @@ namespace GlyphaeScripts
 
         #region GetSets / Properties
 
-
+        /// <summary>
+        /// The list of <see cref="Minigame"/>s able to play.
+        /// </summary>
+        public List<Minigame> Games
+        {
+            get => minigames;
+            set => minigames = value;
+        }
 
         #endregion
 
@@ -42,15 +46,20 @@ namespace GlyphaeScripts
         void Awake()
         {
             if (petContainer == null) TryGetComponent(out petContainer);
-            _petInstance = Instantiate(currentSettings.SelectedPet.Prefab, petContainer);
-            _pet = _petInstance.GetComponent<Pet>();
 
+            _petInstance = Instantiate(settings.SelectedPet.Prefab, petContainer);
+            _pet = _petInstance.GetComponent<Pet>();
+            _petInstance.SetActive(!settings.FirstLevel);
+        }
+
+        private void OnEnable()
+        {
             Minigame.OnGameLose += CloseMinigame;
         }
 
         void Start()
         {
-            if (_pet.PetLevel == Evolutions.Egg) StartGame(initGame);
+            if (settings.FirstLevel) StartGame(minigames[0]);
         }
 
         void FixedUpdate()
@@ -63,9 +72,14 @@ namespace GlyphaeScripts
 
         }
 
-        void OnDestroy()
+        private void OnDisable()
         {
             Minigame.OnGameLose -= CloseMinigame;
+        }
+
+        void OnDestroy()
+        {
+
         }
 
         #endregion
@@ -84,7 +98,7 @@ namespace GlyphaeScripts
         public void StartGame(Minigame original)
         {
 
-            if (_pet.Energy.Current >= original.EnergyCost)
+            if (settings.FirstLevel || _pet.Energy.Current >= original.EnergyCost)
             {
                 GameObject instance = Instantiate(original.gameObject, petContainer);
                 Minigame game = instance.GetComponent<Minigame>();

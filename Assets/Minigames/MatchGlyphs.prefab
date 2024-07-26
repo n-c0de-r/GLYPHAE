@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5569293336730182686}
   - component: {fileID: 8523895787126546132}
   m_Layer: 0
-  m_Name: MatchGlyphs2
+  m_Name: MatchGlyphs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -30,7 +30,7 @@ namespace GlyphaeScripts
 
         public override void SetupGame(List<Glyph> glyphs, Evolutions petLevel)
         {
-            if (petLevel == Evolutions.None) return;
+            if (petLevel == Evolutions.Egg) return;
 
             Glyph glyph;
             currentGlyphs = glyphs.ToArray();
@@ -73,7 +73,7 @@ namespace GlyphaeScripts
             }
         }
 
-        protected override void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, Glyph[] currentGlyphs)
+        protected override void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> currentGlyphs)
         {
             if (toMatch.Count == 0)
             {
@@ -97,7 +97,7 @@ namespace GlyphaeScripts
                 }
                 else
                 {
-                    int rand = UnityEngine.Random.Range(0, currentGlyphs.Length);
+                    int rand = UnityEngine.Random.Range(0, currentGlyphs.Count);
                     Glyph randGlyph = currentGlyphs[rand];
                     if (randGlyph == null || used.Contains(randGlyph)) continue;
 

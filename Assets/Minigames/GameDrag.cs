@@ -8,15 +8,15 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [SerializeField] private Settings settings;
-        [SerializeField] private RectTransform target;
-
         #endregion
 
 
         #region Fields
 
+        private Transform target;
         private Vector3 _startPosition;
+        private float _moveBackSpeed;
+        private bool isReturning = false;
 
         #endregion
 
@@ -62,11 +62,15 @@ namespace GlyphaeScripts
 
         #region Methods
 
-
-
-        public void TemplateMethod(bool param)
+        public override void SetupDrag(float animationSpeed, Transform rect)
         {
-            
+            _moveBackSpeed = animationSpeed;
+            target = rect;
+        }
+
+        public override void SetSColor(Color color)
+        {
+            back.color = color;
         }
 
         #endregion
@@ -76,11 +80,13 @@ namespace GlyphaeScripts
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (isReturning) return;
             _startPosition = transform.position;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (isReturning) return;
             transform.position = eventData.position;
         }
 
@@ -100,7 +106,7 @@ namespace GlyphaeScripts
 
         private IEnumerator ReturnToStartPosition()
         {
-            //isReturning = true; // Block dragging during return
+            isReturning = true;
             float timeToMove = 0.6f;
             float t = 0;
 
@@ -108,13 +114,13 @@ namespace GlyphaeScripts
 
             while (t < timeToMove)
             {
-                t += Time.deltaTime * settings.SpeedFactor;
+                t += Time.deltaTime * _moveBackSpeed;
                 transform.position = Vector3.Lerp(currentPosition, _startPosition, t / timeToMove);
                 yield return null;
             }
 
             transform.position = _startPosition;
-            //isReturning = false; // Allow dragging again
+            isReturning = false;
         }
 
         #endregion

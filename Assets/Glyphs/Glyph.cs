@@ -25,7 +25,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private int _guesses = 0;
+        public int _guesses = 0;
 
         #endregion
 

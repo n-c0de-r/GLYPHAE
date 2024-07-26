@@ -32,6 +32,7 @@ namespace GlyphaeScripts
 
         private Color fillColor = Color.green;
         private float _half = 50;
+        private float _current;
 
         #endregion
 
@@ -47,12 +48,18 @@ namespace GlyphaeScripts
 
         void Awake()
         {
+            _current = 0;
             _half = Need.MAX / 2;
             slider.fillAmount = need.Current / Need.MAX;
             fillColor.r = (Need.MAX - need.Current) / _half;
             fillColor.g = need.Current / _half;
             slider.color = fillColor;
+        }
+
+        private void OnEnable()
+        {
             Pet.OnNeedUpdate += UpdateValue;
+            UpdateValue(need.Type, need.Current - _current);
         }
 
         void Start()
@@ -69,7 +76,7 @@ namespace GlyphaeScripts
         {
         }
 
-        void OnDestroy()
+        private void OnDisable()
         {
             Pet.OnNeedUpdate -= UpdateValue;
         }
@@ -103,7 +110,7 @@ namespace GlyphaeScripts
         /// </summary>
         /// <param name="type">The need type enum to update.</param>
         /// <param name="amount">The amount to update the need value by.</param>
-        private void UpdateValue(Needs type, float amount)
+        private void UpdateValue(NeedTypes type, float amount)
         {
             if (need.Type != type) return;
 

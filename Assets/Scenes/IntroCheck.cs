@@ -1,16 +1,13 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GlyphaeScripts
 {
-    /// <summary>
-    /// A Minigame played when executing basic functions.
-    /// </summary>
-    public class MatchGlyphs : Minigame
+    public class IntroCheck : MonoBehaviour
     {
         #region Serialized Fields
-
         
+        [SerializeField] private Settings settings;
+        [SerializeField] private SceneSwitch sceneSwitch;
 
         #endregion
 
@@ -22,14 +19,20 @@ namespace GlyphaeScripts
         #endregion
 
 
-        
+        #region GetSets / Properties
+
+
+
+        #endregion
 
 
         #region Unity Built-Ins
 
         void Awake()
         {
-            
+            settings.LoadSettings();
+
+            if (!settings.FirstRun) sceneSwitch.Next();
         }
 
         void Start()
@@ -51,18 +54,15 @@ namespace GlyphaeScripts
 
 
         #region Events
-
-
+        
+        
 
         #endregion
 
 
         #region Methods
-
-        public override void SetupGame(List<Glyph> glyphs, Evolutions petLevel)
-        {
-            throw new System.NotImplementedException();
-        }
+        
+        
 
         public void TemplateMethod(bool param)
         {
@@ -73,20 +73,27 @@ namespace GlyphaeScripts
 
 
         #region Helpers
-
-        protected override void InputCheck(string message)
-        {
-            throw new System.NotImplementedException();
-        }
+        
+        
 
         private void TemplateHelper(bool param)
         {
             
         }
 
-        protected override void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> currentGlyphs)
+        #endregion
+
+
+        #region Gizmos
+
+        private void OnDrawGizmos()
         {
-            throw new System.NotImplementedException();
+            
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+             
         }
 
         #endregion

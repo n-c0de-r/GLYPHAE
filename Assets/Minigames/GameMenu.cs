@@ -8,6 +8,7 @@ namespace GlyphaeScripts
         #region Serialized Fields
 
         [SerializeField] private GameObject[] sidePanels;
+        [SerializeField] private GameObject mainPanel;
 
         #endregion
 
@@ -30,8 +31,12 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            GameManager.OnGameStart += HideSides;
-            GameManager.OnGameEnd += ShowSides;
+        }
+
+        private void OnEnable()
+        {
+            GameManager.OnGameStart += () => mainPanel.SetActive(false);
+            GameManager.OnGameEnd += () => mainPanel.SetActive(true);
         }
 
         void Start()
@@ -49,10 +54,14 @@ namespace GlyphaeScripts
 
         }
 
+        private void OnDisable()
+        {
+            GameManager.OnGameStart -= () => mainPanel.SetActive(false);
+            GameManager.OnGameEnd -= () => mainPanel.SetActive(true);
+        }
+
         void OnDestroy()
         {
-            GameManager.OnGameStart -= HideSides;
-            GameManager.OnGameEnd -= ShowSides;
         }
 
         #endregion

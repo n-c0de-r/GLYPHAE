@@ -39,7 +39,7 @@ namespace GlyphaeScripts
         [Space]
         [Header("Need Values")]
         [Tooltip("The type of need this game fills the current need.")]
-        [SerializeField] protected Needs needType;
+        [SerializeField] protected NeedTypes needType;
 
         [Tooltip("The strength of need filling by the game.")]
         [SerializeField][Range(10, 50)] protected int needAmount;
@@ -87,7 +87,7 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action<Needs, float> OnGameStart, OnGameWin;
+        public static event Action<NeedTypes, float> OnGameStart, OnGameWin;
         public static event Action<GameObject> OnGameLose;
         public static event Action<int, Type> OnGameInit;
 
@@ -112,7 +112,7 @@ namespace GlyphaeScripts
         public int MinimumRounds { get => minimumRounds; }
 
         /// <summary>
-        /// The costs of <see cref="Needs.Energy"/> to play this game.
+        /// The costs of <see cref="NeedTypes.Energy"/> to play this game.
         /// </summary>
         public int EnergyCost { get => energyCost; }
 
@@ -124,11 +124,6 @@ namespace GlyphaeScripts
         public void ShowInstructions()
         {
             if (helpText.text != instructionText) helpText.text = instructionText;
-        }
-
-        public void Close()
-        {
-            OnGameLose?.Invoke(gameObject);
         }
 
         protected void Init(int rounds)
@@ -185,13 +180,19 @@ namespace GlyphaeScripts
             //reactionBubble.Show(nameof(SetupRound));
         }
 
+        private void Close()
+        {
+            OnGameLose?.Invoke(gameObject);
+        }
+
         public abstract void SetupGame(List<Glyph> glyphs, Evolutions petLevel);
 
-        protected abstract void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, Glyph[] allGlyphs);
+        protected abstract void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> allGlyphs);
 
         protected abstract void InputCheck(string message);
 
         #endregion  Methods
+
 
         #region Enums
 

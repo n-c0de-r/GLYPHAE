@@ -17,9 +17,6 @@ namespace GlyphaeScripts
         [Header("General Objects")]
         [SerializeField] private AudioMixer audioMixer;
 
-        [Tooltip("List of Minigames to play.")]
-        [SerializeField] private List<Minigame> games;
-
         [Tooltip("The list of Pets available in the whole game.")]
         [SerializeField] private List<Pet> pets;
 
@@ -33,13 +30,25 @@ namespace GlyphaeScripts
         [Tooltip("The speed of animations.")]
         [SerializeField][Range(1, 5)] private float speedFactor = 3;
 
+        [Tooltip("The lower time limit of notification mute.")]
+        [SerializeField][Range(1, 5)] private float muteLowerLimit;
+
+        [Tooltip("The upper time limit of notification mute.")]
+        [SerializeField][Range(1, 5)] private float muteUpperLimit;
+
+        [Header("Other Values")]
+        [Tooltip("If the game has ever run.")]
+        [SerializeField] private bool firstRun = true;
+
+        [Tooltip("Initial Level.")]
+        [SerializeField] private bool firstLevel = true;
+
         #endregion
 
 
         #region Fields
 
         private Pet _pet;
-        private List<Glyph> _literals;
 
         public const char GLYPH_SPLIT = ';';
         public const char MEMORY_SPLIT = ':';
@@ -50,21 +59,11 @@ namespace GlyphaeScripts
         #region GetSets / Properties
 
         /// <summary>
-        /// The list of <see cref="Minigame"/>s able to play.
+        /// The egg of any <see cref="Pet"/> to take care of.
         /// </summary>
-        public List<Minigame> Games
+        public Pet Egg
         {
-            get => games;
-            set => games = value;
-        }
-
-        /// <summary>
-        /// The list of <see cref="Pet"/>s available in the game.
-        /// </summary>
-        public List<Pet> Pets
-        {
-            get => pets;
-            set => pets = value;
+            get => pets[0];
         }
 
         /// <summary>
@@ -135,6 +134,24 @@ namespace GlyphaeScripts
         {
             get => speedFactor;
             set => speedFactor = value;
+        }
+
+        /// <summary>
+        /// If the game has ever run.
+        /// </summary>
+        public bool FirstRun
+        {
+            get => firstRun;
+            set => firstRun = value;
+        }
+
+        /// <summary>
+        /// If the game has ever run.
+        /// </summary>
+        public bool FirstLevel
+        {
+            get => firstLevel;
+            set => firstLevel = value;
         }
 
         #endregion
@@ -224,6 +241,9 @@ namespace GlyphaeScripts
 
             if (PlayerPrefs.HasKey(nameof(Keys.VoiceVolume)))
                 VoiceVolume = PlayerPrefs.GetFloat(nameof(Keys.VoiceVolume));
+
+            if (PlayerPrefs.HasKey(nameof(Keys.FirstRun)))
+                FirstRun = PlayerPrefs.GetString(nameof(Keys.FirstRun)).Equals("True") ? true : false;
         }
 
         /// <summary>
@@ -248,9 +268,11 @@ namespace GlyphaeScripts
 
             PlayerPrefs.SetFloat(nameof(Keys.AnimationSpeed), speedFactor);
 
+            PlayerPrefs.SetString(nameof(Keys.FirstRun), firstRun.ToString());
+
         }
 
-        public void NeedUpdate(Needs need, float value)
+        public void NeedUpdate(NeedTypes need, float value)
         {
             //OnNeedUpdate.Invoke(need, value);
             Debug.Log(need);
@@ -283,7 +305,7 @@ namespace GlyphaeScripts
         /// </summary>
         public enum Keys
         {
-            SelectedPet, GlyphList, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed
+            SelectedPet, GlyphList, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed, FirstRun
         }
 
         #endregion

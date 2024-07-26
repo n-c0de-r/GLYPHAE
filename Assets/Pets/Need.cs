@@ -9,7 +9,7 @@ namespace GlyphaeScripts
 
         [Header("Base Values")]
         [Tooltip("The type of need as an enum.")]
-        [SerializeField] private Needs type;
+        [SerializeField] private NeedTypes type;
 
         [Tooltip("The initial value of this need.")]
         [SerializeField][Range(0, 100)] private float initial;
@@ -46,7 +46,7 @@ namespace GlyphaeScripts
         /// <summary>
         /// The type of <see cref="Need"/> as an enum.
         /// </summary>
-        public Needs Type { get => type; }
+        public NeedTypes Type { get => type; }
 
         /// <summary>
         /// The current amount of this <see cref="Need"/>.
@@ -147,14 +147,8 @@ namespace GlyphaeScripts
     /// <summary>
     /// Marks the different needs a <see cref="Pet"/> has.
     /// </summary>
-    public enum Needs
+    public enum NeedTypes
     {
-
-        /// <summary>
-        /// Same as null.
-        /// </summary>
-        None,
-
         /// <summary>
         /// Need is stilled when feeding the <see cref="Pet"/>.
         /// </summary>

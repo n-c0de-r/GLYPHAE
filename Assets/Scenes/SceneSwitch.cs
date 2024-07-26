@@ -3,19 +3,16 @@ using UnityEngine.SceneManagement;
 
 namespace GlyphaeScripts
 {
-    [RequireComponent(typeof(AudioSource))]
     public class SceneSwitch : MonoBehaviour
     {
         #region Serialized Fields
 
-
+        [SerializeField] private string nextScene;
 
         #endregion
 
 
         #region Fields
-
-        private AudioSource _audioSource;
 
         #endregion
 
@@ -31,7 +28,6 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            if (_audioSource == null) TryGetComponent(out _audioSource);
         }
 
         void Start()
@@ -63,6 +59,11 @@ namespace GlyphaeScripts
 
 
         #region Methods
+
+        public void Next()
+        {
+            SceneManager.LoadScene(nextScene);
+        }
 
         public void Load(string name)
         {
