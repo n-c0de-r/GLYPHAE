@@ -30,6 +30,11 @@ namespace GlyphaeScripts
         #endregion
 
 
+        #region Events
+
+        #endregion
+
+
         #region GetSets / Properties
 
         /// <summary>
@@ -83,11 +88,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-        #endregion
-
-
         #region Methods
 
         /// <summary>
@@ -112,8 +112,6 @@ namespace GlyphaeScripts
                 _guesses = 0;
             }
         }
-
-
 
         /// <summary>
         /// Decreases the memory level if the <see cref="Glyph"/> is guessed often enough wrongly.
@@ -142,8 +140,6 @@ namespace GlyphaeScripts
 
 
         #region Helpers
-
-
 
         private void TemplateHelper(bool param)
         {

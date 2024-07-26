@@ -27,6 +27,14 @@ namespace GlyphaeScripts
         #endregion
 
 
+        #region Events
+
+        public static event Action OnGameStart;
+        public static event Action OnGameEnd;
+
+        #endregion
+
+
         #region GetSets / Properties
 
         /// <summary>
@@ -47,19 +55,27 @@ namespace GlyphaeScripts
         {
             if (petContainer == null) TryGetComponent(out petContainer);
 
-            _petInstance = Instantiate(settings.SelectedPet.Prefab, petContainer);
+            _petInstance = Instantiate(settings.SelectedPet.gameObject, petContainer);
             _pet = _petInstance.GetComponent<Pet>();
             _petInstance.SetActive(!settings.FirstLevel);
         }
 
         private void OnEnable()
         {
+            InitMixer.OnFinished += () =>
+            {
+                settings.FirstLevel = false;
+                OnGameEnd.Invoke();
+                _petInstance.SetActive(!settings.FirstLevel);
+
+            };
             Minigame.OnGameLose += CloseMinigame;
         }
 
         void Start()
         {
             if (settings.FirstLevel) StartGame(minigames[0]);
+            else OnGameEnd.Invoke();
         }
 
         void FixedUpdate()
@@ -74,6 +90,12 @@ namespace GlyphaeScripts
 
         private void OnDisable()
         {
+            InitMixer.OnFinished -= () =>
+            {
+                settings.FirstLevel = false;
+                OnGameEnd.Invoke();
+                _petInstance.SetActive(!settings.FirstLevel);
+            };
             Minigame.OnGameLose -= CloseMinigame;
         }
 
@@ -81,14 +103,6 @@ namespace GlyphaeScripts
         {
 
         }
-
-        #endregion
-
-
-        #region Events
-
-        public static event Action OnGameStart;
-        public static event Action OnGameEnd;
 
         #endregion
 

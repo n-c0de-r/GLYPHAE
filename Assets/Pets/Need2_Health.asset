@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bfbb549bb716345952d2dd3e9f8e62, type: 3}
   m_Name: Need2_Health
   m_EditorClassIdentifier: 
-  type: 2
+  type: 1
   initial: 100
   current: 100
   critical: 20

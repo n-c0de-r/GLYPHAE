@@ -65,7 +65,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Stuff here
+  m_text: 'The pet will demand a hieroglyph, shown in a speech bubble.
+
+    Select
+    the correct transliteration character to feed it.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1235,11 +1238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db842f8d77f2ed4c8ac51b1579f6986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  helpText: {fileID: 2103354024173007667}
-  instructionText: 'The pet will demand a hieroglyph, shown in a speech bubble.
-
-    Select
-    the correct transliteration character to feed it.'
+  descriptionContainer: {fileID: 0}
+  helpContainer: {fileID: 0}
+  descriptionText: 
+  instructionText: 
   type: 1
   level: 6
   gameInputs:

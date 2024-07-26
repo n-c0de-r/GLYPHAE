@@ -72,12 +72,11 @@ namespace GlyphaeScripts
         public void Clicked()
         {
             // TODO: Play audio
-            //SendMessageUpwards("InputCheck", toCheck);
             OnInputCheck?.Invoke(icon.sprite.name);
 
         }
 
-        public virtual void SetupDrag(float animationSpeed, Transform rect) { }
+        public virtual void SetupDrag(Transform rect) { }
 
         public virtual void SetSColor(Color color) { }
 

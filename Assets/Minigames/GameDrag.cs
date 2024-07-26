@@ -8,6 +8,9 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [SerializeField] private Settings settings;
+        [SerializeField][Range(0, 1)] float timeToMove = 0.6f;
+
         #endregion
 
 
@@ -15,8 +18,14 @@ namespace GlyphaeScripts
 
         private Transform target;
         private Vector3 _startPosition;
-        private float _moveBackSpeed;
         private bool isReturning = false;
+
+        #endregion
+
+
+        #region Events
+
+
 
         #endregion
 
@@ -53,18 +62,10 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-
-
-        #endregion
-
-
         #region Methods
 
-        public override void SetupDrag(float animationSpeed, Transform rect)
+        public override void SetupDrag(Transform rect)
         {
-            _moveBackSpeed = animationSpeed;
             target = rect;
         }
 
@@ -95,7 +96,6 @@ namespace GlyphaeScripts
             //transform.position = _startPosition;
             if (Vector2.Distance(transform.localPosition, target.localPosition) <= 110)
             {
-                Debug.Log("hit");
                 Clicked();
 
             }
@@ -107,15 +107,14 @@ namespace GlyphaeScripts
         private IEnumerator ReturnToStartPosition()
         {
             isReturning = true;
-            float timeToMove = 0.6f;
-            float t = 0;
+            float timeTotal = 0;
 
             Vector3 currentPosition = transform.position;
 
-            while (t < timeToMove)
+            while (timeTotal < timeToMove)
             {
-                t += Time.deltaTime * _moveBackSpeed;
-                transform.position = Vector3.Lerp(currentPosition, _startPosition, t / timeToMove);
+                timeTotal += Time.deltaTime * settings.SpeedFactor;
+                transform.position = Vector3.Lerp(currentPosition, _startPosition, timeTotal / timeToMove);
                 yield return null;
             }
 

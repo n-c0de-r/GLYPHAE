@@ -132,7 +132,8 @@ MonoBehaviour:
   button: {fileID: 1327371733362430170}
   back: {fileID: 4069314394882800283}
   icon: {fileID: 5114492736151329153}
-  target: {fileID: 0}
+  settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
+  timeToMove: 0.6
 --- !u!222 &7867610947448633443
 CanvasRenderer:
   m_ObjectHideFlags: 0

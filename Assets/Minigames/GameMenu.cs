@@ -1,5 +1,4 @@
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 namespace GlyphaeScripts
 {
@@ -7,22 +6,28 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [SerializeField] private GameObject[] sidePanels;
         [SerializeField] private GameObject mainPanel;
 
         #endregion
 
 
         #region Fields
-        
-        
+
+
+
+        #endregion
+
+
+        #region Events
+
+
 
         #endregion
 
 
         #region GetSets / Properties
-        
-        
+
+
 
         #endregion
 
@@ -67,16 +72,7 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-
-
-        #endregion
-
-
         #region Methods
-
-
 
         public void TemplateMethod(bool param)
         {
@@ -88,21 +84,7 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private void HideSides()
-        {
-            foreach (GameObject go in sidePanels)
-            {
-                go.SetActive(false);
-            }
-        }
-
-        private void ShowSides()
-        {
-            foreach (GameObject go in sidePanels)
-            {
-                go.SetActive(true);
-            }
-        }
+        
 
         #endregion
 

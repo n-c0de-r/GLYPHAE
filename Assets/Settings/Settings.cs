@@ -56,6 +56,13 @@ namespace GlyphaeScripts
         #endregion
 
 
+        #region Events
+
+        //public static event Action<Needs, float> OnNeedUpdate;
+
+        #endregion
+
+
         #region GetSets / Properties
 
         /// <summary>
@@ -188,13 +195,6 @@ namespace GlyphaeScripts
         {
             Pet.OnNeedUpdate -= NeedUpdate;
         }
-
-        #endregion
-
-
-        #region Events
-
-        //public static event Action<Needs, float> OnNeedUpdate;
 
         #endregion
 

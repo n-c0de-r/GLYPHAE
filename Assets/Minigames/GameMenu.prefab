@@ -73,8 +73,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6036879585477584317}
-  - component: {fileID: 7318138937852256922}
   - component: {fileID: 1293467407245670907}
+  - component: {fileID: 7318138937852256922}
   - component: {fileID: 5847725097189855850}
   - component: {fileID: 3681799694720271371}
   - component: {fileID: 5974686199708315972}
@@ -109,19 +109,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &7318138937852256922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 652418687565091436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bf1c41043f5789489afd2e070ac882e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextScene: 3_Finish
 --- !u!114 &1293467407245670907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +123,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sidePanels: []
   mainPanel: {fileID: 8279888480416043326}
+--- !u!114 &7318138937852256922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652418687565091436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf1c41043f5789489afd2e070ac882e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextScene: 3_Finish
 --- !u!223 &5847725097189855850
 Canvas:
   m_ObjectHideFlags: 0

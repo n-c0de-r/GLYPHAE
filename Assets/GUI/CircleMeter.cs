@@ -11,6 +11,8 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [SerializeField] private Settings settings;
+
         [Header("Need Values")]
         [SerializeField] private Need need;
 
@@ -33,6 +35,13 @@ namespace GlyphaeScripts
         private Color fillColor = Color.green;
         private float _half = 50;
         private float _current;
+
+        #endregion
+
+
+        #region Events
+
+
 
         #endregion
 
@@ -84,13 +93,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-
-
-        #endregion
-
-
         #region Methods
 
 
@@ -128,7 +130,7 @@ namespace GlyphaeScripts
                 color.r = (Need.MAX - i) / _half;
                 color.g = i / _half;
                 slider.color = color;
-                yield return new WaitForSeconds(speed);
+                yield return new WaitForSeconds(speed / settings.SpeedFactor);
             }
         }
 

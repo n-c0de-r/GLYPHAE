@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -35,6 +36,13 @@ namespace GlyphaeScripts
         #endregion
 
 
+        #region Events
+
+        public static event Action OnAnimationDone;
+
+        #endregion
+
+
         #region GetSets / Properties
 
 
@@ -63,13 +71,6 @@ namespace GlyphaeScripts
         {
             
         }
-
-        #endregion
-
-
-        #region Events
-
-
 
         #endregion
 
@@ -111,7 +112,6 @@ namespace GlyphaeScripts
                 color.a = value;
                 back.color = color;
 
-
                 color = iconBack.color;
                 color.a = value;
                 iconBack.color = color;
@@ -131,6 +131,7 @@ namespace GlyphaeScripts
                 yield return new WaitForSeconds(1f/speedFactor);
                 yield return AnimateFade(-1, 0, settings.SpeedFactor * 2);
             }
+            OnAnimationDone?.Invoke();
         }
 
         #endregion

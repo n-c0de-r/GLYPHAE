@@ -17,10 +17,10 @@ namespace GlyphaeScripts
 
         [Header("Description Values")]
         [Tooltip("The Text Mesh object dscription\r\nand instruction will be shown.")]
-        [SerializeField] protected TMP_Text helpText;
+        [SerializeField] protected TMP_Text descriptionContainer, helpContainer;
 
         [Tooltip("A short instruction how the game\r\nis played that can be shown in the help menu.")]
-        [SerializeField][TextArea(3, 10)] protected string instructionText;
+        [SerializeField][TextArea(3, 10)] protected string descriptionText, instructionText;
 
         [Space]
         [Header("Base Values")]
@@ -57,6 +57,15 @@ namespace GlyphaeScripts
         #endregion Fields
 
 
+        #region Events
+
+        public static event Action<NeedTypes, float> OnGameStart, OnGameWin;
+        public static event Action<GameObject> OnGameLose;
+        public static event Action<int> OnGameInit;
+
+        #endregion
+
+
         #region Unity Built-Ins
 
         void Awake()
@@ -81,15 +90,6 @@ namespace GlyphaeScripts
         {
 
         }
-
-        #endregion
-
-
-        #region Events
-
-        public static event Action<NeedTypes, float> OnGameStart, OnGameWin;
-        public static event Action<GameObject> OnGameLose;
-        public static event Action<int, Type> OnGameInit;
 
         #endregion
 
@@ -121,14 +121,17 @@ namespace GlyphaeScripts
 
         #region Methods
 
+        /// <summary>
+        /// Displays the description and help text of this game.
+        /// </summary>
         public void ShowInstructions()
         {
-            if (helpText.text != instructionText) helpText.text = instructionText;
+            if (helpContainer.text != instructionText) helpContainer.text = instructionText;
         }
 
         protected void Init(int rounds)
         {
-            OnGameInit?.Invoke(rounds, type);
+            OnGameInit?.Invoke(rounds);
         }
 
         /// <summary>

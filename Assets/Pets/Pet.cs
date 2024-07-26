@@ -27,8 +27,6 @@ namespace GlyphaeScripts
         [SerializeField] private PetMessage needFeedback;
 
         [Header("Internal values")]
-        [Tooltip("The prefab of this Pet")]
-        [SerializeField] private GameObject prefab;
 
         [Tooltip("The sprites this Pet\r\ngoes through its evolutions")]
         [SerializeField] private Sprite[] levelSprites;
@@ -59,12 +57,16 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region GetSets / Properties
+        #region Events
 
-        /// <summary>
-        /// The prefab of this <see cref="Pet"/>.
-        /// </summary>
-        public GameObject Prefab { get => prefab; }
+        public static event Action<Glyph, Sprite, Sprite, List<Glyph>> OnNeedCall;
+        public static event Action<NeedTypes, float> OnNeedUpdate;
+        public static event Action<bool> OnNeedSatisfied;
+
+        #endregion
+
+
+        #region GetSets / Properties
 
         /// <summary>
         /// The list of <see cref="Glyph"/>s
@@ -133,6 +135,8 @@ namespace GlyphaeScripts
             Minigame.OnGameWin += UpdateNeed;
             Minigame.OnGameInit += SetNeeds;
 
+            PetMessage.OnAnimationDone += () => Debug.Log("Done");
+
             UpdateNeed(NeedTypes.Hunger, needs[(int)NeedTypes.Hunger].Current - Need.MAX);
             UpdateNeed(NeedTypes.Joy, needs[(int)NeedTypes.Joy].Current - Need.MAX);
             UpdateNeed(NeedTypes.Energy, needs[(int)NeedTypes.Energy].Current - Need.MAX);
@@ -172,16 +176,9 @@ namespace GlyphaeScripts
             Minigame.OnGameStart -= (need, cost) => _feedbackType = need;
             Minigame.OnGameWin -= UpdateNeed;
             Minigame.OnGameInit -= SetNeeds;
+
+            PetMessage.OnAnimationDone -= GetNextNeed;
         }
-
-        #endregion
-
-
-        #region Events
-
-        public static event Action<Glyph, Sprite, Sprite, List<Glyph>> OnNeedCall;
-        public static event Action<NeedTypes, float> OnNeedUpdate;
-        public static event Action<bool> OnNeedSatisfied;
 
         #endregion
 
@@ -234,9 +231,9 @@ namespace GlyphaeScripts
 
 
 
-        private void SetNeeds(int rounds, Minigame.Type type)
+        private void SetNeeds(int rounds)
         {
-            if (rounds <= 0 || type == Minigame.Type.None) return;
+            if (rounds <= 0) return;
 
             Glyph[] currentGlyphs = literals.ToArray();
             _toMatch = new();

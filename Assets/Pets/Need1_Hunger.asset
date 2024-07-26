@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bfbb549bb716345952d2dd3e9f8e62, type: 3}
   m_Name: Need1_Hunger
   m_EditorClassIdentifier: 
-  type: 1
+  type: 0
   initial: 0
-  current: 100
+  current: 0
   critical: 20
   alarm: {fileID: -2043194862, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: 346757764, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}

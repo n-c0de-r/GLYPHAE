@@ -47,6 +47,17 @@ using UnityEngine;
         #endregion
 
 
+        #region Events
+
+        // TODO: Put custom event methods here.
+        // Such as Actions, UnityEvents or delegates.
+        // Usually for character controlls or messaging in MVC patterns.
+        
+        #NOTRIM#
+
+        #endregion
+
+
         #region GetSets / Properties
 
         // TODO: Put Auto-Properties to your fields here.
@@ -93,17 +104,6 @@ using UnityEngine;
         {
             #NOTRIM#
         }
-
-        #endregion Built-Ins / MonoBehaviours
-
-
-        #region Events
-
-        // TODO: Put custom event methods here.
-        // Such as Actions, UnityEvents or delegates.
-        // Usually for character controlls or messaging in MVC patterns.
-        
-        #NOTRIM#
 
         #endregion
 
