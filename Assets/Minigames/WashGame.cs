@@ -89,7 +89,7 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        protected override void InputCheck(string message)
+        protected void InputCheck(string message)
         {
             Glyph glyph = toMatch.Peek();
             if (glyph.Symbol.name == message || glyph.Letter.name == message) toMatch.Dequeue();

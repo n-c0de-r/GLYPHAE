@@ -654,14 +654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6859dcfad48776e4facfe6b2e15eedf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  descriptionContainer: {fileID: 0}
-  helpContainer: {fileID: 0}
-  descriptionText: 'The egg demands random stuff, either letters or hieroglyphs.
-    Match its requests with '
-  instructionText: The pet's egg will demand different things, either hieroglyphs
-    or letters. Matching it correctly causes the egg shell to break.
-  type: 5
-  level: 1
   gameInputs:
   - {fileID: 6605299451272240677}
   - {fileID: 802192905429115491}
@@ -669,12 +661,9 @@ MonoBehaviour:
   needType: 0
   needAmount: 10
   energyCost: 0
-  egg: {fileID: -1411128943614859830, guid: 54b8997be8b5b4d4facc34d390314826, type: 3}
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
-  spCols:
-  - {r: 0, g: 0, b: 1, a: 0.5019608}
-  - {r: 0, g: 1, b: 0, a: 0.5019608}
-  - {r: 1, g: 0, b: 0, a: 0.5019608}
+  prefab: {fileID: 3721469564461433512, guid: 54b8997be8b5b4d4facc34d390314826, type: 3}
+  overlay: {fileID: 2784675124975177387}
 --- !u!223 &6157846922432147688
 Canvas:
   m_ObjectHideFlags: 0
@@ -787,7 +776,7 @@ GameObject:
   - component: {fileID: 4460541833479024759}
   - component: {fileID: 2784675124975177387}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -834,7 +823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

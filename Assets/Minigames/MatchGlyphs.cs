@@ -74,7 +74,7 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        protected override void InputCheck(string message)
+        protected void InputCheck(string message)
         {
             throw new System.NotImplementedException();
         }

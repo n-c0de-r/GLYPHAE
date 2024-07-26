@@ -62,20 +62,13 @@ namespace GlyphaeScripts
 
         private void OnEnable()
         {
-            InitMixer.OnFinished += () =>
-            {
-                settings.FirstLevel = false;
-                OnGameEnd.Invoke();
-                _petInstance.SetActive(!settings.FirstLevel);
-
-            };
             Minigame.OnGameLose += CloseMinigame;
         }
 
         void Start()
         {
             if (settings.FirstLevel) StartGame(minigames[0]);
-            else OnGameEnd.Invoke();
+            else OnGameEnd?.Invoke();
         }
 
         void FixedUpdate()
@@ -90,13 +83,8 @@ namespace GlyphaeScripts
 
         private void OnDisable()
         {
-            InitMixer.OnFinished -= () =>
-            {
-                settings.FirstLevel = false;
-                OnGameEnd.Invoke();
-                _petInstance.SetActive(!settings.FirstLevel);
-            };
             Minigame.OnGameLose -= CloseMinigame;
+
         }
 
         void OnDestroy()
@@ -129,6 +117,7 @@ namespace GlyphaeScripts
 
         private void CloseMinigame(GameObject minigame)
         {
+            if (!_petInstance.activeInHierarchy) _petInstance.SetActive(!settings.FirstLevel);
             Destroy(minigame);
             OnGameEnd?.Invoke();
         }

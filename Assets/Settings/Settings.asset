@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: dcc6d6a5f32ecf14c98005122344b0fc, type: 2}
   pets:
-  - {fileID: -1411128943614859830, guid: 54b8997be8b5b4d4facc34d390314826, type: 3}
   - {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
   - {fileID: 1127947054445421824, guid: ee6b687fe77934f49af4646eb5f4a2c2, type: 3}
   - {fileID: 1127947054445421824, guid: 65f40c1cc271b274fba6795ca5c3512f, type: 3}

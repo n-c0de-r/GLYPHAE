@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
@@ -12,9 +13,9 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [SerializeField] private Pet egg;
         [SerializeField] private Settings settings;
-        [SerializeField] private Color[] spCols;
+        [SerializeField] private GameObject prefab;
+        [SerializeField] private Image overlay;
 
         #endregion
 
@@ -22,14 +23,13 @@ namespace GlyphaeScripts
         #region Fields
 
         private GameObject _instance;
+        private Pet _egg;
         private bool _hasFailed = false;
 
         #endregion
 
 
         #region Events
-
-        public static event Action OnFinished;
 
         #endregion
 
@@ -38,8 +38,9 @@ namespace GlyphaeScripts
 
         public override void SetupGame(List<Glyph> glyphs, Evolutions petLevel)
         {
-            _instance = Instantiate(egg.gameObject, transform.parent);
-            _instance.GetComponent<Pet>().Literals = glyphs;
+            _instance = Instantiate(prefab, transform.parent);
+            _egg = _instance.GetComponent<Pet>();
+            _egg.Literals = glyphs;
             foreach (GameButton button in gameInputs) button.SetupDrag(_instance.GetComponent<Transform>());
 
             SetupGame(petLevel);
@@ -56,11 +57,6 @@ namespace GlyphaeScripts
 
 
         #region Helpers
-
-        protected override void InputCheck(string message)
-        {
-            
-        }
 
         protected override void SetupRound(Glyph correctGlyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> allGlyphs)
         {
@@ -86,15 +82,12 @@ namespace GlyphaeScripts
 
         protected override void Win()
         {
-            Debug.Log("win");
-            OnFinished?.Invoke();
-            Destroy(_instance);
-            Destroy(gameObject);
+            StartCoroutine(AnimateFade(0,1, settings.SpeedFactor));
         }
 
         protected override void Success()
         {
-            _instance.GetComponent<SpriteRenderer>().color = spCols[_successes];
+            _egg.IncreaseLevel();
             _successes++;
             if (_successes >= minimumRounds) Win();
         }
@@ -118,31 +111,15 @@ namespace GlyphaeScripts
 
             for (float i = start; i <= end; i += Time.deltaTime * speedFactor)
             {
-                //float value = Mathf.Abs(i);
-                //color = back.color;
-                //color.a = value;
-                //back.color = color;
-
-                //color = iconBack.color;
-                //color.a = value;
-                //iconBack.color = color;
-
-                //color = iconLine.color;
-                //color.a = value;
-                //iconLine.color = color;
-
-                //color = outline.color;
-                //color.a = value;
-                //outline.color = color;
-                //yield return new WaitForEndOfFrame();
+                color = overlay.color;
+                color.a = i;
+                overlay.color = color;
+                yield return new WaitForEndOfFrame();
             }
 
-            if (end > 0)
-            {
-                yield return new WaitForSeconds(1f / speedFactor);
-                yield return AnimateFade(-1, 0, settings.SpeedFactor * 2);
-            }
-            //OnAnimationDone?.Invoke();
+            settings.FirstLevel = false;
+            Destroy(_instance);
+            Close();
         }
 
         #endregion

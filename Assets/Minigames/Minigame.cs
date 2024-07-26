@@ -15,21 +15,8 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [Header("Description Values")]
-        [Tooltip("The Text Mesh object dscription\r\nand instruction will be shown.")]
-        [SerializeField] protected TMP_Text descriptionContainer, helpContainer;
-
-        [Tooltip("A short instruction how the game\r\nis played that can be shown in the help menu.")]
-        [SerializeField][TextArea(3, 10)] protected string descriptionText, instructionText;
-
         [Space]
         [Header("Base Values")]
-        [Tooltip("The match type \r\nthis game belongs to.")]
-        [SerializeField] protected Type type;
-
-        [Tooltip("The Evolution level\r\nthis game is played at.")]
-        [SerializeField] protected Evolutions level;
-
         [Tooltip("The Inputs to set up at start.")]
         [SerializeField] protected GameButton[] gameInputs;
 
@@ -97,16 +84,6 @@ namespace GlyphaeScripts
         #region GetSets / Properties
 
         /// <summary>
-        /// The Evolution level this game is played at.
-        /// </summary>
-        public Evolutions Level { get => level; }
-
-        /// <summary>
-        /// The text to display at game start.
-        /// </summary>
-        public string InstructionText { get => instructionText; }
-
-        /// <summary>
         /// Minimum number of rounds to play this game.
         /// </summary>
         public int MinimumRounds { get => minimumRounds; }
@@ -120,14 +97,6 @@ namespace GlyphaeScripts
 
 
         #region Methods
-
-        /// <summary>
-        /// Displays the description and help text of this game.
-        /// </summary>
-        public void ShowInstructions()
-        {
-            if (helpContainer.text != instructionText) helpContainer.text = instructionText;
-        }
 
         protected void Init(int rounds)
         {
@@ -183,7 +152,7 @@ namespace GlyphaeScripts
             //reactionBubble.Show(nameof(SetupRound));
         }
 
-        private void Close()
+        protected void Close()
         {
             OnGameLose?.Invoke(gameObject);
         }
@@ -191,50 +160,6 @@ namespace GlyphaeScripts
         public abstract void SetupGame(List<Glyph> glyphs, Evolutions petLevel);
 
         protected abstract void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> allGlyphs);
-
-        protected abstract void InputCheck(string message);
-
-        #endregion  Methods
-
-
-        #region Enums
-
-        /// <summary>
-        /// The match type this  <see cref="Minigame"/> belongs to.
-        /// </summary>
-        public enum Type
-        {
-
-            /// <summary>
-            /// Same as null.
-            /// </summary>
-            None,
-
-            /// <summary>
-            /// Match the Egyptian symbol of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
-            /// </summary>
-            Symbols,
-
-            /// <summary>
-            /// Match the transliteration letter of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
-            /// </summary>
-            Letters,
-
-            /// <summary>
-            /// Match the changing icon of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
-            /// </summary>
-            Alternate,
-
-            /// <summary>
-            /// Match multiple parts of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
-            /// </summary>
-            Multiple,
-
-            /// <summary>
-            /// Match a random part of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
-            /// </summary>
-            Random
-        }
 
         #endregion
     }

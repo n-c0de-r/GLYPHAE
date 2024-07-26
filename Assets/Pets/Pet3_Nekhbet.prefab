@@ -11,16 +11,14 @@ GameObject:
   - component: {fileID: 8975053190133048391}
   - component: {fileID: 1127947054445421824}
   - component: {fileID: 5059000855819877809}
-  - component: {fileID: 247776603814679344}
   - component: {fileID: 2868615093413546718}
-  - component: {fileID: 603445631893587804}
   m_Layer: 0
   m_Name: Pet3_Nekhbet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8975053190133048391
 Transform:
   m_ObjectHideFlags: 0
@@ -55,8 +53,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
   needCall: {fileID: 0}
   needFeedback: {fileID: 0}
-  prefab: {fileID: 3721469564461433512}
   levelSprites:
+  - {fileID: -1696121861, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
   - {fileID: 398739806, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   - {fileID: 338059647, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   - {fileID: -1953653176, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
@@ -158,27 +156,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &247776603814679344
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3721469564461433512}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2c655511e394ecd46bf0cba4e8bde1e5, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!82 &2868615093413546718
 AudioSource:
   m_ObjectHideFlags: 0
@@ -188,7 +165,7 @@ AudioSource:
   m_GameObject: {fileID: 3721469564461433512}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 8173853675361948299, guid: dcc6d6a5f32ecf14c98005122344b0fc, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -275,48 +252,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!61 &603445631893587804
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3721469564461433512}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.75}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.7800002, y: 3.7800002}
-    newSize: {x: 3.78, y: 3.78}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4, y: 4}
-  m_EdgeRadius: 0

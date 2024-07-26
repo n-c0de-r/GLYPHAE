@@ -58,7 +58,7 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        protected override void InputCheck(string message)
+        protected void InputCheck(string message)
         {
             Glyph glyph = toMatch.Dequeue();
 

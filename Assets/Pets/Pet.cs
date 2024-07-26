@@ -10,8 +10,7 @@ namespace GlyphaeScripts
     /// Represents a the Pet with all behaviors 
     /// and data in the game. Refe
     /// </summary>
-    [RequireComponent(typeof(Animator), typeof(AudioSource))]
-    [RequireComponent(typeof(BoxCollider2D), typeof(SpriteRenderer))]
+    [RequireComponent(typeof(AudioSource), typeof(BoxCollider2D), typeof(SpriteRenderer))]
     public class Pet : MonoBehaviour
     {
         #region Serialized Fields
@@ -135,7 +134,7 @@ namespace GlyphaeScripts
             Minigame.OnGameWin += UpdateNeed;
             Minigame.OnGameInit += SetNeeds;
 
-            PetMessage.OnAnimationDone += () => Debug.Log("Done");
+            //PetMessage.OnAnimationDone += () => Debug.Log("Done");
 
             UpdateNeed(NeedTypes.Hunger, needs[(int)NeedTypes.Hunger].Current - Need.MAX);
             UpdateNeed(NeedTypes.Joy, needs[(int)NeedTypes.Joy].Current - Need.MAX);
@@ -185,7 +184,12 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        
+        public void IncreaseLevel()
+        {
+            if ((int)_petLevel >= levelSprites.Length) return;
+            _petLevel++;
+            _spriteRenderer.sprite = levelSprites[(int)_petLevel];
+        }
 
         #endregion
 
