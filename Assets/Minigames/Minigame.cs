@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -17,6 +15,9 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Base Values")]
+        [Tooltip("The match type \r\nthis game belongs to.")]
+        [SerializeField] protected GameType type;
+
         [Tooltip("The Inputs to set up at start.")]
         [SerializeField] protected GameButton[] gameInputs;
 
@@ -48,7 +49,7 @@ namespace GlyphaeScripts
 
         public static event Action<NeedTypes, float> OnGameStart, OnGameWin;
         public static event Action<GameObject> OnGameLose;
-        public static event Action<int> OnGameInit;
+        public static event Action<GameType, int> OnGameInit;
 
         #endregion
 
@@ -57,7 +58,7 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            OnGameStart?.Invoke(needType, - energyCost);
+            OnGameStart?.Invoke(needType, -energyCost);
 
             Pet.OnNeedCall += SetupRound;
             Pet.OnNeedSatisfied += (state) => { if (state) Success(); else Fail(); };
@@ -76,6 +77,12 @@ namespace GlyphaeScripts
         void Update()
         {
 
+        }
+
+        private void OnDestroy()
+        {
+            Pet.OnNeedCall -= SetupRound;
+            Pet.OnNeedSatisfied -= (state) => { if (state) Success(); else Fail(); };
         }
 
         #endregion
@@ -98,9 +105,13 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        protected void Init(int rounds)
+        /// <summary>
+        /// Wrapper method to be able to call the event from subclasses.
+        /// </summary>
+        /// <param name="actualRounds">The number of actual rounds to play after all calculations are done.</param>
+        protected void Init(int actualRounds)
         {
-            OnGameInit?.Invoke(rounds);
+            OnGameInit?.Invoke(type, actualRounds);
         }
 
         /// <summary>
@@ -134,6 +145,15 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
+        /// Informs the BaseGame Controller, that the game
+        /// has ended and can be closed and destroyed.
+        /// </summary>
+        protected void Close()
+        {
+            OnGameLose?.Invoke(gameObject);
+        }
+
+        /// <summary>
         /// Runs the Win animation.
         /// </summary>
         protected void AnimateSuccess()
@@ -152,14 +172,22 @@ namespace GlyphaeScripts
             //reactionBubble.Show(nameof(SetupRound));
         }
 
-        protected void Close()
-        {
-            OnGameLose?.Invoke(gameObject);
-        }
-
+        /// <summary>
+        /// Sets up initial values for the game through the <see cref="GameManager"/>.
+        /// </summary>
+        /// <param name="glyphs">The current list of glyphs the <see cref="Pet"/> holds.</param>
+        /// <param name="petLevel"><The <see cref="Pet"/>'s current <see cref="Evolutions"/> level.</param>
         public abstract void SetupGame(List<Glyph> glyphs, Evolutions petLevel);
 
+        /// <summary>
+        /// Sets up the next round internally after the <see cref="Pet"/> has messaged its next <see cref="NeedData"/>.
+        /// </summary>
+        /// <param name="glyph"></param>
+        /// <param name="correctIcon"></param>
+        /// <param name="wrongIcon"></param>
+        /// <param name="allGlyphs"></param>
         protected abstract void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> allGlyphs);
+        protected virtual void SetupRound(Sprite correctIcon, List<Glyph> allGlyphs) { }
 
         #endregion
     }

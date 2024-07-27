@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.TextCore;
 
 namespace GlyphaeScripts
 {
@@ -17,25 +16,36 @@ namespace GlyphaeScripts
 
         [Header("Need values")]
         [Tooltip("Basic needs of the pet:\r\nHunger, Health, Joy, Energy.")]
-        [SerializeField] private Need[] needs;
+        [SerializeField] private NeedData[] needs;
 
         [Tooltip("Displays the Pet's need.")]
-        [SerializeField] private PetMessage needCall;
+        [SerializeField] private NeedBubble needCall;
 
-        [Tooltip("Displays the Pet's feedback of actions.")]
-        [SerializeField] private PetMessage needFeedback;
+        [Tooltip("Displays the Pet's feedback on actions.")]
+        [SerializeField] private NeedBubble needFeedback;
 
-        [Header("Internal values")]
-
+        [Header("Game related values")]
         [Tooltip("The sprites this Pet\r\ngoes through its evolutions")]
         [SerializeField] private Sprite[] levelSprites;
 
-        [Header("Game related values")]
         [Tooltip("The list of Glyphs\r\nthis Pet needs to learn.")]
         [SerializeField] private List<Glyph> literals;
 
         [Tooltip("Gets the current state\r\nif the Pet is already unlocked.")]
         [SerializeField] private bool unlocked;
+
+        [Header("GUI Values")]
+        [Tooltip("The name of this Pet.")]
+        [SerializeField] private string petName;
+
+        [Tooltip("The category of literals this Pet holds.")]
+        [SerializeField] private string category;
+
+        [Tooltip("A short description of this Pet.")]
+        [SerializeField][TextArea(3, 10)] protected string description;
+
+        [Tooltip("The Pet's icon for the menu.")]
+        [SerializeField] private Sprite symbol;
 
         #endregion
 
@@ -48,7 +58,7 @@ namespace GlyphaeScripts
         private BoxCollider2D _boxCollider;
 
         private Queue<Glyph> _toMatch;
-        public Evolutions _petLevel = Evolutions.Egg;
+        public Evolutions _level = Evolutions.Egg;
         private NeedTypes _feedbackType;
         private int _evolutionCalls;
         private bool hasCalled = false;
@@ -58,9 +68,11 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action<Glyph, Sprite, Sprite, List<Glyph>> OnNeedCall;
+        //public static event Action<Glyph, Sprite, Sprite, List<Glyph>> OnNeedCall;
+        public static event Action<Sprite, List<Glyph>> OnNeedCall;
         public static event Action<NeedTypes, float> OnNeedUpdate;
         public static event Action<bool> OnNeedSatisfied;
+        float timer = 60;
 
         #endregion
 
@@ -83,29 +95,47 @@ namespace GlyphaeScripts
         /// The current <see cref="Evolutions"/> level
         /// enum of this <see cref="Pet"/>
         /// </summary>
-        public Evolutions PetLevel { get => _petLevel; }
+        public Evolutions Level { get => _level; }
 
         /// <summary>
         /// The current Hunger need container.
         /// </summary>
-        public Need Hunger {  get => needs[(int)NeedTypes.Hunger]; }
+        public NeedData Hunger {  get => needs[(int)NeedTypes.Hunger]; }
 
         /// <summary>
         /// The current Health need container.
         /// </summary>
-        public Need Health { get => needs[(int)NeedTypes.Health]; }
+        public NeedData Health { get => needs[(int)NeedTypes.Health]; }
 
         /// <summary>
         /// The current Joy need container.
         /// </summary>
-        public Need Joy { get => needs[(int)NeedTypes.Joy]; }
+        public NeedData Joy { get => needs[(int)NeedTypes.Joy]; }
 
         /// <summary>
         /// The current Energy need container.
         /// </summary>
-        public Need Energy { get => needs[(int)NeedTypes.Energy]; }
+        public NeedData Energy { get => needs[(int)NeedTypes.Energy]; }
 
-        float timer = 60;
+        /// <summary>
+        /// The name of this <see cref="Pet"/>.
+        /// </summary>
+        public string Name { get => petName; }
+
+        /// <summary>
+        /// The category of <see cref="Glyph"/>s this <see cref="Pet"/> holds.
+        /// </summary>
+        public string Category { get => category; }
+
+        /// <summary>
+        /// A short description of this <see cref="Pet"/>.
+        /// </summary>
+        public string Description { get => description; }
+
+        /// <summary>
+        /// The <see cref="Pet"/>'s icon for the menu.
+        /// </summary>
+        public Sprite Symbol { get => symbol; }
 
         #endregion
 
@@ -119,13 +149,13 @@ namespace GlyphaeScripts
             if (_spriteRenderer == null) TryGetComponent(out _spriteRenderer);
             if (_boxCollider == null) TryGetComponent(out _boxCollider);
 
-            if (PlayerPrefs.HasKey(nameof(Evolutions))) _petLevel = (Evolutions)PlayerPrefs.GetInt(nameof(Evolutions));
+            if (PlayerPrefs.HasKey(nameof(Evolutions))) _level = (Evolutions)PlayerPrefs.GetInt(nameof(Evolutions));
             if (PlayerPrefs.HasKey(nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(nameof(_evolutionCalls));
         }
 
         private void OnEnable()
         {
-            _spriteRenderer.sprite = levelSprites[(int)_petLevel];
+            _spriteRenderer.sprite = levelSprites[(int)_level];
 
             GameButton.OnInputCheck += InputCheck;
 
@@ -136,9 +166,9 @@ namespace GlyphaeScripts
 
             //PetMessage.OnAnimationDone += () => Debug.Log("Done");
 
-            UpdateNeed(NeedTypes.Hunger, needs[(int)NeedTypes.Hunger].Current - Need.MAX);
-            UpdateNeed(NeedTypes.Joy, needs[(int)NeedTypes.Joy].Current - Need.MAX);
-            UpdateNeed(NeedTypes.Energy, needs[(int)NeedTypes.Energy].Current - Need.MAX);
+            UpdateNeed(NeedTypes.Hunger, needs[(int)NeedTypes.Hunger].Current - NeedData.MAX);
+            UpdateNeed(NeedTypes.Joy, needs[(int)NeedTypes.Joy].Current - NeedData.MAX);
+            UpdateNeed(NeedTypes.Energy, needs[(int)NeedTypes.Energy].Current - NeedData.MAX);
 
             CheckEvolution();
 
@@ -176,7 +206,7 @@ namespace GlyphaeScripts
             Minigame.OnGameWin -= UpdateNeed;
             Minigame.OnGameInit -= SetNeeds;
 
-            PetMessage.OnAnimationDone -= GetNextNeed;
+            NeedBubble.OnAnimationDone -= GetNextNeed;
         }
 
         #endregion
@@ -186,9 +216,9 @@ namespace GlyphaeScripts
 
         public void IncreaseLevel()
         {
-            if ((int)_petLevel >= levelSprites.Length) return;
-            _petLevel++;
-            _spriteRenderer.sprite = levelSprites[(int)_petLevel];
+            if ((int)_level >= levelSprites.Length) return;
+            _level++;
+            _spriteRenderer.sprite = levelSprites[(int)_level];
         }
 
         #endregion
@@ -235,14 +265,14 @@ namespace GlyphaeScripts
 
 
 
-        private void SetNeeds(int rounds)
+        private void SetNeeds(GameType gameType, int gameRounds)
         {
-            if (rounds <= 0) return;
+            if (gameRounds <= 0) return;
 
             Glyph[] currentGlyphs = literals.ToArray();
             _toMatch = new();
 
-            while (_toMatch.Count < rounds)
+            while (_toMatch.Count < gameRounds)
             {
                 int rand = UnityEngine.Random.Range(0, currentGlyphs.Length);
                 Glyph glyph = currentGlyphs[rand];
@@ -260,16 +290,15 @@ namespace GlyphaeScripts
         {
             if (_toMatch.Count == 0) return;
             Glyph glyph = _toMatch.Peek();
+            List<Glyph> copy = new(literals);
+            copy.Remove(glyph);
 
             int rnd = UnityEngine.Random.Range(0, 2);
-            Sprite correct, wrong;
-
-            correct = rnd == 0 ? glyph.Letter : glyph.Symbol;
-            wrong = rnd == 0 ? glyph.Symbol : glyph.Letter;
+            Sprite correct = rnd == 0 ? glyph.Letter : glyph.Symbol;
 
             needCall.Setup(glyph.Sound, correct);
             needCall.Show();
-            OnNeedCall?.Invoke(glyph, correct, wrong, new List<Glyph>(literals));
+            OnNeedCall?.Invoke(correct, copy);
         }
 
 
@@ -286,7 +315,7 @@ namespace GlyphaeScripts
                 Debug.Log(need + " is low!");
                 //MessageNeed();
             }
-            else if (hasCalled && value >= Need.MAX / 2)
+            else if (hasCalled && value >= NeedData.MAX / 2)
             {
                 hasCalled = false;
             }
@@ -304,44 +333,4 @@ namespace GlyphaeScripts
 
         #endregion
     }
-
-    #region Enums 
-
-    /// <summary>
-    /// The <see cref="Evolutions"/> levels a <see cref="Pet"/> goes through.
-    /// </summary>
-    public enum Evolutions
-    {
-        /// <summary>
-        /// Initial starting form. Has no interactions.
-        /// </summary>
-        Egg,
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Baby,
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Kid,
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Teen,
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Adult,
-
-        /// <summary>
-        /// Final form. Can play any game.
-        /// </summary>
-        God
-    }
-
-    #endregion
 }

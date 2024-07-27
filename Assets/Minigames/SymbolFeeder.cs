@@ -108,7 +108,7 @@ namespace GlyphaeScripts
             }
             // TODO: pet event
             needBubble.Setup(glyph.Sound, glyph.Letter);
-            needBubble.Show(null);
+            //needBubble.Show(null);
         }
 
         #endregion

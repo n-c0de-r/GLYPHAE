@@ -10,6 +10,7 @@ namespace GlyphaeScripts
         
         [SerializeField] private Settings settings;
         [SerializeField] private Slider main, music, sound, voice;
+        [SerializeField] private GameObject buttonContainer, templateButton;
 
         #endregion
 
@@ -42,6 +43,9 @@ namespace GlyphaeScripts
             voice.SetValueWithoutNotify(settings.VoiceVolume);
 
             settings.FirstRun = false;
+
+            if (buttonContainer.transform.childCount != 0) ResetButtons();
+            if (buttonContainer.transform.childCount == 0) SetupButtons();
         }
 
         void Start()
@@ -76,7 +80,7 @@ namespace GlyphaeScripts
         /// </summary>
         /// <param name="scene">Scene name.</param>
         public void StartGame() { }
-        // => SceneManager.LoadScene((int)Scenes.GAME);
+         //=> SceneManager.LoadScene((int)Scenes.GAME);
 
         /// <summary>
         /// Quits the application or editor.
@@ -93,6 +97,27 @@ namespace GlyphaeScripts
 
 
         #region Helpers
+
+        private void ResetButtons()
+        {
+            for (int i = 0; i < buttonContainer.transform.childCount; i++)
+            {
+                Destroy(buttonContainer.transform.GetChild(i));
+            }
+        }
+
+        private void SetupButtons()
+        {
+            foreach (Pet pet in settings.Pets)
+            {
+                GameObject go = Instantiate(templateButton, buttonContainer.transform);
+                PetButton button = go.GetComponent<PetButton>();
+                go.name = pet.Name;
+                if (pet.Unlocked)
+                    button.Setup(pet, () => settings.SelectedPet = pet);
+                go.SetActive(true);
+            }
+        }
 
         #endregion
 

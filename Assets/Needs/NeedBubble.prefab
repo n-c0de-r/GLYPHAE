@@ -261,11 +261,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6408705327845436457}
-  - component: {fileID: 1651687177546441072}
+  - component: {fileID: -8261921105370664964}
   - component: {fileID: 3779868384939867635}
   - component: {fileID: 2123171532026372677}
   m_Layer: 0
-  m_Name: PetMessage
+  m_Name: NeedBubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -289,7 +289,7 @@ Transform:
   - {fileID: 3125035767011614737}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1651687177546441072
+--- !u!114 &-8261921105370664964
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,13 +298,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 9154000877867032133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 923b3d040018e3c42830fd68b6c60904, type: 3}
+  m_Script: {fileID: 11500000, guid: 32ebc2299eca9c349a204b57ed544532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sound: {fileID: 2123171532026372677}
   back: {fileID: 3779868384939867635}
   iconBack: {fileID: 2536139544775449450}
-  iconLine: {fileID: 1674275265286706264}
+  iconFill: {fileID: 1674275265286706264}
   outline: {fileID: 6933798607829676424}
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
 --- !u!212 &3779868384939867635

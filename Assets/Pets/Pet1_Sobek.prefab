@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1127947054445421824}
   - component: {fileID: 5059000855819877809}
   - component: {fileID: 2868615093413546718}
+  - component: {fileID: 603445631893587804}
   m_Layer: 0
   m_Name: Pet1_Sobek
   m_TagString: Untagged
@@ -53,8 +54,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
   - {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   - {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
-  needCall: {fileID: 6938455041853530751}
-  needFeedback: {fileID: 1200321587618790093}
+  needCall: {fileID: 0}
+  needFeedback: {fileID: 0}
   levelSprites:
   - {fileID: -1696121861, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
   - {fileID: 231761442, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
@@ -89,7 +90,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b04c986b4d06c9e418df53551e8a5479, type: 2}
   - {fileID: 11400000, guid: 059f5d3756ce5634b8e2569a4c7bf190, type: 2}
   unlocked: 1
-  _petLevel: 1
+  petName: Sobek
+  category: Uniliterals
+  description: 'The crocodile god.
+
+    God of water and fertility.
+
+    He''s friendly
+    but understands only little language, thus he needs to learn the most simple,
+    single-sound literals - similar to a basic alphabet.'
+  symbol: {fileID: 2108304495, guid: 6438ca2e908d244478afa9770245c553, type: 3}
+  _level: 0
 --- !u!212 &5059000855819877809
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -238,6 +249,51 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!61 &603445631893587804
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3721469564461433512}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.7800002, y: 3.7800002}
+    newSize: {x: 3.78, y: 3.78}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.7800002, y: 3.7800002}
+  m_EdgeRadius: 0
 --- !u!1001 &451378812731071421
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -319,17 +375,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ab502cc09802164184bda9870077bff, type: 3}
---- !u!114 &1200321587618790093 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1651687177546441072, guid: 3ab502cc09802164184bda9870077bff, type: 3}
-  m_PrefabInstance: {fileID: 451378812731071421}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 923b3d040018e3c42830fd68b6c60904, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6824032232594241428 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6408705327845436457, guid: 3ab502cc09802164184bda9870077bff, type: 3}
@@ -417,14 +462,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6408705327845436457, guid: 3ab502cc09802164184bda9870077bff, type: 3}
   m_PrefabInstance: {fileID: 8548290202316800783}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6938455041853530751 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1651687177546441072, guid: 3ab502cc09802164184bda9870077bff, type: 3}
-  m_PrefabInstance: {fileID: 8548290202316800783}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 923b3d040018e3c42830fd68b6c60904, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

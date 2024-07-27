@@ -40,9 +40,6 @@ namespace GlyphaeScripts
         [Tooltip("If the game has ever run.")]
         [SerializeField] private bool firstRun = true;
 
-        [Tooltip("Initial Level.")]
-        [SerializeField] private bool firstLevel = true;
-
         #endregion
 
 
@@ -64,6 +61,14 @@ namespace GlyphaeScripts
 
 
         #region GetSets / Properties
+
+        /// <summary>
+        /// The <see cref="Pet"/>s available in the game.
+        /// </summary>
+        public List<Pet> Pets
+        {
+            get => pets;
+        }
 
         /// <summary>
         /// The egg of any <see cref="Pet"/> to take care of.
@@ -152,15 +157,6 @@ namespace GlyphaeScripts
             set => firstRun = value;
         }
 
-        /// <summary>
-        /// If the game has ever run.
-        /// </summary>
-        public bool FirstLevel
-        {
-            get => firstLevel;
-            set => firstLevel = value;
-        }
-
         #endregion
 
 
@@ -168,7 +164,7 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            Pet.OnNeedUpdate += NeedUpdate;
+            Pet.OnNeedUpdate += UpdateNeed;
         }
 
         void Start()
@@ -193,7 +189,7 @@ namespace GlyphaeScripts
 
         void OnDestroy()
         {
-            Pet.OnNeedUpdate -= NeedUpdate;
+            Pet.OnNeedUpdate -= UpdateNeed;
         }
 
         #endregion
@@ -272,7 +268,7 @@ namespace GlyphaeScripts
 
         }
 
-        public void NeedUpdate(NeedTypes need, float value)
+        public void UpdateNeed(NeedTypes need, float value)
         {
             //OnNeedUpdate.Invoke(need, value);
             Debug.Log(need);
@@ -294,18 +290,6 @@ namespace GlyphaeScripts
 
                 foreach (Glyph item in _pet.Literals) glyphs.Add(item);
             }
-        }
-
-        #endregion
-
-        #region Enums 
-
-        /// <summary>
-        /// The setting's keywords.
-        /// </summary>
-        public enum Keys
-        {
-            SelectedPet, GlyphList, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed, FirstRun
         }
 
         #endregion

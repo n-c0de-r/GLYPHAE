@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
@@ -12,16 +12,16 @@ namespace GlyphaeScripts
         [SerializeField] private AudioSource sound;
 
         [Tooltip("The back image of the bubble.")]
-        [SerializeField] private Image back;
+        [SerializeField] private SpriteRenderer back;
 
         [Tooltip("The icon back shown inside the bubble.")]
-        [SerializeField] private Image iconBack;
+        [SerializeField] private SpriteRenderer iconBack;
 
         [Tooltip("The icon outline shown inside the bubble.")]
-        [SerializeField] private Image iconLine;
+        [SerializeField] private SpriteRenderer iconFill;
 
         [Tooltip("The outline of the bubble.")]
-        [SerializeField] private Image outline;
+        [SerializeField] private SpriteRenderer outline;
 
         [Tooltip("The current Settings for display values.")]
         [SerializeField] private Settings settings;
@@ -32,6 +32,13 @@ namespace GlyphaeScripts
         #region Fields
 
         private string methodAfter;
+
+        #endregion
+
+
+        #region Events
+
+        public static event Action OnAnimationDone;
 
         #endregion
 
@@ -47,30 +54,23 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            
+
         }
 
         void Start()
         {
-            
+
         }
 
         void FixedUpdate()
         {
-            
+
         }
 
         void Update()
         {
-            
+
         }
-
-        #endregion
-
-
-        #region Events
-
-
 
         #endregion
 
@@ -85,15 +85,14 @@ namespace GlyphaeScripts
 
         public void Setup(Sprite display)
         {
-            if (iconLine.sprite == display) return;
+            if (iconFill == display) return;
 
-            iconLine.sprite = display;
+            iconFill.sprite = display;
             gameObject.SetActive(true);
         }
 
-        public void Show(string message)
+        public void Show()
         {
-            methodAfter = message;
             StartCoroutine(AnimateFade(0, 1, settings.SpeedFactor));
         }
 
@@ -113,14 +112,13 @@ namespace GlyphaeScripts
                 color.a = value;
                 back.color = color;
 
-
                 color = iconBack.color;
                 color.a = value;
                 iconBack.color = color;
 
-                color = iconLine.color;
+                color = iconFill.color;
                 color.a = value;
-                iconLine.color = color;
+                iconFill.color = color;
 
                 color = outline.color;
                 color.a = value;
@@ -130,11 +128,10 @@ namespace GlyphaeScripts
 
             if (end > 0)
             {
-                yield return new WaitForSeconds(1f/speedFactor);
+                yield return new WaitForSeconds(1f / speedFactor);
                 yield return AnimateFade(-1, 0, settings.SpeedFactor * 2);
-                if (methodAfter != null) SendMessageUpwards(methodAfter);
             }
-            
+            OnAnimationDone?.Invoke();
         }
 
         #endregion
@@ -144,12 +141,12 @@ namespace GlyphaeScripts
 
         private void OnDrawGizmos()
         {
-            
+
         }
 
         private void OnDrawGizmosSelected()
         {
-             
+
         }
 
         #endregion

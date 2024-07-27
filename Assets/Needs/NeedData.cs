@@ -1,15 +1,19 @@
+using System;
 using UnityEngine;
 
 namespace GlyphaeScripts
 {
+    /// <summary>
+    /// A scriptable object container holding all relevant data of a specific <see cref="Pet"/>'s <see cref="NeedTypes"/>
+    /// </summary>
     [CreateAssetMenu(fileName = "Need", menuName = "ScriptableObjects/Need")]
-    public class Need : ScriptableObject
+    public class NeedData : ScriptableObject
     {
         #region Serialized Fields
 
         [Header("Base Values")]
-        [Tooltip("The type of need as an enum.")]
-        [SerializeField] private NeedTypes type;
+        //[Tooltip("The type of need as an enum.")]
+        //[SerializeField] private NeedTypes type;
 
         [Tooltip("The initial value of this need.")]
         [SerializeField][Range(0, 100)] private float initial;
@@ -44,15 +48,18 @@ namespace GlyphaeScripts
         #region GetSets / Properties
 
         /// <summary>
-        /// The type of <see cref="Need"/> as an enum.
+        /// The type of <see cref="NeedData"/> as an enum.
         /// </summary>
-        public NeedTypes Type { get => type; }
+        //public NeedTypes Type { get => type; }
 
         /// <summary>
-        /// The current amount of this <see cref="Need"/>.
+        /// The current amount of this <see cref="NeedData"/>.
         /// </summary>
         public float Current { get => current; set => current = Mathf.Clamp(value, MIN, MAX); }
         
+        /// <summary>
+        /// The amount limit where a care call is isued by the <see cref="Pet"/>.
+        /// </summary>
         public float Critical { get => critical; }
 
         /// <summary>
@@ -99,8 +106,8 @@ namespace GlyphaeScripts
 
 
         #region Events
-        
-        
+
+        public static event Action<float> OnNeedUpdate;
 
         #endregion
 
@@ -141,34 +148,4 @@ namespace GlyphaeScripts
 
         #endregion
     }
-
-    #region Enums
-
-    /// <summary>
-    /// Marks the different needs a <see cref="Pet"/> has.
-    /// </summary>
-    public enum NeedTypes
-    {
-        /// <summary>
-        /// Need is stilled when feeding the <see cref="Pet"/>.
-        /// </summary>
-        Hunger,
-
-        /// <summary>
-        /// Need is stilled when washing the <see cref="Pet"/>.
-        /// </summary>
-        Health,
-
-        /// <summary>
-        /// Need is stilled when playing with the <see cref="Pet"/>.
-        /// </summary>
-        Joy,
-
-        /// <summary>
-        /// Need is stilled when putting the <see cref="Pet"/> to sleep.
-        /// </summary>
-        Energy
-    }
-
-    #endregion
 }

@@ -7,9 +7,9 @@ using UnityEngine.UI;
 namespace GlyphaeScripts
 {
     /// <summary>
-    /// A Minigame played when executing basic functions.
+    /// Played in the pre-stage. To break the egg's shell.
     /// </summary>
-    public class InitMixer : Minigame
+    public class ShellBreaker : Minigame
     {
         #region Serialized Fields
 
@@ -41,15 +41,9 @@ namespace GlyphaeScripts
             _instance = Instantiate(prefab, transform.parent);
             _egg = _instance.GetComponent<Pet>();
             _egg.Literals = glyphs;
+
             foreach (GameButton button in gameInputs) button.SetupDrag(_instance.GetComponent<Transform>());
-
-            SetupGame(petLevel);
-        }
-
-        public void SetupGame(Evolutions petLevel)
-        {
             _failsToLose = minimumRounds << 1;
-
             Init(minimumRounds);
         }
 
@@ -117,7 +111,6 @@ namespace GlyphaeScripts
                 yield return new WaitForEndOfFrame();
             }
 
-            settings.FirstLevel = false;
             Destroy(_instance);
             Close();
         }

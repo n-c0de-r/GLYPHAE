@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace GlyphaeScripts
 {
     /// <summary>
-    /// Class controlling the color of circular meters UI.
+    /// Class controlling the display of circular meters UI for <see cref="NeedData"/>.
     /// </summary>
     public class CircleMeter : MonoBehaviour
     {
@@ -14,7 +14,7 @@ namespace GlyphaeScripts
         [SerializeField] private Settings settings;
 
         [Header("Need Values")]
-        [SerializeField] private Need need;
+        [SerializeField] private NeedData need;
 
         [Space]
         [Header("Animation Values")]
@@ -58,17 +58,17 @@ namespace GlyphaeScripts
         void Awake()
         {
             _current = 0;
-            _half = Need.MAX / 2;
-            slider.fillAmount = need.Current / Need.MAX;
-            fillColor.r = (Need.MAX - need.Current) / _half;
+            _half = NeedData.MAX / 2;
+            slider.fillAmount = need.Current / NeedData.MAX;
+            fillColor.r = (NeedData.MAX - need.Current) / _half;
             fillColor.g = need.Current / _half;
             slider.color = fillColor;
         }
 
         private void OnEnable()
         {
-            Pet.OnNeedUpdate += UpdateValue;
-            UpdateValue(need.Type, need.Current - _current);
+            //Pet.OnNeedUpdate += UpdateValue;
+            UpdateValue(need.Current - _current);
         }
 
         void Start()
@@ -87,7 +87,7 @@ namespace GlyphaeScripts
 
         private void OnDisable()
         {
-            Pet.OnNeedUpdate -= UpdateValue;
+            //Pet.OnNeedUpdate -= UpdateValue;
         }
 
         #endregion
@@ -110,12 +110,9 @@ namespace GlyphaeScripts
         /// <summary>
         /// Updates the messaged need value by a given amount.
         /// </summary>
-        /// <param name="type">The need type enum to update.</param>
         /// <param name="amount">The amount to update the need value by.</param>
-        private void UpdateValue(NeedTypes type, float amount)
+        private void UpdateValue(float amount)
         {
-            if (need.Type != type) return;
-
             StartCoroutine(AnimateFill(need.Current, need.Current + amount, Mathf.Sign(amount)));
         }
 
@@ -126,8 +123,8 @@ namespace GlyphaeScripts
 
             for (float i = start; i != end; i += inc)
             {
-                slider.fillAmount = i / Need.MAX;
-                color.r = (Need.MAX - i) / _half;
+                slider.fillAmount = i / NeedData.MAX;
+                color.r = (NeedData.MAX - i) / _half;
                 color.g = i / _half;
                 slider.color = color;
                 yield return new WaitForSeconds(speed / settings.SpeedFactor);

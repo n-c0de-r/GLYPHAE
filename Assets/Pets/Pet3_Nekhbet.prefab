@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1127947054445421824}
   - component: {fileID: 5059000855819877809}
   - component: {fileID: 2868615093413546718}
+  - component: {fileID: 603445631893587804}
   m_Layer: 0
   m_Name: Pet3_Nekhbet
   m_TagString: Untagged
@@ -102,8 +103,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2628438c79155c54ab52c104ba32e753, type: 2}
   - {fileID: 11400000, guid: f9023f3d86312bb429ece026506b3960, type: 2}
   - {fileID: 11400000, guid: 2cc9dff08db33a04699c1e4a96de4471, type: 2}
-  unlocked: 0
-  _petLevel: 1
+  unlocked: 1
+  petName: Nekhbet
+  category: Triliterals
+  description: 'The vulture goddess.
+
+    Goddess of protection and patron of Upper
+    Egypt.
+
+    She is very cunning and intelligent, thus you must teach her the
+    most complex literals: each represents and reads as three sounds.'
+  symbol: {fileID: -1624636922, guid: 6438ca2e908d244478afa9770245c553, type: 3}
+  _level: 0
 --- !u!212 &5059000855819877809
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -252,3 +263,48 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!61 &603445631893587804
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3721469564461433512}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.7800002, y: 3.7800002}
+    newSize: {x: 3.78, y: 3.78}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.7800002, y: 3.7800002}
+  m_EdgeRadius: 0

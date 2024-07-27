@@ -57,7 +57,7 @@ namespace GlyphaeScripts
 
             _petInstance = Instantiate(settings.SelectedPet.gameObject, petContainer);
             _pet = _petInstance.GetComponent<Pet>();
-            _petInstance.SetActive(!settings.FirstLevel);
+            _petInstance.SetActive(!(_pet.Level == Evolutions.Egg));
         }
 
         private void OnEnable()
@@ -67,7 +67,7 @@ namespace GlyphaeScripts
 
         void Start()
         {
-            if (settings.FirstLevel) StartGame(minigames[0]);
+            if (_pet.Level == Evolutions.Egg) StartGame(minigames[0]);
             else OnGameEnd?.Invoke();
         }
 
@@ -100,12 +100,12 @@ namespace GlyphaeScripts
         public void StartGame(Minigame original)
         {
 
-            if (settings.FirstLevel || _pet.Energy.Current >= original.EnergyCost)
+            if (_pet.Level == Evolutions.Egg || _pet.Energy.Current >= original.EnergyCost)
             {
                 GameObject instance = Instantiate(original.gameObject, petContainer);
                 Minigame game = instance.GetComponent<Minigame>();
 
-                game.SetupGame(_pet.Literals, _pet.PetLevel);
+                game.SetupGame(_pet.Literals, _pet.Level);
                 OnGameStart?.Invoke();
             }
         }
@@ -117,7 +117,7 @@ namespace GlyphaeScripts
 
         private void CloseMinigame(GameObject minigame)
         {
-            if (!_petInstance.activeInHierarchy) _petInstance.SetActive(!settings.FirstLevel);
+            if (!_petInstance.activeInHierarchy) _petInstance.SetActive(!(_pet.Level == Evolutions.Egg));
             Destroy(minigame);
             OnGameEnd?.Invoke();
         }
