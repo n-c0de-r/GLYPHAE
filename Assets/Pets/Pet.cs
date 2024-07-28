@@ -72,7 +72,7 @@ namespace GlyphaeScripts
 
         //public static event Action<Glyph, Sprite, Sprite, List<Glyph>> OnNeedCall;
         public static event Action<Sprite, List<GlyphData>> OnNeedCall;
-        public static event Action<NeedTypes, float> OnNeedUpdate;
+        //public static event Action<NeedTypes, float> OnNeedUpdate;
         public static event Action<bool> OnNeedSatisfied;
         float timer = 60;
 
@@ -165,9 +165,9 @@ namespace GlyphaeScripts
 
             //PetMessage.OnAnimationDone += () => Debug.Log("Done");
 
-            UpdateNeed(NeedTypes.Hunger, hunger.Current - NeedData.MAX);
-            UpdateNeed(NeedTypes.Joy, joy.Current - NeedData.MAX);
-            UpdateNeed(NeedTypes.Energy, energy.Current - NeedData.MAX);
+            //UpdateNeed(NeedTypes.Hunger, hunger.Current - NeedData.MAX);
+            //UpdateNeed(NeedTypes.Joy, joy.Current - NeedData.MAX);
+            //UpdateNeed(NeedTypes.Energy, energy.Current - NeedData.MAX);
 
             CheckEvolution();
 
@@ -185,9 +185,9 @@ namespace GlyphaeScripts
             if (timer <= 0)
             {
                 timer = 60;
-                UpdateNeed(NeedTypes.Hunger, -1);
-                UpdateNeed(NeedTypes.Joy, -1);
-                UpdateNeed(NeedTypes.Energy, -1);
+                //UpdateNeed(NeedTypes.Hunger, -1);
+                //UpdateNeed(NeedTypes.Joy, -1);
+                //UpdateNeed(NeedTypes.Energy, -1);
             }
         }
 
@@ -299,23 +299,23 @@ namespace GlyphaeScripts
 
 
 
-        private void UpdateNeed(NeedTypes need, float amount)
-        {
-            //float value = needs[(int)need].Current + amount;
-            //needs[(int)need].UpdateData(value);
-            //OnNeedUpdate?.Invoke(need, amount);
+        //private void UpdateNeed(NeedTypes need, float amount)
+        //{
+        //    //float value = needs[(int)need].Current + amount;
+        //    //needs[(int)need].UpdateData(value);
+        //    //OnNeedUpdate?.Invoke(need, amount);
 
-            //if (!hasCalled && value <= needs[(int)need].Critical)
-            //{
-            //    hasCalled = true;
-            //    Debug.Log(need + " is low!");
-            //    //MessageNeed();
-            //}
-            //else if (hasCalled && value >= NeedData.MAX / 2)
-            //{
-            //    hasCalled = false;
-            //}
-        }
+        //    //if (!hasCalled && value <= needs[(int)need].Critical)
+        //    //{
+        //    //    hasCalled = true;
+        //    //    Debug.Log(need + " is low!");
+        //    //    //MessageNeed();
+        //    //}
+        //    //else if (hasCalled && value >= NeedData.MAX / 2)
+        //    //{
+        //    //    hasCalled = false;
+        //    //}
+        //}
 
 
 
@@ -329,4 +329,45 @@ namespace GlyphaeScripts
 
         #endregion
     }
+
+
+    #region Enums
+
+    /// <summary>
+    /// The <see cref="Evolutions"/> levels a <see cref="Pet"/> goes through.
+    /// </summary>
+    public enum Evolutions
+    {
+        /// <summary>
+        /// Initial starting form. Has no interactions.
+        /// </summary>
+        Egg,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Baby,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Kid,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Teen,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Adult,
+
+        /// <summary>
+        /// Final form. Can play any game.
+        /// </summary>
+        God
+    }
+
+    #endregion
 }

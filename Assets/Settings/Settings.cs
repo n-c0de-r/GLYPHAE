@@ -164,7 +164,7 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            Pet.OnNeedUpdate += UpdateNeed;
+            //Pet.OnNeedUpdate += UpdateNeed;
         }
 
         void Start()
@@ -189,7 +189,7 @@ namespace GlyphaeScripts
 
         void OnDestroy()
         {
-            Pet.OnNeedUpdate -= UpdateNeed;
+            //Pet.OnNeedUpdate -= UpdateNeed;
         }
 
         #endregion
@@ -268,11 +268,11 @@ namespace GlyphaeScripts
 
         }
 
-        public void UpdateNeed(NeedTypes need, float value)
-        {
-            //OnNeedUpdate.Invoke(need, value);
-            Debug.Log(need);
-        }
+        //public void UpdateNeed(NeedTypes need, float value)
+        //{
+        //    //OnNeedUpdate.Invoke(need, value);
+        //    Debug.Log(need);
+        //}
 
         #endregion
 
@@ -293,5 +293,14 @@ namespace GlyphaeScripts
         }
 
         #endregion
+
+
+        /// <summary>
+        /// The <see cref="Settings"/>'s keywords.
+        /// </summary>
+        public enum Keys
+        {
+            SelectedPet, GlyphList, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed, FirstRun
+        }
     }
 }

@@ -662,7 +662,7 @@ MonoBehaviour:
   minimumRounds: 3
   need: {fileID: 0}
   needFill: 10
-  prefab: {fileID: 3721469564461433512, guid: 54b8997be8b5b4d4facc34d390314826, type: 3}
+  eggPrefab: {fileID: 3721469564461433512, guid: 54b8997be8b5b4d4facc34d390314826, type: 3}
   overlay: {fileID: 2784675124975177387}
 --- !u!223 &6157846922432147688
 Canvas:

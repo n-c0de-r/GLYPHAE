@@ -15,7 +15,7 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Game Specific")]
-        [SerializeField] private GameObject prefab;
+        [SerializeField] private GameObject eggPrefab;
         [SerializeField] private Image overlay;
 
         #endregion
@@ -23,7 +23,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private GameObject _instance;
+        private GameObject _eggInstance;
         private Pet _egg;
         private bool _hasFailed = false;
 
@@ -39,11 +39,11 @@ namespace GlyphaeScripts
 
         public override void SetupGame(List<GlyphData> glyphs, Evolutions petLevel)
         {
-            _instance = Instantiate(prefab, transform.parent);
-            _egg = _instance.GetComponent<Pet>();
+            _eggInstance = Instantiate(eggPrefab, transform.parent);
+            _egg = _eggInstance.GetComponent<Pet>();
             _egg.Literals = glyphs;
 
-            foreach (GameButton button in gameInputs) button.SetupDrag(_instance.GetComponent<Transform>());
+            foreach (GameButton button in gameInputs) button.SetupDrag(_eggInstance.GetComponent<Transform>());
             _failsToLose = minimumRounds << 1;
             Init(minimumRounds);
         }
@@ -112,7 +112,7 @@ namespace GlyphaeScripts
                 yield return new WaitForEndOfFrame();
             }
 
-            Destroy(_instance);
+            Destroy(_eggInstance);
             Close();
         }
 
