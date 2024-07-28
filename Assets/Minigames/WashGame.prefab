@@ -1245,7 +1245,8 @@ MonoBehaviour:
   - {fileID: 0}
   minimumRounds: 3
   needType: 2
-  needAmount: 10
+  need: {fileID: 0}
+  needFill: 10
   energyCost: 10
   needBubble: {fileID: 0}
 --- !u!223 &6157846922432147688

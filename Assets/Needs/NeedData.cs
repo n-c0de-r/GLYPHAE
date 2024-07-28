@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GlyphaeScripts
 {
     /// <summary>
-    /// A scriptable object container holding all relevant data of a specific <see cref="Pet"/>'s <see cref="NeedTypes"/>
+    /// A scriptable object container holding all relevant data of a specific <see cref="Pet"/>'s need.
     /// </summary>
     [CreateAssetMenu(fileName = "Need", menuName = "ScriptableObjects/Need")]
     public class NeedData : ScriptableObject
@@ -12,9 +12,6 @@ namespace GlyphaeScripts
         #region Serialized Fields
 
         [Header("Base Values")]
-        //[Tooltip("The type of need as an enum.")]
-        //[SerializeField] private NeedTypes type;
-
         [Tooltip("The initial value of this need.")]
         [SerializeField][Range(0, 100)] private float initial;
 
@@ -48,14 +45,9 @@ namespace GlyphaeScripts
         #region GetSets / Properties
 
         /// <summary>
-        /// The type of <see cref="NeedData"/> as an enum.
-        /// </summary>
-        //public NeedTypes Type { get => type; }
-
-        /// <summary>
         /// The current amount of this <see cref="NeedData"/>.
         /// </summary>
-        public float Current { get => current; set => current = Mathf.Clamp(value, MIN, MAX); }
+        public float Current { get => current; }
         
         /// <summary>
         /// The amount limit where a care call is isued by the <see cref="Pet"/>.
@@ -124,11 +116,9 @@ namespace GlyphaeScripts
 
         #region Helpers
         
-        
-
-        private void TemplateHelper(bool param)
+        public float setData(float value)
         {
-            
+            return Mathf.Clamp(current + value, MIN, MAX);
         }
 
         #endregion

@@ -13,7 +13,8 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [Space]
+        [SerializeField] protected Settings settings;
+
         [Header("Base Values")]
         [Tooltip("The match type \r\nthis game belongs to.")]
         [SerializeField] protected GameType type;
@@ -26,14 +27,11 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Need Values")]
-        [Tooltip("The type of need this game fills the current need.")]
-        [SerializeField] protected NeedTypes needType;
+        [Tooltip("The type of need this game fills.")]
+        [SerializeField] protected NeedData need;
 
         [Tooltip("The strength of need filling by the game.")]
-        [SerializeField][Range(10, 50)] protected int needAmount;
-
-        [Tooltip("The costs of Energy to play this game.")]
-        [SerializeField][Range(0, 50)] protected int energyCost;
+        [SerializeField][Range(10, 50)] protected int needFill;
 
         #endregion Serialized Fields
 
@@ -47,8 +45,7 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action<NeedTypes, float> OnGameStart, OnGameWin;
-        public static event Action<GameObject> OnGameLose;
+        public static event Action<GameObject> OnGameClose;
         public static event Action<GameType, int> OnGameInit;
 
         #endregion
@@ -58,8 +55,6 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            OnGameStart?.Invoke(needType, -energyCost);
-
             Pet.OnNeedCall += SetupRound;
             Pet.OnNeedSatisfied += (state) => { if (state) Success(); else Fail(); };
         }
@@ -94,11 +89,6 @@ namespace GlyphaeScripts
         /// Minimum number of rounds to play this game.
         /// </summary>
         public int MinimumRounds { get => minimumRounds; }
-
-        /// <summary>
-        /// The costs of <see cref="NeedTypes.Energy"/> to play this game.
-        /// </summary>
-        public int EnergyCost { get => energyCost; }
 
         #endregion
 
@@ -140,7 +130,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Win()
         {
-            OnGameWin?.Invoke(needType, needAmount);
+            need.setData(needFill);
             Close();
         }
 
@@ -150,7 +140,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected void Close()
         {
-            OnGameLose?.Invoke(gameObject);
+            OnGameClose?.Invoke(gameObject);
         }
 
         /// <summary>
@@ -173,11 +163,11 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// Sets up initial values for the game through the <see cref="GameManager"/>.
+        /// Sets up initial values for the game through the <see cref="GameMenu"/>.
         /// </summary>
         /// <param name="glyphs">The current list of glyphs the <see cref="Pet"/> holds.</param>
         /// <param name="petLevel"><The <see cref="Pet"/>'s current <see cref="Evolutions"/> level.</param>
-        public abstract void SetupGame(List<Glyph> glyphs, Evolutions petLevel);
+        public abstract void SetupGame(List<GlyphData> glyphs, Evolutions petLevel);
 
         /// <summary>
         /// Sets up the next round internally after the <see cref="Pet"/> has messaged its next <see cref="NeedData"/>.
@@ -186,8 +176,8 @@ namespace GlyphaeScripts
         /// <param name="correctIcon"></param>
         /// <param name="wrongIcon"></param>
         /// <param name="allGlyphs"></param>
-        protected abstract void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> allGlyphs);
-        protected virtual void SetupRound(Sprite correctIcon, List<Glyph> allGlyphs) { }
+        protected abstract void SetupRound(GlyphData glyph, Sprite correctIcon, Sprite wrongIcon, List<GlyphData> allGlyphs);
+        protected virtual void SetupRound(Sprite correctIcon, List<GlyphData> allGlyphs) { }
 
         #endregion
     }

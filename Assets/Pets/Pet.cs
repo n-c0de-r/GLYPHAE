@@ -15,9 +15,12 @@ namespace GlyphaeScripts
         #region Serialized Fields
 
         [Header("Need values")]
-        [Tooltip("Basic needs of the pet:\r\nHunger, Health, Joy, Energy.")]
-        [SerializeField] private NeedData[] needs;
+        [SerializeField] private NeedData hunger;
+        [SerializeField] private NeedData health;
+        [SerializeField] private NeedData joy;
+        [SerializeField] private NeedData energy;
 
+        [Space]
         [Tooltip("Displays the Pet's need.")]
         [SerializeField] private NeedBubble needCall;
 
@@ -29,7 +32,7 @@ namespace GlyphaeScripts
         [SerializeField] private Sprite[] levelSprites;
 
         [Tooltip("The list of Glyphs\r\nthis Pet needs to learn.")]
-        [SerializeField] private List<Glyph> literals;
+        [SerializeField] private List<GlyphData> literals;
 
         [Tooltip("Gets the current state\r\nif the Pet is already unlocked.")]
         [SerializeField] private bool unlocked;
@@ -57,9 +60,8 @@ namespace GlyphaeScripts
         private SpriteRenderer _spriteRenderer;
         private BoxCollider2D _boxCollider;
 
-        private Queue<Glyph> _toMatch;
+        private Queue<GlyphData> _toMatch;
         public Evolutions _level = Evolutions.Egg;
-        private NeedTypes _feedbackType;
         private int _evolutionCalls;
         private bool hasCalled = false;
 
@@ -69,7 +71,7 @@ namespace GlyphaeScripts
         #region Events
 
         //public static event Action<Glyph, Sprite, Sprite, List<Glyph>> OnNeedCall;
-        public static event Action<Sprite, List<Glyph>> OnNeedCall;
+        public static event Action<Sprite, List<GlyphData>> OnNeedCall;
         public static event Action<NeedTypes, float> OnNeedUpdate;
         public static event Action<bool> OnNeedSatisfied;
         float timer = 60;
@@ -80,10 +82,10 @@ namespace GlyphaeScripts
         #region GetSets / Properties
 
         /// <summary>
-        /// The list of <see cref="Glyph"/>s
+        /// The list of <see cref="GlyphData"/>s
         /// this <see cref="Pet"/> needs to learn.
         /// </summary>
-        public List<Glyph> Literals { get => literals; set => literals = value; }
+        public List<GlyphData> Literals { get => literals; set => literals = value; }
 
         /// <summary>
         /// The current state if
@@ -100,22 +102,22 @@ namespace GlyphaeScripts
         /// <summary>
         /// The current Hunger need container.
         /// </summary>
-        public NeedData Hunger {  get => needs[(int)NeedTypes.Hunger]; }
+        public NeedData Hunger {  get => hunger; }
 
         /// <summary>
         /// The current Health need container.
         /// </summary>
-        public NeedData Health { get => needs[(int)NeedTypes.Health]; }
+        public NeedData Health { get => health; }
 
         /// <summary>
         /// The current Joy need container.
         /// </summary>
-        public NeedData Joy { get => needs[(int)NeedTypes.Joy]; }
+        public NeedData Joy { get => joy; }
 
         /// <summary>
         /// The current Energy need container.
         /// </summary>
-        public NeedData Energy { get => needs[(int)NeedTypes.Energy]; }
+        public NeedData Energy { get => energy; }
 
         /// <summary>
         /// The name of this <see cref="Pet"/>.
@@ -123,7 +125,7 @@ namespace GlyphaeScripts
         public string Name { get => petName; }
 
         /// <summary>
-        /// The category of <see cref="Glyph"/>s this <see cref="Pet"/> holds.
+        /// The category of <see cref="GlyphData"/>s this <see cref="Pet"/> holds.
         /// </summary>
         public string Category { get => category; }
 
@@ -159,16 +161,13 @@ namespace GlyphaeScripts
 
             GameButton.OnInputCheck += InputCheck;
 
-            Minigame.OnGameStart += (need, cost) => UpdateNeed(NeedTypes.Energy, cost);
-            Minigame.OnGameStart += (need, cost) => _feedbackType = need;
-            Minigame.OnGameWin += UpdateNeed;
             Minigame.OnGameInit += SetNeeds;
 
             //PetMessage.OnAnimationDone += () => Debug.Log("Done");
 
-            UpdateNeed(NeedTypes.Hunger, needs[(int)NeedTypes.Hunger].Current - NeedData.MAX);
-            UpdateNeed(NeedTypes.Joy, needs[(int)NeedTypes.Joy].Current - NeedData.MAX);
-            UpdateNeed(NeedTypes.Energy, needs[(int)NeedTypes.Energy].Current - NeedData.MAX);
+            UpdateNeed(NeedTypes.Hunger, hunger.Current - NeedData.MAX);
+            UpdateNeed(NeedTypes.Joy, joy.Current - NeedData.MAX);
+            UpdateNeed(NeedTypes.Energy, energy.Current - NeedData.MAX);
 
             CheckEvolution();
 
@@ -201,9 +200,6 @@ namespace GlyphaeScripts
         {
             GameButton.OnInputCheck -= InputCheck;
 
-            Minigame.OnGameStart -= (need, cost) => UpdateNeed(NeedTypes.Energy, cost);
-            Minigame.OnGameStart -= (need, cost) => _feedbackType = need;
-            Minigame.OnGameWin -= UpdateNeed;
             Minigame.OnGameInit -= SetNeeds;
 
             NeedBubble.OnAnimationDone -= GetNextNeed;
@@ -244,16 +240,16 @@ namespace GlyphaeScripts
         private void InputCheck(string message)
         {
             if (_toMatch.Count == 0) return;
-            Glyph glyph = _toMatch.Dequeue();
+            GlyphData glyph = _toMatch.Dequeue();
 
             if (glyph.Symbol.name == message || glyph.Letter.name == message)
             {
-                needFeedback.Setup(glyph.Sound, needs[(int)_feedbackType].Positive);
+                //needFeedback.Setup(glyph.Sound, needs[(int)_feedbackType].Positive);
                 OnNeedSatisfied?.Invoke(true);
             }
             else
             {
-                needFeedback.Setup(glyph.Sound, needs[(int)_feedbackType].Negative);
+                //needFeedback.Setup(glyph.Sound, needs[(int)_feedbackType].Negative);
                 OnNeedSatisfied?.Invoke(false);
 
                 _toMatch.Enqueue(glyph);
@@ -269,13 +265,13 @@ namespace GlyphaeScripts
         {
             if (gameRounds <= 0) return;
 
-            Glyph[] currentGlyphs = literals.ToArray();
+            GlyphData[] currentGlyphs = literals.ToArray();
             _toMatch = new();
 
             while (_toMatch.Count < gameRounds)
             {
                 int rand = UnityEngine.Random.Range(0, currentGlyphs.Length);
-                Glyph glyph = currentGlyphs[rand];
+                GlyphData glyph = currentGlyphs[rand];
                 if (_toMatch.Contains(glyph)) continue;
 
                 _toMatch.Enqueue(glyph);
@@ -289,8 +285,8 @@ namespace GlyphaeScripts
         private void GetNextNeed()
         {
             if (_toMatch.Count == 0) return;
-            Glyph glyph = _toMatch.Peek();
-            List<Glyph> copy = new(literals);
+            GlyphData glyph = _toMatch.Peek();
+            List<GlyphData> copy = new(literals);
             copy.Remove(glyph);
 
             int rnd = UnityEngine.Random.Range(0, 2);
@@ -305,20 +301,20 @@ namespace GlyphaeScripts
 
         private void UpdateNeed(NeedTypes need, float amount)
         {
-            float value = needs[(int)need].Current + amount;
-            needs[(int)need].Current = value;
-            OnNeedUpdate?.Invoke(need, amount);
+            //float value = needs[(int)need].Current + amount;
+            //needs[(int)need].UpdateData(value);
+            //OnNeedUpdate?.Invoke(need, amount);
 
-            if (!hasCalled && value <= needs[(int)need].Critical)
-            {
-                hasCalled = true;
-                Debug.Log(need + " is low!");
-                //MessageNeed();
-            }
-            else if (hasCalled && value >= NeedData.MAX / 2)
-            {
-                hasCalled = false;
-            }
+            //if (!hasCalled && value <= needs[(int)need].Critical)
+            //{
+            //    hasCalled = true;
+            //    Debug.Log(need + " is low!");
+            //    //MessageNeed();
+            //}
+            //else if (hasCalled && value >= NeedData.MAX / 2)
+            //{
+            //    hasCalled = false;
+            //}
         }
 
 

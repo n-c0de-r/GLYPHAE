@@ -47,11 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472f8dcf2f7fc50448a87feb6fb2c698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  needs:
-  - {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
-  - {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
-  - {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
-  - {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
+  hunger: {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
+  health: {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
+  joy: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
+  energy: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
   needCall: {fileID: 0}
   needFeedback: {fileID: 0}
   levelSprites:
@@ -103,7 +102,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2628438c79155c54ab52c104ba32e753, type: 2}
   - {fileID: 11400000, guid: f9023f3d86312bb429ece026506b3960, type: 2}
   - {fileID: 11400000, guid: 2cc9dff08db33a04699c1e4a96de4471, type: 2}
-  unlocked: 1
+  unlocked: 0
   petName: Nekhbet
   category: Triliterals
   description: 'The vulture goddess.

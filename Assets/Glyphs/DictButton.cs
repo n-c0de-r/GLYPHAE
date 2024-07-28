@@ -67,7 +67,7 @@ namespace GlyphaeScripts
         
         
 
-        public void SetupButton(Glyph glyph)
+        public void SetupButton(GlyphData glyph)
         {
             MemoryLevels level = glyph.MemoryLevel;
 

@@ -13,7 +13,8 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [SerializeField] private Settings settings;
+        [Space]
+        [Header("Game Specific")]
         [SerializeField] private GameObject prefab;
         [SerializeField] private Image overlay;
 
@@ -36,7 +37,7 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<Glyph> glyphs, Evolutions petLevel)
+        public override void SetupGame(List<GlyphData> glyphs, Evolutions petLevel)
         {
             _instance = Instantiate(prefab, transform.parent);
             _egg = _instance.GetComponent<Pet>();
@@ -52,15 +53,15 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        protected override void SetupRound(Glyph correctGlyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> allGlyphs)
+        protected override void SetupRound(GlyphData correctGlyph, Sprite correctIcon, Sprite wrongIcon, List<GlyphData> allGlyphs)
         {
             string original = correctIcon.name;
             allGlyphs.Remove(correctGlyph);
-            Glyph wrongGlyph = allGlyphs[UnityEngine.Random.Range(0, allGlyphs.Count)];
+            GlyphData wrongGlyph = allGlyphs[UnityEngine.Random.Range(0, allGlyphs.Count)];
 
             int rng = UnityEngine.Random.Range(0, gameInputs.Length);
 
-            Glyph[] glyphs = { correctGlyph, wrongGlyph };
+            GlyphData[] glyphs = { correctGlyph, wrongGlyph };
             Color[] colors = { Color.green, Color.red };
 
             foreach (GameButton button in gameInputs)

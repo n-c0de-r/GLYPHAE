@@ -45,7 +45,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private Pet _pet;
+        private Pet _selectedPet;
 
         public const char GLYPH_SPLIT = ';';
         public const char MEMORY_SPLIT = ':';
@@ -83,8 +83,8 @@ namespace GlyphaeScripts
         /// </summary>
         public Pet SelectedPet
         {
-            get => _pet;
-            set =>  _pet = value;
+            get => _selectedPet;
+            set =>  _selectedPet = value;
         }
 
         /// <summary>
@@ -206,11 +206,11 @@ namespace GlyphaeScripts
         public void LoadSettings()
         {
             if (PlayerPrefs.HasKey(nameof(Keys.SelectedPet)))
-                _pet = pets.Find(pet => pet.name == PlayerPrefs.GetString(nameof(Keys.SelectedPet)));
+                _selectedPet = pets.Find(pet => pet.name == PlayerPrefs.GetString(nameof(Keys.SelectedPet)));
 
             if (PlayerPrefs.HasKey(nameof(Keys.GlyphList)))
             {
-                List<Glyph> glyphs = _pet.Literals;
+                List<GlyphData> glyphs = _selectedPet.Literals;
                 foreach (string item in PlayerPrefs.GetString(nameof(Keys.GlyphList)).Split(GLYPH_SPLIT))
                 {
                     if (item == "") continue;
@@ -248,10 +248,10 @@ namespace GlyphaeScripts
         /// </summary>
         public void SaveSettings()
         {
-            PlayerPrefs.SetString(nameof(Keys.SelectedPet), _pet.name);
+            PlayerPrefs.SetString(nameof(Keys.SelectedPet), _selectedPet.name);
 
             string glyphs = "";
-            foreach (Glyph item in _pet.Literals)
+            foreach (GlyphData item in _selectedPet.Literals)
             {
                 glyphs += item.name + MEMORY_SPLIT + item.MemoryLevel.ToString() + GLYPH_SPLIT;
             }
@@ -280,15 +280,15 @@ namespace GlyphaeScripts
         #region Helpers
 
         /// <summary>
-        /// Sets up a new <see cref="Glyph"> list.
+        /// Sets up a new <see cref="GlyphData"> list.
         /// </summary>
         public void SetupGlyphList()
         {
-            if (_pet != null)
+            if (_selectedPet != null)
             {
-                List<Glyph> glyphs = new();
+                List<GlyphData> glyphs = new();
 
-                foreach (Glyph item in _pet.Literals) glyphs.Add(item);
+                foreach (GlyphData item in _selectedPet.Literals) glyphs.Add(item);
             }
         }
 

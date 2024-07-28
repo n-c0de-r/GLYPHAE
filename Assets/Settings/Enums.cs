@@ -1,4 +1,4 @@
-
+using System;
 
 namespace GlyphaeScripts
 {
@@ -52,27 +52,27 @@ namespace GlyphaeScripts
         None,
 
         /// <summary>
-        /// Match the Egyptian symbol of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+        /// Match the Egyptian symbol of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
         /// </summary>
         Symbols,
 
         /// <summary>
-        /// Match the transliteration letter of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+        /// Match the transliteration letter of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
         /// </summary>
         Letters,
 
         /// <summary>
-        /// Match the changing icon of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+        /// Match the changing icon of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
         /// </summary>
         Alternate,
 
         /// <summary>
-        /// Match multiple parts of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+        /// Match multiple parts of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
         /// </summary>
         Multiple,
 
         /// <summary>
-        /// Match a random part of the <see cref="Glyph"/> shown by the <see cref="Pet"/>.
+        /// Match a random part of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
         /// </summary>
         Random
     }

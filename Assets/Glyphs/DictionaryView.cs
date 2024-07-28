@@ -65,7 +65,7 @@ namespace GlyphaeScripts
         {
             if (container.childCount != 0) ClearContainer();
 
-            foreach (Glyph glyph in pet.Literals)
+            foreach (GlyphData glyph in pet.Literals)
             {
                 GameObject instance = Instantiate(iconTemplate, container);
                 instance.TryGetComponent(out DictButton dictbutton);

@@ -48,7 +48,7 @@ namespace GlyphaeScripts
 
         #region GetSets / Properties
 
-
+        public NeedData Need { get => need; }
 
         #endregion
 
@@ -95,6 +95,14 @@ namespace GlyphaeScripts
 
         #region Methods
 
+        /// <summary>
+        /// Updates the messaged need value by a given amount.
+        /// </summary>
+        /// <param name="amount">The amount to update the need value by.</param>
+        public void UpdateValue(float amount)
+        {
+            StartCoroutine(AnimateFill(need.Current, need.Current + amount, Mathf.Sign(amount)));
+        }
 
         #endregion
 
@@ -105,16 +113,6 @@ namespace GlyphaeScripts
         //{
         //    Debug.Log("Need " + name);
         //}
-
-
-        /// <summary>
-        /// Updates the messaged need value by a given amount.
-        /// </summary>
-        /// <param name="amount">The amount to update the need value by.</param>
-        private void UpdateValue(float amount)
-        {
-            StartCoroutine(AnimateFill(need.Current, need.Current + amount, Mathf.Sign(amount)));
-        }
 
         private IEnumerator AnimateFill(float start, float end, float inc)
         {

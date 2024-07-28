@@ -3,8 +3,11 @@ using UnityEngine;
 
 namespace GlyphaeScripts
 {
+    /// <summary>
+    /// A scriptable object container holding all relevant data of a specific Hieroglyph.
+    /// </summary>
     [CreateAssetMenu(fileName = "Glyph", menuName = "ScriptableObjects/Glyph")]
-    public class Glyph : ScriptableObject
+    public class GlyphData : ScriptableObject
     {
         #region Serialized Fields
 
@@ -38,19 +41,19 @@ namespace GlyphaeScripts
         #region GetSets / Properties
 
         /// <summary>
-        /// The heiroglyph symbol of this <see cref="Glyph"/>.
+        /// The heiroglyph symbol of this <see cref="GlyphData"/>.
         /// </summary>
         public Sprite Symbol { get => symbol; }
 
         /// <summary>
-        /// The common transiteration letter of this <see cref="Glyph"/>.
+        /// The common transiteration letter of this <see cref="GlyphData"/>.
         /// Based on 'Werning 2013 (‘Advanced’)' in <see href="https://en.wiktionary.org/wiki/Appendix:Egyptian_transliteration_schemes"/>
         /// </summary>
         public Sprite Letter { get => letter; }
 
         /// <summary>
         /// The commonly approximated verbal
-        /// pronounciation of this <see cref="Glyph"/>.
+        /// pronounciation of this <see cref="GlyphData"/>.
         /// </summary>
         public AudioClip Sound { get => sound; }
 
@@ -91,7 +94,7 @@ namespace GlyphaeScripts
         #region Methods
 
         /// <summary>
-        /// Increases the memory level if the <see cref="Glyph"/> is guessed often enough correctly.
+        /// Increases the memory level if the <see cref="GlyphData"/> is guessed often enough correctly.
         /// </summary>
         public void CorrectlyGuessed()
         {
@@ -114,7 +117,7 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// Decreases the memory level if the <see cref="Glyph"/> is guessed often enough wrongly.
+        /// Decreases the memory level if the <see cref="GlyphData"/> is guessed often enough wrongly.
         /// </summary>
         public void WronglyGuessed()
         {

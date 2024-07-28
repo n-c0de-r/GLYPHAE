@@ -19,8 +19,8 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private Queue<Glyph> toMatch;
-        private Glyph[] currentGlyphs;
+        private Queue<GlyphData> toMatch;
+        private GlyphData[] currentGlyphs;
         private int buttonAmount;
 
         #endregion
@@ -60,7 +60,7 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<Glyph> glyphs, Evolutions petLevel)
+        public override void SetupGame(List<GlyphData> glyphs, Evolutions petLevel)
         {
             if (petLevel == 0) return;
 
@@ -74,7 +74,7 @@ namespace GlyphaeScripts
             while (toMatch.Count < rounds)
             {
                 int rand = UnityEngine.Random.Range(0, currentGlyphs.Length);
-                Glyph glyph = currentGlyphs[rand];
+                GlyphData glyph = currentGlyphs[rand];
                 if (glyph == null) continue;
 
                 toMatch.Enqueue(glyph);
@@ -91,7 +91,7 @@ namespace GlyphaeScripts
 
         protected void InputCheck(string message)
         {
-            Glyph glyph = toMatch.Peek();
+            GlyphData glyph = toMatch.Peek();
             if (glyph.Symbol.name == message || glyph.Letter.name == message) toMatch.Dequeue();
 
             if (toMatch.Count == 0)
@@ -108,7 +108,7 @@ namespace GlyphaeScripts
             }
         }
 
-        protected override void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> currentGlyphs)
+        protected override void SetupRound(GlyphData glyph, Sprite correctIcon, Sprite wrongIcon, List<GlyphData> currentGlyphs)
         {
             throw new NotImplementedException();
         }

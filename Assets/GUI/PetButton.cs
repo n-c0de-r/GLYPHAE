@@ -82,7 +82,7 @@ namespace GlyphaeScripts
             description = pet.Description;
 
             petButton.onClick.AddListener(action);
-            petButton.onClick.AddListener(TemplateHelper);
+            petButton.onClick.AddListener(SetupView);
         }
 
         #endregion
@@ -90,7 +90,7 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private void TemplateHelper()
+        private void SetupView()
         {
             viewIcon.sprite = petIcon.sprite;
             viewName.text = petName.text;
@@ -98,7 +98,7 @@ namespace GlyphaeScripts
             viewDescription.text = description;
 
             if (petName.text.Equals("Horus")) viewButton.SetActive(false);
-            else viewButton.SetActive(false);
+            else viewButton.SetActive(true);
         }
 
         #endregion

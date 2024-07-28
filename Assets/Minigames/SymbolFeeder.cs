@@ -19,8 +19,8 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private Queue<Glyph> toMatch;
-        private Glyph[] currentGlyphs;
+        private Queue<GlyphData> toMatch;
+        private GlyphData[] currentGlyphs;
         private int buttonAmount;
 
         #endregion
@@ -28,11 +28,11 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<Glyph> glyphs, Evolutions petLevel)
+        public override void SetupGame(List<GlyphData> glyphs, Evolutions petLevel)
         {
             if (petLevel == Evolutions.Egg) return;
 
-            Glyph glyph;
+            GlyphData glyph;
             currentGlyphs = glyphs.ToArray();
             toMatch = new();
 
@@ -60,7 +60,7 @@ namespace GlyphaeScripts
 
         protected void InputCheck(string message)
         {
-            Glyph glyph = toMatch.Dequeue();
+            GlyphData glyph = toMatch.Dequeue();
 
             if (glyph.Symbol.name == message || glyph.Letter.name == message)
             {
@@ -73,7 +73,7 @@ namespace GlyphaeScripts
             }
         }
 
-        protected override void SetupRound(Glyph glyph, Sprite correctIcon, Sprite wrongIcon, List<Glyph> currentGlyphs)
+        protected override void SetupRound(GlyphData glyph, Sprite correctIcon, Sprite wrongIcon, List<GlyphData> currentGlyphs)
         {
             if (toMatch.Count == 0)
             {
@@ -81,9 +81,9 @@ namespace GlyphaeScripts
                 return;
             }
 
-            List<Glyph> used = new();
+            List<GlyphData> used = new();
 
-            Glyph glyph1 = toMatch.Peek();
+            GlyphData glyph1 = toMatch.Peek();
             used.Add(glyph);
 
             int correct = UnityEngine.Random.Range(0, buttonAmount);
@@ -98,7 +98,7 @@ namespace GlyphaeScripts
                 else
                 {
                     int rand = UnityEngine.Random.Range(0, currentGlyphs.Count);
-                    Glyph randGlyph = currentGlyphs[rand];
+                    GlyphData randGlyph = currentGlyphs[rand];
                     if (randGlyph == null || used.Contains(randGlyph)) continue;
 
                     used.Add(randGlyph);

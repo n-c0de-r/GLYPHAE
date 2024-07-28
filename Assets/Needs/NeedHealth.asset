@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85eda91f002ebda47bc7047a728fd63a, type: 3}
-  m_Name: Need4_Energy
+  m_Name: NeedHealth
   m_EditorClassIdentifier: 
   initial: 100
   current: 100
   critical: 20
-  alarm: {fileID: 1381043269, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
-  positive: {fileID: 0}
-  negative: {fileID: 0}
+  alarm: {fileID: 2041615289, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  positive: {fileID: -1228989046, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  negative: {fileID: -1338028822, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}

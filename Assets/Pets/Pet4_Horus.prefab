@@ -47,11 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472f8dcf2f7fc50448a87feb6fb2c698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  needs:
-  - {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
-  - {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
-  - {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
-  - {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
+  hunger: {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
+  health: {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
+  joy: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
+  energy: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
   needCall: {fileID: 0}
   needFeedback: {fileID: 0}
   levelSprites:
@@ -62,7 +61,7 @@ MonoBehaviour:
   - {fileID: -66341770, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   - {fileID: 2086382178, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
   literals: []
-  unlocked: 1
+  unlocked: 0
   petName: Horus
   category: Vocabulary
   description: "The falcon god.\r\nGoddess of sky and kingship of Ancient Egypt.\r\nHe
