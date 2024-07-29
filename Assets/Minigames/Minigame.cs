@@ -7,12 +7,13 @@ namespace GlyphaeScripts
     /// <summary>
     /// Represents an abstract idea of a game.
     /// Encapsulates the basic values and functions
-    /// each <see cref="Minigame"/> should have to function.
+    /// each <see cref="Minigame"/> should have.
     /// </summary>
     public abstract class Minigame : MonoBehaviour
     {
         #region Serialized Fields
 
+        [Tooltip("The current Settings for display values.")]
         [SerializeField] protected Settings settings;
 
         [Header("Base Values")]
@@ -20,7 +21,7 @@ namespace GlyphaeScripts
         [SerializeField] protected GameType type;
 
         [Tooltip("The Inputs to set up at start.")]
-        [SerializeField] protected GameButton[] gameInputs;
+        [SerializeField] protected List<GameButton> gameInputs;
 
         [Tooltip("Minimum number of rounds to play this game.")]
         [SerializeField][Range(1, 3)] protected int minimumRounds = 1;
@@ -38,6 +39,9 @@ namespace GlyphaeScripts
 
         #region Fields
 
+        protected GlyphData _toMatch;
+        protected List<GlyphData> _allGlyphs, _usedGlyphs;
+        protected int _level, _buttonCount;
         protected int _successes, _fails, _failsToLose;
 
         #endregion Fields
@@ -46,7 +50,7 @@ namespace GlyphaeScripts
         #region Events
 
         public static event Action<GameObject> OnGameClose;
-        public static event Action<GameType, int> OnGameInit;
+        public static event Action<Sprite> OnNextRound, OnCorrectGuess, OnWrongGuess;
 
         #endregion
 
@@ -55,8 +59,14 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            Pet.OnNeedCall += SetupRound;
-            Pet.OnNeedSatisfied += (state) => { if (state) Success(); else Fail(); };
+            
+        }
+
+        private void OnEnable()
+        {
+            GameButton.OnInput += CheckInput;
+
+            NeedBubble.OnFeedbackDone += NextRound;
         }
 
         void Start()
@@ -74,10 +84,16 @@ namespace GlyphaeScripts
 
         }
 
+        private void OnDisable()
+        {
+            GameButton.OnInput -= CheckInput;
+
+            NeedBubble.OnFeedbackDone -= NextRound;
+        }
+
         private void OnDestroy()
         {
-            Pet.OnNeedCall -= SetupRound;
-            Pet.OnNeedSatisfied -= (state) => { if (state) Success(); else Fail(); };
+            
         }
 
         #endregion
@@ -85,89 +101,29 @@ namespace GlyphaeScripts
 
         #region GetSets / Properties
 
-        /// <summary>
-        /// Minimum number of rounds to play this game.
-        /// </summary>
-        public int MinimumRounds { get => minimumRounds; }
-
         #endregion
 
 
         #region Methods
 
         /// <summary>
-        /// Wrapper method to be able to call the event from subclasses.
-        /// </summary>
-        /// <param name="actualRounds">The number of actual rounds to play after all calculations are done.</param>
-        protected void Init(int actualRounds)
-        {
-            OnGameInit?.Invoke(type, actualRounds);
-        }
-
-        /// <summary>
-        /// Trigger this when you achieved a success.
-        /// It counts and manages everything else.
-        /// </summary>
-        protected virtual void Success()
-        {
-            _successes++;
-            if (_successes >= minimumRounds) Win();
-        }
-
-        /// <summary>
-        /// Use this when you made a mistake.
-        /// It counts and manages everything else.
-        /// </summary>
-        protected virtual void Fail()
-        {
-            _fails++;
-            if (_fails > _failsToLose) Close();
-        }
-
-        /// <summary>
-        /// Informs the BaseGame Controller, that the game
-        /// triggered a win condition and stops the game.
-        /// </summary>
-        protected virtual void Win()
-        {
-            need.setData(needFill);
-            Close();
-        }
-
-        /// <summary>
-        /// Informs the BaseGame Controller, that the game
-        /// has ended and can be closed and destroyed.
-        /// </summary>
-        protected void Close()
-        {
-            OnGameClose?.Invoke(gameObject);
-        }
-
-        /// <summary>
-        /// Runs the Win animation.
-        /// </summary>
-        protected void AnimateSuccess()
-        {
-            // TODO: Pet event calls
-            //reactionBubble.Setup(positiveFeedback);
-            //reactionBubble.Show(nameof(SetupRound));
-        }
-
-        /// <summary>
-        /// Runs the Lose animation.
-        /// </summary>
-        protected void AnimateFail()
-        {
-            //reactionBubble.Setup(negativeFeedback);
-            //reactionBubble.Show(nameof(SetupRound));
-        }
-
-        /// <summary>
-        /// Sets up initial values for the game through the <see cref="GameMenu"/>.
+        /// Sets up initial values for the game through the <see cref="GameManager"/>.
         /// </summary>
         /// <param name="glyphs">The current list of glyphs the <see cref="Pet"/> holds.</param>
-        /// <param name="petLevel"><The <see cref="Pet"/>'s current <see cref="Evolutions"/> level.</param>
-        public abstract void SetupGame(List<GlyphData> glyphs, Evolutions petLevel);
+        /// <param name="level"><The <see cref="Pet"/>'s current <see cref="Evolutions"/> level.</param>
+        public virtual void SetupGame(List<GlyphData> glyphs, int level)
+        {
+            _allGlyphs = new(glyphs);
+            _level = level;
+            _buttonCount = ++_level << 1;
+
+            NextRound();
+        }
+
+        #endregion
+
+
+        #region Helpers
 
         /// <summary>
         /// Sets up the next round internally after the <see cref="Pet"/> has messaged its next <see cref="NeedData"/>.
@@ -176,8 +132,70 @@ namespace GlyphaeScripts
         /// <param name="correctIcon"></param>
         /// <param name="wrongIcon"></param>
         /// <param name="allGlyphs"></param>
-        protected abstract void SetupRound(GlyphData glyph, Sprite correctIcon, Sprite wrongIcon, List<GlyphData> allGlyphs);
-        protected virtual void SetupRound(Sprite correctIcon, List<GlyphData> allGlyphs) { }
+        //protected abstract void SetupRound(GlyphData glyph, Sprite correctIcon, Sprite wrongIcon, List<GlyphData> allGlyphs);
+
+        //protected abstract void SetupRound(Sprite correctIcon, List<GlyphData> allGlyphs);
+
+        protected abstract void NextRound();
+
+        protected virtual void DisplayRound(Sprite correct)
+        {
+            OnNextRound?.Invoke(correct);
+        }
+
+        protected virtual void CheckInput(GlyphData input)
+        {
+            if (_toMatch == input)
+            {
+                _toMatch.CorrectlyGuessed();
+                OnCorrectGuess?.Invoke(need.Positive);
+                Success();
+            }
+            else
+            {
+                _toMatch.WronglyGuessed();
+                OnWrongGuess?.Invoke(need.Negative);
+                Fail();
+            }
+            _allGlyphs.AddRange(_usedGlyphs);
+        }
+
+        /// <summary>
+        /// Trigger this when you achieved a success.
+        /// It counts and manages everything else.
+        /// </summary>
+        protected virtual void Success()
+        {
+            if (++_successes >= minimumRounds) Win();
+        }
+
+        /// <summary>
+        /// Use this when you made a mistake.
+        /// It counts and manages everything else.
+        /// </summary>
+        protected virtual void Fail()
+        {
+            if (++_fails >= _failsToLose) Close();
+        }
+
+        /// <summary>
+        /// Informs the BaseGame Controller, that the game
+        /// triggered a win condition and stops the game.
+        /// </summary>
+        protected virtual void Win()
+        {
+            need.SetData(needFill);
+            Close();
+        }
+
+        /// <summary>
+        /// Informs the BaseGame Controller, that the game
+        /// has ended and can be closed and destroyed.
+        /// </summary>
+        protected virtual void Close()
+        {
+            OnGameClose?.Invoke(gameObject);
+        }
 
         #endregion
     }
@@ -190,12 +208,6 @@ namespace GlyphaeScripts
     /// </summary>
     public enum GameType
     {
-
-        /// <summary>
-        /// Same as null.
-        /// </summary>
-        None,
-
         /// <summary>
         /// Match the Egyptian symbol of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
         /// </summary>

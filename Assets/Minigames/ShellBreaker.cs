@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Game Specific")]
-        [SerializeField] private GameObject eggPrefab;
+        [Tooltip("Overlay image to simulate a flash.")]
         [SerializeField] private Image overlay;
 
         #endregion
@@ -32,20 +33,23 @@ namespace GlyphaeScripts
 
         #region Events
 
+        public static event Action OnEggBreak;
+
         #endregion
 
 
         #region Methods
 
-        public override void SetupGame(List<GlyphData> glyphs, Evolutions petLevel)
+        public override void SetupGame(List<GlyphData> glyphs, int level)
         {
-            _eggInstance = Instantiate(eggPrefab, transform.parent);
+            _eggInstance = Instantiate(settings.Egg.gameObject, transform.parent);
             _egg = _eggInstance.GetComponent<Pet>();
             _egg.Literals = glyphs;
 
-            foreach (GameButton button in gameInputs) button.SetupDrag(_eggInstance.GetComponent<Transform>());
-            _failsToLose = minimumRounds << 1;
-            Init(minimumRounds);
+            foreach (GameDrag button in gameInputs.Cast<GameDrag>()) button.SetupDrag(_eggInstance.GetComponent<Transform>());
+            _failsToLose = minimumRounds;
+
+            base.SetupGame(glyphs, level);
         }
 
         #endregion
@@ -53,26 +57,42 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        protected override void SetupRound(GlyphData correctGlyph, Sprite correctIcon, Sprite wrongIcon, List<GlyphData> allGlyphs)
+        protected override void NextRound()
         {
-            string original = correctIcon.name;
-            allGlyphs.Remove(correctGlyph);
-            GlyphData wrongGlyph = allGlyphs[UnityEngine.Random.Range(0, allGlyphs.Count)];
+            _usedGlyphs = new();
+            _toMatch = _allGlyphs[UnityEngine.Random.Range(0, _allGlyphs.Count)];
+            _allGlyphs.Remove(_toMatch);
 
-            int rng = UnityEngine.Random.Range(0, gameInputs.Length);
+            GlyphData wrongGlyph = _allGlyphs[UnityEngine.Random.Range(0, _allGlyphs.Count)];
+            _allGlyphs.Remove(wrongGlyph);
+            _usedGlyphs.Add(wrongGlyph);
 
-            GlyphData[] glyphs = { correctGlyph, wrongGlyph };
+            Sprite[] sprites = { _toMatch.Symbol, _toMatch.Letter };
+            int rng = UnityEngine.Random.Range(0, sprites.Length);
+            Sprite correct = sprites[rng];
+
+
+            rng = UnityEngine.Random.Range(0, gameInputs.Count);
+
+            GlyphData[] glyphs = { _toMatch, wrongGlyph };
             Color[] colors = { Color.green, Color.red };
 
             foreach (GameButton button in gameInputs)
             {
-                Sprite icon = original.Contains("letter") ? glyphs[rng].Symbol : glyphs[rng].Letter;
-                button.Setup(glyphs[rng].Sound, icon);
-                if (_hasFailed) button.SetSColor(colors[rng]);
-                
+                Sprite icon = correct == _toMatch.Letter ? glyphs[rng].Symbol : glyphs[rng].Letter;
+                button.Setup(glyphs[rng], icon);
+
+                if (_hasFailed)
+                {
+                    GameDrag drag = (GameDrag)button;
+                    drag.SetSColor(colors[rng]);
+                }
+
                 rng--;
                 rng = Mathf.Abs(rng);
             }
+
+            DisplayRound(correct);
         }
 
         protected override void Win()
@@ -91,7 +111,7 @@ namespace GlyphaeScripts
         protected override void Fail()
         {
             _fails++;
-            if (_fails > _failsToLose) ResetGame();
+            if (_fails >= _failsToLose) ResetGame();
         }
 
         private void ResetGame()
@@ -102,6 +122,7 @@ namespace GlyphaeScripts
 
         private IEnumerator AnimateFade(float start, float end, float speedFactor)
         {
+            yield return new WaitForSeconds(1f / speedFactor);
             Color color;
 
             for (float i = start; i <= end; i += Time.deltaTime * speedFactor)
@@ -111,6 +132,9 @@ namespace GlyphaeScripts
                 overlay.color = color;
                 yield return new WaitForEndOfFrame();
             }
+
+            OnEggBreak?.Invoke();
+            yield return new WaitForSeconds(1f / speedFactor);
 
             Destroy(_eggInstance);
             Close();

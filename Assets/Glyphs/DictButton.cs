@@ -71,13 +71,13 @@ namespace GlyphaeScripts
         {
             MemoryLevels level = glyph.MemoryLevel;
 
-            if (level >= MemoryLevels.Seen) button.interactable = true;
+            if (level >= MemoryLevels.Seen) symbol.sprite = glyph.Symbol;
 
-            if (level >= MemoryLevels.Unknown) symbol.sprite = glyph.Symbol;
+            if (level >= MemoryLevels.Unknown) character.sprite = glyph.Letter;
 
-            if (level >= MemoryLevels.Known) character.sprite = glyph.Letter;
+            if (level >= MemoryLevels.Known) speech.clip = glyph.Sound;
 
-            if (level >= MemoryLevels.Memorized) speech.clip = glyph.Sound;
+            button.interactable = level >= MemoryLevels.Memorized;
 
             gameObject.name = glyph.name;
 

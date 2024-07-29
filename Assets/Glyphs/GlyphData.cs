@@ -1,4 +1,6 @@
 using System;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -98,20 +100,15 @@ namespace GlyphaeScripts
         /// </summary>
         public void CorrectlyGuessed()
         {
-            _guesses++;
-            int nr = (int)memoryLevel;
-
-            if (_guesses >= nr)
+            if (++_guesses > (int)memoryLevel)
             {
-                nr++;
-                Array enums = Enum.GetValues(typeof(MemoryLevels));
-                if (nr >= enums.Length)
+                if (!Enum.IsDefined(typeof(MemoryLevels), ++memoryLevel))
                 {
+                    memoryLevel--;
                     _guesses--; // reset
                     return;
                 }
 
-                memoryLevel = (MemoryLevels)enums.GetValue(nr % enums.Length);
                 _guesses = 0;
             }
         }
@@ -121,21 +118,16 @@ namespace GlyphaeScripts
         /// </summary>
         public void WronglyGuessed()
         {
-            _guesses--;
-            int nr = (int)memoryLevel;
-
-            if (_guesses < 0)
+            if (--_guesses < 0)
             {
-                nr--;
-                Array enums = Enum.GetValues(typeof(MemoryLevels));
-                if (nr < 1)
+                if (!Enum.IsDefined(typeof(MemoryLevels), --memoryLevel))
                 {
+                    memoryLevel++;
                     _guesses++; // reset
                     return;
                 }
 
-                memoryLevel = (MemoryLevels)enums.GetValue(nr % enums.Length);
-                _guesses = 0;
+                _guesses = (int)memoryLevel;
             }
         }
 
@@ -144,10 +136,7 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private void TemplateHelper(bool param)
-        {
-            
-        }
+
 
         #endregion
     }
@@ -160,11 +149,6 @@ namespace GlyphaeScripts
     /// </summary>
     public enum MemoryLevels
     {
-        /// <summary>
-        /// Same as null.
-        /// </summary>
-        None,
-
         /// <summary>
         /// Not encountered yet.
         /// </summary>

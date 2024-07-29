@@ -375,7 +375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 652418687565091436, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
       propertyPath: m_Name
-      value: GameMenu
+      value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 898532344193335237, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
       propertyPath: m_AnchorMax.y
@@ -667,22 +667,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036879585477584317, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036879585477584317, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036879585477584317, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036879585477584317, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036879585477584317, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
-      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6036879585477584317, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
@@ -1170,7 +1154,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2258064736139168460}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

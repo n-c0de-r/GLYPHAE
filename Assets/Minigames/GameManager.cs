@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace GlyphaeScripts
 {
-    public class GameMenu : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         #region Serialized Fields
 
+        [Tooltip("The current Settings for display values.")]
         [SerializeField] private Settings settings;
 
         [Header("Base values")]
@@ -62,12 +63,17 @@ namespace GlyphaeScripts
         {
             _petInstance = Instantiate(settings.SelectedPet.gameObject, objectContainer);
             _pet = _petInstance.GetComponent<Pet>();
-            _petInstance.SetActive(!(_pet.Level == Evolutions.Egg));
+            _petInstance.SetActive(_pet.Level != Evolutions.Egg);
         }
 
         private void OnEnable()
         {
             Minigame.OnGameClose += CloseMinigame;
+            ShellBreaker.OnEggBreak += () =>
+            {
+                _pet.IncreaseLevel();
+                _petInstance.SetActive(_pet.Level != Evolutions.Egg);
+            };
         }
 
         void Start()
@@ -103,14 +109,13 @@ namespace GlyphaeScripts
 
         public void StartGame(Minigame original)
         {
-
             if (_pet.Energy.Current >= energyCost)
             {
                 GameObject instance = Instantiate(original.gameObject, objectContainer);
                 Minigame game = instance.GetComponent<Minigame>();
 
-                game.SetupGame(_pet.Literals, _pet.Level);
-                _pet.Energy.setData(-energyCost);
+                game.SetupGame(_pet.Literals, (int)_pet.Level >> 1);
+                if (_pet.Level != Evolutions.Egg) _pet.Energy.SetData(-energyCost);
                 mainPanel.SetActive(false);
             }
         }

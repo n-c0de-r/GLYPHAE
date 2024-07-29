@@ -4,11 +4,17 @@ using UnityEngine.EventSystems;
 
 namespace GlyphaeScripts
 {
+    /// <summary>
+    /// A Button that can be dragged & dropped, extension of <see cref="GameButton"/>
+    /// </summary>
     public class GameDrag : GameButton, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         #region Serialized Fields
 
+        [Tooltip("The current Settings for display values.")]
         [SerializeField] private Settings settings;
+
+        [Tooltip("The base duration of the move animation.")]
         [SerializeField][Range(0, 1)] float timeToMove = 0.6f;
 
         #endregion
@@ -64,20 +70,20 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupDrag(Transform rect)
+        /// <summary>
+        /// Assigns the target <see cref="Transform"/> for this button.
+        /// If the button is dropped close enought to it, it counts as an 'input'.
+        /// </summary>
+        /// <param name="rect"></param>
+        public void SetupDrag(Transform rect)
         {
             target = rect;
         }
 
-        public override void SetSColor(Color color)
+        public void SetSColor(Color color)
         {
             back.color = color;
         }
-
-        #endregion
-
-
-        #region Helpers
 
         public void OnBeginDrag(PointerEventData eventData)
         {
@@ -93,17 +99,23 @@ namespace GlyphaeScripts
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            //transform.position = _startPosition;
             if (Vector2.Distance(transform.localPosition, target.localPosition) <= 110)
             {
                 Clicked();
-
             }
             StartCoroutine(ReturnToStartPosition());
         }
 
+        #endregion
 
 
+        #region Helpers
+
+        /// <summary>
+        /// Animation to play, when the button is released.
+        /// It returns to its initial position.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator ReturnToStartPosition()
         {
             isReturning = true;

@@ -1236,6 +1236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db842f8d77f2ed4c8ac51b1579f6986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   type: 1
   gameInputs:
   - {fileID: 0}
@@ -1245,10 +1246,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   minimumRounds: 3
-  needType: 1
-  need: {fileID: 0}
+  need: {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
   needFill: 10
-  energyCost: 10
   needBubble: {fileID: 0}
 --- !u!223 &6157846922432147688
 Canvas:

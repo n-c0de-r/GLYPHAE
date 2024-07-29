@@ -164,7 +164,7 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            //Pet.OnNeedUpdate += UpdateNeed;
+
         }
 
         void Start()
@@ -189,15 +189,13 @@ namespace GlyphaeScripts
 
         void OnDestroy()
         {
-            //Pet.OnNeedUpdate -= UpdateNeed;
+
         }
 
         #endregion
 
 
         #region Methods
-
-
 
         /// <summary>
         /// Loads the settings from <see cref="PlayerPrefs"/>
@@ -268,29 +266,10 @@ namespace GlyphaeScripts
 
         }
 
-        //public void UpdateNeed(NeedTypes need, float value)
-        //{
-        //    //OnNeedUpdate.Invoke(need, value);
-        //    Debug.Log(need);
-        //}
-
         #endregion
 
 
         #region Helpers
-
-        /// <summary>
-        /// Sets up a new <see cref="GlyphData"> list.
-        /// </summary>
-        public void SetupGlyphList()
-        {
-            if (_selectedPet != null)
-            {
-                List<GlyphData> glyphs = new();
-
-                foreach (GlyphData item in _selectedPet.Literals) glyphs.Add(item);
-            }
-        }
 
         #endregion
 

@@ -106,6 +106,11 @@ namespace GlyphaeScripts
 
         #region Methods
 
+        public void SetData(float value)
+        {
+            current = Mathf.Clamp(current + value, MIN, MAX);
+        }
+
         public void Reset()
         {
             initial = current;
@@ -116,10 +121,7 @@ namespace GlyphaeScripts
 
         #region Helpers
         
-        public float setData(float value)
-        {
-            return Mathf.Clamp(current + value, MIN, MAX);
-        }
+        
 
         #endregion
 

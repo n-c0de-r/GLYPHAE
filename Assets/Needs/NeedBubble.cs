@@ -8,6 +8,10 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [Tooltip("The current Settings for display values.")]
+        [SerializeField] private Settings settings;
+
+        [Header("UI Values")]
         [Tooltip("The sound this bubble plays when satisfied.")]
         [SerializeField] private AudioSource sound;
 
@@ -23,9 +27,6 @@ namespace GlyphaeScripts
         [Tooltip("The outline of the bubble.")]
         [SerializeField] private SpriteRenderer outline;
 
-        [Tooltip("The current Settings for display values.")]
-        [SerializeField] private Settings settings;
-
         #endregion
 
 
@@ -38,7 +39,7 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action OnAnimationDone;
+        public static event Action OnFeedbackDone;
 
         #endregion
 
@@ -72,6 +73,11 @@ namespace GlyphaeScripts
 
         }
 
+        private void OnDestroy()
+        {
+
+        }
+
         #endregion
 
 
@@ -86,14 +92,18 @@ namespace GlyphaeScripts
         public void Setup(Sprite display)
         {
             if (iconFill == display) return;
-
             iconFill.sprite = display;
-            gameObject.SetActive(true);
         }
 
-        public void Show()
+        public IEnumerator ShowFeedback()
         {
-            StartCoroutine(AnimateFade(0, 1, settings.SpeedFactor));
+            yield return StartCoroutine(AnimateFade(0, 1, settings.SpeedFactor));
+            OnFeedbackDone?.Invoke();
+        }
+
+        public IEnumerator ShowCall()
+        {
+            yield return StartCoroutine(AnimateFade(0, 1, settings.SpeedFactor));
         }
 
         #endregion
@@ -131,7 +141,7 @@ namespace GlyphaeScripts
                 yield return new WaitForSeconds(1f / speedFactor);
                 yield return AnimateFade(-1, 0, settings.SpeedFactor * 2);
             }
-            OnAnimationDone?.Invoke();
+            yield return new WaitForSeconds(1f / speedFactor);
         }
 
         #endregion

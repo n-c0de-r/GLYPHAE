@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +8,16 @@ namespace GlyphaeScripts
         #region Serialized Fields
         
         [SerializeField] private Settings settings;
-        [SerializeField] private Slider main, music, sound, voice;
-        [SerializeField] private GameObject buttonContainer, templateButton;
+
+        [Header("Volume Controls")]
+        [SerializeField] private Slider main;
+        [SerializeField] private Slider music;
+        [SerializeField] private Slider sound;
+        [SerializeField] private Slider voice;
+
+        [Header("Input Objects")]
+        [SerializeField] private GameObject buttonContainer;
+        [SerializeField] private GameObject templateButton;
 
         #endregion
 
@@ -76,13 +83,6 @@ namespace GlyphaeScripts
         #region Methods
 
         /// <summary>
-        /// Loads the given scene.
-        /// </summary>
-        /// <param name="scene">Scene name.</param>
-        public void StartGame() { }
-         //=> SceneManager.LoadScene((int)Scenes.GAME);
-
-        /// <summary>
         /// Quits the application or editor.
         /// </summary>
         public void Quit()
@@ -102,7 +102,7 @@ namespace GlyphaeScripts
         {
             for (int i = 0; i < buttonContainer.transform.childCount; i++)
             {
-                Destroy(buttonContainer.transform.GetChild(i));
+                Destroy(buttonContainer.transform.GetChild(i).gameObject);
             }
         }
 

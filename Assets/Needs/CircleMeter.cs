@@ -11,6 +11,7 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [Tooltip("The current Settings for display values.")]
         [SerializeField] private Settings settings;
 
         [Header("Need Values")]

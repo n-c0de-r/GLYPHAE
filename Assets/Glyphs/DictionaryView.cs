@@ -73,6 +73,11 @@ namespace GlyphaeScripts
             }
         }
 
+        #endregion
+
+
+        #region Helpers
+
         private void ClearContainer()
         {
             for (int i = 0; i < container.childCount; i++)
@@ -80,13 +85,6 @@ namespace GlyphaeScripts
                 Destroy(container.GetChild(i).gameObject);
             }
         }
-
-        #endregion
-
-
-        #region Helpers
-
-
 
         #endregion
 
