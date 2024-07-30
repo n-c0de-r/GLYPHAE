@@ -17,6 +17,9 @@ namespace GlyphaeScripts
         [Header("General Objects")]
         [SerializeField] private AudioMixer audioMixer;
 
+        [Tooltip("The egg of any Pet to take care of.")]
+        [SerializeField] private Pet egg;
+
         [Tooltip("The list of Pets available in the whole game.")]
         [SerializeField] private List<Pet> pets;
 
@@ -46,6 +49,7 @@ namespace GlyphaeScripts
         #region Fields
 
         private Pet _selectedPet;
+        private GameObject _petInstance;
 
         public const char GLYPH_SPLIT = ';';
         public const char MEMORY_SPLIT = ':';
@@ -63,28 +67,19 @@ namespace GlyphaeScripts
         #region GetSets / Properties
 
         /// <summary>
+        /// The egg of any <see cref="Pet"/> to take care of.
+        /// </summary>
+        public Pet Egg
+        {
+            get => egg;
+        }
+
+        /// <summary>
         /// The <see cref="Pet"/>s available in the game.
         /// </summary>
         public List<Pet> Pets
         {
             get => pets;
-        }
-
-        /// <summary>
-        /// The egg of any <see cref="Pet"/> to take care of.
-        /// </summary>
-        public Pet Egg
-        {
-            get => pets[0];
-        }
-
-        /// <summary>
-        /// The selected <see cref="Pet"/> to take care of.
-        /// </summary>
-        public Pet SelectedPet
-        {
-            get => _selectedPet;
-            set =>  _selectedPet = value;
         }
 
         /// <summary>
@@ -155,6 +150,25 @@ namespace GlyphaeScripts
         {
             get => firstRun;
             set => firstRun = value;
+        }
+
+        /// <summary>
+        /// The selected <see cref="Pet"/> to take care of.
+        /// </summary>
+        public Pet SelectedPet
+        {
+            get => _selectedPet;
+            set => _selectedPet = value;
+        }
+
+        /// <summary>
+        /// The reference to the actual instance
+        /// of the selected <see cref="Pet"/>.
+        /// </summary>
+        public GameObject PetInstance
+        {
+            get => _petInstance;
+            set => _petInstance = value;
         }
 
         #endregion

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
@@ -16,8 +15,7 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Game Specific")]
-        [Tooltip("Overlay image to simulate a flash.")]
-        [SerializeField] private Image overlay;
+        [SerializeField] private FlashOverlay flashOverlay;
 
         #endregion
 
@@ -122,22 +120,13 @@ namespace GlyphaeScripts
 
         private IEnumerator AnimateFade(float start, float end, float speedFactor)
         {
-            yield return new WaitForSeconds(1f / speedFactor);
-            Color color;
-
-            for (float i = start; i <= end; i += Time.deltaTime * speedFactor)
-            {
-                color = overlay.color;
-                color.a = i;
-                overlay.color = color;
-                yield return new WaitForEndOfFrame();
-            }
+            yield return flashOverlay.Flash(start, end, speedFactor);
 
             OnEggBreak?.Invoke();
             yield return new WaitForSeconds(1f / speedFactor);
 
             Destroy(_eggInstance);
-            Close();
+            CloseGame();
         }
 
         #endregion

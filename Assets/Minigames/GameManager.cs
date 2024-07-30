@@ -30,7 +30,6 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private GameObject _petInstance;
         private Pet _pet;
 
         #endregion
@@ -61,9 +60,9 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            _petInstance = Instantiate(settings.SelectedPet.gameObject, objectContainer);
-            _pet = _petInstance.GetComponent<Pet>();
-            _petInstance.SetActive(_pet.Level != Evolutions.Egg);
+            settings.PetInstance = Instantiate(settings.SelectedPet.gameObject, objectContainer);
+            _pet = settings.PetInstance.GetComponent<Pet>();
+            settings.PetInstance.SetActive(_pet.Level != Evolutions.Egg);
         }
 
         private void OnEnable()
@@ -72,7 +71,7 @@ namespace GlyphaeScripts
             ShellBreaker.OnEggBreak += () =>
             {
                 _pet.IncreaseLevel();
-                _petInstance.SetActive(_pet.Level != Evolutions.Egg);
+                settings.PetInstance.SetActive(_pet.Level != Evolutions.Egg);
             };
         }
 
@@ -127,7 +126,7 @@ namespace GlyphaeScripts
 
         private void CloseMinigame(GameObject minigame)
         {
-            if (!_petInstance.activeInHierarchy) _petInstance.SetActive(!(_pet.Level == Evolutions.Egg));
+            if (!settings.PetInstance.activeInHierarchy) settings.PetInstance.SetActive(!(_pet.Level == Evolutions.Egg));
             Destroy(minigame);
             mainPanel.SetActive(true);
         }

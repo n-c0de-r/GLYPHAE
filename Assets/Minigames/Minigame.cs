@@ -34,6 +34,17 @@ namespace GlyphaeScripts
         [Tooltip("The strength of need filling by the game.")]
         [SerializeField][Range(10, 50)] protected int needFill;
 
+        [Space]
+        [Header("Help Data")]
+        [Tooltip("Container to display the following data.")]
+        [SerializeField] protected GameHelp helpContainer;
+
+        [Tooltip("A short description of this Minigame.")]
+        [SerializeField][TextArea(3, 10)] protected string gameDescription;
+
+        [Tooltip("Instructions how to play the game.")]
+        [SerializeField][TextArea(3, 10)] protected string gameInstructions;
+
         #endregion Serialized Fields
 
 
@@ -67,6 +78,8 @@ namespace GlyphaeScripts
             GameButton.OnInput += CheckInput;
 
             NeedBubble.OnFeedbackDone += NextRound;
+
+            helpContainer.Setup(this.GetType().Name, gameDescription, gameInstructions);
         }
 
         void Start()
@@ -118,6 +131,15 @@ namespace GlyphaeScripts
             _buttonCount = ++_level << 1;
 
             NextRound();
+        }
+
+        /// <summary>
+        /// Informs the BaseGame Controller, that the game
+        /// has ended and can be closed and destroyed.
+        /// </summary>
+        public virtual void CloseGame()
+        {
+            OnGameClose?.Invoke(gameObject);
         }
 
         #endregion
@@ -175,7 +197,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Fail()
         {
-            if (++_fails >= _failsToLose) Close();
+            if (++_fails >= _failsToLose) CloseGame();
         }
 
         /// <summary>
@@ -185,16 +207,7 @@ namespace GlyphaeScripts
         protected virtual void Win()
         {
             need.SetData(needFill);
-            Close();
-        }
-
-        /// <summary>
-        /// Informs the BaseGame Controller, that the game
-        /// has ended and can be closed and destroyed.
-        /// </summary>
-        protected virtual void Close()
-        {
-            OnGameClose?.Invoke(gameObject);
+            CloseGame();
         }
 
         #endregion

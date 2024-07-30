@@ -87,13 +87,13 @@ namespace GlyphaeScripts
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (isReturning) return;
+            if (isReturning || !button.interactable) return;
             _startPosition = transform.position;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (isReturning) return;
+            if (isReturning || !button.interactable) return;
             transform.position = eventData.position;
         }
 
