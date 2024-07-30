@@ -452,8 +452,9 @@ MonoBehaviour:
   - {fileID: 6605299451272240677}
   - {fileID: 802192905429115491}
   minimumRounds: 3
-  need: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
-  needFill: 10
+  primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
+  secondaryNeed: {fileID: 0}
+  fillAmount: 10
   helpContainer: {fileID: 5905045642753849054}
   gameDescription: The pet's egg will demand different things, either hieroglyphs
     or letters. Matching them correctly causes the egg shell to break.

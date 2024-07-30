@@ -48,6 +48,7 @@ namespace GlyphaeScripts
             _failsToLose = minimumRounds;
 
             base.SetupGame(glyphs, level);
+            NextRound();
         }
 
         #endregion

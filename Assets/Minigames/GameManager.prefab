@@ -60,7 +60,7 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   energyCost: 10
   minigames:
-  - {fileID: 158209947391556878, guid: 9c670e40db45c6b4899285e93b55e730, type: 3}
+  - {fileID: 1482575416379090330, guid: 818fc3635f78cae40a635f28c645f0b7, type: 3}
   mainPanel: {fileID: 8279888480416043326}
   objectContainer: {fileID: 0}
 --- !u!114 &7318138937852256922

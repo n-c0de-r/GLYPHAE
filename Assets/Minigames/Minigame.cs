@@ -29,10 +29,14 @@ namespace GlyphaeScripts
         [Space]
         [Header("Need Values")]
         [Tooltip("The type of need this game fills.")]
-        [SerializeField] protected NeedData need;
+        [SerializeField] protected NeedData primaryNeed;
 
-        [Tooltip("The strength of need filling by the game.")]
-        [SerializeField][Range(10, 50)] protected int needFill;
+        [Tooltip("The type of need this game depletes.")]
+        [SerializeField] protected NeedData secondaryNeed;
+
+        [Tooltip("The strength of need filling by the game.\n" +
+            "Secondary is automatically depleted by a third of that.")]
+        [SerializeField][Range(10, 50)] protected int fillAmount;
 
         [Space]
         [Header("Help Data")]
@@ -129,16 +133,16 @@ namespace GlyphaeScripts
             _allGlyphs = new(glyphs);
             _level = level;
             _buttonCount = ++_level << 1;
-
-            NextRound();
         }
 
         /// <summary>
         /// Informs the BaseGame Controller, that the game
         /// has ended and can be closed and destroyed.
+        /// Also reduces the secondary need by 1/3rd.
         /// </summary>
         public virtual void CloseGame()
         {
+            secondaryNeed?.SetData(fillAmount / 3.0f);
             OnGameClose?.Invoke(gameObject);
         }
 
@@ -170,13 +174,13 @@ namespace GlyphaeScripts
             if (_toMatch == input)
             {
                 _toMatch.CorrectlyGuessed();
-                OnCorrectGuess?.Invoke(need.Positive);
+                OnCorrectGuess?.Invoke(primaryNeed.Positive);
                 Success();
             }
             else
             {
                 _toMatch.WronglyGuessed();
-                OnWrongGuess?.Invoke(need.Negative);
+                OnWrongGuess?.Invoke(primaryNeed.Negative);
                 Fail();
             }
             _allGlyphs.AddRange(_usedGlyphs);
@@ -206,7 +210,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Win()
         {
-            need.SetData(needFill);
+            primaryNeed?.SetData(fillAmount);
             CloseGame();
         }
 

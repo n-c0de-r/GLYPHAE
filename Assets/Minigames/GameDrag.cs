@@ -78,6 +78,7 @@ namespace GlyphaeScripts
         public void SetupDrag(Transform rect)
         {
             target = rect;
+            button.interactable = true;
         }
 
         public void SetSColor(Color color)

@@ -38,6 +38,7 @@ namespace GlyphaeScripts
         #region Fields
 
         public const int MIN = 0, MAX = 100;
+        private float _upFactor, _downFactor, _randomFactor;
 
         #endregion
 
