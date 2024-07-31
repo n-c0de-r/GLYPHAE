@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -82,8 +83,9 @@ namespace GlyphaeScripts
             GameButton.OnInput += CheckInput;
 
             NeedBubble.OnFeedbackDone += NextRound;
-
-            helpContainer.Setup(this.GetType().Name, gameDescription, gameInstructions);
+            //source https://stackoverflow.com/a/4489031
+            string normalizedName = string.Join(" ", Regex.Split(this.GetType().Name, @"(?<!^)(?=[A-Z])"));
+            helpContainer.Setup(normalizedName, gameDescription, gameInstructions);
         }
 
         protected void Start()

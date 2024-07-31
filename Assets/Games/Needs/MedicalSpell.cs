@@ -133,8 +133,8 @@ namespace GlyphaeScripts
                 instance.SetActive(true);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
 
-                timer.Setup(_usedGlyphs[_order[i]], previousSprites[_order[i]]);
-                instance.name = _order[i] + "_" + previousSprites[_order[i]].name;
+                timer.Setup(_usedGlyphs[_order[i] % _usedGlyphs.Count], previousSprites[_order[i] % previousSprites.Count]);
+                instance.name = _order[i] + "_" + previousSprites[_order[i] % previousSprites.Count].name;
                 _timeIcons[i] = timer;
             }
 

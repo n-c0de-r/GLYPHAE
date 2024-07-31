@@ -111,14 +111,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -240,7 +232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5432827782634591610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_Name
-      value: LullabyChant
+      value: MedicalSpell
       objectReference: {fileID: 0}
     - target: {fileID: 5919741906222116516, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -277,7 +269,7 @@ PrefabInstance:
     - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 950563774289724448}
+      objectReference: {fileID: 7776043217499276304}
     - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: CloseGame
@@ -426,14 +418,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5432827782634591610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 950563774289724448}
+      addedObject: {fileID: 7776043217499276304}
   m_SourcePrefab: {fileID: 100100000, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
 --- !u!1 &97351700370276399 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5432827782634591610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
   m_PrefabInstance: {fileID: 5349314071824373077}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &950563774289724448
+--- !u!114 &7776043217499276304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -442,7 +434,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 97351700370276399}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c21e93824185c0a47b58157ae1811bde, type: 3}
+  m_Script: {fileID: 11500000, guid: 22c7d132c0ae6844893708cc869d579b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
@@ -454,21 +446,18 @@ MonoBehaviour:
   - {fileID: 1153392270409447023}
   - {fileID: 7780078864211188200}
   baseRounds: 3
-  energyCost: 0
-  primaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
+  energyCost: 5
+  primaryNeed: {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
   secondaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
-  fillAmount: 10
+  fillAmount: 0
   helpContainer: {fileID: 2003674638442865547}
-  gameDescription: Singing lullabies helps to induce sleep, so reading out a few
-    magical hieroglyphs in the correct order should help.
-  gameInstructions: 'You will be presented one round with a few hieroglyphs, increasing
-    with the creature level, on the screen and a they will react in a specific sequence.
-    Repeat it correctly to win.
-
-
-    You will get a number of inputs, that is also
-    depending on the creature''s level, just press them in the correct order to match
-    them. If you lose, the creature will be disapointed and lose joy.'
+  gameDescription: Health and cleanliness is vital, literally. Cast a complicated
+    magic spell to wipe away all dirt and sickness off your pet.
+  gameInstructions: "You will be presented a list of mixed literals: transliteration
+    letters and hieroglyphs to match. Press the corresponding buttons in the shown
+    order to execute the spell.\r\nThe number of glyphs and mixture increases with
+    the level.\r\n\r\nAs this is medicine after all, and some pets don't like water
+    either, this is not desired and reduces joy a bit, too.\r"
   container: {fileID: 7408270817505839210}
   template: {fileID: 1214085744385610341}
 --- !u!114 &1153392270409447023 stripped

@@ -91,7 +91,6 @@ namespace GlyphaeScripts
         private void OnDisable()
         {
             Minigame.OnGameClose -= CloseMinigame;
-
         }
 
         void OnDestroy()
