@@ -22,7 +22,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private Transform target;
+       [SerializeField] private Transform target;
         private Vector3 _startPosition;
         private bool isReturning = false;
 
@@ -69,17 +69,6 @@ namespace GlyphaeScripts
 
 
         #region Methods
-
-        /// <summary>
-        /// Assigns the target <see cref="Transform"/> for this button.
-        /// If the button is dropped close enought to it, it counts as an 'input'.
-        /// </summary>
-        /// <param name="rect"></param>
-        public void SetupDrag(Transform rect)
-        {
-            target = rect;
-            button.interactable = true;
-        }
 
         public void SetSColor(Color color)
         {

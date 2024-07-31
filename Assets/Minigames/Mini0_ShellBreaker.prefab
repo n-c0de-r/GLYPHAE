@@ -202,19 +202,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 728019509247714355, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 728019509247714355, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 728019509247714355, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 728019509247714355, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_AnchoredPosition.y
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1849452249708600496, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
@@ -379,7 +367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5432827782634591610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_Name
-      value: =Shell
+      value: Mini0_ShellBreaker
       objectReference: {fileID: 0}
     - target: {fileID: 5919741906222116516, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -399,34 +387,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6011197992924634267, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6011197992924634267, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6011197992924634267, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6011197992924634267, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -358.03796
       objectReference: {fileID: 0}
     - target: {fileID: 6198797893811859730, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6198797893811859730, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6198797893811859730, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6198797893811859730, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-      propertyPath: m_AnchoredPosition.y
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6363556415667820204, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
@@ -477,6 +453,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7151858065353745024, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7398692869687230130, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -495,19 +475,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8067166744701702688, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8067166744701702688, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8067166744701702688, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8067166744701702688, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -158.03796
       objectReference: {fileID: 0}
     - target: {fileID: 8099809582132897517, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -637,14 +617,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
-  type: 4
   gameInputs:
   - {fileID: 8249008566737619073}
   - {fileID: 3015695957183008889}
-  minimumRounds: 3
+  baseRounds: 3
+  energyCost: 0
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   secondaryNeed: {fileID: 0}
-  fillAmount: 10
+  fillAmount: 0
   helpContainer: {fileID: 7733644179223733370}
   gameDescription: The pet's egg will demand different things, either hieroglyphs
     or letters. Matching them correctly causes the egg shell to break.

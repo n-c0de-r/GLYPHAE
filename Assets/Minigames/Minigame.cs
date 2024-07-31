@@ -17,14 +17,14 @@ namespace GlyphaeScripts
         [SerializeField] protected Settings settings;
 
         [Header("Base Values")]
-        [Tooltip("The match type \r\nthis game belongs to.")]
-        [SerializeField] protected GameType type;
-
         [Tooltip("The Inputs to set up at start.")]
         [SerializeField] protected List<GameButton> gameInputs;
 
         [Tooltip("Minimum number of rounds to play this game.")]
-        [SerializeField][Range(1, 3)] protected int minimumRounds = 1;
+        [SerializeField][Range(1, 3)] protected int baseRounds = 1;
+
+        [Tooltip("The base costs of Energy to play a game.")]
+        [SerializeField][Range(0, 10)] private int energyCost;
 
         [Space]
         [Header("Need Values")]
@@ -36,7 +36,7 @@ namespace GlyphaeScripts
 
         [Tooltip("The strength of need filling by the game.\n" +
             "Secondary is automatically depleted by a third of that.")]
-        [SerializeField][Range(10, 50)] protected int fillAmount;
+        [SerializeField][Range(0, 25)] protected int fillAmount;
 
         [Space]
         [Header("Help Data")]
@@ -56,8 +56,8 @@ namespace GlyphaeScripts
 
         protected GlyphData _toMatch;
         protected List<GlyphData> _allGlyphs, _usedGlyphs;
-        protected int _level, _buttonCount;
         protected int _successes, _fails, _failsToLose;
+        protected int _buttonCount;
 
         #endregion Fields
 
@@ -118,6 +118,9 @@ namespace GlyphaeScripts
 
         #region GetSets / Properties
 
+        public int EnergyCost { get => energyCost; }
+
+
         #endregion
 
 
@@ -131,8 +134,8 @@ namespace GlyphaeScripts
         public virtual void SetupGame(List<GlyphData> glyphs, int level)
         {
             _allGlyphs = new(glyphs);
-            _level = level;
-            _buttonCount = ++_level << 1;
+            _buttonCount = (level+1) << 1;
+            _failsToLose = baseRounds;
         }
 
         /// <summary>
@@ -142,18 +145,21 @@ namespace GlyphaeScripts
         /// </summary>
         public virtual void CloseGame()
         {
-            secondaryNeed?.SetData(fillAmount / 3.0f);
+            secondaryNeed?.Decrease(fillAmount / 3.0f);
             OnGameClose?.Invoke(gameObject);
         }
+
+        /// <summary>
+        /// Sets up the next round after the <see cref="Pet"/> has messaged its next <see cref="NeedData"/>.
+        /// </summary>
+        public abstract void NextRound();
 
         #endregion
 
 
         #region Helpers
 
-        /// <summary>
-        /// Sets up the next round internally after the <see cref="Pet"/> has messaged its next <see cref="NeedData"/>.
-        /// </summary>
+        
         /// <param name="glyph"></param>
         /// <param name="correctIcon"></param>
         /// <param name="wrongIcon"></param>
@@ -161,8 +167,6 @@ namespace GlyphaeScripts
         //protected abstract void SetupRound(GlyphData glyph, Sprite correctIcon, Sprite wrongIcon, List<GlyphData> allGlyphs);
 
         //protected abstract void SetupRound(Sprite correctIcon, List<GlyphData> allGlyphs);
-
-        protected abstract void NextRound();
 
         protected virtual void DisplayRound(Sprite correct)
         {
@@ -192,7 +196,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Success()
         {
-            if (++_successes >= minimumRounds) Win();
+            if (++_successes >= baseRounds) Win();
         }
 
         /// <summary>
@@ -210,46 +214,10 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Win()
         {
-            primaryNeed?.SetData(fillAmount);
+            primaryNeed?.Increase(fillAmount);
             CloseGame();
         }
 
         #endregion
     }
-
-
-    #region Enums
-
-    /// <summary>
-    /// The match type this  <see cref="Minigame"/> belongs to.
-    /// </summary>
-    public enum GameType
-    {
-        /// <summary>
-        /// Match the Egyptian symbol of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
-        /// </summary>
-        Symbols,
-
-        /// <summary>
-        /// Match the transliteration letter of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
-        /// </summary>
-        Letters,
-
-        /// <summary>
-        /// Match the changing icon of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
-        /// </summary>
-        Alternate,
-
-        /// <summary>
-        /// Match multiple parts of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
-        /// </summary>
-        Multiple,
-
-        /// <summary>
-        /// Match a random part of the <see cref="GlyphData"/> shown by the <see cref="Pet"/>.
-        /// </summary>
-        Random
-    }
-
-    #endregion
 }

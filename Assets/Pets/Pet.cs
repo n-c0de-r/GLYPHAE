@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using static UnityEngine.InputManagerEntry;
 
 namespace GlyphaeScripts
 {
@@ -59,6 +61,7 @@ namespace GlyphaeScripts
 
         public Evolutions _level = Evolutions.Egg;
         private int _evolutionCalls = 0;
+        private int _sicknessChance, _sicknessChanceFactor;
         private bool hasCalled = false;
 
         #endregion
@@ -149,6 +152,8 @@ namespace GlyphaeScripts
 
             if (PlayerPrefs.HasKey(nameof(Evolutions))) _level = (Evolutions)PlayerPrefs.GetInt(nameof(Evolutions));
             if (PlayerPrefs.HasKey(nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(nameof(_evolutionCalls));
+
+            InitializeFactors();
         }
 
         private void OnEnable()
@@ -159,12 +164,7 @@ namespace GlyphaeScripts
             Minigame.OnWrongGuess += Feedback;
             Minigame.OnNextRound += Call;
 
-            //UpdateNeed(NeedTypes.Hunger, hunger.Current - NeedData.MAX);
-            //UpdateNeed(NeedTypes.Joy, joy.Current - NeedData.MAX);
-            //UpdateNeed(NeedTypes.Energy, energy.Current - NeedData.MAX);
-
             CheckEvolution();
-
         }
 
         void Start()
@@ -179,9 +179,10 @@ namespace GlyphaeScripts
             if (timer <= 0)
             {
                 timer = 60;
-                //UpdateNeed(NeedTypes.Hunger, -1);
-                //UpdateNeed(NeedTypes.Joy, -1);
-                //UpdateNeed(NeedTypes.Energy, -1);
+                Hunger.Decrease(-1);
+                Health.Decrease(-1);
+                Joy.Decrease(-1);
+                Energy.Decrease(-1);
             }
         }
 
@@ -251,7 +252,32 @@ namespace GlyphaeScripts
             needFeedback.Setup(sprite);
             StartCoroutine(needFeedback.ShowFeedback());
         }
-        
+
+        private void InitializeFactors()
+        {
+            Hunger.SetupFactors(CalculateReverseCurve(), CalculateReverseLine());
+            Health.SetupFactors(0, 0);
+            Joy.SetupFactors(CalculateReverseLine(), CalculateCurve());
+            Energy.SetupFactors(CalculateReverseLine(), CalculateReverseCurve());
+            _sicknessChanceFactor = CalculateReverseCurve();
+            _sicknessChance = (int)(NeedData.MAX - Health.Current) * _sicknessChanceFactor;
+        }
+
+        private int CalculateCurve()
+        {
+            return (int)Evolutions.Teen - Mathf.Abs((int)_level - (int)Evolutions.Teen);
+        }
+
+        private int CalculateReverseCurve()
+        {
+            return Mathf.Abs((int)_level - (int)Evolutions.Teen) + 1;
+        }
+
+        private int CalculateReverseLine()
+        {
+            return (int)Enum.GetValues(typeof(Evolutions)).Length - (int)_level;
+        }
+
         #endregion
     }
 

@@ -33,15 +33,10 @@ namespace GlyphaeScripts
         [Tooltip("The speed of animations.")]
         [SerializeField][Range(1, 5)] private float speedFactor = 3;
 
-        [Tooltip("The lower time limit of notification mute.")]
-        [SerializeField][Range(1, 5)] private float muteLowerLimit;
-
-        [Tooltip("The upper time limit of notification mute.")]
-        [SerializeField][Range(1, 5)] private float muteUpperLimit;
-
         [Header("Other Values")]
         [Tooltip("If the game has ever run.")]
         [SerializeField] private bool firstRun = true;
+        [SerializeField] private Difficulty difficulty = Difficulty.Easy;
 
         #endregion
 
@@ -51,8 +46,11 @@ namespace GlyphaeScripts
         private Pet _selectedPet;
         private GameObject _petInstance;
 
-        public const char GLYPH_SPLIT = ';';
-        public const char MEMORY_SPLIT = ':';
+        private const char GLYPH_SPLIT = ';';
+        private const char MEMORY_SPLIT = ':';
+
+        private int _silenceStart = 20;
+        private int _silenceEnd = 8;
 
         #endregion
 
@@ -153,6 +151,27 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
+        /// The ramp up of level difficulty.
+        /// Easier starts with two easy levels, two middle levels and only the final level is hard.
+        /// Harder has only one easy level, 2 mid levels, and 2 hard ones.
+        /// </summary>
+        public Difficulty Difficulty
+        {
+            get => difficulty;
+            set => difficulty = value;
+        }
+
+        /// <summary>
+        /// Overload for Dropdown menus. The ramp up of level difficulty.
+        /// Easier starts with two easy levels, two middle levels and only the final level is hard.
+        /// Harder has only one easy level, 2 mid levels, and 2 hard ones.
+        /// </summary>
+        public int DifficultyValue
+        {
+            set => difficulty = (Difficulty)value;
+        }
+
+        /// <summary>
         /// The selected <see cref="Pet"/> to take care of.
         /// </summary>
         public Pet SelectedPet
@@ -169,6 +188,26 @@ namespace GlyphaeScripts
         {
             get => _petInstance;
             set => _petInstance = value;
+        }
+
+        /// <summary>
+        /// The lower time limit of notification mute.
+        /// When the silence will start in the evening.
+        /// </summary>
+        public int SilenceStart
+        {
+            get => _silenceStart;
+            set => _silenceStart = Mathf.Clamp(value, 0, 4) + 18;
+        }
+
+        /// <summary>
+        /// The upper time limit of notification mute.
+        /// When the silence will end in the morning.
+        /// </summary>
+        public int SilenceEnd
+        {
+            get => _silenceEnd;
+            set => _silenceEnd = Mathf.Clamp(value, 0, 4) + 6;
         }
 
         #endregion
@@ -295,5 +334,26 @@ namespace GlyphaeScripts
         {
             SelectedPet, GlyphList, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed, FirstRun
         }
+    }
+
+    /// <summary>
+    /// The ramp up of level difficulty.
+    /// </summary>
+    public enum Difficulty
+    {
+        /// <summary>
+        /// Easy: starts with two easy levels, then three middle levels, no hard ones.
+        /// </summary>
+        Easy,
+
+        /// <summary>
+        /// Starts with two easy levels, and two middle levels and one hard.
+        /// </summary>
+        Medium,
+
+        /// <summary>
+        /// Start with 1 easy level, 2 mid levels, and 2 hard ones.
+        /// </summary>
+        Hard
     }
 }

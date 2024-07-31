@@ -1,6 +1,4 @@
 using System;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -30,7 +28,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        public int _guesses = 0;
+        [Range(0,5)]public int _guesses = 0;
 
         #endregion
 

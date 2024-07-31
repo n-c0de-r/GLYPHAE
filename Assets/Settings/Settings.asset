@@ -13,17 +13,16 @@ MonoBehaviour:
   m_Name: Settings
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: dcc6d6a5f32ecf14c98005122344b0fc, type: 2}
-  egg: {fileID: -1411128943614859830, guid: 54b8997be8b5b4d4facc34d390314826, type: 3}
+  egg: {fileID: 9169251450830870401, guid: 396f6b5493fe32c438e976ab3663848d, type: 3}
   pets:
-  - {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
-  - {fileID: 1127947054445421824, guid: ee6b687fe77934f49af4646eb5f4a2c2, type: 3}
-  - {fileID: 1127947054445421824, guid: 65f40c1cc271b274fba6795ca5c3512f, type: 3}
-  - {fileID: 1127947054445421824, guid: 54898e67d8dbe7e45a0e40a89d22d215, type: 3}
+  - {fileID: 1954297056406680469, guid: 8bcfe026b210b8546944478eb260dde7, type: 3}
+  - {fileID: 303808673359514653, guid: e8836ffa96a2f0447b1beb6682e344ba, type: 3}
+  - {fileID: 1729131231951407160, guid: 73e73120d572b824d97f50373503117a, type: 3}
+  - {fileID: 1514102868981016521, guid: 5871866cad727ad418b91138130ee4ae, type: 3}
   main: -20
   music: 0
   sound: 0
   voice: 0
   speedFactor: 3
-  muteLowerLimit: 1
-  muteUpperLimit: 1
   firstRun: 0
+  difficulty: 2

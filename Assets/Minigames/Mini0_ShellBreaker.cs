@@ -40,15 +40,11 @@ namespace GlyphaeScripts
 
         public override void SetupGame(List<GlyphData> glyphs, int level)
         {
+            base.SetupGame(glyphs, level);
+
             _eggInstance = Instantiate(settings.Egg.gameObject, transform.parent);
             _egg = _eggInstance.GetComponent<Pet>();
             _egg.Literals = glyphs;
-
-            foreach (GameDrag button in gameInputs.Cast<GameDrag>()) button.SetupDrag(_eggInstance.GetComponent<Transform>());
-            _failsToLose = minimumRounds;
-
-            base.SetupGame(glyphs, level);
-            NextRound();
         }
 
         #endregion
@@ -56,7 +52,7 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        protected override void NextRound()
+        public override void NextRound()
         {
             _usedGlyphs = new();
             _toMatch = _allGlyphs[UnityEngine.Random.Range(0, _allGlyphs.Count)];
@@ -103,7 +99,7 @@ namespace GlyphaeScripts
         {
             _egg.IncreaseLevel();
             _successes++;
-            if (_successes >= minimumRounds) Win();
+            if (_successes >= baseRounds) Win();
         }
 
 

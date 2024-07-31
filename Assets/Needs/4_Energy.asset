@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85eda91f002ebda47bc7047a728fd63a, type: 3}
-  m_Name: NeedData4_Energy
+  m_Name: 4_Energy
   m_EditorClassIdentifier: 
   initial: 100
-  current: 100
+  current: 80
   critical: 20
   alarm: {fileID: 1381043269, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: 0}

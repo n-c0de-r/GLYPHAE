@@ -38,7 +38,7 @@ namespace GlyphaeScripts
         #region Fields
 
         public const int MIN = 0, MAX = 100;
-        private float _upFactor, _downFactor, _randomFactor;
+        private float _upFactor, _downFactor, _randomOffset;
 
         #endregion
 
@@ -107,22 +107,57 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public void SetData(float value)
+        /// <summary>
+        /// Increases the current <see cref="NeedData"/> value with a specific calculation.
+        /// </summary>
+        /// <param name="value">The base value to add.</param>
+        public void Increase(float value)
         {
-            current = Mathf.Clamp(current + value, MIN, MAX);
+            current = Mathf.Clamp(current + value * (_upFactor + _randomOffset), MIN, MAX);
         }
+
+        /// <summary>
+        /// Decreases the current <see cref="NeedData"/> value with a specific calculation.
+        /// </summary>
+        /// <param name="value">The base value to subtract.</param>
+        public void Decrease(float value)
+        {
+            current = Mathf.Clamp(current - value * (_downFactor + _randomOffset), MIN, MAX);
+        }
+
+        /// <summary>
+        /// Sets up the relevant factors for this <see cref="NeedData"/>
+        /// </summary>
+        /// <param name="upFactor">The factor that is applied when satisfying needs.</param>
+        /// <param name="downFactor">The factor that is applied when reducing needs.</param>
+        public void SetupFactors(int upFactor, int downFactor)
+        {
+            _upFactor = upFactor;
+            _downFactor = downFactor;
+        }
+
 
         public void Reset()
         {
             initial = current;
         }
 
+        /// <summary>
+        /// Adds a random offset to factors.
+        /// They get updated after calls, level-ups and day changes.
+        /// </summary>
+        /// <param name="calls">The number of calls of a <see cref="Pet"/> satisfied so far. Ramps up randomness.</param>
+        public void Randomize(int calls)
+        {
+            _randomOffset = UnityEngine.Random.Range(-0.13f, +0.13f) * calls;
+        }
+
         #endregion
 
 
         #region Helpers
-        
-        
+
+
 
         #endregion
 

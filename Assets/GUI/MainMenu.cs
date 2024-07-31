@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +12,11 @@ namespace GlyphaeScripts
 
         [Header("Volume Controls")]
         [SerializeField] private Slider main;
-        [SerializeField] private Slider music;
-        [SerializeField] private Slider sound;
-        [SerializeField] private Slider voice;
+        [SerializeField] private Slider music, sound, voice;
+
+        [Header("Dropdown Controls")]
+        [SerializeField] private TMP_Dropdown difficulty;
+        [SerializeField] private TMP_Dropdown timerStart, timerEnd;
 
         [Header("Input Objects")]
         [SerializeField] private GameObject buttonContainer;
@@ -48,6 +51,10 @@ namespace GlyphaeScripts
             music.SetValueWithoutNotify(settings.MusicVolume);
             sound.SetValueWithoutNotify(settings.SoundVolume);
             voice.SetValueWithoutNotify(settings.VoiceVolume);
+
+            difficulty.SetValueWithoutNotify((int)settings.Difficulty);
+            timerStart.SetValueWithoutNotify(settings.SilenceStart-18);
+            timerEnd.SetValueWithoutNotify(settings.SilenceEnd-6);
 
             settings.FirstRun = false;
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -12,9 +13,6 @@ namespace GlyphaeScripts
         [SerializeField] private Settings settings;
 
         [Header("Base values")]
-        [Tooltip("The costs of Energy to play a game.")]
-        [SerializeField][Range(0, 50)] protected int energyCost;
-
         [Tooltip("List of Minigames to play.")]
         [SerializeField] private List<Minigame> minigames;
 
@@ -108,15 +106,19 @@ namespace GlyphaeScripts
 
         public void StartGame(Minigame original)
         {
-            if (_pet.Energy.Current >= energyCost)
-            {
-                GameObject instance = Instantiate(original.gameObject, objectContainer);
-                Minigame game = instance.GetComponent<Minigame>();
+            GameObject instance = Instantiate(original.gameObject, objectContainer);
+            Minigame game = instance.GetComponent<Minigame>();
 
-                game.SetupGame(_pet.Literals, (int)_pet.Level >> 1);
-                if (_pet.Level != Evolutions.Egg) _pet.Energy.SetData(-energyCost);
-                mainPanel.SetActive(false);
+            if (_pet.Energy.Current < game.EnergyCost)
+            {
+                Destroy(instance);
+                return;
             }
+
+            if (_pet.Level != Evolutions.Egg) _pet.Energy.Decrease(game.EnergyCost);
+            mainPanel.SetActive(false);
+            game.SetupGame(_pet.Literals, CalculateBaselevel());
+            game.NextRound();
         }
 
         #endregion
@@ -129,6 +131,21 @@ namespace GlyphaeScripts
             if (!settings.PetInstance.activeInHierarchy) settings.PetInstance.SetActive(!(_pet.Level == Evolutions.Egg));
             Destroy(minigame);
             mainPanel.SetActive(true);
+        }
+
+        private int CalculateBaselevel()
+        {
+            int halfLevels = (Enum.GetValues(typeof(Evolutions)).Length / 2);
+            switch (settings.Difficulty)
+            {
+                case Difficulty.Easy:
+                    return (int)_pet.Level / halfLevels;
+                case Difficulty.Medium:
+                    return (int)_pet.Level / (halfLevels - (int)_pet.Level / (int)Evolutions.God);
+                case Difficulty.Hard:
+                    return (int)_pet.Level >> 1;
+            }
+            return -1;
         }
 
         #endregion

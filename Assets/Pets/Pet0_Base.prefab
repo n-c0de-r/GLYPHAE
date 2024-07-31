@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2868615093413546718}
   - component: {fileID: 603445631893587804}
   m_Layer: 0
-  m_Name: Pet1_Sobek
+  m_Name: Pet0_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,48 +58,12 @@ MonoBehaviour:
   needFeedback: {fileID: 798364344846726209}
   levelSprites:
   - {fileID: -1696121861, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
-  - {fileID: 231761442, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
-  - {fileID: -571231054, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
-  - {fileID: 1705655371, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
-  - {fileID: 1947024395, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
-  - {fileID: 922343693, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
-  literals:
-  - {fileID: 11400000, guid: a0ad8ea442db70042bfa3e30334dbeaa, type: 2}
-  - {fileID: 11400000, guid: c91908305e18fd349b7a59612971bd07, type: 2}
-  - {fileID: 11400000, guid: a6da7ae544063fc4bb2db4c1ed18a0bc, type: 2}
-  - {fileID: 11400000, guid: 2721acc82bb42654b8a945af1eb09e50, type: 2}
-  - {fileID: 11400000, guid: 0c0e5411e55d32046a743224bd0357e2, type: 2}
-  - {fileID: 11400000, guid: bf478e7afe02cef4f884c6cfc1e94a5b, type: 2}
-  - {fileID: 11400000, guid: 7eb6736206d34af4984b81c5eb7efcb1, type: 2}
-  - {fileID: 11400000, guid: f4e914b438161d948ab183e8a86e6bec, type: 2}
-  - {fileID: 11400000, guid: f8da9db5449d9c247b38bdc632727388, type: 2}
-  - {fileID: 11400000, guid: d537ddd301c695148bd22fefe84cea4c, type: 2}
-  - {fileID: 11400000, guid: 62e9a7d4c264435488966622dccfd514, type: 2}
-  - {fileID: 11400000, guid: 3848cc3097220b140882d94151200995, type: 2}
-  - {fileID: 11400000, guid: cc1f55e90a8966043ac16ab033ef6370, type: 2}
-  - {fileID: 11400000, guid: 4c13801eb82c7174aae2e4068a2db7cd, type: 2}
-  - {fileID: 11400000, guid: fcbfa885bf874ae4ab81f77a0a76c9a9, type: 2}
-  - {fileID: 11400000, guid: 5914870cb604b3743879ae3722cdfc46, type: 2}
-  - {fileID: 11400000, guid: 2c5393104c639414ca12e8f238c8fbe5, type: 2}
-  - {fileID: 11400000, guid: 5db1af2e10aea3043a04b2d382103c4e, type: 2}
-  - {fileID: 11400000, guid: 30dff66bafbc5174aa2c381a13dd6e91, type: 2}
-  - {fileID: 11400000, guid: 4744702c41eabaf4b9511eb817df3db5, type: 2}
-  - {fileID: 11400000, guid: 598ca584ca6b4db42af2ad9ebf73d0e5, type: 2}
-  - {fileID: 11400000, guid: 1949d767ebbb7eb4fadc84163ddd2086, type: 2}
-  - {fileID: 11400000, guid: 44e49c9a23b9df143b7b9cf8afa90fbd, type: 2}
-  - {fileID: 11400000, guid: b04c986b4d06c9e418df53551e8a5479, type: 2}
-  - {fileID: 11400000, guid: 059f5d3756ce5634b8e2569a4c7bf190, type: 2}
-  unlocked: 1
-  petName: Sobek
-  category: Uniliterals
-  description: 'The crocodile god.
-
-    God of water and fertility.
-
-    He''s friendly
-    but understands only little language, thus he needs to learn the most simple,
-    single-sound literals - similar to a basic alphabet.'
-  symbol: {fileID: 2108304495, guid: 6438ca2e908d244478afa9770245c553, type: 3}
+  literals: []
+  unlocked: 0
+  petName: 
+  category: 
+  description: 
+  symbol: {fileID: 0}
   _level: 0
 --- !u!212 &5059000855819877809
 SpriteRenderer:
@@ -142,7 +106,7 @@ SpriteRenderer:
   m_SortingLayerID: -227775399
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 231761442, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -150,7 +114,7 @@ SpriteRenderer:
   m_Size: {x: 3.78, y: 3.78}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!82 &2868615093413546718
@@ -164,7 +128,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 8173853675361948299, guid: dcc6d6a5f32ecf14c98005122344b0fc, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
