@@ -21,8 +21,8 @@ namespace GlyphaeScripts
 
 
         #region Fields
-
-       [SerializeField] private Transform target;
+        
+        [SerializeField] private Transform target;
         private Vector3 _startPosition;
         private bool isReturning = false;
 
@@ -115,7 +115,7 @@ namespace GlyphaeScripts
 
             while (timeTotal < timeToMove)
             {
-                timeTotal += Time.deltaTime * settings.SpeedFactor;
+                timeTotal += Time.deltaTime * settings.AnimationSpeed;
                 transform.position = Vector3.Lerp(currentPosition, _startPosition, timeTotal / timeToMove);
                 yield return null;
             }

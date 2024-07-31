@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3_Joy
   m_EditorClassIdentifier: 
   initial: 0
-  current: 0
+  current: 100
   critical: 20
   alarm: {fileID: 1333884041, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: 1875779347, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}

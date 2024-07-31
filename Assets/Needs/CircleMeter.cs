@@ -68,7 +68,6 @@ namespace GlyphaeScripts
 
         private void OnEnable()
         {
-            //Pet.OnNeedUpdate += UpdateValue;
             UpdateValue(need.Current - _current);
         }
 
@@ -88,7 +87,7 @@ namespace GlyphaeScripts
 
         private void OnDisable()
         {
-            //Pet.OnNeedUpdate -= UpdateValue;
+
         }
 
         #endregion
@@ -110,11 +109,9 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        //private void MessageNeed()
-        //{
-        //    Debug.Log("Need " + name);
-        //}
-
+        /// <summary>
+        /// Animates filling the need circle.
+        /// </summary>
         private IEnumerator AnimateFill(float start, float end, float inc)
         {
             yield return new WaitForSeconds(delay);
@@ -126,7 +123,7 @@ namespace GlyphaeScripts
                 color.r = (NeedData.MAX - i) / _half;
                 color.g = i / _half;
                 slider.color = color;
-                yield return new WaitForSeconds(speed / settings.SpeedFactor);
+                yield return new WaitForSeconds(speed / settings.AnimationSpeed);
             }
         }
 

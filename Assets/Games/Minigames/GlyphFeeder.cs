@@ -22,8 +22,6 @@ namespace GlyphaeScripts
 
         #region Events
 
-        //public static event Action OnEggBreak;
-
         #endregion
 
 
@@ -32,8 +30,18 @@ namespace GlyphaeScripts
         public override void NextRound()
         {
             _usedGlyphs = new();
-            _toMatch = _allGlyphs[Random.Range(0, _allGlyphs.Count)];
-            _allGlyphs.Remove(_toMatch);
+
+            if (_allOtherGlyphs.Count > 0)
+            {
+                _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
+                _allOtherGlyphs.Remove(_toMatch);
+            }
+            else
+            {
+                _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
+                _newGlyphs.Remove(_toMatch);
+            }
+            _usedGlyphs.Add(_toMatch);
 
             int correctPosition = UnityEngine.Random.Range(0, _buttonCount);
 
@@ -45,8 +53,17 @@ namespace GlyphaeScripts
                 }
                 else
                 {
-                    GlyphData wrongGlyph = _allGlyphs[Random.Range(0, _allGlyphs.Count)];
-                    _allGlyphs.Remove(wrongGlyph);
+                    GlyphData wrongGlyph;
+                    if (_allOtherGlyphs.Count > 0)
+                    {
+                        wrongGlyph = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
+                        _allOtherGlyphs.Remove(wrongGlyph);
+                    }
+                    else
+                    {
+                        wrongGlyph = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
+                        _newGlyphs.Remove(wrongGlyph);
+                    }
                     _usedGlyphs.Add(wrongGlyph);
                     gameInputs[i].Setup(wrongGlyph, wrongGlyph.Symbol);
                 }

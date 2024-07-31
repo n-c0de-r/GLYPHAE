@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 4_Energy
   m_EditorClassIdentifier: 
   initial: 100
-  current: 80
+  current: 64
   critical: 20
   alarm: {fileID: 1381043269, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: 0}

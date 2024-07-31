@@ -97,13 +97,13 @@ namespace GlyphaeScripts
 
         public IEnumerator ShowFeedback()
         {
-            yield return StartCoroutine(AnimateFade(0, 1, settings.SpeedFactor));
+            yield return StartCoroutine(AnimateFade(0, 1, settings.AnimationSpeed));
             OnFeedbackDone?.Invoke();
         }
 
         public IEnumerator ShowCall()
         {
-            yield return StartCoroutine(AnimateFade(0, 1, settings.SpeedFactor));
+            yield return StartCoroutine(AnimateFade(0, 1, settings.AnimationSpeed));
         }
 
         #endregion
@@ -139,7 +139,7 @@ namespace GlyphaeScripts
             if (end > 0)
             {
                 yield return new WaitForSeconds(1f / speedFactor);
-                yield return AnimateFade(-1, 0, settings.SpeedFactor * 2);
+                yield return AnimateFade(-1, 0, settings.AnimationSpeed * 2);
             }
             yield return new WaitForSeconds(1f / speedFactor);
         }

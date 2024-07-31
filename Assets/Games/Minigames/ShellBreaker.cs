@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -38,9 +37,9 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<GlyphData> glyphs, int level)
+        public override void SetupGame(List<GlyphData> glyphs, int baseLevel)
         {
-            base.SetupGame(glyphs, level);
+            base.SetupGame(glyphs, baseLevel);
 
             _eggInstance = Instantiate(settings.Egg.gameObject, transform.parent);
             _egg = _eggInstance.GetComponent<Pet>();
@@ -55,11 +54,11 @@ namespace GlyphaeScripts
         public override void NextRound()
         {
             _usedGlyphs = new();
-            _toMatch = _allGlyphs[UnityEngine.Random.Range(0, _allGlyphs.Count)];
-            _allGlyphs.Remove(_toMatch);
+            _toMatch = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
+            _newGlyphs.Remove(_toMatch);
 
-            GlyphData wrongGlyph = _allGlyphs[UnityEngine.Random.Range(0, _allGlyphs.Count)];
-            _allGlyphs.Remove(wrongGlyph);
+            GlyphData wrongGlyph = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
+            _newGlyphs.Remove(wrongGlyph);
             _usedGlyphs.Add(wrongGlyph);
 
             Sprite[] sprites = { _toMatch.Symbol, _toMatch.Letter };
@@ -92,7 +91,7 @@ namespace GlyphaeScripts
 
         protected override void Win()
         {
-            StartCoroutine(AnimateFade(0,1, settings.SpeedFactor));
+            StartCoroutine(AnimateFade(0,1, settings.AnimationSpeed));
         }
 
         protected override void Success()

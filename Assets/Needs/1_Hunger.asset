@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1_Hunger
   m_EditorClassIdentifier: 
   initial: 0
-  current: 0
+  current: 100
   critical: 20
   alarm: {fileID: -2043194862, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: 346757764, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}

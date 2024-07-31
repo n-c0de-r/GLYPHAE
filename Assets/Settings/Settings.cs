@@ -31,7 +31,7 @@ namespace GlyphaeScripts
 
         [Header("Display Values")]
         [Tooltip("The speed of animations.")]
-        [SerializeField][Range(1, 5)] private float speedFactor = 3;
+        [SerializeField][Range(1, 5)] private float animationSpeed = 3;
 
         [Header("Other Values")]
         [Tooltip("If the game has ever run.")]
@@ -135,10 +135,10 @@ namespace GlyphaeScripts
         /// <summary>
         /// The speed of animations.
         /// </summary>
-        public float SpeedFactor
+        public float AnimationSpeed
         {
-            get => speedFactor;
-            set => speedFactor = value;
+            get => animationSpeed;
+            set => animationSpeed = value;
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace GlyphaeScripts
             PlayerPrefs.SetFloat(nameof(Keys.SoundVolume), sound);
             PlayerPrefs.SetFloat(nameof(Keys.VoiceVolume), voice);
 
-            PlayerPrefs.SetFloat(nameof(Keys.AnimationSpeed), speedFactor);
+            PlayerPrefs.SetFloat(nameof(Keys.AnimationSpeed), animationSpeed);
 
             PlayerPrefs.SetString(nameof(Keys.FirstRun), firstRun.ToString());
 

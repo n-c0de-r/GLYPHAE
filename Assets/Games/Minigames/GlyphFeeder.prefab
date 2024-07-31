@@ -252,9 +252,29 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5160932868816411578, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160932868816411578, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160932868816411578, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160932868816411578, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160932868816411578, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5432827782634591610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_Name
-      value: Mini1_GlyphFeeder
+      value: GlyphFeeder
       objectReference: {fileID: 0}
     - target: {fileID: 5919741906222116516, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y

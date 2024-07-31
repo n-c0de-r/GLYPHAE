@@ -23,6 +23,6 @@ MonoBehaviour:
   music: 0
   sound: 0
   voice: 0
-  speedFactor: 3
+  animationSpeed: 5
   firstRun: 0
   difficulty: 2

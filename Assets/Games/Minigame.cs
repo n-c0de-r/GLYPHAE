@@ -55,9 +55,9 @@ namespace GlyphaeScripts
         #region Fields
 
         protected GlyphData _toMatch;
-        protected List<GlyphData> _allGlyphs, _usedGlyphs;
+        protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
         protected int _successes, _fails, _failsToLose;
-        protected int _buttonCount;
+        protected int _level, _rounds, _buttonCount;
 
         #endregion Fields
 
@@ -130,12 +130,14 @@ namespace GlyphaeScripts
         /// Sets up initial values for the game through the <see cref="GameManager"/>.
         /// </summary>
         /// <param name="glyphs">The current list of glyphs the <see cref="Pet"/> holds.</param>
-        /// <param name="level"><The <see cref="Pet"/>'s current <see cref="Evolutions"/> level.</param>
-        public virtual void SetupGame(List<GlyphData> glyphs, int level)
+        /// <param name="baseLevel"><The <see cref="Minigame"/> base level, based on the <see cref="Pet"/>'s current <see cref="Evolutions"/> level.</param>
+        public virtual void SetupGame(List<GlyphData> glyphs, int baseLevel)
         {
-            _allGlyphs = new(glyphs);
-            _buttonCount = (level+1) << 1;
-            _failsToLose = baseRounds;
+            SetupGylphLists(new(glyphs));
+            _level = baseLevel;
+            _rounds = baseRounds + baseLevel;
+            _failsToLose = _rounds;
+            _buttonCount = (baseLevel+1) << 1;
         }
 
         /// <summary>
@@ -159,22 +161,16 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        
-        /// <param name="glyph"></param>
-        /// <param name="correctIcon"></param>
-        /// <param name="wrongIcon"></param>
-        /// <param name="allGlyphs"></param>
-        //protected abstract void SetupRound(GlyphData glyph, Sprite correctIcon, Sprite wrongIcon, List<GlyphData> allGlyphs);
-
-        //protected abstract void SetupRound(Sprite correctIcon, List<GlyphData> allGlyphs);
-
         protected virtual void DisplayRound(Sprite correct)
         {
             OnNextRound?.Invoke(correct);
+            ActivateButtons(true);
         }
 
         protected virtual void CheckInput(GlyphData input)
         {
+            ActivateButtons(false);
+
             if (_toMatch == input)
             {
                 _toMatch.CorrectlyGuessed();
@@ -187,7 +183,7 @@ namespace GlyphaeScripts
                 OnWrongGuess?.Invoke(primaryNeed.Negative);
                 Fail();
             }
-            _allGlyphs.AddRange(_usedGlyphs);
+            SetupGylphLists(_usedGlyphs);
         }
 
         /// <summary>
@@ -196,7 +192,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Success()
         {
-            if (++_successes >= baseRounds) Win();
+            if (++_successes >= _rounds) Win();
         }
 
         /// <summary>
@@ -216,6 +212,41 @@ namespace GlyphaeScripts
         {
             primaryNeed?.Increase(fillAmount);
             CloseGame();
+        }
+
+        /// <summary>
+        /// Activates all relevant buttons of a game.
+        /// </summary>
+        /// <param name="state">The state to switch to: true/on, false/off.</param>
+        protected void ActivateButtons(bool state)
+        {
+            for (int i = 0; i < _buttonCount; i++)
+            {
+                gameInputs[i].Switch = state;
+            }
+        }
+
+        /// <summary>
+        /// Prepares lists divided by <see cref="MemoryLevels"/> so games can access different values for learning.
+        /// </summary>
+        /// <param name="glyphs">The current list of glyphs the <see cref="Pet"/> holds.</param>
+        private void SetupGylphLists(List<GlyphData> glyphs)
+        {
+            if (_allOtherGlyphs == null) _allOtherGlyphs = new();
+            if (_newGlyphs == null) _newGlyphs = new();
+
+            foreach (GlyphData glyph in glyphs)
+            {
+                switch (glyph.MemoryLevel)
+                {
+                    case MemoryLevels.New:
+                        _newGlyphs.Add(glyph);
+                        break;
+                    default:
+                        _allOtherGlyphs.Add(glyph);
+                        break;
+                }
+            }
         }
 
         #endregion
