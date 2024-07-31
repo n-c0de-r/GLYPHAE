@@ -367,7 +367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5432827782634591610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_Name
-      value: Mini0_ShellBreaker
+      value: ShellBreaker
       objectReference: {fileID: 0}
     - target: {fileID: 5919741906222116516, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -420,6 +420,26 @@ PrefabInstance:
     - target: {fileID: 6363556415667820204, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 797963091724836728}
+    - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Load
+      objectReference: {fileID: 0}
+    - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GlyphaeScripts.SceneSwitch, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: 1_Menu
       objectReference: {fileID: 0}
     - target: {fileID: 6895644826961853354, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -571,6 +591,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5432827782634591610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       insertIndex: 1
       addedObject: {fileID: 1482575416379090330}
+    - targetCorrespondingSourceObject: {fileID: 1180682044019919103, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 797963091724836728}
   m_SourcePrefab: {fileID: 100100000, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
 --- !u!114 &3015695957183008889 stripped
 MonoBehaviour:
@@ -583,6 +606,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3081345884124289627 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1180682044019919103, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+  m_PrefabInstance: {fileID: 4224802862463079076}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &797963091724836728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3081345884124289627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf1c41043f5789489afd2e070ac882e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextScene: 
 --- !u!224 &3716803717848896040 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}

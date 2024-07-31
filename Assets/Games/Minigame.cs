@@ -72,12 +72,12 @@ namespace GlyphaeScripts
 
         #region Unity Built-Ins
 
-        void Awake()
+        protected void Awake()
         {
             
         }
 
-        private void OnEnable()
+        protected void OnEnable()
         {
             GameButton.OnInput += CheckInput;
 
@@ -86,29 +86,29 @@ namespace GlyphaeScripts
             helpContainer.Setup(this.GetType().Name, gameDescription, gameInstructions);
         }
 
-        void Start()
+        protected void Start()
         {
 
         }
 
-        void FixedUpdate()
+        protected void FixedUpdate()
         {
 
         }
 
-        void Update()
+        protected void Update()
         {
 
         }
 
-        private void OnDisable()
+        protected void OnDisable()
         {
             GameButton.OnInput -= CheckInput;
 
             NeedBubble.OnFeedbackDone -= NextRound;
         }
 
-        private void OnDestroy()
+        protected void OnDestroy()
         {
             
         }

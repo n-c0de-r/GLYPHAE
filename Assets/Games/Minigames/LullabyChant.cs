@@ -53,39 +53,16 @@ namespace GlyphaeScripts
 
         #region Unity Built-Ins
 
-        void Awake()
+        private new void OnEnable()
         {
-            
-        }
-
-        private void OnEnable()
-        {
+            base.OnEnable();
             TimeIcon.OnAnimationDone += AnimateNext;
-
-            GameButton.OnInput += CheckInput;
-
         }
 
-        void Start()
+        private new void OnDisable()
         {
-
-        }
-
-        void FixedUpdate()
-        {
-
-        }
-
-        void Update()
-        {
-        }
-
-        private void OnDisable()
-        {
+            base.OnDisable();
             TimeIcon.OnAnimationDone -= AnimateNext;
-
-            GameButton.OnInput -= CheckInput;
-
         }
 
         #endregion
