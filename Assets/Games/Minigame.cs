@@ -54,7 +54,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        public GlyphData _toMatch;
+        protected GlyphData _toMatch;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
         protected int _successes, _fails, _failsToLose;
         protected int _level, _rounds, _buttonCount;

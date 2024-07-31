@@ -4,9 +4,9 @@ using UnityEngine;
 namespace GlyphaeScripts
 {
     /// <summary>
-    /// Basic game to put the <see cref="Pet"/> to sleep, reduces <see cref="NeedData"/> loss and keeps it silent.
+    /// Basic game to heal and clean the <see cref="Pet"/>, removes sicknesses and restores health <see cref="NeedData"/>.
     /// </summary>
-    public class LullabyChant : Minigame
+    public class MedicalSpell : Minigame
     {
         #region Serialized Fields
 
@@ -25,6 +25,8 @@ namespace GlyphaeScripts
 
         private List<TimeIcon> _timeIcons;
         private List<int> _order;
+        private List<Sprite> previousSprites;
+        private Sprite previous;
         private int _orderIndex = 0;
 
         #endregion
@@ -78,6 +80,7 @@ namespace GlyphaeScripts
 
             _usedGlyphs = new();
             _timeIcons = new(new TimeIcon[_rounds]);
+            previousSprites = new();
 
             _order = new();
             while (_order.Count < _rounds)
@@ -100,7 +103,27 @@ namespace GlyphaeScripts
                     _newGlyphs.Remove(_toMatch);
                 }
 
-                gameInputs[i].Setup(_toMatch, _toMatch.Letter);
+                if(previous == null)
+                {
+                    int rng = Random.Range(0, 2);
+                    
+                    gameInputs[i].Setup(_toMatch, rng == 0 ? _toMatch.Symbol : _toMatch.Letter);
+                    previousSprites.Add(rng == 0 ? _toMatch.Letter : _toMatch.Symbol);
+                    previous = rng == 0 ? _toMatch.Symbol : _toMatch.Letter;
+                }
+                else if (previous.name.Contains("letter"))
+                {
+                    gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
+                    previousSprites.Add(_toMatch.Letter);
+                    previous = _toMatch.Symbol;
+                }
+                else
+                {
+                    gameInputs[i].Setup(_toMatch, _toMatch.Letter);
+                    previousSprites.Add(_toMatch.Symbol);
+                    previous = _toMatch.Letter;
+                }
+                
                 _usedGlyphs.Add(_toMatch);
             }
 
@@ -110,10 +133,8 @@ namespace GlyphaeScripts
                 instance.SetActive(true);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
 
-                int rng = Random.Range(0, _buttonCount);
-
-                timer.Setup(_usedGlyphs[rng], _usedGlyphs[rng].Symbol);
-                instance.name = _order[i] + "_" + _usedGlyphs[rng].name;
+                timer.Setup(_usedGlyphs[_order[i]], previousSprites[_order[i]]);
+                instance.name = _order[i] + "_" + previousSprites[_order[i]].name;
                 _timeIcons[i] = timer;
             }
 
