@@ -160,8 +160,8 @@ namespace GlyphaeScripts
         {
             _spriteRenderer.sprite = levelSprites[(int)_level];
 
-            Minigame.OnCorrectGuess += Feedback;
-            Minigame.OnWrongGuess += Feedback;
+            GlyphData.OnCorrectGuess += Feedback;
+            GlyphData.OnWrongGuess += Feedback;
             Minigame.OnNextRound += Call;
 
             CheckEvolution();
@@ -193,8 +193,8 @@ namespace GlyphaeScripts
 
         private void OnDisable()
         {
-            Minigame.OnCorrectGuess -= Feedback;
-            Minigame.OnWrongGuess -= Feedback;
+            GlyphData.OnCorrectGuess -= Feedback;
+            GlyphData.OnWrongGuess -= Feedback;
             Minigame.OnNextRound -= Call;
         }
 

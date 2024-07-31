@@ -23,9 +23,9 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private List<TimeIcon> _timeIcons;
-        private List<int> _order;
-        private int _orderIndex = 0;
+        public List<TimeIcon> _timeIcons;
+        public List<int> _order;
+        public int _orderIndex = 0;
 
         #endregion
 
@@ -57,12 +57,15 @@ namespace GlyphaeScripts
         {
             base.OnEnable();
             TimeIcon.OnAnimationDone += AnimateNext;
+            NeedBubble.OnFeedbackDone += NextRound;
+
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
             TimeIcon.OnAnimationDone -= AnimateNext;
+            NeedBubble.OnFeedbackDone -= NextRound;
         }
 
         #endregion
@@ -72,10 +75,7 @@ namespace GlyphaeScripts
         public override void SetupGame(List<GlyphData> glyphs, int baseLevel)
         {
             base.SetupGame(glyphs, baseLevel);
-        }
 
-        public override void NextRound()
-        {
             _usedGlyphs = new();
             _timeIcons = new(new TimeIcon[_rounds]);
 
@@ -99,7 +99,7 @@ namespace GlyphaeScripts
                     _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
                     _newGlyphs.Remove(_toMatch);
                 }
-                
+
                 gameInputs[i].Setup(_toMatch, _toMatch.Letter);
                 _usedGlyphs.Add(_toMatch);
             }
@@ -113,10 +113,16 @@ namespace GlyphaeScripts
                 int rng = Random.Range(0, _buttonCount);
 
                 timer.Setup(_usedGlyphs[rng], _usedGlyphs[rng].Symbol);
-                _timeIcons[_order[i]] = timer;
+                instance.name = _order[i] + "_" + _usedGlyphs[rng].name;
+                _timeIcons[i] = timer;
             }
 
             AnimateNext();
+        }
+
+        public override void NextRound()
+        {
+
         }
 
         #endregion
@@ -124,16 +130,36 @@ namespace GlyphaeScripts
 
         #region Helpers
 
+        protected override void CheckInput(GlyphData input)
+        {
+            if (_toMatch == input)
+            {
+                _toMatch.CorrectlyGuessed(primaryNeed.Positive);
+                Success();
+
+                _timeIcons[_order[_orderIndex]].Disable();
+                _orderIndex++;
+                if (_orderIndex >= _order.Count) return;
+                _toMatch = _timeIcons[_order[_orderIndex]].Data;
+            }
+            else
+            {
+                _toMatch.WronglyGuessed(primaryNeed.Negative);
+                Fail();
+            }
+        }
+
         private void AnimateNext()
         {
             if (_orderIndex >= _order.Count)
             {
                 ActivateButtons(true);
                 _orderIndex = 0;
+                _toMatch = _timeIcons[_order[_orderIndex]].Data;
                 return;
             }
 
-            _timeIcons[_orderIndex].Animate();
+            _timeIcons[_order[_orderIndex]].Animate();
             _orderIndex++;
         }
 

@@ -28,6 +28,7 @@ namespace GlyphaeScripts
 
         private GlyphData _data;
 
+
         #endregion
 
 
@@ -40,7 +41,7 @@ namespace GlyphaeScripts
 
         #region GetSets / Properties
         
-        
+        public GlyphData Data { get => _data; }
 
         #endregion
 
@@ -49,7 +50,7 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            GameButton.OnInput += (data) => { Debug.Log(data.ToString()); };
+
         }
 
         void Start()
@@ -91,9 +92,10 @@ namespace GlyphaeScripts
             icon.sprite = display;
         }
 
-        public void Check(GlyphData input)
+        public void Disable()
         {
-            //if (_data == input) ;
+            _data = null;
+            icon.enabled = false;
         }
 
         #endregion

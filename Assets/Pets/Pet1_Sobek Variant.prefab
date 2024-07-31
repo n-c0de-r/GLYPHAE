@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
       propertyPath: _level
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
       propertyPath: symbol

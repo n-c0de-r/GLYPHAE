@@ -54,7 +54,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        protected GlyphData _toMatch;
+        public GlyphData _toMatch;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
         protected int _successes, _fails, _failsToLose;
         protected int _level, _rounds, _buttonCount;
@@ -173,14 +173,12 @@ namespace GlyphaeScripts
 
             if (_toMatch == input)
             {
-                _toMatch.CorrectlyGuessed();
-                OnCorrectGuess?.Invoke(primaryNeed.Positive);
+                _toMatch.CorrectlyGuessed(primaryNeed.Positive);
                 Success();
             }
             else
             {
-                _toMatch.WronglyGuessed();
-                OnWrongGuess?.Invoke(primaryNeed.Negative);
+                _toMatch.WronglyGuessed(primaryNeed.Negative);
                 Fail();
             }
             SetupGylphLists(_usedGlyphs);

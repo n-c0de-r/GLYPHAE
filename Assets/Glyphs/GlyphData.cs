@@ -35,6 +35,9 @@ namespace GlyphaeScripts
 
         #region Events
 
+        public static event Action<Sprite> OnCorrectGuess, OnWrongGuess;
+
+
         #endregion
 
 
@@ -96,8 +99,10 @@ namespace GlyphaeScripts
         /// <summary>
         /// Increases the memory level if the <see cref="GlyphData"/> is guessed often enough correctly.
         /// </summary>
-        public void CorrectlyGuessed()
+        /// <param name="sprite">The sprite to display as feedback.</param>
+        public void CorrectlyGuessed(Sprite sprite)
         {
+            OnCorrectGuess?.Invoke(sprite);
             if (++_guesses > (int)memoryLevel)
             {
                 if (!Enum.IsDefined(typeof(MemoryLevels), ++memoryLevel))
@@ -114,8 +119,10 @@ namespace GlyphaeScripts
         /// <summary>
         /// Decreases the memory level if the <see cref="GlyphData"/> is guessed often enough wrongly.
         /// </summary>
-        public void WronglyGuessed()
+        /// <param name="sprite">The sprite to display as feedback.</param>
+        public void WronglyGuessed(Sprite sprite)
         {
+            OnWrongGuess?.Invoke(sprite);
             if (--_guesses < 0)
             {
                 if (!Enum.IsDefined(typeof(MemoryLevels), --memoryLevel))
