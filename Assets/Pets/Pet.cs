@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
 
 namespace GlyphaeScripts
 {
@@ -60,8 +58,9 @@ namespace GlyphaeScripts
         private BoxCollider2D _boxCollider;
 
         public Evolutions _level = Evolutions.Egg;
-        private int _evolutionCalls = 0;
-        private int _sicknessChance, _sicknessChanceFactor;
+        private float _hungerIncrement, _healthIncrement, _joyIncrement, _energyIncrement;
+        private int _evolutionCalls = 3;
+        private int _sicknessChance, _sicknessChanceFactor, _sickCount;
         private bool hasCalled = false;
 
         #endregion
@@ -72,6 +71,7 @@ namespace GlyphaeScripts
         public static event Action<Sprite, List<GlyphData>> OnNeedCall;
         public static event Action<bool> OnNeedSatisfied;
         float timer = 60;
+        public int factor = 1;
 
         #endregion
 
@@ -153,7 +153,7 @@ namespace GlyphaeScripts
             if (PlayerPrefs.HasKey(nameof(Evolutions))) _level = (Evolutions)PlayerPrefs.GetInt(nameof(Evolutions));
             if (PlayerPrefs.HasKey(nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(nameof(_evolutionCalls));
 
-            InitializeFactors();
+            CalculateNeedFactors();
         }
 
         private void OnEnable()
@@ -174,15 +174,12 @@ namespace GlyphaeScripts
 
         void FixedUpdate()
         {
-            timer -= Time.fixedDeltaTime;
+            timer -= Time.fixedDeltaTime *factor;
 
             if (timer <= 0)
             {
+                UpdateNeeds();
                 timer = 60;
-                Hunger.Decrease(-1);
-                Health.Decrease(-1);
-                Joy.Decrease(-1);
-                Energy.Decrease(-1);
             }
         }
 
@@ -208,6 +205,7 @@ namespace GlyphaeScripts
             if ((int)_level >= levelSprites.Length) return;
             _level++;
             _spriteRenderer.sprite = levelSprites[(int)_level];
+            CalculateNeedFactors();
         }
 
         #endregion
@@ -215,23 +213,15 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        //private void UpdateNeed(NeedTypes need, float amount)
-        //{
-        //    //float value = needs[(int)need].Current + amount;
-        //    //needs[(int)need].UpdateData(value);
-        //    //OnNeedUpdate?.Invoke(need, amount);
+        private void UpdateNeeds()
+        {
+            Hunger.Decrease(_hungerIncrement);
+            Health.Decrease(_healthIncrement * _sickCount);
+            Joy.Decrease(_joyIncrement);
+            Energy.Decrease(_energyIncrement);
 
-        //    //if (!hasCalled && value <= needs[(int)need].Critical)
-        //    //{
-        //    //    hasCalled = true;
-        //    //    Debug.Log(need + " is low!");
-        //    //    //MessageNeed();
-        //    //}
-        //    //else if (hasCalled && value >= NeedData.MAX / 2)
-        //    //{
-        //    //    hasCalled = false;
-        //    //}
-        //}
+            _sicknessChance = (int)(NeedData.MAX - Health.Current) * _sicknessChanceFactor;
+        }
 
         private void CheckEvolution()
         {
@@ -253,14 +243,25 @@ namespace GlyphaeScripts
             StartCoroutine(needFeedback.ShowFeedback());
         }
 
-        private void InitializeFactors()
+        private void CalculateNeedFactors()
         {
             Hunger.SetupFactors(CalculateReverseCurve(), CalculateReverseLine());
+            Hunger.Randomize(_evolutionCalls);
+            _hungerIncrement = CalculateNeedIncrement();
+
             Health.SetupFactors(0, 0);
+            Health.Randomize(_evolutionCalls);
+            _healthIncrement = CalculateNeedIncrement();
+
             Joy.SetupFactors(CalculateReverseLine(), CalculateCurve());
+            Joy.Randomize(_evolutionCalls);
+            _joyIncrement = CalculateNeedIncrement();
+
             Energy.SetupFactors(CalculateReverseLine(), CalculateReverseCurve());
+            Energy.Randomize(_evolutionCalls);
+            _energyIncrement = CalculateNeedIncrement();
+
             _sicknessChanceFactor = CalculateReverseCurve();
-            _sicknessChance = (int)(NeedData.MAX - Health.Current) * _sicknessChanceFactor;
         }
 
         private int CalculateCurve()
@@ -276,6 +277,11 @@ namespace GlyphaeScripts
         private int CalculateReverseLine()
         {
             return (int)Enum.GetValues(typeof(Evolutions)).Length - (int)_level;
+        }
+
+        private float CalculateNeedIncrement()
+        {
+            return UnityEngine.Random.Range(0.07f, 0.13f);
         }
 
         #endregion

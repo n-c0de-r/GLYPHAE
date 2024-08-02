@@ -87,6 +87,13 @@ using UnityEngine;
             #NOTRIM#
         }
 
+        // Called once when an object is enabled.
+        // After Awake but before Start.
+        private void OnEnable()
+        {
+            #NOTRIM#
+        }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -101,6 +108,18 @@ using UnityEngine;
 
         // Update is called once per frame; for rendering, FPS dependent
         void Update()
+        {
+            #NOTRIM#
+        }
+
+        // Called once when the object is deactivated
+        private void OnDisable()
+        {
+            #NOTRIM#
+        }
+
+        // Called once when the object is removed from the scene entirely
+        private void OnDestroy()
         {
             #NOTRIM#
         }

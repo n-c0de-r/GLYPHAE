@@ -58,9 +58,10 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            settings.PetInstance = Instantiate(settings.SelectedPet.gameObject, objectContainer);
-            _pet = settings.PetInstance.GetComponent<Pet>();
-            settings.PetInstance.SetActive(_pet.Level != Evolutions.Egg);
+            GameObject instance = Instantiate(settings.SelectedPet.gameObject, objectContainer);
+            _pet = instance.GetComponent<Pet>();
+            settings.SelectedPet = _pet;
+            instance.SetActive(_pet.Level != Evolutions.Egg);
         }
 
         private void OnEnable()
@@ -69,7 +70,7 @@ namespace GlyphaeScripts
             ShellBreaker.OnEggBreak += () =>
             {
                 _pet.IncreaseLevel();
-                settings.PetInstance.SetActive(_pet.Level != Evolutions.Egg);
+                settings.SelectedPet.gameObject.SetActive(_pet.Level != Evolutions.Egg);
             };
         }
 
@@ -105,16 +106,11 @@ namespace GlyphaeScripts
 
         public void StartGame(Minigame original)
         {
+            if (_pet.Energy.Current < original.EnergyCost) return;
+
             GameObject instance = Instantiate(original.gameObject, objectContainer);
             Minigame game = instance.GetComponent<Minigame>();
 
-            if (_pet.Energy.Current < game.EnergyCost)
-            {
-                Destroy(instance);
-                return;
-            }
-
-            if (_pet.Level != Evolutions.Egg) _pet.Energy.Decrease(game.EnergyCost);
             mainPanel.SetActive(false);
             game.SetupGame(_pet.Literals, CalculateBaselevel());
             game.NextRound();
@@ -125,11 +121,13 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private void CloseMinigame(GameObject minigame)
+        private void CloseMinigame(Minigame game)
         {
-            if (!settings.PetInstance.activeInHierarchy) settings.PetInstance.SetActive(!(_pet.Level == Evolutions.Egg));
-            Destroy(minigame);
+            if (!settings.SelectedPet.gameObject.activeInHierarchy) settings.SelectedPet.gameObject.SetActive(!(_pet.Level == Evolutions.Egg));
             mainPanel.SetActive(true);
+            _pet.Energy.Decrease(game.EnergyCost);
+            game.UpdateValues();
+            Destroy(game.gameObject);
         }
 
         private int CalculateBaselevel()

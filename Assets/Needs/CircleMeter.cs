@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,18 +16,19 @@ namespace GlyphaeScripts
         [SerializeField] private Settings settings;
 
         [Header("Need Values")]
+        [Tooltip("The data container holding the actual need values.")]
         [SerializeField] private NeedData need;
+
+        [Tooltip("The UI representation of the name of this need.")]
+        [SerializeField] private TMP_Text nameTag;
+
+        [Tooltip("The UI representation of the value of this need.")]
+        [SerializeField] private TMP_Text valueTag;
 
         [Space]
         [Header("Animation Values")]
         [Tooltip("The image to fill.")]
         [SerializeField] private Image slider;
-
-        [Tooltip("The delay before the start of animation.")]
-        [SerializeField][Range(0.1f, 1f)] private float delay = 0.25f;
-
-        [Tooltip("The speed of animation and delay between frames.")]
-        [SerializeField][Range(0.01f, 0.1f)] private float speed = 0.025f;
 
         #endregion
 
@@ -68,7 +70,12 @@ namespace GlyphaeScripts
 
         private void OnEnable()
         {
-            UpdateValue(need.Current - _current);
+            NeedData.OnNeedUpdate += UpdateValue;
+
+            _current = need.Current;
+            nameTag.text = gameObject.name;
+            valueTag.text = "" + (int)_current;
+
         }
 
         void Start()
@@ -83,11 +90,12 @@ namespace GlyphaeScripts
 
         void Update()
         {
+
         }
 
         private void OnDisable()
         {
-
+            NeedData.OnNeedUpdate += UpdateValue;
         }
 
         #endregion
@@ -99,9 +107,12 @@ namespace GlyphaeScripts
         /// Updates the messaged need value by a given amount.
         /// </summary>
         /// <param name="amount">The amount to update the need value by.</param>
-        public void UpdateValue(float amount)
+        public void UpdateValue(NeedData incoming, int direction)
         {
-            StartCoroutine(AnimateFill(need.Current, need.Current + amount, Mathf.Sign(amount)));
+            if (incoming == need)
+            {
+                if (isActiveAndEnabled) StartCoroutine(Animate(direction));
+            }
         }
 
         #endregion
@@ -109,22 +120,29 @@ namespace GlyphaeScripts
 
         #region Helpers
 
+        private IEnumerator Animate(int direction)
+        {
+            //yield return new WaitForSeconds(1f / settings.AnimationSpeed);
+            yield return AnimateFill(_current, need.Current, direction);
+            _current = need.Current;
+        }
+
         /// <summary>
         /// Animates filling the need circle.
         /// </summary>
-        private IEnumerator AnimateFill(float start, float end, float inc)
+        private IEnumerator AnimateFill(float start, float end, int inc)
         {
-            yield return new WaitForSeconds(delay);
             Color color = Color.black;
 
-            for (float i = start; i != end; i += inc)
+            for (int i = (int)(start * NeedData.MAX); i != (int)(end * NeedData.MAX); i += inc)
             {
-                slider.fillAmount = i / NeedData.MAX;
-                color.r = (NeedData.MAX - i) / _half;
-                color.g = i / _half;
+                float value = (float)i / NeedData.MAX;
+                slider.fillAmount = value / NeedData.MAX;
+                color.r = (NeedData.MAX - value) / _half;
+                color.g = value / _half;
                 slider.color = color;
-                yield return new WaitForSeconds(speed / settings.AnimationSpeed);
             }
+            yield return null;
         }
 
         #endregion

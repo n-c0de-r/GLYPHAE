@@ -13,7 +13,7 @@ namespace GlyphaeScripts
 
         [Header("UI Values")]
         [Tooltip("The sound this bubble plays when satisfied.")]
-        [SerializeField] private AudioSource sound;
+        [SerializeField] private AudioSource audio;
 
         [Tooltip("The back image of the bubble.")]
         [SerializeField] private SpriteRenderer back;
@@ -85,7 +85,7 @@ namespace GlyphaeScripts
 
         public void Setup(AudioClip sound, Sprite display)
         {
-            //sound.clip = sound;
+            audio.clip = sound;
             Setup(display);
         }
 
@@ -97,13 +97,18 @@ namespace GlyphaeScripts
 
         public IEnumerator ShowFeedback()
         {
-            yield return StartCoroutine(AnimateFade(0, 1, settings.AnimationSpeed));
+            yield return AnimateFade(settings.AnimationSpeed/2);
+            yield return new WaitForSeconds(1f / settings.AnimationSpeed);
+            yield return AnimateFade(settings.AnimationSpeed, -1);
+
             OnFeedbackDone?.Invoke();
         }
 
         public IEnumerator ShowCall()
         {
-            yield return StartCoroutine(AnimateFade(0, 1, settings.AnimationSpeed));
+            yield return AnimateFade(settings.AnimationSpeed/2);
+            yield return new WaitForSeconds(1f / settings.AnimationSpeed);
+            yield return AnimateFade(settings.AnimationSpeed, - 1);
         }
 
         #endregion
@@ -111,13 +116,16 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private IEnumerator AnimateFade(float start, float end, float speedFactor)
+        private IEnumerator AnimateFade(float speedFactor, int direction = 1)
         {
             Color color;
+            int increment = (int)speedFactor;
 
-            for (float i = start; i <= end; i += Time.deltaTime * speedFactor)
+            for (int i = 0; i < 100; i += increment)
             {
-                float value = Mathf.Abs(i);
+                float value = i / 100.0f * direction;
+                Debug.Log(value);
+
                 color = back.color;
                 color.a = value;
                 back.color = color;
@@ -135,13 +143,6 @@ namespace GlyphaeScripts
                 outline.color = color;
                 yield return new WaitForEndOfFrame();
             }
-
-            if (end > 0)
-            {
-                yield return new WaitForSeconds(1f / speedFactor);
-                yield return AnimateFade(-1, 0, settings.AnimationSpeed * 2);
-            }
-            yield return new WaitForSeconds(1f / speedFactor);
         }
 
         #endregion

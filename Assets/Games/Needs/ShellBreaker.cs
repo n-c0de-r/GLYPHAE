@@ -57,6 +57,7 @@ namespace GlyphaeScripts
             _toMatch = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
             _newGlyphs.Remove(_toMatch);
 
+            // BUGS
             GlyphData wrongGlyph = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
             _newGlyphs.Remove(wrongGlyph);
             _usedGlyphs.Add(wrongGlyph);

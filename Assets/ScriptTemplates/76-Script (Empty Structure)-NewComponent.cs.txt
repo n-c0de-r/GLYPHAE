@@ -38,6 +38,11 @@ using UnityEngine;
             #NOTRIM#
         }
 
+        private void OnEnable()
+        {
+            #NOTRIM#
+        }
+
         void Start()
         {
             #NOTRIM#
@@ -49,6 +54,16 @@ using UnityEngine;
         }
 
         void Update()
+        {
+            #NOTRIM#
+        }
+
+        private void OnDisable()
+        {
+            #NOTRIM#
+        }
+
+        private void OnDestroy()
         {
             #NOTRIM#
         }

@@ -181,16 +181,6 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// The reference to the actual instance
-        /// of the selected <see cref="Pet"/>.
-        /// </summary>
-        public GameObject PetInstance
-        {
-            get => _petInstance;
-            set => _petInstance = value;
-        }
-
-        /// <summary>
         /// The lower time limit of notification mute.
         /// When the silence will start in the evening.
         /// </summary>

@@ -39,7 +39,14 @@ namespace GlyphaeScripts
 
         #region GetSets / Properties
 
-        public bool Switch { set => button.interactable = value; }
+        public bool Switch
+        {
+            set
+            {
+                button.interactable = value;
+                icon.enabled = value;
+            }
+        }
 
         #endregion
 

@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -73,6 +74,13 @@ namespace GlyphaeScripts
         #endregion
 
 
+        #region Events
+
+        public static event Action<NeedData, int> OnNeedUpdate;
+
+        #endregion
+
+
         #region Unity Built-Ins
 
         void Awake()
@@ -80,9 +88,14 @@ namespace GlyphaeScripts
             
         }
 
+        private void OnEnable()
+        {
+            
+        }
+
         void Start()
         {
-
+            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
         }
 
         void FixedUpdate()
@@ -95,12 +108,15 @@ namespace GlyphaeScripts
             
         }
 
-        #endregion
+        private void OnDisable()
+        {
+            
+        }
 
-
-        #region Events
-
-        public static event Action<float> OnNeedUpdate;
+        private void OnDestroy()
+        {
+            
+        }
 
         #endregion
 
@@ -113,7 +129,12 @@ namespace GlyphaeScripts
         /// <param name="value">The base value to add.</param>
         public void Increase(float value)
         {
-            current = Mathf.Clamp(current + value * (_upFactor + _randomOffset), MIN, MAX);
+            if (value == 0) return;
+            
+            if (current < MIN || current > MAX) return;
+            value = value * (_downFactor + _randomOffset);
+            current = Mathf.Clamp(current + value, MIN, MAX);
+            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
         }
 
         /// <summary>
@@ -122,7 +143,12 @@ namespace GlyphaeScripts
         /// <param name="value">The base value to subtract.</param>
         public void Decrease(float value)
         {
-            current = Mathf.Clamp(current - value * (_downFactor + _randomOffset), MIN, MAX);
+            if (value == 0) return;
+
+            if (current < MIN || current > MAX) return;
+            value = -value * (_downFactor + _randomOffset);
+            current = Mathf.Clamp(current + value, MIN, MAX);
+            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
         }
 
         /// <summary>

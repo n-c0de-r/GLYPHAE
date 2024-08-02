@@ -122,7 +122,7 @@ namespace GlyphaeScripts
             yield return new WaitForSeconds(1f / speedFactor);
 
             Destroy(_eggInstance);
-            CloseGame();
+            Invoke(nameof(CloseGame), 1);
         }
 
         #endregion

@@ -37,7 +37,7 @@ namespace GlyphaeScripts
 
         [Tooltip("The strength of need filling by the game.\n" +
             "Secondary is automatically depleted by a third of that.")]
-        [SerializeField][Range(0, 25)] protected int fillAmount;
+        [SerializeField][Range(0, 10)] protected int fillAmount;
 
         [Space]
         [Header("Help Data")]
@@ -57,6 +57,7 @@ namespace GlyphaeScripts
 
         protected GlyphData _toMatch;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
+        protected float _primaryValue = 0;
         protected int _successes, _fails, _failsToLose;
         protected int _level, _rounds, _buttonCount;
 
@@ -65,8 +66,16 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action<GameObject> OnGameClose;
+        public static event Action<Minigame> OnGameClose;
         public static event Action<Sprite> OnNextRound, OnCorrectGuess, OnWrongGuess;
+
+        #endregion
+
+
+        #region GetSets / Properties
+
+        public int EnergyCost { get => energyCost; }
+
 
         #endregion
 
@@ -83,6 +92,7 @@ namespace GlyphaeScripts
             GameButton.OnInput += CheckInput;
 
             NeedBubble.OnFeedbackDone += NextRound;
+
             //source https://stackoverflow.com/a/4489031
             string normalizedName = string.Join(" ", Regex.Split(this.GetType().Name, @"(?<!^)(?=[A-Z])"));
             helpContainer.Setup(normalizedName, gameDescription, gameInstructions);
@@ -118,14 +128,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region GetSets / Properties
-
-        public int EnergyCost { get => energyCost; }
-
-
-        #endregion
-
-
         #region Methods
 
         /// <summary>
@@ -149,8 +151,15 @@ namespace GlyphaeScripts
         /// </summary>
         public virtual void CloseGame()
         {
+            OnGameClose?.Invoke(this);
+        }
+
+        public void UpdateValues()
+        {
+            if (fillAmount == 0) return;
+            
+            primaryNeed?.Increase(_primaryValue);
             secondaryNeed?.Decrease(fillAmount / 3.0f);
-            OnGameClose?.Invoke(gameObject);
         }
 
         /// <summary>
@@ -210,7 +219,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Win()
         {
-            primaryNeed?.Increase(fillAmount);
+            _primaryValue = fillAmount;
             CloseGame();
         }
 
