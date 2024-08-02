@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -22,6 +21,12 @@ namespace GlyphaeScripts
 
         [Tooltip("Field where the Pet will 'live' in.")]
         [SerializeField] private RectTransform objectContainer;
+
+        [Tooltip("Hidden button to activate debug mode.")]
+        [SerializeField] private GameObject debugActivator;
+
+        [Tooltip("The actual button to show the debug view.")]
+        [SerializeField] private GameObject debugButton;
 
         #endregion
 
@@ -51,6 +56,19 @@ namespace GlyphaeScripts
             set => minigames = value;
         }
 
+        /// <summary>
+        /// Sets the debug counter. Only for editor access.
+        /// </summary>
+        public int DebugClick
+        {
+            set
+            {
+                if (settings.DebugMode) return;
+                settings.DebugCount = value;
+                debugActivator.SetActive(settings.DebugCount == 0);
+            }
+        }
+
         #endregion
 
 
@@ -72,6 +90,8 @@ namespace GlyphaeScripts
                 _pet.IncreaseLevel();
                 settings.SelectedPet.gameObject.SetActive(_pet.Level != Evolutions.Egg);
             };
+
+            debugButton.SetActive(settings.DebugMode);
         }
 
         void Start()

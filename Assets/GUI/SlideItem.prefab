@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 6283444991773046875}
   - component: {fileID: 6837204015523520087}
   m_Layer: 5
-  m_Name: VolumeItem
+  m_Name: SlideItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 4794434979192811503}
   - component: {fileID: 3945127562736380476}
   m_Layer: 5
-  m_Name: Volume
+  m_Name: Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

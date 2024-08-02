@@ -83,18 +83,31 @@ namespace GlyphaeScripts
 
         #region Methods
 
+        /// <summary>
+        /// Sets up the bubble UI. 
+        /// </summary>
+        /// <param name="sound">The sound to play when displayed.</param>
+        /// <param name="display">The sprite to show when displayed.</param>
         public void Setup(AudioClip sound, Sprite display)
         {
             audio.clip = sound;
             Setup(display);
         }
 
+        /// <summary>
+        /// Sets up the bubble UI. 
+        /// </summary>
+        /// <param name="sound">The sound to play when displayed.</param>
+        /// <param name="display">The sprite to show when displayed.</param>
         public void Setup(Sprite display)
         {
             if (iconFill == display) return;
             iconFill.sprite = display;
         }
 
+        /// <summary>
+        /// Shows the feedback bubble.
+        /// </summary>
         public IEnumerator ShowFeedback()
         {
             yield return AnimateFade(settings.AnimationSpeed/2);
@@ -141,7 +154,7 @@ namespace GlyphaeScripts
                 color = outline.color;
                 color.a = value;
                 outline.color = color;
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForSeconds(0.5f / speedFactor);
             }
         }
 

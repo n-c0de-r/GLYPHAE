@@ -71,7 +71,8 @@ namespace GlyphaeScripts
         public static event Action<Sprite, List<GlyphData>> OnNeedCall;
         public static event Action<bool> OnNeedSatisfied;
         float timer = 60;
-        public int factor = 1;
+        public int _debugTimeFactor = 1;
+        public int minutes = 0;
 
         #endregion
 
@@ -138,6 +139,18 @@ namespace GlyphaeScripts
         /// </summary>
         public Evolutions Level { get => _level; }
 
+        /// <summary>
+        /// Set the current <see cref="Evolutions"/> level.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public int LevelValue { set => _level = (Evolutions)value; }
+
+        /// <summary>
+        /// Sets the time factor value to speed up display.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float TimeFactor { set => _debugTimeFactor = (int)value; }
+
         #endregion
 
 
@@ -174,12 +187,13 @@ namespace GlyphaeScripts
 
         void FixedUpdate()
         {
-            timer -= Time.fixedDeltaTime *factor;
+            timer -= Time.fixedDeltaTime * _debugTimeFactor;
 
             if (timer <= 0)
             {
                 UpdateNeeds();
                 timer = 60;
+                minutes++;
             }
         }
 
@@ -245,21 +259,21 @@ namespace GlyphaeScripts
 
         private void CalculateNeedFactors()
         {
+            _hungerIncrement = CalculateNeedIncrement();
             Hunger.SetupFactors(CalculateReverseCurve(), CalculateReverseLine());
             Hunger.Randomize(_evolutionCalls);
-            _hungerIncrement = CalculateNeedIncrement();
 
+            _healthIncrement = CalculateNeedIncrement();
             Health.SetupFactors(0, 0);
             Health.Randomize(_evolutionCalls);
-            _healthIncrement = CalculateNeedIncrement();
 
+            _joyIncrement = CalculateNeedIncrement();
             Joy.SetupFactors(CalculateReverseLine(), CalculateCurve());
             Joy.Randomize(_evolutionCalls);
-            _joyIncrement = CalculateNeedIncrement();
 
+            _energyIncrement = CalculateNeedIncrement();
             Energy.SetupFactors(CalculateReverseLine(), CalculateReverseCurve());
             Energy.Randomize(_evolutionCalls);
-            _energyIncrement = CalculateNeedIncrement();
 
             _sicknessChanceFactor = CalculateReverseCurve();
         }
@@ -281,7 +295,7 @@ namespace GlyphaeScripts
 
         private float CalculateNeedIncrement()
         {
-            return UnityEngine.Random.Range(0.07f, 0.13f);
+            return UnityEngine.Random.Range(0.07f, 0.13f) * CalculateReverseLine();
         }
 
         #endregion

@@ -37,20 +37,24 @@ namespace GlyphaeScripts
         [Tooltip("If the game has ever run.")]
         [SerializeField] private bool firstRun = true;
         [SerializeField] private Difficulty difficulty = Difficulty.Easy;
+        [SerializeField] private Language language = Language.English;
+
+        [Header("Debugging Values")]
+        [SerializeField] private Pet _selectedPet;
+        [SerializeField] private int _silenceStart = 20;
+        [SerializeField] private int _silenceEnd = 8;
+        [SerializeField] private int debugCount = 3;
+        [SerializeField] private bool _isDebugMode = false;
 
         #endregion
 
 
         #region Fields
 
-        private Pet _selectedPet;
-        private GameObject _petInstance;
 
         private const char GLYPH_SPLIT = ';';
         private const char MEMORY_SPLIT = ':';
 
-        private int _silenceStart = 20;
-        private int _silenceEnd = 8;
 
         #endregion
 
@@ -172,6 +176,27 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
+        /// The ramp up of level difficulty.
+        /// Easier starts with two easy levels, two middle levels and only the final level is hard.
+        /// Harder has only one easy level, 2 mid levels, and 2 hard ones.
+        /// </summary>
+        public Language Language
+        {
+            get => language;
+            set => language = value;
+        }
+
+        /// <summary>
+        /// Overload for Dropdown menus. The ramp up of level difficulty.
+        /// Easier starts with two easy levels, two middle levels and only the final level is hard.
+        /// Harder has only one easy level, 2 mid levels, and 2 hard ones.
+        /// </summary>
+        public int LanguageValue
+        {
+            set => language = (Language)value;
+        }
+
+        /// <summary>
         /// The selected <see cref="Pet"/> to take care of.
         /// </summary>
         public Pet SelectedPet
@@ -200,40 +225,39 @@ namespace GlyphaeScripts
             set => _silenceEnd = Mathf.Clamp(value, 0, 4) + 6;
         }
 
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
+        /// <summary>
+        /// Sets the debug counter. Only for editor access.
+        /// </summary>
+        public int DebugCount
         {
-
+            get => debugCount;
+            set
+            {
+                if (_isDebugMode) return;
+                debugCount = Mathf.Clamp(debugCount + value, 0, 3);
+            }
         }
 
-        void Start()
+        /// <summary>
+        /// Debug mode offers more options to test on hardware.
+        /// </summary>
+        public bool DebugMode
         {
-            
+            get => _isDebugMode;
+            set => _isDebugMode = value;
         }
 
-        void FixedUpdate()
-        {
-            
-        }
+        /// <summary>
+        /// Set the current <see cref="Evolutions"/> level of the selected <see cref="Pet"/>.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public int DebugLevel { set => _selectedPet.LevelValue = value; }
 
-        void Update()
-        {
-
-        }
-
-        private void OnDisable()
-        {
-            //SaveSettings();
-        }
-
-        void OnDestroy()
-        {
-
-        }
+        /// <summary>
+        /// Sets the time factor value to speed up display.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float DebugTime { set => _selectedPet.TimeFactor = value; }
 
         #endregion
 
@@ -259,7 +283,7 @@ namespace GlyphaeScripts
                     string[] glyphData = item.Split(MEMORY_SPLIT);
                     if (Enum.TryParse(glyphData[1], out MemoryLevels level))
                     {
-                        int.TryParse(glyphData[0].Substring(0, 3), out int index);
+                        int.TryParse(glyphData[0][..3], out int index);
                         glyphs[index].MemoryLevel = level;
                     }
                 }
@@ -280,7 +304,7 @@ namespace GlyphaeScripts
                 VoiceVolume = PlayerPrefs.GetFloat(nameof(Keys.VoiceVolume));
 
             if (PlayerPrefs.HasKey(nameof(Keys.FirstRun)))
-                FirstRun = PlayerPrefs.GetString(nameof(Keys.FirstRun)).Equals("True") ? true : false;
+                FirstRun = PlayerPrefs.GetString(nameof(Keys.FirstRun)).Equals("True");
         }
 
         /// <summary>
@@ -345,5 +369,13 @@ namespace GlyphaeScripts
         /// Start with 1 easy level, 2 mid levels, and 2 hard ones.
         /// </summary>
         Hard
+    }
+
+    /// <summary>
+    /// The language set for the game.
+    /// </summary>
+    public enum Language
+    {
+        English, Deutsch
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -45,6 +44,12 @@ namespace GlyphaeScripts
 
 
         #region GetSets / Properties
+
+        /// <summary>
+        /// Sets the need value directly.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float Value { set => current = value; }
 
         /// <summary>
         /// The current amount of this <see cref="NeedData"/>.
@@ -132,7 +137,7 @@ namespace GlyphaeScripts
             if (value == 0) return;
             
             if (current < MIN || current > MAX) return;
-            value = value * (_downFactor + _randomOffset);
+            value = value * (_upFactor + _randomOffset);
             current = Mathf.Clamp(current + value, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
         }

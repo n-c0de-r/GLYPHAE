@@ -122,7 +122,6 @@ namespace GlyphaeScripts
 
         private IEnumerator Animate(int direction)
         {
-            //yield return new WaitForSeconds(1f / settings.AnimationSpeed);
             yield return AnimateFill(_current, need.Current, direction);
             _current = need.Current;
         }
@@ -142,7 +141,7 @@ namespace GlyphaeScripts
                 color.g = value / _half;
                 slider.color = color;
             }
-            yield return null;
+            yield return new WaitForSeconds(0.5f / settings.AnimationSpeed);
         }
 
         #endregion
