@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -26,6 +27,10 @@ namespace GlyphaeScripts
 
         [Tooltip("The outline of the bubble.")]
         [SerializeField] private SpriteRenderer outline;
+
+        [SerializeField] private TMP_Text valueLabel;
+        [SerializeField] private TMP_Text waitLabel;
+        [SerializeField] private TMP_Text deltaLabel;
 
         #endregion
 
@@ -110,18 +115,42 @@ namespace GlyphaeScripts
         /// </summary>
         public IEnumerator ShowFeedback()
         {
-            yield return AnimateFade(settings.AnimationSpeed/2);
+            if (settings.DebugMode)
+            {
+                valueLabel.transform.parent.gameObject.SetActive(true);
+                waitLabel.transform.parent.gameObject.SetActive(true);
+                deltaLabel.transform.parent.gameObject.SetActive(true);
+            }
+            yield return AnimateFade(settings.AnimationSpeed);
             yield return new WaitForSeconds(1f / settings.AnimationSpeed);
-            yield return AnimateFade(settings.AnimationSpeed, -1);
+            yield return AnimateFade(settings.AnimationSpeed * 2, -1);
 
             OnFeedbackDone?.Invoke();
+            if (settings.DebugMode)
+            {
+                valueLabel.transform.parent.gameObject.SetActive(false);
+                waitLabel.transform.parent.gameObject.SetActive(false);
+                deltaLabel.transform.parent.gameObject.SetActive(false);
+            }
         }
 
         public IEnumerator ShowCall()
         {
-            yield return AnimateFade(settings.AnimationSpeed/2);
+            if (settings.DebugMode)
+            {
+                valueLabel.transform.parent.gameObject.SetActive(true);
+                waitLabel.transform.parent.gameObject.SetActive(true);
+                deltaLabel.transform.parent.gameObject.SetActive(true);
+            }
+            yield return AnimateFade(settings.AnimationSpeed);
             yield return new WaitForSeconds(1f / settings.AnimationSpeed);
-            yield return AnimateFade(settings.AnimationSpeed, - 1);
+            yield return AnimateFade(settings.AnimationSpeed * 2, - 1);
+            if (settings.DebugMode)
+            {
+                valueLabel.transform.parent.gameObject.SetActive(false);
+                waitLabel.transform.parent.gameObject.SetActive(false);
+                deltaLabel.transform.parent.gameObject.SetActive(false);
+            }
         }
 
         #endregion
@@ -137,7 +166,6 @@ namespace GlyphaeScripts
             for (int i = 0; i < 100; i += increment)
             {
                 float value = i / 100.0f * direction;
-                Debug.Log(value);
 
                 color = back.color;
                 color.a = value;
@@ -154,7 +182,16 @@ namespace GlyphaeScripts
                 color = outline.color;
                 color.a = value;
                 outline.color = color;
-                yield return new WaitForSeconds(0.5f / speedFactor);
+
+                if (settings.DebugMode)
+                {
+                    valueLabel.text = ""+value;
+                    waitLabel.text = "" + (0.01f / speedFactor);
+                    deltaLabel.text = ""+Time.deltaTime;
+                }
+                Debug.Log((0.01f / speedFactor));
+
+                yield return new WaitForSeconds(0.01f / speedFactor);
             }
         }
 
