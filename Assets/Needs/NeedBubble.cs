@@ -37,7 +37,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private string methodAfter;
+        private IEnumerator lastCoroutine;
 
         #endregion
 
@@ -121,9 +121,9 @@ namespace GlyphaeScripts
                 waitLabel.transform.parent.gameObject.SetActive(true);
                 deltaLabel.transform.parent.gameObject.SetActive(true);
             }
-            yield return AnimateFade(settings.AnimationSpeed);
+            yield return lastCoroutine = AnimateFade(settings.AnimationSpeed);
             yield return new WaitForSeconds(1f / settings.AnimationSpeed);
-            yield return AnimateFade(settings.AnimationSpeed * 2, -1);
+            yield return lastCoroutine = AnimateFade(settings.AnimationSpeed * 2, -1);
 
             OnFeedbackDone?.Invoke();
             if (settings.DebugMode)
@@ -142,9 +142,9 @@ namespace GlyphaeScripts
                 waitLabel.transform.parent.gameObject.SetActive(true);
                 deltaLabel.transform.parent.gameObject.SetActive(true);
             }
-            yield return AnimateFade(settings.AnimationSpeed);
+            yield return lastCoroutine = AnimateFade(settings.AnimationSpeed);
             yield return new WaitForSeconds(1f / settings.AnimationSpeed);
-            yield return AnimateFade(settings.AnimationSpeed * 2, - 1);
+            yield return lastCoroutine = AnimateFade(settings.AnimationSpeed * 2, - 1);
             if (settings.DebugMode)
             {
                 valueLabel.transform.parent.gameObject.SetActive(false);
@@ -153,9 +153,10 @@ namespace GlyphaeScripts
             }
         }
 
-        public void Reset()
+        public void Disable()
         {
             StopAllCoroutines();
+            StopCoroutine(lastCoroutine);
             Color color;
             color = back.color;
             color.a = 0;

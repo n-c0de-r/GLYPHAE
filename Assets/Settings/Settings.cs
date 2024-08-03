@@ -279,17 +279,10 @@ namespace GlyphaeScripts
 
 
             // Volume values
-            if (PlayerPrefs.HasKey(nameof(Keys.MainVolume)))
-                MainVolume = PlayerPrefs.GetFloat(nameof(Keys.MainVolume));
-
-            if (PlayerPrefs.HasKey(nameof(Keys.MusicVolume)))
-                MusicVolume = PlayerPrefs.GetFloat(nameof(Keys.MusicVolume));
-
-            if (PlayerPrefs.HasKey(nameof(Keys.SoundVolume)))
-                SoundVolume = PlayerPrefs.GetFloat(nameof(Keys.SoundVolume));
-
-            if (PlayerPrefs.HasKey(nameof(Keys.VoiceVolume)))
-                VoiceVolume = PlayerPrefs.GetFloat(nameof(Keys.VoiceVolume));
+            MainVolume = PlayerPrefs.HasKey(nameof(Keys.MainVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.MainVolume)) : -20;
+            MusicVolume = PlayerPrefs.HasKey(nameof(Keys.MusicVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.MusicVolume)) : 0;
+            SoundVolume = PlayerPrefs.HasKey(nameof(Keys.SoundVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.SoundVolume)) : 0;
+            VoiceVolume = PlayerPrefs.HasKey(nameof(Keys.VoiceVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.VoiceVolume)) : 0;
 
             if (PlayerPrefs.HasKey(nameof(Keys.FirstRun)))
                 FirstRun = PlayerPrefs.GetString(nameof(Keys.FirstRun)).Equals("True");

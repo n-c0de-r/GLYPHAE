@@ -1,22 +1,12 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
-    public class MainMenu : MonoBehaviour
+    public class PetSelect : MonoBehaviour
     {
         #region Serialized Fields
-        
+
         [SerializeField] private Settings settings;
-
-        [Header("Volume Controls")]
-        [SerializeField] private Slider main;
-        [SerializeField] private Slider music, sound, voice;
-
-        [Header("Dropdown Controls")]
-        [SerializeField] private TMP_Dropdown difficulty;
-        [SerializeField] private TMP_Dropdown timerStart, timerEnd;
 
         [Header("Input Objects")]
         [SerializeField] private GameObject buttonContainer;
@@ -26,6 +16,13 @@ namespace GlyphaeScripts
 
 
         #region Fields
+
+
+
+        #endregion
+
+
+        #region Events
 
 
 
@@ -43,23 +40,12 @@ namespace GlyphaeScripts
 
         void Awake()
         {
+            
         }
 
         private void OnEnable()
         {
-            main.SetValueWithoutNotify(settings.MainVolume);
-            music.SetValueWithoutNotify(settings.MusicVolume);
-            sound.SetValueWithoutNotify(settings.SoundVolume);
-            voice.SetValueWithoutNotify(settings.VoiceVolume);
-
-            difficulty.SetValueWithoutNotify((int)settings.Difficulty);
-            timerStart.SetValueWithoutNotify(settings.SilenceStart-18);
-            timerEnd.SetValueWithoutNotify(settings.SilenceEnd-6);
-
-            settings.FirstRun = false;
-
-            if (buttonContainer.transform.childCount != 0) ResetButtons();
-            if (buttonContainer.transform.childCount == 0) SetupButtons();
+            SetupButtons();
         }
 
         void Start()
@@ -77,27 +63,24 @@ namespace GlyphaeScripts
             
         }
 
-        #endregion
+        private void OnDisable()
+        {
+            ResetButtons();
+        }
 
-
-        #region Events
-
-
+        private void OnDestroy()
+        {
+            
+        }
 
         #endregion
 
 
         #region Methods
 
-        /// <summary>
-        /// Quits the application or editor.
-        /// </summary>
-        public void Quit()
+        public void TemplateMethod(bool param)
         {
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-            #endif
-                Application.Quit();
+            
         }
 
         #endregion

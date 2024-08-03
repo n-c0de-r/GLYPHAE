@@ -29,6 +29,10 @@ PrefabInstance:
       value: Triliterals
       objectReference: {fileID: 0}
     - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: unlocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
       propertyPath: description
       value: 'The vulture goddess.
 
