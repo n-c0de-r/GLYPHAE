@@ -20,15 +20,15 @@ MonoBehaviour:
   - {fileID: 1729131231951407160, guid: 73e73120d572b824d97f50373503117a, type: 3}
   - {fileID: 1514102868981016521, guid: 5871866cad727ad418b91138130ee4ae, type: 3}
   main: -20
-  music: 0
+  music: -32.4
   sound: 0
-  voice: 0
+  voice: -22.8
   animationSpeed: 3
-  firstRun: 0
-  difficulty: 2
+  firstRun: 1
+  difficulty: 0
   language: 0
   _selectedPet: {fileID: 0}
   _silenceStart: 20
   _silenceEnd: 8
-  debugCount: 0
+  debugCount: 3
   _isDebugMode: 0

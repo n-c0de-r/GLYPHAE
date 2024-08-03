@@ -25,9 +25,9 @@ namespace GlyphaeScripts
 
         [Header("Volume Settings")]
         [SerializeField][Range(-40,0)] private float main = -20.0f;
-        [SerializeField][Range(-40,0)] private float music;
-        [SerializeField][Range(-40,0)] private float sound;
-        [SerializeField][Range(-40,0)] private float voice;
+        [SerializeField][Range(-40,0)] private float music = 0;
+        [SerializeField][Range(-40,0)] private float sound = 0;
+        [SerializeField][Range(-40,0)] private float voice = 0;
 
         [Header("Display Values")]
         [Tooltip("The speed of animations.")]
@@ -50,7 +50,6 @@ namespace GlyphaeScripts
 
 
         #region Fields
-
 
         private const char GLYPH_SPLIT = ';';
         private const char MEMORY_SPLIT = ':';
@@ -212,7 +211,7 @@ namespace GlyphaeScripts
         public int SilenceStart
         {
             get => _silenceStart;
-            set => _silenceStart = Mathf.Clamp(value, 0, 4) + 18;
+            set => _silenceStart = value > 4 ? value : Mathf.Clamp(value, 0, 4) + 18;
         }
 
         /// <summary>
@@ -222,7 +221,7 @@ namespace GlyphaeScripts
         public int SilenceEnd
         {
             get => _silenceEnd;
-            set => _silenceEnd = Mathf.Clamp(value, 0, 4) + 6;
+            set => _silenceEnd = value > 4 ? value : Mathf.Clamp(value, 0, 4) + 6;
         }
 
         /// <summary>
