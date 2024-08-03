@@ -247,18 +247,6 @@ namespace GlyphaeScripts
             set => _isDebugMode = value;
         }
 
-        /// <summary>
-        /// Set the current <see cref="Evolutions"/> level of the selected <see cref="Pet"/>.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public int DebugLevel { set => _selectedPet.LevelValue = value; }
-
-        /// <summary>
-        /// Sets the time factor value to speed up display.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public float DebugTime { set => _selectedPet.TimeFactor = value; }
-
         #endregion
 
 

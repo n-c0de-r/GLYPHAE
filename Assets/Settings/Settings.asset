@@ -26,6 +26,9 @@ MonoBehaviour:
   animationSpeed: 3
   firstRun: 0
   difficulty: 2
-  _selectedPet: {fileID: 1954297056406680469, guid: 8bcfe026b210b8546944478eb260dde7, type: 3}
+  language: 0
+  _selectedPet: {fileID: 0}
   _silenceStart: 20
   _silenceEnd: 8
+  debugCount: 0
+  _isDebugMode: 0

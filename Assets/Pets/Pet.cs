@@ -139,17 +139,72 @@ namespace GlyphaeScripts
         /// </summary>
         public Evolutions Level { get => _level; }
 
+
+        #region Debug 
+
         /// <summary>
         /// Set the current <see cref="Evolutions"/> level.
         /// Only for debugging on hardware.
         /// </summary>
-        public int LevelValue { set => _level = (Evolutions)value; }
+        public int LevelValue
+        {
+            set
+            {
+                _level = (Evolutions)value;
+                ChangeSprite(value);
+                CalculateNeedFactors();
+            }
+        }
 
         /// <summary>
         /// Sets the time factor value to speed up display.
         /// Only for debugging on hardware.
         /// </summary>
         public float TimeFactor { set => _debugTimeFactor = (int)value; }
+
+        /// <summary>
+        /// Sets the hidden hunger increment value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float HungerIncrement { get => _hungerIncrement; }
+
+        /// <summary>
+        /// Sets the hidden health increment value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float HealthIncrement { get => _healthIncrement; }
+
+        /// <summary>
+        /// Sets the hidden joy increment value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float JoyIncrement { get => _joyIncrement; }
+
+        /// <summary>
+        /// Sets the hidden energy increment value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float EnergyIncrement { get => _energyIncrement; }
+
+        /// <summary>
+        /// Sets the hidden evolution calls number value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public int EvolutionCalls { get => _evolutionCalls; }
+
+        /// <summary>
+        /// Sets the hidden sickness chance number value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public int SicknessChance { get => _sicknessChance; }
+
+        /// <summary>
+        /// Sets the hidden sickness chance factor value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public int SicknessChanceFactor { get => _sicknessChanceFactor; }
+
+        #endregion Debug
 
         #endregion
 
@@ -171,7 +226,7 @@ namespace GlyphaeScripts
 
         private void OnEnable()
         {
-            _spriteRenderer.sprite = levelSprites[(int)_level];
+            ChangeSprite((int)_level);
 
             GlyphData.OnCorrectGuess += Feedback;
             GlyphData.OnWrongGuess += Feedback;
@@ -218,7 +273,7 @@ namespace GlyphaeScripts
         {
             if ((int)_level >= levelSprites.Length) return;
             _level++;
-            _spriteRenderer.sprite = levelSprites[(int)_level];
+            ChangeSprite((int)_level);
             CalculateNeedFactors();
         }
 
@@ -243,6 +298,11 @@ namespace GlyphaeScripts
             {
                 IncreaseLevel();
             }
+        }
+
+        private void ChangeSprite(int spriteNumber)
+        {
+            _spriteRenderer.sprite = levelSprites[spriteNumber];
         }
 
         private void Call(Sprite sprite)

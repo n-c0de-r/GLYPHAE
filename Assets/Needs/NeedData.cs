@@ -76,6 +76,29 @@ namespace GlyphaeScripts
         /// </summary>
         public Sprite Negative { get => negative; }
 
+
+        #region Debug
+
+        /// <summary>
+        /// Gets the hidden up factor value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float UpFactor { get => _upFactor; }
+
+        /// <summary>
+        /// Gets the hidden down factor value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float DownFactor { get => _downFactor; }
+
+        /// <summary>
+        /// Gets the hidden random offset value.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public float RandomOffset { get => _randomOffset; }
+
+        #endregion Debug
+
         #endregion
 
 
