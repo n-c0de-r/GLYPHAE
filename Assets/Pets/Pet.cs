@@ -313,6 +313,7 @@ namespace GlyphaeScripts
 
         private void Feedback(Sprite sprite)
         {
+            needCall.Reset();
             needFeedback.Setup(sprite);
             StartCoroutine(needFeedback.ShowFeedback());
         }

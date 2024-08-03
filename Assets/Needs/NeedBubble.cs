@@ -153,6 +153,27 @@ namespace GlyphaeScripts
             }
         }
 
+        public void Reset()
+        {
+            StopAllCoroutines();
+            Color color;
+            color = back.color;
+            color.a = 0;
+            back.color = color;
+
+            color = iconBack.color;
+            color.a = 0;
+            iconBack.color = color;
+
+            color = iconFill.color;
+            color.a = 0;
+            iconFill.color = color;
+
+            color = outline.color;
+            color.a = 0;
+            outline.color = color;
+        }
+
         #endregion
 
 
@@ -189,7 +210,6 @@ namespace GlyphaeScripts
                     waitLabel.text = "" + (0.01f / speedFactor);
                     deltaLabel.text = ""+Time.deltaTime;
                 }
-                Debug.Log((0.01f / speedFactor));
 
                 yield return new WaitForSeconds(0.01f / speedFactor);
             }
