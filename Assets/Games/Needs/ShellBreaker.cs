@@ -97,9 +97,9 @@ namespace GlyphaeScripts
 
         protected override void Success()
         {
-            _egg.ChangeSprite(_successes);
+            _egg.ChangeSprite(++_successes);
             MessageSuccess();
-            if (++_successes >= baseRounds) Win();
+            if (_successes >= baseRounds) Win();
         }
 
 

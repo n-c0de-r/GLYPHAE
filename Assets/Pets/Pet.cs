@@ -142,7 +142,7 @@ namespace GlyphaeScripts
         /// The current <see cref="Evolutions"/> level
         /// enum of this <see cref="Pet"/>
         /// </summary>
-        public Evolutions Level { get => _level; }
+        public Evolutions Level { get => _level; set => _level = value; }
 
 
         #region Debug 
@@ -225,6 +225,8 @@ namespace GlyphaeScripts
 
         private void OnEnable()
         {
+            CalculateNotifications();
+
             Minigame.OnNextRound += Call;
             Minigame.OnCorrectGuess += Feedback;
             Minigame.OnWrongGuess += Feedback;

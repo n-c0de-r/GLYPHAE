@@ -89,6 +89,7 @@ namespace GlyphaeScripts
             {
                 _pet.IncreaseLevel();
                 settings.SelectedPet.gameObject.SetActive(_pet.Level != Evolutions.Egg);
+                settings.FirstRun = false;
             };
 
             debugButton.SetActive(settings.DebugMode);
@@ -112,6 +113,8 @@ namespace GlyphaeScripts
         private void OnDisable()
         {
             Minigame.OnGameClose -= CloseMinigame;
+
+            settings.SaveSettings();
         }
 
         void OnDestroy()

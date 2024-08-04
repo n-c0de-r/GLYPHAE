@@ -55,7 +55,7 @@ namespace GlyphaeScripts
 
         void Start()
         {
-            
+            Reset();
         }
 
         void FixedUpdate()

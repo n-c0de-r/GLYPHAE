@@ -41,8 +41,8 @@ namespace GlyphaeScripts
             settings.NotificationPermission = notifications.RequestNotificationPermission();
             notifications.RegisterNotificationChanel();
 
-            if (settings.FirstRun) sceneSwitch.Next();
-            else sceneSwitch.Load("2_Game");
+            if (settings.SelectedPet != null && !settings.FirstRun) sceneSwitch.Load("2_Game");
+            else sceneSwitch.Next();
         }
 
         void FixedUpdate()

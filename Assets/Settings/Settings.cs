@@ -271,24 +271,31 @@ namespace GlyphaeScripts
         public void LoadSettings()
         {
             if (PlayerPrefs.HasKey(nameof(Keys.SelectedPet)))
-                _selectedPet = pets.Find(pet => pet.name == PlayerPrefs.GetString(nameof(Keys.SelectedPet)));
-
-            if (PlayerPrefs.HasKey(nameof(Keys.GlyphList)))
             {
-                List<GlyphData> glyphs = _selectedPet.Literals;
-                foreach (string item in PlayerPrefs.GetString(nameof(Keys.GlyphList)).Split(GLYPH_SPLIT))
-                {
-                    if (item == "") continue;
+                _selectedPet = pets.Find(pet => pet.Name == PlayerPrefs.GetString(nameof(Keys.SelectedPet)));
 
-                    string[] glyphData = item.Split(MEMORY_SPLIT);
-                    if (Enum.TryParse(glyphData[1], out MemoryLevels level))
+                if (PlayerPrefs.HasKey(_selectedPet.Name + "_" + nameof(Keys.PetLevel)))
+                {
+                    Enum.TryParse(PlayerPrefs.GetString(_selectedPet.Name + "_" + nameof(Keys.PetLevel)), out Evolutions lvl);
+                    _selectedPet.Level = lvl;
+                }
+
+                if (PlayerPrefs.HasKey(_selectedPet.Name + "_" + nameof(Keys.GlyphList)))
+                {
+                    List<GlyphData> glyphs = _selectedPet.Literals;
+                    foreach (string item in PlayerPrefs.GetString(_selectedPet.Name + "_" + nameof(Keys.GlyphList)).Split(GLYPH_SPLIT))
                     {
-                        int.TryParse(glyphData[0][..3], out int index);
-                        glyphs[index].MemoryLevel = level;
+                        if (item == "") continue;
+
+                        string[] glyphData = item.Split(MEMORY_SPLIT);
+                        if (Enum.TryParse(glyphData[1], out MemoryLevels level))
+                        {
+                            int.TryParse(glyphData[0][..3], out int index);
+                            glyphs[index].MemoryLevel = level;
+                        }
                     }
                 }
             }
-
 
             // Volume values
             MainVolume = PlayerPrefs.HasKey(nameof(Keys.MainVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.MainVolume)) : VOL_MIN / 2;
@@ -308,7 +315,9 @@ namespace GlyphaeScripts
         {
             if (_selectedPet != null)
             {
-                PlayerPrefs.SetString(nameof(Keys.SelectedPet), _selectedPet.name);
+                PlayerPrefs.SetString(nameof(Keys.SelectedPet), _selectedPet.Name);
+
+                PlayerPrefs.SetString(_selectedPet.Name + "_" + nameof(Keys.PetLevel), _selectedPet.Level.ToString());
 
                 string glyphs = "";
                 foreach (GlyphData item in _selectedPet.Literals)
@@ -316,7 +325,7 @@ namespace GlyphaeScripts
                     glyphs += item.name + MEMORY_SPLIT + item.MemoryLevel.ToString() + GLYPH_SPLIT;
                 }
 
-                PlayerPrefs.SetString(nameof(Keys.GlyphList), glyphs);
+                PlayerPrefs.SetString(_selectedPet.Name + "_" + nameof(Keys.GlyphList), glyphs);
             }
             
 
@@ -344,7 +353,7 @@ namespace GlyphaeScripts
         /// </summary>
         public enum Keys
         {
-            SelectedPet, GlyphList, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed, FirstRun
+            SelectedPet, PetLevel, GlyphList, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed, FirstRun
         }
     }
 
