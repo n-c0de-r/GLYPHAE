@@ -19,6 +19,7 @@ MonoBehaviour:
   alarm: {fileID: 1333884041, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: 1875779347, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   negative: {fileID: -766793799, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  notifications: {fileID: 3831587235750753166, guid: dccdcaddbbc2cfd4193c02bddff836e7, type: 3}
   title: Your pet is bored.
   description: Please come back and play with your pet to keep it entertained.
-  _isCritical: 1
+  _isCritical: 0

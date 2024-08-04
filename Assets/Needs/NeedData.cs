@@ -37,10 +37,11 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Notification Values")]
+        [Tooltip("The notification managment system.")]
+        [SerializeField] private NotificationsAndroid notifications;
         [Tooltip("The title text to show for the notification.")]
         [SerializeField] private string title;
-
-        [Tooltip("The icon of the positive feedback.")]
+        [Tooltip("The Notification text message.")]
         [SerializeField][TextArea(1, 3)] protected string description;
 
         #endregion
@@ -235,7 +236,7 @@ namespace GlyphaeScripts
             value *= (_downFactor + _randomOffset);
             int minutes = (int)(current / value);
             if (minutes <= 0) return;
-            NotificationsAndroid.SendNotification(title, description, minutes);
+            notifications.SendNotification(title, description, minutes);
         }
 
         #endregion

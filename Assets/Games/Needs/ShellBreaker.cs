@@ -97,16 +97,16 @@ namespace GlyphaeScripts
 
         protected override void Success()
         {
-            _successes++;
             _egg.ChangeSprite(_successes);
-            if (_successes >= baseRounds) Win();
+            MessageSuccess();
+            if (++_successes >= baseRounds) Win();
         }
 
 
         protected override void Fail()
         {
-            _fails++;
-            if (_fails >= _failsToLose) ResetGame();
+            MessageFail();
+            if (++_fails >= _failsToLose) ResetGame();
         }
 
         private void ResetGame()

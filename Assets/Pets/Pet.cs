@@ -13,6 +13,8 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [SerializeField] private NotificationsAndroid notifications;
+
         [Header("Need values")]
         [Tooltip("Basic needs of the pet:\r\nHunger, Health, Joy, Energy.")]
         [SerializeField] private NeedData[] needs;
@@ -307,6 +309,8 @@ namespace GlyphaeScripts
         /// </summary>
         private void DecreaseNeeds()
         {
+            if (_level == Evolutions.Egg) return;
+
             Hunger.Decrease(_hungerIncrement);
             Health.Decrease(_healthIncrement * _sickCount + 1);
             Joy.Decrease(_joyIncrement * _sickCount + 1);
@@ -463,7 +467,7 @@ namespace GlyphaeScripts
         // ENDGAME
         private void CalculateNotifications()
         {
-            NotificationsAndroid.ClearAllNotifications();
+            notifications.ClearAllNotifications();
             if (_level == Evolutions.Egg) return;
             
             Hunger.CalculateNotification(_hungerIncrement);

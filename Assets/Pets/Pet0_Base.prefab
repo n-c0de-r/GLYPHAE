@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472f8dcf2f7fc50448a87feb6fb2c698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notifications: {fileID: 3831587235750753166, guid: dccdcaddbbc2cfd4193c02bddff836e7, type: 3}
   needs:
   - {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
   - {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
@@ -67,6 +68,7 @@ MonoBehaviour:
   _level: 0
   minutes: 0
   _debugTimeFactor: 1
+  _randomSeed: -1
 --- !u!212 &5059000855819877809
 SpriteRenderer:
   m_ObjectHideFlags: 0

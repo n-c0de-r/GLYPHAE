@@ -226,6 +226,9 @@ namespace GlyphaeScripts
             CloseGame();
         }
 
+        protected void MessageSuccess() => OnCorrectGuess?.Invoke(primaryNeed.Positive);
+        protected void MessageFail() => OnWrongGuess?.Invoke(primaryNeed.Negative);
+
         /// <summary>
         /// Activates all relevant buttons of a game.
         /// </summary>

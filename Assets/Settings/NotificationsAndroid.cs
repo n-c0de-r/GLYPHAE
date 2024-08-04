@@ -1,6 +1,7 @@
-using Unity.Notifications.Android;
-using UnityEngine.Android;
 using System;
+using UnityEngine;
+using UnityEngine.Android;
+using Unity.Notifications.Android;
 
 namespace GlyphaeScripts
 {
@@ -9,7 +10,7 @@ namespace GlyphaeScripts
     /// Source: https://www.youtube.com/watch?v=ulCH0Cd4b_I
     /// https://docs.unity3d.com/ScriptReference/Android.Permission.RequestUserPermission.html
     /// </summary>
-    public static class NotificationsAndroid
+    public class NotificationsAndroid : MonoBehaviour
     {
         #region Fields
 
@@ -26,7 +27,7 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public static bool RequestNotificationPermission()
+        public bool RequestNotificationPermission()
         {
 
             if (!Permission.HasUserAuthorizedPermission(REQUEST_MESSAGE))
@@ -47,7 +48,7 @@ namespace GlyphaeScripts
             // here use request.Status to determine users response
         }
 
-        public static void RegisterNotificationChanel()
+        public void RegisterNotificationChanel()
         {
             AndroidNotificationChannelGroup group = new()
             {
@@ -68,9 +69,8 @@ namespace GlyphaeScripts
             AndroidNotificationCenter.RegisterNotificationChannel(channel);
         }
 
-        public static void SendNotification(string title, string text, int fireTimeInMinutes)
+        public void SendNotification(string title, string text, int fireTimeInMinutes)
         {
-            Debugger.print(title);
             AndroidNotification notification = new()
             {
                 Title = title,
@@ -84,7 +84,7 @@ namespace GlyphaeScripts
             AndroidNotificationCenter.SendNotification(notification, CHANEL_ID);
         }
 
-        public static void ClearAllNotifications()
+        public void ClearAllNotifications()
         {
             AndroidNotificationCenter.CancelAllScheduledNotifications();
         }

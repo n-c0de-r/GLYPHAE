@@ -19,6 +19,7 @@ MonoBehaviour:
   alarm: {fileID: 2041615289, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: -1228989046, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   negative: {fileID: -1338028822, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  notifications: {fileID: 3831587235750753166, guid: dccdcaddbbc2cfd4193c02bddff836e7, type: 3}
   title: Your pet's health is low.
   description: Please come back and heal your pet, so it can evolve.
   _isCritical: 0

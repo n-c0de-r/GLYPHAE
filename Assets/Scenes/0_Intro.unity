@@ -170,6 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   sceneSwitch: {fileID: 2077060077}
+  notifications: {fileID: 3831587235750753166, guid: dccdcaddbbc2cfd4193c02bddff836e7, type: 3}
 --- !u!114 &2077060077
 MonoBehaviour:
   m_ObjectHideFlags: 0

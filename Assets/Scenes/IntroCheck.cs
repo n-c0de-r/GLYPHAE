@@ -9,6 +9,8 @@ namespace GlyphaeScripts
         [SerializeField] private Settings settings;
         [SerializeField] private SceneSwitch sceneSwitch;
 
+        [SerializeField] private NotificationsAndroid notifications;
+
         #endregion
 
 
@@ -36,8 +38,8 @@ namespace GlyphaeScripts
         void Start()
         {
             settings.LoadSettings();
-            settings.NotificationPermission = NotificationsAndroid.RequestNotificationPermission();
-            NotificationsAndroid.RegisterNotificationChanel();
+            settings.NotificationPermission = notifications.RequestNotificationPermission();
+            notifications.RegisterNotificationChanel();
 
             if (settings.FirstRun) sceneSwitch.Next();
             else sceneSwitch.Load("2_Game");
