@@ -36,6 +36,7 @@ namespace GlyphaeScripts
         [Header("Other Values")]
         [Tooltip("If the game has ever run.")]
         [SerializeField] private bool firstRun = true;
+        [Tooltip("The difficulty of the game,\r\nchanges game behavior slightly.")]
         [SerializeField] private Difficulty difficulty = Difficulty.Easy;
         [SerializeField] private Language language = Language.English;
 
@@ -253,7 +254,7 @@ namespace GlyphaeScripts
 
         /// <summary>
         /// Loads the settings from <see cref="PlayerPrefs"/>
-        /// into the game's settings asset.
+        /// into the game's <see cref="Settings"/> asset.
         /// </summary>
         public void LoadSettings()
         {
@@ -289,18 +290,23 @@ namespace GlyphaeScripts
 
         /// <summary>
         /// Saves the settings to <see cref="PlayerPrefs"/>
-        /// from the game's settings asset.
+        /// from the game's <see cref="Settings"/> asset.
         /// </summary>
         public void SaveSettings()
         {
-            PlayerPrefs.SetString(nameof(Keys.SelectedPet), _selectedPet.name);
-
-            string glyphs = "";
-            foreach (GlyphData item in _selectedPet.Literals)
+            if (_selectedPet != null)
             {
-                glyphs += item.name + MEMORY_SPLIT + item.MemoryLevel.ToString() + GLYPH_SPLIT;
+                PlayerPrefs.SetString(nameof(Keys.SelectedPet), _selectedPet.name);
+
+                string glyphs = "";
+                foreach (GlyphData item in _selectedPet.Literals)
+                {
+                    glyphs += item.name + MEMORY_SPLIT + item.MemoryLevel.ToString() + GLYPH_SPLIT;
+                }
+
+                PlayerPrefs.SetString(nameof(Keys.GlyphList), glyphs);
             }
-            PlayerPrefs.SetString(nameof(Keys.GlyphList), glyphs);
+            
 
             PlayerPrefs.SetFloat(nameof(Keys.MainVolume), main);
             PlayerPrefs.SetFloat(nameof(Keys.MusicVolume), music);

@@ -30,14 +30,17 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            settings.LoadSettings();
-
-            if (!settings.FirstRun) sceneSwitch.Next();
+            
         }
 
         void Start()
         {
-            
+            NotificationsAndroid.RequestNotificationPermission();
+            NotificationsAndroid.RegisterNotificationChanel();
+            settings.LoadSettings();
+
+            if (settings.FirstRun) sceneSwitch.Next();
+            else sceneSwitch.Load("2_Game");
         }
 
         void FixedUpdate()
@@ -54,15 +57,15 @@ namespace GlyphaeScripts
 
 
         #region Events
-        
-        
+
+
 
         #endregion
 
 
         #region Methods
-        
-        
+
+
 
         public void TemplateMethod(bool param)
         {

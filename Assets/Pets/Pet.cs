@@ -58,6 +58,7 @@ namespace GlyphaeScripts
         private BoxCollider2D _boxCollider;
 
         public Evolutions _level = Evolutions.Egg;
+        private HashSet<NeedData> _criticals = new();
         private int _evolutionCalls = 0;
         private int _sicknessChanceFactor, _sickCount;
 
@@ -67,7 +68,7 @@ namespace GlyphaeScripts
         public int minutes = 0;
         public int _debugTimeFactor = 1;
 
-
+        public int _randomSeed = -1; // invalid seed
 
         #endregion
 
@@ -228,11 +229,7 @@ namespace GlyphaeScripts
             Minigame.OnCorrectGuess += Feedback;
             Minigame.OnWrongGuess += Feedback;
 
-            NeedData.OnNeedCritical += (need) =>
-            {
-                //_debugTimeFactor = 1;
-                Debug.Log(need.name + " @ min " +minutes);
-            };
+            NeedData.OnNeedCritical += SetCiticals;
             NeedData.OnNeedSatisfied += (need) => Debug.Log(need);
 
             CheckEvolution();
@@ -260,11 +257,18 @@ namespace GlyphaeScripts
 
         }
 
+        private void OnApplicationPause(bool isPaused)
+        {
+
+        }
+
         private void OnDisable()
         {
             Minigame.OnNextRound -= Call;
             Minigame.OnCorrectGuess -= Feedback;
             Minigame.OnWrongGuess -= Feedback;
+
+            CalculateNotifications();
         }
 
         #endregion
@@ -300,6 +304,7 @@ namespace GlyphaeScripts
             Energy.Decrease(_energyIncrement * _sickCount + 1);
 
             CheckSickness();
+            CheckEvolution();
         }
 
         /// <summary>
@@ -310,6 +315,7 @@ namespace GlyphaeScripts
             if (_evolutionCalls > Enum.GetValues(typeof(Evolutions)).Length)
             {
                 IncreaseLevel();
+                //TODO: Animation
                 _evolutionCalls = 0;
             }
         }
@@ -324,19 +330,18 @@ namespace GlyphaeScripts
             float healthFactor = Health.Critical / (Health.Current + 1);
             float joyFactor = Joy.Critical / (Joy.Current + 1) / 2;
             float energyFactor = Energy.Critical / (Energy.Current + 1) / 4;
+
+            if (_randomSeed != -1) UnityEngine.Random.InitState(_randomSeed);
             int rng = UnityEngine.Random.Range(3, 11);
-
             float sicknessChance = (hungerFactor + healthFactor + energyFactor + joyFactor + rng) * _sicknessChanceFactor;
-
             rng = UnityEngine.Random.Range(NeedData.MAX / (10 / _sicknessChanceFactor), NeedData.MAX * NeedData.MAX / _sicknessChanceFactor);
-            //TODO: Add poop
+                //TODO: Add poop?
+
             if (sicknessChance > rng)
             {
-                _sickCount++;
-                if (_sickCount <= 3)
-                {
-                    Health.Decrease(_healthIncrement * _sicknessChanceFactor * 10);
-                }
+                _sickCount = Mathf.Clamp(_sickCount+1, 0, 3);
+                Health.Decrease(_healthIncrement * _sicknessChanceFactor * 10);
+                needCall.Setup(Health.Alarm);
             }
         }
 
@@ -369,6 +374,20 @@ namespace GlyphaeScripts
             needFeedback.Setup(sprite);
             StartCoroutine(needFeedback.ShowFeedback());
         }
+
+        private void SetCiticals(NeedData data)
+        {
+            _criticals.Add(data);
+            needCall.Setup(data.Alarm);
+        }
+
+        private void RemoveCriticals(NeedData data)
+        {
+            _criticals.Remove(data);
+            _evolutionCalls++;
+        }
+
+        // MATH
 
         /// <summary>
         /// Calculate all the relevant <see cref="NeedData"/> change factors.
@@ -437,6 +456,17 @@ namespace GlyphaeScripts
         private float CalculateNeedIncrement()
         {
             return UnityEngine.Random.Range(INCREMENT_MIN, INCREMENT_MAX) * CalculateReverseLine();
+        }
+
+        // ENDGAME
+        private void CalculateNotifications()
+        {
+            Hunger.CalculateNotification(_hungerIncrement);
+            Health.CalculateNotification(_healthIncrement);
+            Joy.CalculateNotification(_joyIncrement);
+            Energy.CalculateNotification(_energyIncrement);
+
+            //_randomSeed = Mathf.Abs((int)DateTime.Now.Ticks);
         }
 
         #endregion

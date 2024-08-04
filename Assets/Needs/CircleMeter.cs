@@ -26,9 +26,12 @@ namespace GlyphaeScripts
         [SerializeField] private TMP_Text valueTag;
 
         [Space]
-        [Header("Animation Values")]
-        [Tooltip("The image to fill.")]
+        [Header("Display Values")]
+        [Tooltip("The slider image to fill.")]
         [SerializeField] private Image slider;
+
+        [Tooltip("The warning sign to show on critical.")]
+        [SerializeField] private Image warning;
 
         #endregion
 
@@ -71,6 +74,8 @@ namespace GlyphaeScripts
         private void OnEnable()
         {
             NeedData.OnNeedUpdate += UpdateValue;
+            NeedData.OnNeedCritical += ShowWarning;
+            NeedData.OnNeedSatisfied += HideWarning;
 
             _current = need.Current;
             nameTag.text = gameObject.name;
@@ -95,7 +100,9 @@ namespace GlyphaeScripts
 
         private void OnDisable()
         {
-            NeedData.OnNeedUpdate += UpdateValue;
+            NeedData.OnNeedUpdate -= UpdateValue;
+            NeedData.OnNeedCritical -= ShowWarning;
+            NeedData.OnNeedSatisfied -= HideWarning;
         }
 
         #endregion
@@ -112,6 +119,7 @@ namespace GlyphaeScripts
             if (incoming == need)
             {
                 if (isActiveAndEnabled) StartCoroutine(Animate(direction));
+
             }
         }
 
@@ -124,6 +132,7 @@ namespace GlyphaeScripts
         {
             yield return AnimateFill(_current, need.Current, direction);
             _current = need.Current;
+            valueTag.text = "" + (int)_current;
         }
 
         /// <summary>
@@ -142,6 +151,22 @@ namespace GlyphaeScripts
                 slider.color = color;
             }
             yield return new WaitForSeconds(0.5f / settings.AnimationSpeed);
+        }
+
+        private void ShowWarning(NeedData incoming)
+        {
+            if (incoming == need)
+            {
+                if (isActiveAndEnabled) warning.gameObject.SetActive(true);
+            }
+        }
+
+        private void HideWarning(NeedData incoming)
+        {
+            if (incoming == need)
+            {
+                if (isActiveAndEnabled) warning.gameObject.SetActive(false);
+            }
         }
 
         #endregion

@@ -66,6 +66,11 @@ namespace GlyphaeScripts
             
         }
 
+        private void OnDisable()
+        {
+            settings.SaveSettings();
+        }
+
         #endregion
 
 

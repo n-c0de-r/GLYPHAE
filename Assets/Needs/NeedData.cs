@@ -112,6 +112,7 @@ namespace GlyphaeScripts
         public static event Action<NeedData, int> OnNeedUpdate;
         public static event Action<NeedData> OnNeedCritical;
         public static event Action<NeedData> OnNeedSatisfied;
+        //public static event Action<int> OnSendNotification;
 
         #endregion
 
@@ -218,7 +219,17 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-
+        /// <summary>
+        /// Sets up a mobile notification based on <see cref="NeedData"/> values.
+        /// <param name="value">The base value to subtract.</param>
+        /// </summary>
+        public void CalculateNotification(float value)
+        {
+            value *= (_downFactor + _randomOffset);
+            int minutes = (int)(current / value);
+            //OnSendNotification?.Invoke(minutes);
+            NotificationsAndroid.SendNotification(name, "Hello World", minutes);
+        }
 
         #endregion
 
