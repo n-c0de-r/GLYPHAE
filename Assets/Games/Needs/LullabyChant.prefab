@@ -513,7 +513,7 @@ MonoBehaviour:
   energyCost: 0
   primaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
   secondaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
-  fillAmount: 2
+  fillAmount: 6
   helpContainer: {fileID: 2003674638442865547}
   gameDescription: Singing lullabies helps to induce sleep, so reading out a few
     magical hieroglyphs in the correct order should help.

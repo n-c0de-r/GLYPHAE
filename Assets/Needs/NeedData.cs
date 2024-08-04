@@ -18,8 +18,11 @@ namespace GlyphaeScripts
         [Tooltip("The current value of this need.")]
         [SerializeField][Range(0, 100)] private float current;
 
-        [Tooltip("The value at which\r\na need sets a notification.")]
-        [SerializeField][Range(10, 50)] private float critical = 20;
+        [Tooltip("The lower limit value at\r\nwhich a need sets a notification.")]
+        [SerializeField][Range(10, 30)] private float criticalLimit = 20;
+
+        [Tooltip("The upper limit value at\r\nwhicha need call is satisfied.")]
+        [SerializeField][Range(70, 90)] private float satisfiedLimit = 80;
 
         [Space]
         [Header("Feedback Icons")]
@@ -38,7 +41,9 @@ namespace GlyphaeScripts
         #region Fields
 
         public const int MIN = 0, MAX = 100;
+        public const float RANDOM_MIN = -0.13f, RANDOM_MAX = 0.13f;
         private float _upFactor, _downFactor, _randomOffset;
+        [SerializeField] private bool _isCritical = false;
 
         #endregion
 
@@ -59,7 +64,7 @@ namespace GlyphaeScripts
         /// <summary>
         /// The amount limit where a care call is isued by the <see cref="Pet"/>.
         /// </summary>
-        public float Critical { get => critical; }
+        public float Critical { get => criticalLimit; }
 
         /// <summary>
         /// The icon of the critical call.
@@ -105,6 +110,8 @@ namespace GlyphaeScripts
         #region Events
 
         public static event Action<NeedData, int> OnNeedUpdate;
+        public static event Action<NeedData> OnNeedCritical;
+        public static event Action<NeedData> OnNeedSatisfied;
 
         #endregion
 
@@ -117,21 +124,6 @@ namespace GlyphaeScripts
         }
 
         private void OnEnable()
-        {
-            
-        }
-
-        void Start()
-        {
-            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
         {
             
         }
@@ -152,6 +144,36 @@ namespace GlyphaeScripts
         #region Methods
 
         /// <summary>
+        /// Resets this <see cref="NeedData"/> back to its initial values.
+        /// </summary>
+        public void Initialize()
+        {
+            current = initial;
+            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
+        }
+
+        /// <summary>
+        /// Sets up the relevant factors for this <see cref="NeedData"/>
+        /// </summary>
+        /// <param name="upFactor">The factor that is applied when satisfying needs.</param>
+        /// <param name="downFactor">The factor that is applied when reducing needs.</param>
+        public void SetupFactors(int upFactor, int downFactor)
+        {
+            _upFactor = upFactor;
+            _downFactor = downFactor;
+        }
+
+        /// <summary>
+        /// Adds a random offset to factors.
+        /// They get updated after calls, level-ups and day changes.
+        /// </summary>
+        /// <param name="calls">The number of calls of a <see cref="Pet"/> satisfied so far. Ramps up randomness.</param>
+        public void Randomize(int calls)
+        {
+            _randomOffset = UnityEngine.Random.Range(RANDOM_MIN, RANDOM_MAX) * calls;
+        }
+
+        /// <summary>
         /// Increases the current <see cref="NeedData"/> value with a specific calculation.
         /// </summary>
         /// <param name="value">The base value to add.</param>
@@ -163,6 +185,12 @@ namespace GlyphaeScripts
             value = value * (_upFactor + _randomOffset);
             current = Mathf.Clamp(current + value, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
+
+            if (_isCritical && current > satisfiedLimit)
+            {
+                OnNeedSatisfied?.Invoke(this);
+                _isCritical = false;
+            }
         }
 
         /// <summary>
@@ -177,33 +205,12 @@ namespace GlyphaeScripts
             value = -value * (_downFactor + _randomOffset);
             current = Mathf.Clamp(current + value, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
-        }
 
-        /// <summary>
-        /// Sets up the relevant factors for this <see cref="NeedData"/>
-        /// </summary>
-        /// <param name="upFactor">The factor that is applied when satisfying needs.</param>
-        /// <param name="downFactor">The factor that is applied when reducing needs.</param>
-        public void SetupFactors(int upFactor, int downFactor)
-        {
-            _upFactor = upFactor;
-            _downFactor = downFactor;
-        }
-
-
-        public void Reset()
-        {
-            initial = current;
-        }
-
-        /// <summary>
-        /// Adds a random offset to factors.
-        /// They get updated after calls, level-ups and day changes.
-        /// </summary>
-        /// <param name="calls">The number of calls of a <see cref="Pet"/> satisfied so far. Ramps up randomness.</param>
-        public void Randomize(int calls)
-        {
-            _randomOffset = UnityEngine.Random.Range(-0.13f, +0.13f) * calls;
+            if (!_isCritical && current <= criticalLimit)
+            {
+                OnNeedCritical?.Invoke(this);
+                _isCritical = true;
+            }
         }
 
         #endregion

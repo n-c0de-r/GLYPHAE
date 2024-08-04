@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.U2D;
 
 namespace GlyphaeScripts
 {
@@ -184,12 +185,12 @@ namespace GlyphaeScripts
 
             if (_toMatch == input)
             {
-                _toMatch.CorrectlyGuessed(primaryNeed.Positive);
+                _toMatch.CorrectlyGuessed();
                 Success();
             }
             else
             {
-                _toMatch.WronglyGuessed(primaryNeed.Negative);
+                _toMatch.WronglyGuessed();
                 Fail();
             }
             SetupGylphLists(_usedGlyphs);
@@ -201,6 +202,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Success()
         {
+            OnCorrectGuess?.Invoke(primaryNeed.Positive);
             if (++_successes >= _rounds) Win();
         }
 
@@ -210,6 +212,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Fail()
         {
+            OnWrongGuess?.Invoke(primaryNeed.Negative);
             if (++_fails >= _failsToLose) CloseGame();
         }
 

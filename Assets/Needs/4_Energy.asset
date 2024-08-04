@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initial: 100
   current: 100
-  critical: 20
+  criticalLimit: 20
+  satisfiedLimit: 80
   alarm: {fileID: 1381043269, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: -1228989046, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   negative: {fileID: 1333884041, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  _isCritical: 0

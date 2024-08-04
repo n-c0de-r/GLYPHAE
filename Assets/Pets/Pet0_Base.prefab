@@ -65,6 +65,8 @@ MonoBehaviour:
   description: 
   symbol: {fileID: 0}
   _level: 0
+  minutes: 0
+  _debugTimeFactor: 1
 --- !u!212 &5059000855819877809
 SpriteRenderer:
   m_ObjectHideFlags: 0

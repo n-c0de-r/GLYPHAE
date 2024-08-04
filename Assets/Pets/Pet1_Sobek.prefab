@@ -176,7 +176,7 @@ PrefabInstance:
       objectReference: {fileID: 922343693, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
     - target: {fileID: 3721469564461433512, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
       propertyPath: m_Name
-      value: Pet1_Sobek Variant
+      value: Pet1_Sobek
       objectReference: {fileID: 0}
     - target: {fileID: 5059000855819877809, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
       propertyPath: m_Size.x

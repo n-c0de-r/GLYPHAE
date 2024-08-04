@@ -58,21 +58,23 @@ namespace GlyphaeScripts
         private BoxCollider2D _boxCollider;
 
         public Evolutions _level = Evolutions.Egg;
+        private int _evolutionCalls = 0;
+        private int _sicknessChanceFactor, _sickCount;
+
+        private const float INCREMENT_MIN = 0.13f, INCREMENT_MAX = 0.23f;
         private float _hungerIncrement, _healthIncrement, _joyIncrement, _energyIncrement;
-        private int _evolutionCalls = 3;
-        private int _sicknessChance, _sicknessChanceFactor, _sickCount;
-        private bool hasCalled = false;
+        private float _needTimer = 60;
+        public int minutes = 0;
+        public int _debugTimeFactor = 1;
+
+
 
         #endregion
 
 
         #region Events
 
-        public static event Action<Sprite, List<GlyphData>> OnNeedCall;
-        public static event Action<bool> OnNeedSatisfied;
-        float timer = 60;
-        public int _debugTimeFactor = 1;
-        public int minutes = 0;
+
 
         #endregion
 
@@ -193,12 +195,6 @@ namespace GlyphaeScripts
         public int EvolutionCalls { get => _evolutionCalls; }
 
         /// <summary>
-        /// Sets the hidden sickness chance number value.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public int SicknessChance { get => _sicknessChance; }
-
-        /// <summary>
         /// Sets the hidden sickness chance factor value.
         /// Only for debugging on hardware.
         /// </summary>
@@ -228,9 +224,16 @@ namespace GlyphaeScripts
         {
             ChangeSprite((int)_level);
 
-            GlyphData.OnCorrectGuess += Feedback;
-            GlyphData.OnWrongGuess += Feedback;
             Minigame.OnNextRound += Call;
+            Minigame.OnCorrectGuess += Feedback;
+            Minigame.OnWrongGuess += Feedback;
+
+            NeedData.OnNeedCritical += (need) =>
+            {
+                //_debugTimeFactor = 1;
+                Debug.Log(need.name + " @ min " +minutes);
+            };
+            NeedData.OnNeedSatisfied += (need) => Debug.Log(need);
 
             CheckEvolution();
         }
@@ -242,12 +245,12 @@ namespace GlyphaeScripts
 
         void FixedUpdate()
         {
-            timer -= Time.fixedDeltaTime * _debugTimeFactor;
+            _needTimer -= Time.fixedDeltaTime * _debugTimeFactor;
 
-            if (timer <= 0)
+            if (_needTimer <= 0)
             {
-                UpdateNeeds();
-                timer = 60;
+                DecreaseNeeds();
+                _needTimer = 60;
                 minutes++;
             }
         }
@@ -259,9 +262,9 @@ namespace GlyphaeScripts
 
         private void OnDisable()
         {
-            GlyphData.OnCorrectGuess -= Feedback;
-            GlyphData.OnWrongGuess -= Feedback;
             Minigame.OnNextRound -= Call;
+            Minigame.OnCorrectGuess -= Feedback;
+            Minigame.OnWrongGuess -= Feedback;
         }
 
         #endregion
@@ -269,6 +272,10 @@ namespace GlyphaeScripts
 
         #region Methods
 
+        /// <summary>
+        /// Increases the <see cref="Pet"/>'s <see cref="Evolutions"/> level and
+        /// does all the relevant background calculations for the next round.
+        /// </summary>
         public void IncreaseLevel()
         {
             if ((int)_level >= levelSprites.Length) return;
@@ -282,35 +289,80 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private void UpdateNeeds()
+        /// <summary>
+        /// Reduces the needs when the internal timer is up.
+        /// </summary>
+        private void DecreaseNeeds()
         {
             Hunger.Decrease(_hungerIncrement);
-            Health.Decrease(_healthIncrement * _sickCount);
-            Joy.Decrease(_joyIncrement);
-            Energy.Decrease(_energyIncrement);
+            Health.Decrease(_healthIncrement * _sickCount + 1);
+            Joy.Decrease(_joyIncrement * _sickCount + 1);
+            Energy.Decrease(_energyIncrement * _sickCount + 1);
 
-            _sicknessChance = (int)(NeedData.MAX - Health.Current) * _sicknessChanceFactor;
+            CheckSickness();
         }
 
+        /// <summary>
+        /// Checks if the <see cref="Pet"/> is ready to evolve to the next <see cref="Evolutions"/> level.
+        /// </summary>
         private void CheckEvolution()
         {
-            if (_evolutionCalls >= Enum.GetValues(typeof(Evolutions)).Length)
+            if (_evolutionCalls > Enum.GetValues(typeof(Evolutions)).Length)
             {
                 IncreaseLevel();
+                _evolutionCalls = 0;
             }
         }
 
+        /// <summary>
+        /// Checks if the <see cref="Pet"/> gets sick.
+        /// The chance depends on overall health, hunger, mood, some level related factors and some randomness.
+        /// </summary>
+        private void CheckSickness()
+        {
+            float hungerFactor = Hunger.Critical / (Hunger.Current + 1) / 3;
+            float healthFactor = Health.Critical / (Health.Current + 1);
+            float joyFactor = Joy.Critical / (Joy.Current + 1) / 2;
+            float energyFactor = Energy.Critical / (Energy.Current + 1) / 4;
+            int rng = UnityEngine.Random.Range(3, 11);
+
+            float sicknessChance = (hungerFactor + healthFactor + energyFactor + joyFactor + rng) * _sicknessChanceFactor;
+
+            rng = UnityEngine.Random.Range(NeedData.MAX / (10 / _sicknessChanceFactor), NeedData.MAX * NeedData.MAX / _sicknessChanceFactor);
+            //TODO: Add poop
+            if (sicknessChance > rng)
+            {
+                _sickCount++;
+                if (_sickCount <= 3)
+                {
+                    Health.Decrease(_healthIncrement * _sicknessChanceFactor * 10);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Changes the <see cref="Pet"/>'s sprite according to its <see cref="Evolutions"/>.
+        /// </summary>
+        /// <param name="spriteNumber">The sprite index to pick from, corresponds to the current <see cref="Evolutions"/> level.</param>
         private void ChangeSprite(int spriteNumber)
         {
             _spriteRenderer.sprite = levelSprites[spriteNumber];
         }
 
+        /// <summary>
+        /// Displays a need <see cref="NeedBubble"/>.
+        /// </summary>
+        /// <param name="sprite">The icon to show, taken from <see cref="NeedData"/>. Either positive or negative.</param>
         private void Call(Sprite sprite)
         {
             needCall.Setup(sprite);
             StartCoroutine(needCall.ShowCall());
         }
 
+        /// <summary>
+        /// Displays a feedback <see cref="NeedBubble"/>.
+        /// </summary>
+        /// <param name="sprite">The icon to show, taken from <see cref="NeedData"/>. Either positive or negative.</param>
         private void Feedback(Sprite sprite)
         {
             needCall.Disable();
@@ -318,14 +370,18 @@ namespace GlyphaeScripts
             StartCoroutine(needFeedback.ShowFeedback());
         }
 
+        /// <summary>
+        /// Calculate all the relevant <see cref="NeedData"/> change factors.
+        /// Correlation with the <see cref="Pet"/>'s <see cref="Evolutions"/> levels and <see cref="EvolutionCalls"/>.
+        /// </summary>
         private void CalculateNeedFactors()
         {
             _hungerIncrement = CalculateNeedIncrement();
             Hunger.SetupFactors(CalculateReverseCurve(), CalculateReverseLine());
             Hunger.Randomize(_evolutionCalls);
 
-            _healthIncrement = CalculateNeedIncrement();
-            Health.SetupFactors(0, 0);
+            _healthIncrement = CalculateNeedIncrement() / 3.0f;
+            Health.SetupFactors(1, 1);
             Health.Randomize(_evolutionCalls);
 
             _joyIncrement = CalculateNeedIncrement();
@@ -339,24 +395,48 @@ namespace GlyphaeScripts
             _sicknessChanceFactor = CalculateReverseCurve();
         }
 
+        /// <summary>
+        /// Calculates the <see cref="NeedData"/> change factors that resemble a <see href="https://en.wikipedia.org/wiki/Normal_distribution">Gaussian Normal Distribution</see>.
+        /// lowest at the edges, highest in the middle.
+        /// This is proportional to the <see cref="Pet"/>'s <see cref="Evolutions"/> level.
+        /// </summary>
+        /// <returns>A factor affecting the <see cref="NeedData"/> it is passed onto.</returns>
         private int CalculateCurve()
         {
             return (int)Evolutions.Teen - Mathf.Abs((int)_level - (int)Evolutions.Teen);
         }
 
+        /// <summary>
+        /// Calculates the <see cref="NeedData"/> change factors that resemble a reversed <see href="https://en.wikipedia.org/wiki/Normal_distribution">Gaussian Normal Distribution</see> curve.
+        /// Highest at the edges, lowest in the middle.
+        /// This is inversly proportional to the <see cref="Pet"/>'s <see cref="Evolutions"/> level.
+        /// </summary>
+        /// <returns>A factor affecting the <see cref="NeedData"/> it is passed onto.</returns>
         private int CalculateReverseCurve()
         {
             return Mathf.Abs((int)_level - (int)Evolutions.Teen) + 1;
         }
 
+        /// <summary>
+        /// Calculates the <see cref="NeedData"/> change factors.
+        /// Highest at the beginning, lowest at the end.
+        /// This is inversely proportional to the <see cref="Pet"/>'s <see cref="Evolutions"/> level.
+        /// </summary>
+        /// <returns>A factor affecting the <see cref="NeedData"/> it is passed onto.</returns>
         private int CalculateReverseLine()
         {
             return (int)Enum.GetValues(typeof(Evolutions)).Length - (int)_level;
         }
 
+        /// <summary>
+        /// The value each <see cref="NeedData"/> is reduced by.
+        /// Correlates with the <see cref="Pet"/>'s <see cref="Evolutions"/> level.
+        /// Changes after a leve-up [<see cref="IncreaseLevel"/>].
+        /// </summary>
+        /// <returns>A random float increment value.</returns>
         private float CalculateNeedIncrement()
         {
-            return UnityEngine.Random.Range(0.07f, 0.13f) * CalculateReverseLine();
+            return UnityEngine.Random.Range(INCREMENT_MIN, INCREMENT_MAX) * CalculateReverseLine();
         }
 
         #endregion

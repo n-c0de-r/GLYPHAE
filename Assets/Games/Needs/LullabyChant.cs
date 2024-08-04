@@ -134,7 +134,7 @@ namespace GlyphaeScripts
         {
             if (_toMatch == input)
             {
-                _toMatch.CorrectlyGuessed(primaryNeed.Positive);
+                _toMatch.CorrectlyGuessed();
                 Success();
 
                 _timeIcons[_order[_orderIndex]].Disable();
@@ -144,7 +144,7 @@ namespace GlyphaeScripts
             }
             else
             {
-                _toMatch.WronglyGuessed(primaryNeed.Negative);
+                _toMatch.WronglyGuessed();
                 Fail();
             }
         }

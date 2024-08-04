@@ -14,7 +14,7 @@ namespace GlyphaeScripts
 
         [Header("UI Values")]
         [Tooltip("The sound this bubble plays when satisfied.")]
-        [SerializeField] private AudioSource audio;
+        [SerializeField] private AudioSource audioSource;
 
         [Tooltip("The back image of the bubble.")]
         [SerializeField] private SpriteRenderer back;
@@ -95,7 +95,7 @@ namespace GlyphaeScripts
         /// <param name="display">The sprite to show when displayed.</param>
         public void Setup(AudioClip sound, Sprite display)
         {
-            audio.clip = sound;
+            audioSource.clip = sound;
             Setup(display);
         }
 
@@ -121,11 +121,13 @@ namespace GlyphaeScripts
                 waitLabel.transform.parent.gameObject.SetActive(true);
                 deltaLabel.transform.parent.gameObject.SetActive(true);
             }
+
             yield return lastCoroutine = AnimateFade(settings.AnimationSpeed);
             yield return new WaitForSeconds(1f / settings.AnimationSpeed);
             yield return lastCoroutine = AnimateFade(settings.AnimationSpeed * 2, -1);
 
             OnFeedbackDone?.Invoke();
+
             if (settings.DebugMode)
             {
                 valueLabel.transform.parent.gameObject.SetActive(false);
@@ -142,9 +144,11 @@ namespace GlyphaeScripts
                 waitLabel.transform.parent.gameObject.SetActive(true);
                 deltaLabel.transform.parent.gameObject.SetActive(true);
             }
+
             yield return lastCoroutine = AnimateFade(settings.AnimationSpeed);
             yield return new WaitForSeconds(1f / settings.AnimationSpeed);
             yield return lastCoroutine = AnimateFade(settings.AnimationSpeed * 2, - 1);
+
             if (settings.DebugMode)
             {
                 valueLabel.transform.parent.gameObject.SetActive(false);
@@ -153,10 +157,15 @@ namespace GlyphaeScripts
             }
         }
 
+        /// <summary>
+        /// Stops the fading animation and hides this <see cref="NeedBubble"/>.
+        /// </summary>
         public void Disable()
         {
+            //TODO BUGS: Doesn't work on devices
             StopAllCoroutines();
-            StopCoroutine(lastCoroutine);
+            if (lastCoroutine != null) StopCoroutine(lastCoroutine);
+
             Color color;
             color = back.color;
             color.a = 0;

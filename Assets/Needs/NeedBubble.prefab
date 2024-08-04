@@ -1322,7 +1322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
-  audio: {fileID: 0}
+  audioSource: {fileID: 2123171532026372677}
   back: {fileID: 3779868384939867635}
   iconBack: {fileID: 2536139544775449450}
   iconFill: {fileID: 1674275265286706264}

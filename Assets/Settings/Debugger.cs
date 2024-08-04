@@ -24,7 +24,6 @@ namespace GlyphaeScripts
         [Header("Pet Numbers")]
         [SerializeField] private TMP_Text evoCalls;
         [SerializeField] private TMP_Text placeholder;
-        [SerializeField] private TMP_Text sickChance;
         [SerializeField] private TMP_Text sickFactor;
 
         [Header("Hunher Numbers")]
@@ -164,8 +163,7 @@ namespace GlyphaeScripts
         {
             evoCalls.text = settings.SelectedPet.EvolutionCalls.ToString();
             //placeholder;
-            sickChance.text = settings.SelectedPet.SicknessChance.ToString();
-            sickFactor.text = settings.SelectedPet.SicknessChance.ToString();
+            sickFactor.text = settings.SelectedPet.SicknessChanceFactor.ToString();
 
             hungerUp.text = needs[0].UpFactor.ToString();
             hungerDown.text = needs[0].DownFactor.ToString();
