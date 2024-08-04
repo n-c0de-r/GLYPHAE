@@ -46,11 +46,6 @@ namespace GlyphaeScripts
             _egg.Literals = glyphs;
         }
 
-        #endregion
-
-
-        #region Helpers
-
         public override void NextRound()
         {
             _usedGlyphs = new();
@@ -90,6 +85,11 @@ namespace GlyphaeScripts
             DisplayRound(correct);
         }
 
+        #endregion
+
+
+        #region Helpers
+
         protected override void Win()
         {
             StartCoroutine(AnimateFade(0,1, settings.AnimationSpeed));
@@ -97,8 +97,8 @@ namespace GlyphaeScripts
 
         protected override void Success()
         {
-            _egg.IncreaseLevel();
             _successes++;
+            _egg.ChangeSprite(_successes);
             if (_successes >= baseRounds) Win();
         }
 

@@ -35,9 +35,9 @@ namespace GlyphaeScripts
 
         void Start()
         {
-            NotificationsAndroid.RequestNotificationPermission();
-            NotificationsAndroid.RegisterNotificationChanel();
             settings.LoadSettings();
+            settings.NotificationPermission = NotificationsAndroid.RequestNotificationPermission();
+            NotificationsAndroid.RegisterNotificationChanel();
 
             if (settings.FirstRun) sceneSwitch.Next();
             else sceneSwitch.Load("2_Game");

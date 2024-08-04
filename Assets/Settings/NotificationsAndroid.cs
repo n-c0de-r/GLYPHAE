@@ -26,13 +26,14 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public static void RequestNotificationPermission()
+        public static bool RequestNotificationPermission()
         {
 
             if (!Permission.HasUserAuthorizedPermission(REQUEST_MESSAGE))
             {
                 Permission.RequestUserPermission(REQUEST_MESSAGE );
             }
+            return Permission.HasUserAuthorizedPermission(REQUEST_MESSAGE);
 
             // This didn't work well
             // https://docs.unity3d.com/Packages/com.unity.mobile.notifications@2.3/manual/Android.html
@@ -69,13 +70,15 @@ namespace GlyphaeScripts
 
         public static void SendNotification(string title, string text, int fireTimeInMinutes)
         {
+            Debugger.print(title);
             AndroidNotification notification = new()
             {
                 Title = title,
                 Text = text,
-                FireTime = DateTime.Now.AddMinutes(fireTimeInMinutes),
+                FireTime = DateTime.Now.AddMinutes(Math.Clamp(fireTimeInMinutes,0,1440)),
                 SmallIcon = "small",
-                LargeIcon = "large"
+                LargeIcon = "large",
+                ShowTimestamp = true,
             };
 
             AndroidNotificationCenter.SendNotification(notification, CHANEL_ID);

@@ -223,8 +223,6 @@ namespace GlyphaeScripts
 
         private void OnEnable()
         {
-            ChangeSprite((int)_level);
-
             Minigame.OnNextRound += Call;
             Minigame.OnCorrectGuess += Feedback;
             Minigame.OnWrongGuess += Feedback;
@@ -232,6 +230,8 @@ namespace GlyphaeScripts
             NeedData.OnNeedCritical += SetCiticals;
             NeedData.OnNeedSatisfied += (need) => Debug.Log(need);
 
+            ChangeSprite((int)_level);
+            CalculateNeedFactors();
             CheckEvolution();
         }
 
@@ -267,7 +267,7 @@ namespace GlyphaeScripts
             Minigame.OnNextRound -= Call;
             Minigame.OnCorrectGuess -= Feedback;
             Minigame.OnWrongGuess -= Feedback;
-
+            
             CalculateNotifications();
         }
 
@@ -286,6 +286,15 @@ namespace GlyphaeScripts
             _level++;
             ChangeSprite((int)_level);
             CalculateNeedFactors();
+        }
+
+        /// <summary>
+        /// Changes the <see cref="Pet"/>'s sprite according to its <see cref="Evolutions"/>.
+        /// </summary>
+        /// <param name="spriteNumber">The sprite index to pick from, corresponds to the current <see cref="Evolutions"/> level.</param>
+        public void ChangeSprite(int spriteNumber)
+        {
+            _spriteRenderer.sprite = levelSprites[spriteNumber];
         }
 
         #endregion
@@ -346,15 +355,6 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// Changes the <see cref="Pet"/>'s sprite according to its <see cref="Evolutions"/>.
-        /// </summary>
-        /// <param name="spriteNumber">The sprite index to pick from, corresponds to the current <see cref="Evolutions"/> level.</param>
-        private void ChangeSprite(int spriteNumber)
-        {
-            _spriteRenderer.sprite = levelSprites[spriteNumber];
-        }
-
-        /// <summary>
         /// Displays a need <see cref="NeedBubble"/>.
         /// </summary>
         /// <param name="sprite">The icon to show, taken from <see cref="NeedData"/>. Either positive or negative.</param>
@@ -395,6 +395,8 @@ namespace GlyphaeScripts
         /// </summary>
         private void CalculateNeedFactors()
         {
+            if (_level == Evolutions.Egg) return;
+            
             _hungerIncrement = CalculateNeedIncrement();
             Hunger.SetupFactors(CalculateReverseCurve(), CalculateReverseLine());
             Hunger.Randomize(_evolutionCalls);
@@ -461,6 +463,9 @@ namespace GlyphaeScripts
         // ENDGAME
         private void CalculateNotifications()
         {
+            NotificationsAndroid.ClearAllNotifications();
+            if (_level == Evolutions.Egg) return;
+            
             Hunger.CalculateNotification(_hungerIncrement);
             Health.CalculateNotification(_healthIncrement);
             Joy.CalculateNotification(_joyIncrement);

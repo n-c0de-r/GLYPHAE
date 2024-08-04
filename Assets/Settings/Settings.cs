@@ -24,21 +24,22 @@ namespace GlyphaeScripts
         [SerializeField] private List<Pet> pets;
 
         [Header("Volume Settings")]
-        [SerializeField][Range(-40,0)] private float main = -20.0f;
-        [SerializeField][Range(-40,0)] private float music = 0;
-        [SerializeField][Range(-40,0)] private float sound = 0;
-        [SerializeField][Range(-40,0)] private float voice = 0;
+        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float main = VOL_MIN / 2;
+        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float music = VOL_MAX;
+        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float sound = VOL_MAX;
+        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float voice = VOL_MAX;
 
         [Header("Display Values")]
         [Tooltip("The speed of animations.")]
         [SerializeField][Range(1, 5)] private float animationSpeed = 3;
 
         [Header("Other Values")]
-        [Tooltip("If the game has ever run.")]
-        [SerializeField] private bool firstRun = true;
         [Tooltip("The difficulty of the game,\r\nchanges game behavior slightly.")]
         [SerializeField] private Difficulty difficulty = Difficulty.Easy;
+        [Tooltip("The selected language.")]
         [SerializeField] private Language language = Language.English;
+        [Tooltip("If the game has ever run.")]
+        [SerializeField] private bool firstRun = true;
 
         [Header("Debugging Values")]
         [SerializeField] private Pet _selectedPet;
@@ -46,6 +47,7 @@ namespace GlyphaeScripts
         [SerializeField] private int _silenceEnd = 8;
         [SerializeField] private int debugCount = 3;
         [SerializeField] private bool _isDebugMode = false;
+        [SerializeField] private bool _hasNotificationPermission = false;
 
         #endregion
 
@@ -54,6 +56,7 @@ namespace GlyphaeScripts
 
         private const char GLYPH_SPLIT = ';';
         private const char MEMORY_SPLIT = ':';
+        public const float VOL_MIN = -50, VOL_MAX = 0;
 
 
         #endregion
@@ -146,15 +149,6 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// If the game has ever run.
-        /// </summary>
-        public bool FirstRun
-        {
-            get => firstRun;
-            set => firstRun = value;
-        }
-
-        /// <summary>
         /// The ramp up of level difficulty.
         /// Easier starts with two easy levels, two middle levels and only the final level is hard.
         /// Harder has only one easy level, 2 mid levels, and 2 hard ones.
@@ -194,6 +188,15 @@ namespace GlyphaeScripts
         public int LanguageValue
         {
             set => language = (Language)value;
+        }
+
+        /// <summary>
+        /// If the game has ever run.
+        /// </summary>
+        public bool FirstRun
+        {
+            get => firstRun;
+            set => firstRun = value;
         }
 
         /// <summary>
@@ -247,6 +250,15 @@ namespace GlyphaeScripts
             set => _isDebugMode = value;
         }
 
+        /// <summary>
+        /// Set when permission is granted.
+        /// </summary>
+        public bool NotificationPermission
+        {
+            get => _hasNotificationPermission;
+            set => _hasNotificationPermission = value;
+        }
+
         #endregion
 
 
@@ -279,10 +291,10 @@ namespace GlyphaeScripts
 
 
             // Volume values
-            MainVolume = PlayerPrefs.HasKey(nameof(Keys.MainVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.MainVolume)) : -20;
-            MusicVolume = PlayerPrefs.HasKey(nameof(Keys.MusicVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.MusicVolume)) : 0;
-            SoundVolume = PlayerPrefs.HasKey(nameof(Keys.SoundVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.SoundVolume)) : 0;
-            VoiceVolume = PlayerPrefs.HasKey(nameof(Keys.VoiceVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.VoiceVolume)) : 0;
+            MainVolume = PlayerPrefs.HasKey(nameof(Keys.MainVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.MainVolume)) : VOL_MIN / 2;
+            MusicVolume = PlayerPrefs.HasKey(nameof(Keys.MusicVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.MusicVolume)) : VOL_MAX;
+            SoundVolume = PlayerPrefs.HasKey(nameof(Keys.SoundVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.SoundVolume)) : VOL_MAX;
+            VoiceVolume = PlayerPrefs.HasKey(nameof(Keys.VoiceVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.VoiceVolume)) : VOL_MAX;
 
             if (PlayerPrefs.HasKey(nameof(Keys.FirstRun)))
                 FirstRun = PlayerPrefs.GetString(nameof(Keys.FirstRun)).Equals("True");

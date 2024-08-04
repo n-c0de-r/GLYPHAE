@@ -35,6 +35,14 @@ namespace GlyphaeScripts
         [Tooltip("The icon of the negative feedback.")]
         [SerializeField] private Sprite negative;
 
+        [Space]
+        [Header("Notification Values")]
+        [Tooltip("The title text to show for the notification.")]
+        [SerializeField] private string title;
+
+        [Tooltip("The icon of the positive feedback.")]
+        [SerializeField][TextArea(1, 3)] protected string description;
+
         #endregion
 
 
@@ -112,7 +120,6 @@ namespace GlyphaeScripts
         public static event Action<NeedData, int> OnNeedUpdate;
         public static event Action<NeedData> OnNeedCritical;
         public static event Action<NeedData> OnNeedSatisfied;
-        //public static event Action<int> OnSendNotification;
 
         #endregion
 
@@ -227,23 +234,8 @@ namespace GlyphaeScripts
         {
             value *= (_downFactor + _randomOffset);
             int minutes = (int)(current / value);
-            //OnSendNotification?.Invoke(minutes);
-            NotificationsAndroid.SendNotification(name, "Hello World", minutes);
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
+            if (minutes <= 0) return;
+            NotificationsAndroid.SendNotification(title, description, minutes);
         }
 
         #endregion

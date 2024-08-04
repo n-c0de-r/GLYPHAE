@@ -19,4 +19,6 @@ MonoBehaviour:
   alarm: {fileID: -2043194862, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: 346757764, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   negative: {fileID: 618465814, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  title: Your pet is very hungry.
+  description: Please come back and feed your pet, so it can grow & evolve.
   _isCritical: 1
