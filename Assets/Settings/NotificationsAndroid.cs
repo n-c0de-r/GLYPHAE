@@ -50,14 +50,6 @@ namespace GlyphaeScripts
 
         public void RegisterNotificationChanel()
         {
-            AndroidNotificationChannelGroup group = new()
-            {
-                Id = CHANEL_GROUP_ID,
-                Name = CHANEL_GROUP_NAME,
-            };
-
-            AndroidNotificationCenter.RegisterNotificationChannelGroup(group);
-
             AndroidNotificationChannel channel = new()
             {
                 Id = CHANEL_ID,
@@ -87,6 +79,7 @@ namespace GlyphaeScripts
         public void ClearAllNotifications()
         {
             AndroidNotificationCenter.CancelAllScheduledNotifications();
+            AndroidNotificationCenter.CancelAllNotifications();
         }
 
         #endregion

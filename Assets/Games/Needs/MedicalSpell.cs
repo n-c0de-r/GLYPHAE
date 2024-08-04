@@ -146,6 +146,12 @@ namespace GlyphaeScripts
 
         }
 
+        public override void UpdateValues()
+        {
+            PrimaryNeed?.Increase(NeedData.MAX);
+            base.UpdateValues();
+        }
+
         #endregion
 
 

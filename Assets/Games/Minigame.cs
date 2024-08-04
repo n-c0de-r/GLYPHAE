@@ -31,7 +31,7 @@ namespace GlyphaeScripts
         [Space]
         [Header("Need Values")]
         [Tooltip("The type of need this game fills.")]
-        [SerializeField] protected NeedData primaryNeed;
+        [SerializeField] private NeedData primaryNeed;
 
         [Tooltip("The type of need this game depletes.")]
         [SerializeField] protected NeedData secondaryNeed;
@@ -58,7 +58,7 @@ namespace GlyphaeScripts
 
         protected GlyphData _toMatch;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
-        protected float _primaryValue = 0;
+        protected float _primaryValue = 0, _secondValue;
         protected int _successes, _fails, _failsToLose;
         protected int _level, _rounds, _buttonCount;
 
@@ -75,8 +75,11 @@ namespace GlyphaeScripts
 
         #region GetSets / Properties
 
+        /// <summary>
+        /// The base costs of Energy to play a game.
+        /// </summary>
         public int EnergyCost { get => energyCost; }
-
+        public NeedData PrimaryNeed { get => primaryNeed; }
 
         #endregion
 
@@ -152,15 +155,16 @@ namespace GlyphaeScripts
         /// </summary>
         public virtual void CloseGame()
         {
+            _secondValue = fillAmount / 3.0f;
             OnGameClose?.Invoke(this);
         }
 
-        public void UpdateValues()
+        public virtual void UpdateValues()
         {
             if (fillAmount == 0) return;
             
             primaryNeed?.Increase(_primaryValue);
-            secondaryNeed?.Decrease(fillAmount / 3.0f);
+            secondaryNeed?.Decrease(_secondValue);
         }
 
         /// <summary>
@@ -226,8 +230,8 @@ namespace GlyphaeScripts
             CloseGame();
         }
 
-        protected void MessageSuccess() => OnCorrectGuess?.Invoke(primaryNeed.Positive);
-        protected void MessageFail() => OnWrongGuess?.Invoke(primaryNeed.Negative);
+        public void MessageSuccess() => OnCorrectGuess?.Invoke(primaryNeed.Positive);
+        public void MessageFail() => OnWrongGuess?.Invoke(primaryNeed.Negative);
 
         /// <summary>
         /// Activates all relevant buttons of a game.

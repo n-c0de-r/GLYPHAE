@@ -71,9 +71,15 @@ namespace GlyphaeScripts
         public float Current { get => current; }
         
         /// <summary>
-        /// The amount limit where a care call is isued by the <see cref="Pet"/>.
+        /// The amount limit where a care call is issued by the <see cref="Pet"/>.
         /// </summary>
         public float Critical { get => criticalLimit; }
+
+        /// <summary>
+        /// The upper limit value at
+        /// whicha need call is satisfied.
+        /// </summary>
+        public float SatisfiedLimit { get => satisfiedLimit; }
 
         /// <summary>
         /// The icon of the critical call.
@@ -159,6 +165,18 @@ namespace GlyphaeScripts
         {
             current = initial;
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
+
+            if (!_isCritical && current <= criticalLimit)
+            {
+                OnNeedCritical?.Invoke(this);
+                _isCritical = true;
+            }
+
+            if (_isCritical && current > satisfiedLimit)
+            {
+                OnNeedSatisfied?.Invoke(this);
+                _isCritical = false;
+            }
         }
 
         /// <summary>

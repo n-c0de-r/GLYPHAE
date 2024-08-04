@@ -406,18 +406,22 @@ namespace GlyphaeScripts
             _hungerIncrement = CalculateNeedIncrement();
             Hunger.SetupFactors(CalculateReverseCurve(), CalculateReverseLine());
             Hunger.Randomize(_evolutionCalls);
+            Hunger.Initialize();
 
             _healthIncrement = CalculateNeedIncrement() / 3.0f;
             Health.SetupFactors(1, 1);
             Health.Randomize(_evolutionCalls);
+            Health.Initialize();
 
             _joyIncrement = CalculateNeedIncrement();
             Joy.SetupFactors(CalculateReverseLine(), CalculateCurve());
             Joy.Randomize(_evolutionCalls);
+            Joy.Initialize();
 
             _energyIncrement = CalculateNeedIncrement();
             Energy.SetupFactors(CalculateReverseLine(), CalculateReverseCurve());
             Energy.Randomize(_evolutionCalls);
+            Energy.Initialize();
 
             _sicknessChanceFactor = CalculateReverseCurve();
         }

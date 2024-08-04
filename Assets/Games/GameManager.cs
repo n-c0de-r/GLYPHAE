@@ -130,9 +130,15 @@ namespace GlyphaeScripts
         public void StartGame(Minigame original)
         {
             if (_pet.Energy.Current < original.EnergyCost) return;
+            if (original.PrimaryNeed.Current > original.PrimaryNeed.SatisfiedLimit)
+            {
+                original.MessageSuccess();
+                return;
+            }
 
             GameObject instance = Instantiate(original.gameObject, objectContainer);
             Minigame game = instance.GetComponent<Minigame>();
+
 
             mainPanel.SetActive(false);
             game.SetupGame(_pet.Literals, CalculateBaselevel());

@@ -42,7 +42,7 @@ namespace GlyphaeScripts
             }
             _usedGlyphs.Add(_toMatch);
 
-            int correctPosition = UnityEngine.Random.Range(0, _buttonCount);
+            int correctPosition = Random.Range(0, _buttonCount);
 
             for (int i = 0; i < _buttonCount; i++)
             {
