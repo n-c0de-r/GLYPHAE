@@ -6,7 +6,7 @@ namespace GlyphaeScripts
 {
     /// <summary>
     /// Represents a the Pet with all behaviors 
-    /// and data in the game. Refe
+    /// and data in the game.
     /// </summary>
     [RequireComponent(typeof(AudioSource), typeof(BoxCollider2D), typeof(SpriteRenderer))]
     public class Pet : MonoBehaviour
@@ -263,10 +263,6 @@ namespace GlyphaeScripts
 
         }
 
-        private void OnApplicationPause(bool isPaused)
-        {
-
-        }
 
         private void OnDisable()
         {
@@ -278,8 +274,50 @@ namespace GlyphaeScripts
             NeedData.OnNeedSatisfied -= SatisfyCriticals;
 
             CalculateNotifications();
+            _previousTimeStamp = DateTime.Now;
 
             if (_level != Evolutions.Egg) SavePrefs();
+        }
+
+        // Apparently needed on mobile. Better safe than sorry?
+        private void OnApplicationPause(bool isPaused)
+        {
+            if (isPaused)
+            {
+                CalculateNotifications();
+                _previousTimeStamp = DateTime.Now;
+
+                if (_level != Evolutions.Egg) SavePrefs();
+            }
+            else
+            {
+                notifications.ClearAllNotifications();
+
+                ChangeSprite((int)_level);
+                CalculateNeedFactors();
+                RecalculateNeeds();
+                CheckEvolution();
+            }
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            if (focus)
+            {
+                notifications.ClearAllNotifications();
+
+                ChangeSprite((int)_level);
+                CalculateNeedFactors();
+                RecalculateNeeds();
+                CheckEvolution();
+            }
+            else
+            {
+                CalculateNotifications();
+                _previousTimeStamp = DateTime.Now;
+
+                if (_level != Evolutions.Egg) SavePrefs();
+            }
         }
 
         #endregion
@@ -338,7 +376,6 @@ namespace GlyphaeScripts
                     string[] needsData = item.Split(VALUE_SPLIT);
                     int.TryParse(needsData[0][..1], out int index);
                     float.TryParse(needsData[1], out float value);
-                        Debug.Log(index);
                     needs[index-1].Current = value;
                 }
             }
@@ -354,8 +391,6 @@ namespace GlyphaeScripts
                     if (Enum.TryParse(glyphData[1], out MemoryLevels level))
                     {
                         int.TryParse(glyphData[0].Substring(3,2), out int index);
-                        Debug.Log(index);
-                        Debug.Log(glyphData[0].Substring(3, 2));
                         Literals[index-1].MemoryLevel = level;
                     }
                 }
@@ -435,6 +470,7 @@ namespace GlyphaeScripts
             if (_level == Evolutions.Egg) return;
 
             Hunger.Decrease(_hungerIncrement);
+            Debug.Log(Hunger.Current);
             Health.Decrease(_healthIncrement * _sickCount + 1);
             Joy.Decrease(_joyIncrement * _sickCount + 1);
             Energy.Decrease(_energyIncrement * _sickCount + 1);
@@ -443,16 +479,15 @@ namespace GlyphaeScripts
             CheckEvolution();
         }
 
+        /// <summary>
+        /// Recalculates needs after a reload.
+        /// </summary>
         private void RecalculateNeeds()
         {
             if (_previousTimeStamp == null) return;
 
-            Debug.Log("then: " + _previousTimeStamp.ToShortTimeString());
-            Debug.Log("now: " + DateTime.Now.ToShortTimeString());
-
-            var minutes = (_previousTimeStamp - DateTime.Now).TotalMinutes;
-            Debug.Log("diff: " + minutes);
-
+            double difference = (_previousTimeStamp - DateTime.Now).TotalMinutes;
+            int minutes = (int)Mathf.Round((float)difference);
             for (int i = 0; i < minutes; i++) DecreaseNeeds();
         }
 
