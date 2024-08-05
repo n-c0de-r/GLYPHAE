@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -76,25 +77,25 @@ namespace GlyphaeScripts
         /// The current Hunger <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Hunger { set => needs[0].Value = value; }
+        public float Hunger { set => needs[0].Current = value; }
 
         /// <summary>
         /// The current Health <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Health { set => needs[1].Value = value; }
+        public float Health { set => needs[1].Current = value; }
 
         /// <summary>
         /// The current Joy <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Joy { set => needs[2].Value = value; }
+        public float Joy { set => needs[2].Current = value; }
 
         /// <summary>
         /// The current Energy <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Energy { set => needs[3].Value = value; }
+        public float Energy { set => needs[3].Current = value; }
 
         /// <summary>
         /// Set the current <see cref="Evolutions"/> level of the selected <see cref="Pet"/>.

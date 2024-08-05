@@ -60,15 +60,9 @@ namespace GlyphaeScripts
         #region GetSets / Properties
 
         /// <summary>
-        /// Sets the need value directly.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public float Value { set => current = value; }
-
-        /// <summary>
         /// The current amount of this <see cref="NeedData"/>.
         /// </summary>
-        public float Current { get => current; }
+        public float Current { get => current; set => current = value; }
         
         /// <summary>
         /// The amount limit where a care call is issued by the <see cref="Pet"/>.

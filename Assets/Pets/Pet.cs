@@ -64,6 +64,7 @@ namespace GlyphaeScripts
         private int _evolutionCalls = 0;
         private int _sicknessChanceFactor, _sickCount;
 
+        private const char ITEM_SPLIT = ';', VALUE_SPLIT = ':';
         private const float INCREMENT_MIN = 0.13f, INCREMENT_MAX = 0.23f;
         private float _hungerIncrement, _healthIncrement, _joyIncrement, _energyIncrement;
         private float _needTimer = 60;
@@ -108,7 +109,7 @@ namespace GlyphaeScripts
         /// The list of all <see cref="GlyphData"/>s
         /// this <see cref="Pet"/> needs to learn.
         /// </summary>
-        public List<GlyphData> Literals { get => literals; set => literals = value; }
+        public List<GlyphData> Literals { get => literals; }
 
         /// <summary>
         /// The current state if
@@ -142,7 +143,7 @@ namespace GlyphaeScripts
         /// The current <see cref="Evolutions"/> level
         /// enum of this <see cref="Pet"/>
         /// </summary>
-        public Evolutions Level { get => _level; set => _level = value; }
+        public Evolutions Level { get => _level; }
 
 
         #region Debug 
@@ -217,8 +218,7 @@ namespace GlyphaeScripts
             if (_spriteRenderer == null) TryGetComponent(out _spriteRenderer);
             if (_boxCollider == null) TryGetComponent(out _boxCollider);
 
-            if (PlayerPrefs.HasKey(nameof(Evolutions))) _level = (Evolutions)PlayerPrefs.GetInt(nameof(Evolutions));
-            if (PlayerPrefs.HasKey(nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(nameof(_evolutionCalls));
+            LoadPrefs();
 
             CalculateNeedFactors();
         }
@@ -276,6 +276,8 @@ namespace GlyphaeScripts
             NeedData.OnNeedSatisfied -= SatisfyCriticals;
 
             CalculateNotifications();
+
+            if (_level != Evolutions.Egg) SavePrefs();
         }
 
         #endregion
@@ -304,6 +306,88 @@ namespace GlyphaeScripts
         {
             _spriteRenderer.sprite = levelSprites[spriteNumber];
         }
+
+        #region Persistence
+
+        public void LoadPrefs()
+        {
+            string prefix = petName + "_";
+
+            if (PlayerPrefs.HasKey(prefix + nameof(Level)))
+            {
+                Enum.TryParse(PlayerPrefs.GetString(prefix + nameof(Level)), out Evolutions lvl);
+                _level = lvl;
+            }
+
+
+            if (PlayerPrefs.HasKey(prefix + nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(prefix + nameof(_evolutionCalls));
+
+
+            if (PlayerPrefs.HasKey(prefix + nameof(Unlocked)))
+                unlocked = PlayerPrefs.GetString(prefix + nameof(Unlocked)).Equals("True");
+
+
+            if (PlayerPrefs.HasKey(prefix + "Needs"))
+            {
+                foreach (string item in PlayerPrefs.GetString(prefix + "Needs").Split(ITEM_SPLIT))
+                {
+                    if (item == "") continue;
+
+                    string[] needsData = item.Split(VALUE_SPLIT);
+                    int.TryParse(needsData[0][..1], out int index);
+                    float.TryParse(needsData[1], out float value);
+                    needs[index-1].Current = value;
+                }
+            }
+
+
+            if (PlayerPrefs.HasKey(prefix + nameof(Literals)))
+            {
+                foreach (string item in PlayerPrefs.GetString(prefix + nameof(Literals)).Split(ITEM_SPLIT))
+                {
+                    if (item == "") continue;
+
+                    string[] glyphData = item.Split(VALUE_SPLIT);
+                    if (Enum.TryParse(glyphData[1], out MemoryLevels level))
+                    {
+                        int.TryParse(glyphData[0][..3], out int index);
+                        Literals[index-1].MemoryLevel = level;
+                    }
+                }
+            }
+        }
+
+        public void SavePrefs()
+        {
+            string prefix = petName + "_";
+
+            PlayerPrefs.SetString(prefix + nameof(Unlocked), prefix + unlocked.ToString());
+
+
+            PlayerPrefs.SetString(prefix + nameof(Level), _level.ToString());
+
+
+            PlayerPrefs.SetInt(prefix + nameof(_evolutionCalls), _evolutionCalls);
+
+
+            string needValues = "";
+            foreach (NeedData item in needs)
+            {
+                needValues += item.name + VALUE_SPLIT + item.Current + ITEM_SPLIT;
+            }
+            PlayerPrefs.SetString(prefix + "Needs", needValues);
+
+
+            string glyphs = "";
+            foreach (GlyphData item in Literals)
+            {
+                glyphs += item.name + VALUE_SPLIT + item.MemoryLevel.ToString() + ITEM_SPLIT;
+            }
+
+            PlayerPrefs.SetString(prefix + nameof(Literals), glyphs);
+        }
+
+        #endregion Persistence
 
         #endregion
 
@@ -397,6 +481,8 @@ namespace GlyphaeScripts
                 _evolutionCalls++;
         }
 
+        #region Math
+
         // MATH
 
         /// <summary>
@@ -487,6 +573,8 @@ namespace GlyphaeScripts
 
             //_randomSeed = Mathf.Abs((int)DateTime.Now.Ticks);
         }
+
+        #endregion Math
 
         #endregion
     }

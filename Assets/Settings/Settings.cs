@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using static UnityEditor.Progress;
 
 namespace GlyphaeScripts
 {
@@ -54,8 +55,6 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private const char GLYPH_SPLIT = ';';
-        private const char MEMORY_SPLIT = ':';
         public const float VOL_MIN = -50, VOL_MAX = 0;
 
 
@@ -273,28 +272,6 @@ namespace GlyphaeScripts
             if (PlayerPrefs.HasKey(nameof(Keys.SelectedPet)))
             {
                 _selectedPet = pets.Find(pet => pet.Name == PlayerPrefs.GetString(nameof(Keys.SelectedPet)));
-
-                if (PlayerPrefs.HasKey(_selectedPet.Name + "_" + nameof(Keys.PetLevel)))
-                {
-                    Enum.TryParse(PlayerPrefs.GetString(_selectedPet.Name + "_" + nameof(Keys.PetLevel)), out Evolutions lvl);
-                    _selectedPet.Level = lvl;
-                }
-
-                if (PlayerPrefs.HasKey(_selectedPet.Name + "_" + nameof(Keys.GlyphList)))
-                {
-                    List<GlyphData> glyphs = _selectedPet.Literals;
-                    foreach (string item in PlayerPrefs.GetString(_selectedPet.Name + "_" + nameof(Keys.GlyphList)).Split(GLYPH_SPLIT))
-                    {
-                        if (item == "") continue;
-
-                        string[] glyphData = item.Split(MEMORY_SPLIT);
-                        if (Enum.TryParse(glyphData[1], out MemoryLevels level))
-                        {
-                            int.TryParse(glyphData[0][..3], out int index);
-                            glyphs[index].MemoryLevel = level;
-                        }
-                    }
-                }
             }
 
             // Volume values
@@ -316,19 +293,8 @@ namespace GlyphaeScripts
             if (_selectedPet != null)
             {
                 PlayerPrefs.SetString(nameof(Keys.SelectedPet), _selectedPet.Name);
-
-                PlayerPrefs.SetString(_selectedPet.Name + "_" + nameof(Keys.PetLevel), _selectedPet.Level.ToString());
-
-                string glyphs = "";
-                foreach (GlyphData item in _selectedPet.Literals)
-                {
-                    glyphs += item.name + MEMORY_SPLIT + item.MemoryLevel.ToString() + GLYPH_SPLIT;
-                }
-
-                PlayerPrefs.SetString(_selectedPet.Name + "_" + nameof(Keys.GlyphList), glyphs);
             }
             
-
             PlayerPrefs.SetFloat(nameof(Keys.MainVolume), main);
             PlayerPrefs.SetFloat(nameof(Keys.MusicVolume), music);
             PlayerPrefs.SetFloat(nameof(Keys.SoundVolume), sound);
@@ -337,7 +303,6 @@ namespace GlyphaeScripts
             PlayerPrefs.SetFloat(nameof(Keys.AnimationSpeed), animationSpeed);
 
             PlayerPrefs.SetString(nameof(Keys.FirstRun), firstRun.ToString());
-
         }
 
         #endregion
@@ -353,7 +318,7 @@ namespace GlyphaeScripts
         /// </summary>
         public enum Keys
         {
-            SelectedPet, PetLevel, GlyphList, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed, FirstRun
+            SelectedPet, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed, FirstRun
         }
     }
 

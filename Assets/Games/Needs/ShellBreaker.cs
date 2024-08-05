@@ -43,7 +43,6 @@ namespace GlyphaeScripts
 
             _eggInstance = Instantiate(settings.Egg.gameObject, transform.parent);
             _egg = _eggInstance.GetComponent<Pet>();
-            _egg.Literals = glyphs;
         }
 
         public override void NextRound()
