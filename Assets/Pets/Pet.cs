@@ -60,7 +60,9 @@ namespace GlyphaeScripts
         private BoxCollider2D _boxCollider;
 
         public Evolutions _level = Evolutions.Egg;
-        public static HashSet<NeedData> _criticals = new();
+        private static HashSet<NeedData> _criticals = new();
+        private DateTime _previousTimeStamp;
+
         private int _evolutionCalls = 0;
         private int _sicknessChanceFactor, _sickCount;
 
@@ -68,10 +70,9 @@ namespace GlyphaeScripts
         private const float INCREMENT_MIN = 0.13f, INCREMENT_MAX = 0.23f;
         private float _hungerIncrement, _healthIncrement, _joyIncrement, _energyIncrement;
         private float _needTimer = 60;
+        public long[] _randomSeeds = { -1, -1, -1, -1, -1 }; // Invalid seeds
         public int minutes = 0;
         public int _debugTimeFactor = 1;
-
-        public int _randomSeed = -1; // invalid seed
 
         #endregion
 
@@ -225,8 +226,6 @@ namespace GlyphaeScripts
 
         private void OnEnable()
         {
-            CalculateNotifications();
-
             Minigame.OnNextRound += Call;
             Minigame.OnCorrectGuess += Feedback;
             Minigame.OnWrongGuess += Feedback;
@@ -234,8 +233,11 @@ namespace GlyphaeScripts
             NeedData.OnNeedCritical += SetCiticals;
             NeedData.OnNeedSatisfied += SatisfyCriticals;
 
+            notifications.ClearAllNotifications();
+
             ChangeSprite((int)_level);
             CalculateNeedFactors();
+            RecalculateNeeds();
             CheckEvolution();
         }
 
@@ -313,61 +315,83 @@ namespace GlyphaeScripts
         {
             string prefix = petName + "_";
 
-            if (PlayerPrefs.HasKey(prefix + nameof(Level)))
+            if (PlayerPrefs.HasKey(petName + nameof(_level)))
             {
-                Enum.TryParse(PlayerPrefs.GetString(prefix + nameof(Level)), out Evolutions lvl);
+                Enum.TryParse(PlayerPrefs.GetString(petName + nameof(_level)), out Evolutions lvl);
                 _level = lvl;
             }
 
 
-            if (PlayerPrefs.HasKey(prefix + nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(prefix + nameof(_evolutionCalls));
+            if (PlayerPrefs.HasKey(petName + nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(petName + nameof(_evolutionCalls));
 
 
-            if (PlayerPrefs.HasKey(prefix + nameof(Unlocked)))
-                unlocked = PlayerPrefs.GetString(prefix + nameof(Unlocked)).Equals("True");
+            if (PlayerPrefs.HasKey(prefix + nameof(unlocked)))
+                unlocked = PlayerPrefs.GetString(prefix + nameof(unlocked)).Equals("True");
 
 
-            if (PlayerPrefs.HasKey(prefix + "Needs"))
+            if (PlayerPrefs.HasKey(prefix + nameof(needs)))
             {
-                foreach (string item in PlayerPrefs.GetString(prefix + "Needs").Split(ITEM_SPLIT))
+                foreach (string item in PlayerPrefs.GetString(prefix + nameof(needs)).Split(ITEM_SPLIT))
                 {
                     if (item == "") continue;
 
                     string[] needsData = item.Split(VALUE_SPLIT);
                     int.TryParse(needsData[0][..1], out int index);
                     float.TryParse(needsData[1], out float value);
+                        Debug.Log(index);
                     needs[index-1].Current = value;
                 }
             }
 
 
-            if (PlayerPrefs.HasKey(prefix + nameof(Literals)))
+            if (PlayerPrefs.HasKey(prefix + nameof(literals)))
             {
-                foreach (string item in PlayerPrefs.GetString(prefix + nameof(Literals)).Split(ITEM_SPLIT))
+                foreach (string item in PlayerPrefs.GetString(prefix + nameof(literals)).Split(ITEM_SPLIT))
                 {
                     if (item == "") continue;
 
                     string[] glyphData = item.Split(VALUE_SPLIT);
                     if (Enum.TryParse(glyphData[1], out MemoryLevels level))
                     {
-                        int.TryParse(glyphData[0][..3], out int index);
+                        int.TryParse(glyphData[0].Substring(3,2), out int index);
+                        Debug.Log(index);
+                        Debug.Log(glyphData[0].Substring(3, 2));
                         Literals[index-1].MemoryLevel = level;
                     }
                 }
             }
+
+            if (PlayerPrefs.HasKey(petName + nameof(_randomSeeds)))
+            {
+                string[] values = PlayerPrefs.GetString(petName + nameof(_randomSeeds)).Split(ITEM_SPLIT);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    long.TryParse(values[i], out long value);
+                    _randomSeeds[0] = value;
+                }
+            }
+
+            if (PlayerPrefs.HasKey(petName + nameof(_previousTimeStamp)))
+            {
+                DateTime.TryParse(PlayerPrefs.GetString(petName + nameof(_previousTimeStamp)), out DateTime timeStamp);
+                _previousTimeStamp = timeStamp;
+            }
+
+            PlayerPrefs.SetString(petName + nameof(_previousTimeStamp), DateTime.Now.ToString());
+
         }
 
         public void SavePrefs()
         {
             string prefix = petName + "_";
 
-            PlayerPrefs.SetString(prefix + nameof(Unlocked), prefix + unlocked.ToString());
+            PlayerPrefs.SetString(prefix + nameof(unlocked), prefix + unlocked.ToString());
 
 
-            PlayerPrefs.SetString(prefix + nameof(Level), _level.ToString());
+            PlayerPrefs.SetString(petName + nameof(_level), _level.ToString());
 
 
-            PlayerPrefs.SetInt(prefix + nameof(_evolutionCalls), _evolutionCalls);
+            PlayerPrefs.SetInt(petName + nameof(_evolutionCalls), _evolutionCalls);
 
 
             string needValues = "";
@@ -375,16 +399,25 @@ namespace GlyphaeScripts
             {
                 needValues += item.name + VALUE_SPLIT + item.Current + ITEM_SPLIT;
             }
-            PlayerPrefs.SetString(prefix + "Needs", needValues);
+            PlayerPrefs.SetString(prefix + nameof(needs), needValues);
 
 
             string glyphs = "";
-            foreach (GlyphData item in Literals)
+            foreach (GlyphData item in literals)
             {
                 glyphs += item.name + VALUE_SPLIT + item.MemoryLevel.ToString() + ITEM_SPLIT;
             }
 
-            PlayerPrefs.SetString(prefix + nameof(Literals), glyphs);
+            PlayerPrefs.SetString(prefix + nameof(literals), glyphs);
+
+            string seeds = "";
+            foreach (long item in _randomSeeds)
+            {
+                seeds += item.ToString() + ITEM_SPLIT;
+            }
+            PlayerPrefs.SetString(petName + nameof(_randomSeeds), seeds);
+
+            PlayerPrefs.SetString(petName + nameof(_previousTimeStamp), DateTime.Now.ToString());
         }
 
         #endregion Persistence
@@ -408,6 +441,19 @@ namespace GlyphaeScripts
 
             CheckSickness();
             CheckEvolution();
+        }
+
+        private void RecalculateNeeds()
+        {
+            if (_previousTimeStamp == null) return;
+
+            Debug.Log("then: " + _previousTimeStamp.ToShortTimeString());
+            Debug.Log("now: " + DateTime.Now.ToShortTimeString());
+
+            var minutes = (_previousTimeStamp - DateTime.Now).TotalMinutes;
+            Debug.Log("diff: " + minutes);
+
+            for (int i = 0; i < minutes; i++) DecreaseNeeds();
         }
 
         /// <summary>
@@ -434,7 +480,16 @@ namespace GlyphaeScripts
             float joyFactor = Joy.Critical / (Joy.Current + 1) / 2;
             float energyFactor = Energy.Critical / (Energy.Current + 1) / 4;
 
-            if (_randomSeed != -1) UnityEngine.Random.InitState(_randomSeed);
+            if (_randomSeeds[4] != -1)
+            {
+                UnityEngine.Random.InitState((int)_randomSeeds[4]);
+            }
+            else
+            {
+                UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
+                _randomSeeds[4] = DateTime.Now.Ticks;
+            }
+
             int rng = UnityEngine.Random.Range(3, 11);
             float sicknessChance = (hungerFactor + healthFactor + energyFactor + joyFactor + rng) * _sicknessChanceFactor;
             rng = UnityEngine.Random.Range(NeedData.MAX / (10 / _sicknessChanceFactor), NeedData.MAX * NeedData.MAX / _sicknessChanceFactor);
@@ -495,22 +550,22 @@ namespace GlyphaeScripts
             
             _hungerIncrement = CalculateNeedIncrement();
             Hunger.SetupFactors(CalculateReverseCurve(), CalculateReverseLine());
-            Hunger.Randomize(_evolutionCalls);
+            _randomSeeds[0] = Hunger.Randomize(_evolutionCalls);
             Hunger.Initialize();
 
             _healthIncrement = CalculateNeedIncrement() / 3.0f;
             Health.SetupFactors(1, 1);
-            Health.Randomize(_evolutionCalls);
+            _randomSeeds[1] = Health.Randomize(_evolutionCalls);
             Health.Initialize();
 
             _joyIncrement = CalculateNeedIncrement();
             Joy.SetupFactors(CalculateReverseLine(), CalculateCurve());
-            Joy.Randomize(_evolutionCalls);
+            _randomSeeds[2] = Joy.Randomize(_evolutionCalls);
             Joy.Initialize();
 
             _energyIncrement = CalculateNeedIncrement();
             Energy.SetupFactors(CalculateReverseLine(), CalculateReverseCurve());
-            Energy.Randomize(_evolutionCalls);
+            _randomSeeds[3] = Energy.Randomize(_evolutionCalls);
             Energy.Initialize();
 
             _sicknessChanceFactor = CalculateReverseCurve();

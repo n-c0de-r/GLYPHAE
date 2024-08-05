@@ -192,9 +192,14 @@ namespace GlyphaeScripts
         /// They get updated after calls, level-ups and day changes.
         /// </summary>
         /// <param name="calls">The number of calls of a <see cref="Pet"/> satisfied so far. Ramps up randomness.</param>
-        public void Randomize(int calls)
+        /// <param name="seed">The random seed.</param>
+        public long Randomize(int calls, long seed = -1)
         {
+            if (seed != -1) UnityEngine.Random.InitState((int)seed);
+            else seed = DateTime.Now.Ticks;
+            UnityEngine.Random.InitState((int)seed);
             _randomOffset = UnityEngine.Random.Range(RANDOM_MIN, RANDOM_MAX) * calls;
+            return seed;
         }
 
         /// <summary>
