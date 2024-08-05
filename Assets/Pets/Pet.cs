@@ -622,6 +622,9 @@ namespace GlyphaeScripts
             _sicknessChanceFactor = CalculateReverseCurve();
         }
 
+        /// <summary>
+        /// Sets all factors to 1 while sleeping
+        /// </summary>
         private void SleepFactors()
         {
             if (_level == Evolutions.Egg) return;
