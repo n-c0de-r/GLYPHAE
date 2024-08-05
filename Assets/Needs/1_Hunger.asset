@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85eda91f002ebda47bc7047a728fd63a, type: 3}
   m_Name: 1_Hunger
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   initial: 40
   current: 40
   criticalLimit: 20

@@ -123,7 +123,7 @@ namespace GlyphaeScripts
 
         void FixedUpdate()
         {
-            
+
         }
 
         void Update()
@@ -155,7 +155,8 @@ namespace GlyphaeScripts
 
         public void StartGame(Minigame original)
         {
-            if (_pet.Energy.Current < original.EnergyCost) return;
+            int baseLevel = CalculateBaselevel();
+            if (_pet.Energy.Current < original.EnergyCost + baseLevel) return;
             if (!original.GetType().Equals(typeof(LullabyChant)) && original.PrimaryNeed.Current > original.PrimaryNeed.SatisfiedLimit)
             {
                 original.MessageSuccess();
@@ -168,7 +169,7 @@ namespace GlyphaeScripts
 
             leftButtons.SetActive(false);
             rightButtons.SetActive(false);
-            game.SetupGame(_criticals.Contains(game.PrimaryNeed), _pet.Literals, CalculateBaselevel());
+            game.SetupGame(_criticals.Contains(game.PrimaryNeed), _pet.Literals, baseLevel);
             game.NextRound();
         }
 
@@ -235,7 +236,7 @@ namespace GlyphaeScripts
 
             yield return new WaitForSeconds(1f / speedFactor);
 
-            yield return flashOverlay.Flash(Color.white, end, start, speedFactor);
+            yield return flashOverlay.Flash(Color.clear, end, start, speedFactor);
         }
 
         private IEnumerator AnimateSleep(float start, float end, float speedFactor)

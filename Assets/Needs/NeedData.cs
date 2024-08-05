@@ -11,6 +11,9 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [Tooltip("The current Settings for display values.")]
+        [SerializeField] private Settings settings;
+
         [Header("Base Values")]
         [Tooltip("The initial value of this need.")]
         [SerializeField][Range(0, 100)] private float initial;
@@ -260,6 +263,9 @@ namespace GlyphaeScripts
             value *= (_downFactor + _randomOffset);
             int minutes = (int)(current / value);
             if (minutes <= 0) return;
+            DateTime now = DateTime.Now;
+            DateTime later = now.AddMinutes(minutes);
+            if (later.Hour < settings.SilenceEnd || later.Hour > settings.SilenceStart) return;
             notifications.SendNotification(title, description, minutes);
         }
 

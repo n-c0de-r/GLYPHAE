@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,26 +13,60 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Game Specific")]
-        [SerializeField] private FlashOverlay flashOverlay;
+        [Tooltip("The container where the list of items to match will spawn.")]
+        [SerializeField] private Transform container;
+        
+        [Tooltip("The container where the list of items to match will spawn.")]
+        [SerializeField] private Transform startPoition;
 
         #endregion
 
 
         #region Fields
 
-        private GameObject _eggInstance;
-        private Pet _egg;
-        private bool _hasFailed = false;
+        private List<Sprite> previousSprites;
+        private Sprite previous;
 
         #endregion
 
 
         #region Events
 
-        public static event Action OnEggBreak;
+
 
         #endregion
 
+
+        #region Events
+
+
+
+        #endregion
+
+
+        #region GetSets / Properties
+
+
+
+        #endregion
+
+
+        #region Unity Built-Ins
+
+        private new void OnEnable()
+        {
+            base.OnEnable();
+            NeedBubble.OnFeedbackDone += NextRound;
+
+        }
+
+        private new void OnDisable()
+        {
+            base.OnDisable();
+            NeedBubble.OnFeedbackDone -= NextRound;
+        }
+
+        #endregion
 
         #region Methods
 
@@ -41,8 +74,72 @@ namespace GlyphaeScripts
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
 
-            _eggInstance = Instantiate(settings.Egg.gameObject, transform.parent);
-            _egg = _eggInstance.GetComponent<Pet>();
+            _usedGlyphs = new();
+
+            for (int i = 0; i < _rounds; i++)
+            {
+                if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
+                {
+                    // On criticals prefer new glyphs, to teach
+                    _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
+                    _newGlyphs.Remove(_toMatch);
+                    _hasLearned = true;
+                }
+                else if (_allOtherGlyphs.Count > 0)
+                {
+                    // Normally pick known ones
+                    _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
+                    _allOtherGlyphs.Remove(_toMatch);
+                }
+
+                gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
+                _usedGlyphs.Add(_toMatch);
+            }
+
+            StartCoroutine(InitialAnimation(settings.AnimationSpeed));
+        }
+
+        
+        public override void NextRound()
+        {
+            /*
+            _usedGlyphs = new();
+
+            if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
+            {
+                // On criticals prefer new glyphs, to teach
+                _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
+                _newGlyphs.Remove(_toMatch);
+                _hasLearned = true;
+            }
+            else if (_allOtherGlyphs.Count > 0)
+            {
+                // Normally pick known ones
+                _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
+                _allOtherGlyphs.Remove(_toMatch);
+            }
+            _usedGlyphs.Add(_toMatch);
+
+            int correctPosition = Random.Range(0, _buttonCount);
+
+            for (int i = 0; i < _buttonCount; i++)
+            {
+                if (i == correctPosition)
+                {
+                    gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
+                }
+                else
+                {
+                    GlyphData wrongGlyph;
+                    wrongGlyph = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
+                    _allOtherGlyphs.Remove(wrongGlyph);
+                    _usedGlyphs.Add(wrongGlyph);
+                    gameInputs[i].Setup(wrongGlyph, wrongGlyph.Symbol);
+                }
+            }
+
+            DisplayRound(_toMatch.Letter);
+            */
         }
 
         #endregion
@@ -50,78 +147,29 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        public override void NextRound()
+        private IEnumerator InitialAnimation(float speedFactor)
         {
-            _usedGlyphs = new();
-            _toMatch = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
-            _newGlyphs.Remove(_toMatch);
+            Vector2 goal = startPoition.position;
 
-            GlyphData wrongGlyph = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
-            _newGlyphs.Remove(wrongGlyph);
-            _usedGlyphs.Add(wrongGlyph);
-
-            Sprite[] sprites = { _toMatch.Symbol, _toMatch.Letter };
-            int rng = UnityEngine.Random.Range(0, sprites.Length);
-            Sprite correct = sprites[rng];
-
-
-            rng = UnityEngine.Random.Range(0, gameInputs.Count);
-
-            GlyphData[] glyphs = { _toMatch, wrongGlyph };
-            Color[] colors = { Color.green, Color.red };
-
-            foreach (GameButton button in gameInputs)
+            for (int i = 0; i < _rounds; i++)
             {
-                Sprite icon = correct == _toMatch.Letter ? glyphs[rng].Symbol : glyphs[rng].Letter;
-                button.Setup(glyphs[rng], icon);
-
-                if (_hasFailed)
-                {
-                    GameDrag drag = (GameDrag)button;
-                    drag.SetSColor(colors[rng]);
-                }
-
-                rng--;
-                rng = Mathf.Abs(rng);
+                goal.x = gameInputs[i].transform.position.x;
+                int sum = (int)(goal.y + gameInputs[i].transform.position.y);
+                StartCoroutine(AnimateFall(gameInputs[i].GetComponent<RectTransform>(), goal, sum, 1f / speedFactor / i));
             }
-
-            DisplayRound(correct);
-        }
-
-        protected override void Win()
-        {
-            StartCoroutine(AnimateFade(0,1, settings.AnimationSpeed));
-        }
-
-        protected override void Success()
-        {
-            _egg.IncreaseLevel();
-            _successes++;
-            if (_successes >= baseRounds) Win();
-        }
-
-
-        protected override void Fail()
-        {
-            _fails++;
-            if (_fails >= _failsToLose) ResetGame();
-        }
-
-        private void ResetGame()
-        {
-            _fails = 0;
-            _hasFailed = true;
-        }
-
-        private IEnumerator AnimateFade(float start, float end, float speedFactor)
-        {
-            yield return flashOverlay.Flash(start, end, speedFactor);
-
-            OnEggBreak?.Invoke();
             yield return new WaitForSeconds(1f / speedFactor);
+        }
 
-            Destroy(_eggInstance);
-            Invoke(nameof(CloseGame), 1);
+        private IEnumerator AnimateFall(RectTransform glass, Vector2 goal, int steps, float speed)
+        {
+            int current = 0;
+            float ratio;
+            while (current < steps)
+            {
+                ratio = (float)current / steps;
+                Vector2.Lerp(glass.position, goal, ratio);
+                yield return new WaitForSeconds(speed);
+            }
         }
 
         #endregion

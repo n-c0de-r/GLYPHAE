@@ -332,11 +332,11 @@ namespace GlyphaeScripts
         public void IncreaseLevel()
         {
             if ((int)_level >= levelSprites.Length) return;
+            if (_level != Evolutions.Egg) OnEvolve?.Invoke();
             _level++;
             ChangeSprite((int)_level);
             CalculateNeedFactors();
             _criticals = new();
-            OnEvolve?.Invoke();
         }
 
         /// <summary>
@@ -602,22 +602,18 @@ namespace GlyphaeScripts
             _hungerIncrement = CalculateNeedIncrement();
             Hunger.SetupFactors(CalculateReverseCurve(), CalculateReverseLine());
             _randomSeeds[0] = Hunger.Randomize(_evolutionCalls);
-            Hunger.Initialize();
 
             _healthIncrement = CalculateNeedIncrement() / 3.0f;
             Health.SetupFactors(1, 1);
             _randomSeeds[1] = Health.Randomize(_evolutionCalls);
-            Health.Initialize();
 
             _joyIncrement = CalculateNeedIncrement();
             Joy.SetupFactors(CalculateReverseLine(), CalculateCurve());
             _randomSeeds[2] = Joy.Randomize(_evolutionCalls);
-            Joy.Initialize();
 
             _energyIncrement = CalculateNeedIncrement();
             Energy.SetupFactors(CalculateReverseLine(), CalculateReverseCurve());
             _randomSeeds[3] = Energy.Randomize(_evolutionCalls);
-            Energy.Initialize();
 
             _sicknessChanceFactor = CalculateReverseCurve();
         }
