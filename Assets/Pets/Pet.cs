@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,6 +50,9 @@ namespace GlyphaeScripts
         [Tooltip("The Pet's icon for the menu.")]
         [SerializeField] private Sprite symbol;
 
+        [Tooltip("Used for evolution and sleep.")]
+        [SerializeField] private FlashOverlay flashOverlay;
+
         #endregion
 
 
@@ -60,18 +64,16 @@ namespace GlyphaeScripts
         private BoxCollider2D _boxCollider;
 
         public Evolutions _level = Evolutions.Egg;
-        private static HashSet<NeedData> _criticals = new();
+        private HashSet<NeedData> _criticals = new();
         private DateTime _previousTimeStamp;
 
-        private int _evolutionCalls = 0;
-        private int _sicknessChanceFactor, _sickCount;
 
         private const char ITEM_SPLIT = ';', VALUE_SPLIT = ':';
         private const float INCREMENT_MIN = 0.13f, INCREMENT_MAX = 0.23f;
+        private long[] _randomSeeds = { -1, -1, -1, -1, -1 }; // Invalid seeds
         private float _hungerIncrement, _healthIncrement, _joyIncrement, _energyIncrement;
         private float _needTimer = 60;
-        public long[] _randomSeeds = { -1, -1, -1, -1, -1 }; // Invalid seeds
-        public int minutes = 0;
+        private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
         public int _debugTimeFactor = 1;
 
         #endregion
@@ -254,7 +256,6 @@ namespace GlyphaeScripts
             {
                 DecreaseNeeds();
                 _needTimer = 60;
-                minutes++;
             }
         }
 
@@ -332,6 +333,7 @@ namespace GlyphaeScripts
         public void IncreaseLevel()
         {
             if ((int)_level >= levelSprites.Length) return;
+            if (_level != Evolutions.Egg) StartCoroutine(AnimateEvolution(0, 1, 3));
             _level++;
             ChangeSprite((int)_level);
             CalculateNeedFactors();
@@ -364,7 +366,7 @@ namespace GlyphaeScripts
 
 
             if (PlayerPrefs.HasKey(prefix + nameof(unlocked)))
-                unlocked = PlayerPrefs.GetString(prefix + nameof(unlocked)).Equals("True");
+                unlocked = PlayerPrefs.GetString(prefix + nameof(unlocked)).Equals(true.ToString());
 
 
             if (PlayerPrefs.HasKey(prefix + nameof(needs)))
@@ -411,9 +413,6 @@ namespace GlyphaeScripts
                 DateTime.TryParse(PlayerPrefs.GetString(petName + nameof(_previousTimeStamp)), out DateTime timeStamp);
                 _previousTimeStamp = timeStamp;
             }
-
-            PlayerPrefs.SetString(petName + nameof(_previousTimeStamp), DateTime.Now.ToString());
-
         }
 
         public void SavePrefs()
@@ -470,10 +469,9 @@ namespace GlyphaeScripts
             if (_level == Evolutions.Egg) return;
 
             Hunger.Decrease(_hungerIncrement);
-            Debug.Log(Hunger.Current);
-            Health.Decrease(_healthIncrement * _sickCount + 1);
-            Joy.Decrease(_joyIncrement * _sickCount + 1);
-            Energy.Decrease(_energyIncrement * _sickCount + 1);
+            Health.Decrease(_healthIncrement * (_sickCount + 1));
+            Joy.Decrease(_joyIncrement * (_sickCount + 1));
+            Energy.Decrease(_energyIncrement * (_sickCount + 1));
 
             CheckSickness();
             CheckEvolution();
@@ -502,6 +500,20 @@ namespace GlyphaeScripts
                 //TODO: Animation
                 _evolutionCalls = 0;
             }
+        }
+
+        private IEnumerator AnimateEvolution(float start, float end, float speedFactor)
+        {
+            yield return flashOverlay.Flash(start, end, speedFactor);
+
+            yield return new WaitForSeconds(1f / speedFactor);
+        }
+
+        private IEnumerator AnimateSleep(float start, float end, float speedFactor)
+        {
+            yield return flashOverlay.Flash(start, end, speedFactor);
+
+            yield return new WaitForSeconds(1f / speedFactor);
         }
 
         /// <summary>
@@ -562,7 +574,8 @@ namespace GlyphaeScripts
         private void SetCiticals(NeedData data)
         {
             _criticals.Add(data);
-            needCall.Setup(data.Alarm);
+            needFeedback.Setup(data.Alarm);
+            StartCoroutine(needFeedback.ShowFeedback());
         }
 
         private void SatisfyCriticals(NeedData data)

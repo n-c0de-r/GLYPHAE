@@ -88,52 +88,52 @@ namespace GlyphaeScripts
         /// <summary>
         /// The main volume value set by the player.
         /// </summary>
-        public float MainVolume
+        public float VolumeMain
         {
             get => main;
             set
             {
                 main = value;
-                audioMixer.SetFloat(nameof(Keys.MainVolume), value);
+                audioMixer.SetFloat(nameof(VolumeMain), value);
             }
         }
 
         /// <summary>
         /// The music volume value set by the player.
         /// </summary>
-        public float MusicVolume
+        public float VolumeMusic
         {
             get => music;
             set
             {
                 music = value;
-                audioMixer.SetFloat(nameof(Keys.MusicVolume), value);
+                audioMixer.SetFloat(nameof(VolumeMusic), value);
             }
         }
 
         /// <summary>
         /// The sound volume value set by the player.
         /// </summary>
-        public float SoundVolume
+        public float VolumeSound
         {
             get => sound;
             set
             {
                 sound = value;
-                audioMixer.SetFloat(nameof(Keys.SoundVolume), value);
+                audioMixer.SetFloat(nameof(VolumeSound), value);
             }
         }
 
         /// <summary>
         /// The sound volume value set by the player.
         /// </summary>
-        public float VoiceVolume
+        public float VolumeVoice
         {
             get => voice;
             set
             {
                 voice = value;
-                audioMixer.SetFloat(nameof(Keys.VoiceVolume), value);
+                audioMixer.SetFloat(nameof(VolumeVoice), value);
             }
         }
 
@@ -268,19 +268,19 @@ namespace GlyphaeScripts
         /// </summary>
         public void LoadSettings()
         {
-            if (PlayerPrefs.HasKey(nameof(Keys.SelectedPet)))
+            if (PlayerPrefs.HasKey(nameof(SelectedPet)))
             {
-                _selectedPet = pets.Find(pet => pet.Name == PlayerPrefs.GetString(nameof(Keys.SelectedPet)));
+                _selectedPet = pets.Find(pet => pet.Name == PlayerPrefs.GetString(nameof(SelectedPet)));
             }
 
             // Volume values
-            MainVolume = PlayerPrefs.HasKey(nameof(Keys.MainVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.MainVolume)) : VOL_MIN / 2;
-            MusicVolume = PlayerPrefs.HasKey(nameof(Keys.MusicVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.MusicVolume)) : VOL_MAX;
-            SoundVolume = PlayerPrefs.HasKey(nameof(Keys.SoundVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.SoundVolume)) : VOL_MAX;
-            VoiceVolume = PlayerPrefs.HasKey(nameof(Keys.VoiceVolume)) ? PlayerPrefs.GetFloat(nameof(Keys.VoiceVolume)) : VOL_MAX;
+            VolumeMain = PlayerPrefs.HasKey(nameof(VolumeMain)) ? PlayerPrefs.GetFloat(nameof(VolumeMain)) : VOL_MIN / 2;
+            VolumeMusic = PlayerPrefs.HasKey(nameof(VolumeMusic)) ? PlayerPrefs.GetFloat(nameof(VolumeMusic)) : VOL_MAX;
+            VolumeSound = PlayerPrefs.HasKey(nameof(VolumeSound)) ? PlayerPrefs.GetFloat(nameof(VolumeSound)) : VOL_MAX;
+            VolumeVoice = PlayerPrefs.HasKey(nameof(VolumeVoice)) ? PlayerPrefs.GetFloat(nameof(VolumeVoice)) : VOL_MAX;
 
-            if (PlayerPrefs.HasKey(nameof(Keys.FirstRun)))
-                FirstRun = PlayerPrefs.GetString(nameof(Keys.FirstRun)).Equals("True");
+            if (PlayerPrefs.HasKey(nameof(FirstRun)))
+                FirstRun = PlayerPrefs.GetString(nameof(FirstRun)).Equals(true.ToString());
         }
 
         /// <summary>
@@ -291,17 +291,17 @@ namespace GlyphaeScripts
         {
             if (_selectedPet != null)
             {
-                PlayerPrefs.SetString(nameof(Keys.SelectedPet), _selectedPet.Name);
+                PlayerPrefs.SetString(nameof(SelectedPet), _selectedPet.Name);
             }
             
-            PlayerPrefs.SetFloat(nameof(Keys.MainVolume), main);
-            PlayerPrefs.SetFloat(nameof(Keys.MusicVolume), music);
-            PlayerPrefs.SetFloat(nameof(Keys.SoundVolume), sound);
-            PlayerPrefs.SetFloat(nameof(Keys.VoiceVolume), voice);
+            PlayerPrefs.SetFloat(nameof(VolumeMain), main);
+            PlayerPrefs.SetFloat(nameof(VolumeMusic), music);
+            PlayerPrefs.SetFloat(nameof(VolumeSound), sound);
+            PlayerPrefs.SetFloat(nameof(VolumeVoice), voice);
 
-            PlayerPrefs.SetFloat(nameof(Keys.AnimationSpeed), animationSpeed);
+            PlayerPrefs.SetFloat(nameof(AnimationSpeed), animationSpeed);
 
-            PlayerPrefs.SetString(nameof(Keys.FirstRun), firstRun.ToString());
+            PlayerPrefs.SetString(nameof(FirstRun), firstRun.ToString());
         }
 
         #endregion
@@ -310,15 +310,6 @@ namespace GlyphaeScripts
         #region Helpers
 
         #endregion
-
-
-        /// <summary>
-        /// The <see cref="Settings"/>'s keywords.
-        /// </summary>
-        public enum Keys
-        {
-            SelectedPet, MainVolume, MusicVolume, SoundVolume, VoiceVolume, AnimationSpeed, FirstRun
-        }
     }
 
     /// <summary>

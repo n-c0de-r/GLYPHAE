@@ -474,6 +474,7 @@ MonoBehaviour:
   primaryNeed: {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
   secondaryNeed: {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
   fillAmount: 7
+  lossAmount: 2
   helpContainer: {fileID: 2989419780686097254}
   gameDescription: All beings get hungry and must be fed. Your pet likes eating hieroglyphs.
     Feed them the matching glyph after their request.

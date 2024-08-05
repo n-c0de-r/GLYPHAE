@@ -39,16 +39,16 @@ namespace GlyphaeScripts
 
         private void OnEnable()
         {
-            main.SetValueWithoutNotify(settings.MainVolume);
+            main.SetValueWithoutNotify(settings.VolumeMain);
             main.minValue = Settings.VOL_MIN;
             main.maxValue = Settings.VOL_MAX;
-            music.SetValueWithoutNotify(settings.MusicVolume);
+            music.SetValueWithoutNotify(settings.VolumeMusic);
             music.minValue = Settings.VOL_MIN;
             music.maxValue = Settings.VOL_MAX;
-            sound.SetValueWithoutNotify(settings.SoundVolume);
+            sound.SetValueWithoutNotify(settings.VolumeSound);
             sound.minValue = Settings.VOL_MIN;
             sound.maxValue = Settings.VOL_MAX;
-            voice.SetValueWithoutNotify(settings.VoiceVolume);
+            voice.SetValueWithoutNotify(settings.VolumeVoice);
             voice.minValue = Settings.VOL_MIN;
             voice.maxValue = Settings.VOL_MAX;
         }
@@ -82,13 +82,13 @@ namespace GlyphaeScripts
 
         public void Reset()
         {
-            settings.MainVolume = Settings.VOL_MIN / 2;
+            settings.VolumeMain = Settings.VOL_MIN / 2;
             main.SetValueWithoutNotify(Settings.VOL_MIN / 2);
-            settings.MusicVolume = Settings.VOL_MAX;
+            settings.VolumeMusic = Settings.VOL_MAX;
             music.SetValueWithoutNotify(Settings.VOL_MAX);
-            settings.SoundVolume = Settings.VOL_MAX;
+            settings.VolumeSound = Settings.VOL_MAX;
             sound.SetValueWithoutNotify(Settings.VOL_MAX);
-            settings.VoiceVolume = Settings.VOL_MAX;
+            settings.VolumeVoice = Settings.VOL_MAX;
             voice.SetValueWithoutNotify(Settings.VOL_MAX);
         }
 

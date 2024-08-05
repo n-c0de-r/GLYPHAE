@@ -450,6 +450,7 @@ MonoBehaviour:
   primaryNeed: {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
   secondaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   fillAmount: 4
+  lossAmount: 2
   helpContainer: {fileID: 2003674638442865547}
   gameDescription: Health and cleanliness is vital, literally. Cast a complicated
     magic spell to wipe away all dirt and sickness off your pet.

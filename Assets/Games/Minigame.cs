@@ -35,9 +35,11 @@ namespace GlyphaeScripts
         [Tooltip("The type of need this game depletes.")]
         [SerializeField] protected NeedData secondaryNeed;
 
-        [Tooltip("The strength of need filling by the game.\n" +
-            "Secondary is automatically depleted by a third of that.")]
+        [Tooltip("The strength of need filling by the game.")]
         [SerializeField][Range(0, 10)] protected int fillAmount;
+
+        [Tooltip("Secondary need is depleted on win or loss either way.")]
+        [SerializeField][Range(0, 5)] protected int lossAmount;
 
         [Space]
         [Header("Help Data")]
@@ -157,14 +159,12 @@ namespace GlyphaeScripts
         /// </summary>
         public virtual void CloseGame()
         {
-            _secondValue = fillAmount / 3.0f;
+            _secondValue = lossAmount;
             OnGameClose?.Invoke(this);
         }
 
         public virtual void UpdateValues()
-        {
-            if (fillAmount == 0) return;
-            
+        {            
             primaryNeed?.Increase(_primaryValue);
             secondaryNeed?.Decrease(_secondValue);
         }

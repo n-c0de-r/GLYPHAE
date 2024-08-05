@@ -78,6 +78,8 @@ namespace GlyphaeScripts
             NeedData.OnNeedSatisfied += HideWarning;
 
             _current = need.Current;
+            if (need.Critical > _current) ShowWarning(need);
+            if (_current >= need.Critical) HideWarning(need);
             nameTag.text = gameObject.name;
             valueTag.text = "" + (int)_current;
 
@@ -119,7 +121,6 @@ namespace GlyphaeScripts
             if (incoming == need)
             {
                 if (isActiveAndEnabled) StartCoroutine(Animate(direction));
-
             }
         }
 

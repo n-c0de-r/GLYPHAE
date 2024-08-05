@@ -15,8 +15,6 @@ namespace GlyphaeScripts
         #region Fields
 
         private const string REQUEST_MESSAGE = "android.permission.POST_NOTIFICATIONS";
-        private const string CHANEL_GROUP_ID = "GLYPHAE Needs";
-        private const string CHANEL_GROUP_NAME = "GLYPHAE Pet's Need Calls";
 
         private const string CHANEL_ID = "Needs";
         private const string CHANEL_NAME = "Need Notifications";
@@ -32,9 +30,10 @@ namespace GlyphaeScripts
 
             if (!Permission.HasUserAuthorizedPermission(REQUEST_MESSAGE))
             {
-                Permission.RequestUserPermission(REQUEST_MESSAGE );
+                Permission.RequestUserPermission(REQUEST_MESSAGE);
+                return true;
             }
-            return Permission.HasUserAuthorizedPermission(REQUEST_MESSAGE);
+            return false;
 
             // This didn't work well
             // https://docs.unity3d.com/Packages/com.unity.mobile.notifications@2.3/manual/Android.html
@@ -56,7 +55,6 @@ namespace GlyphaeScripts
                 Name = CHANEL_NAME,
                 Importance = Importance.Default,
                 Description = CHANEL_DESCRIPTION,
-                Group = CHANEL_GROUP_ID,
             };
             AndroidNotificationCenter.RegisterNotificationChannel(channel);
         }

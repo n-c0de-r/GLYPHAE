@@ -77,10 +77,13 @@ namespace GlyphaeScripts
 
         void Awake()
         {
-            GameObject instance = Instantiate(settings.SelectedPet.gameObject, objectContainer);
-            _pet = instance.GetComponent<Pet>();
-            settings.SelectedPet = _pet;
-            instance.SetActive(_pet.Level != Evolutions.Egg);
+            if (settings.SelectedPet != null)
+            {
+                GameObject instance = Instantiate(settings.SelectedPet.gameObject, objectContainer);
+                _pet = instance.GetComponent<Pet>();
+                settings.SelectedPet = _pet;
+                instance.SetActive(_pet.Level != Evolutions.Egg);
+            }
         }
 
         private void OnEnable()

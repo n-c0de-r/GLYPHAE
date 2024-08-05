@@ -30,6 +30,6 @@ MonoBehaviour:
   _selectedPet: {fileID: 0}
   _silenceStart: 20
   _silenceEnd: 8
-  debugCount: 3
+  debugCount: 0
   _isDebugMode: 0
-  _hasNotificationPermission: 1
+  _hasNotificationPermission: 0
