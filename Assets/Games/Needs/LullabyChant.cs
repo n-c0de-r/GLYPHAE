@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ namespace GlyphaeScripts
 
         #region Events
 
-
+        public static event Action OnSleep;
 
         #endregion
 
@@ -83,7 +84,7 @@ namespace GlyphaeScripts
             _order = new();
             while (_order.Count < _rounds)
             {
-                int rng = Random.Range(0, _rounds);
+                int rng = UnityEngine.Random.Range(0, _rounds);
                 if (_order.Contains(rng)) continue;
                 _order.Add(rng);
             }
@@ -93,14 +94,14 @@ namespace GlyphaeScripts
                 if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
                 {
                     // On criticals prefer new glyphs, to teach
-                    _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
+                    _toMatch = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
                     _newGlyphs.Remove(_toMatch);
                     _hasLearned = true;
                 }
                 else if (_allOtherGlyphs.Count > 0)
                 {
                     // Normally pick known ones
-                    _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
+                    _toMatch = _allOtherGlyphs[UnityEngine.Random.Range(0, _allOtherGlyphs.Count)];
                     _allOtherGlyphs.Remove(_toMatch);
                 }
 
@@ -114,7 +115,7 @@ namespace GlyphaeScripts
                 instance.SetActive(true);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
 
-                int rng = Random.Range(0, _buttonCount);
+                int rng = UnityEngine.Random.Range(0, _buttonCount);
 
                 timer.Setup(_usedGlyphs[rng], _usedGlyphs[rng].Symbol);
                 instance.name = _order[i] + "_" + _usedGlyphs[rng].name;
@@ -133,6 +134,12 @@ namespace GlyphaeScripts
 
 
         #region Helpers
+
+        protected override void Win()
+        {
+            OnSleep?.Invoke();
+            base.Win();
+        }
 
         protected override void CheckInput(GlyphData input)
         {

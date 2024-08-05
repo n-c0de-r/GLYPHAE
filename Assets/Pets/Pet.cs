@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,9 +49,6 @@ namespace GlyphaeScripts
         [Tooltip("The Pet's icon for the menu.")]
         [SerializeField] private Sprite symbol;
 
-        [Tooltip("Used for evolution and sleep.")]
-        [SerializeField] private FlashOverlay flashOverlay;
-
         #endregion
 
 
@@ -75,13 +71,14 @@ namespace GlyphaeScripts
         private float _needTimer = 60;
         private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
         public int _debugTimeFactor = 1;
+        private bool _isSleeping = false;
 
         #endregion
 
 
         #region Events
 
-
+        public static event Action OnEvolve;
 
         #endregion
 
@@ -228,6 +225,8 @@ namespace GlyphaeScripts
 
         private void OnEnable()
         {
+            LullabyChant.OnSleep += SleepFactors;
+
             Minigame.OnNextRound += Call;
             Minigame.OnCorrectGuess += Feedback;
             Minigame.OnWrongGuess += Feedback;
@@ -333,11 +332,11 @@ namespace GlyphaeScripts
         public void IncreaseLevel()
         {
             if ((int)_level >= levelSprites.Length) return;
-            if (_level != Evolutions.Egg) StartCoroutine(AnimateEvolution(0, 1, 3));
             _level++;
             ChangeSprite((int)_level);
             CalculateNeedFactors();
             _criticals = new();
+            OnEvolve?.Invoke();
         }
 
         /// <summary>
@@ -347,6 +346,15 @@ namespace GlyphaeScripts
         public void ChangeSprite(int spriteNumber)
         {
             _spriteRenderer.sprite = levelSprites[spriteNumber];
+        }
+
+        /// <summary>
+        /// Resets the factors back to their originals.
+        /// </summary>
+        public void WakeUp()
+        {
+            CalculateNeedFactors();
+            _isSleeping = false;
         }
 
         #region Persistence
@@ -471,7 +479,16 @@ namespace GlyphaeScripts
             Hunger.Decrease(_hungerIncrement);
             Health.Decrease(_healthIncrement * (_sickCount + 1));
             Joy.Decrease(_joyIncrement * (_sickCount + 1));
-            Energy.Decrease(_energyIncrement * (_sickCount + 1));
+
+            if (_isSleeping)
+            {
+                Energy.Increase(_energyIncrement / (_sickCount + 1));
+            }
+            else
+            {
+                Energy.Decrease(_energyIncrement * (_sickCount + 1));
+            }
+            
 
             CheckSickness();
             CheckEvolution();
@@ -500,20 +517,6 @@ namespace GlyphaeScripts
                 //TODO: Animation
                 _evolutionCalls = 0;
             }
-        }
-
-        private IEnumerator AnimateEvolution(float start, float end, float speedFactor)
-        {
-            yield return flashOverlay.Flash(start, end, speedFactor);
-
-            yield return new WaitForSeconds(1f / speedFactor);
-        }
-
-        private IEnumerator AnimateSleep(float start, float end, float speedFactor)
-        {
-            yield return flashOverlay.Flash(start, end, speedFactor);
-
-            yield return new WaitForSeconds(1f / speedFactor);
         }
 
         /// <summary>
@@ -617,6 +620,20 @@ namespace GlyphaeScripts
             Energy.Initialize();
 
             _sicknessChanceFactor = CalculateReverseCurve();
+        }
+
+        private void SleepFactors()
+        {
+            if (_level == Evolutions.Egg) return;
+
+            Hunger.SetupFactors(1, 1);
+            Health.SetupFactors(1, 1);
+            Joy.SetupFactors(1, 1);
+            Energy.SetupFactors(1, 1);
+
+            _sicknessChanceFactor = 1;
+
+            _isSleeping = true;
         }
 
         /// <summary>

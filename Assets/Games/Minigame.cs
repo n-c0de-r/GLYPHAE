@@ -70,6 +70,7 @@ namespace GlyphaeScripts
 
         #region Events
 
+        public static event Action<NeedData> OnGameWin;
         public static event Action<Minigame> OnGameClose;
         public static event Action<Sprite> OnNextRound, OnCorrectGuess, OnWrongGuess;
 
@@ -228,6 +229,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Win()
         {
+            OnGameWin?.Invoke(primaryNeed);
             _primaryValue = fillAmount;
             CloseGame();
         }

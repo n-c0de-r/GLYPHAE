@@ -30,6 +30,19 @@ namespace GlyphaeScripts
             }
         }
 
+        public IEnumerator Flash(Color color,float start, float end, float speedFactor)
+        {
+            yield return new WaitForSeconds(1f / speedFactor);
+            overlay.color = color;
+
+            for (float i = start; i <= end; i += Time.deltaTime * speedFactor)
+            {
+                color.a = i;
+                overlay.color = color;
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
         #endregion
     }
 }

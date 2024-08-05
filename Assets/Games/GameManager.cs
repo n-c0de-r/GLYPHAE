@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,8 +17,17 @@ namespace GlyphaeScripts
         [SerializeField] private List<Minigame> minigames;
 
         [Header("Other objects")]
-        [Tooltip("GUI panel to turn on and off.")]
-        [SerializeField] private GameObject mainPanel;
+        [Tooltip("GUI buttons left panel to turn on and off.")]
+        [SerializeField] private GameObject leftButtons;
+
+        [Tooltip("GUI buttons right panel to turn on and off.")]
+        [SerializeField] private GameObject rightButtons;
+
+        [Tooltip("Used for evolution and sleep.")]
+        [SerializeField] private FlashOverlay flashOverlay;
+
+        [Tooltip("Button to wake the pet.")]
+        [SerializeField] private GameObject wakeButton;
 
         [Tooltip("Field where the Pet will 'live' in.")]
         [SerializeField] private RectTransform objectContainer;
@@ -89,8 +99,12 @@ namespace GlyphaeScripts
         private void OnEnable()
         {
             Minigame.OnGameClose += CloseMinigame;
+            Minigame.OnGameWin += (need) => _criticals.Remove(need);
 
             NeedData.OnNeedCritical += SetCiticals;
+
+            LullabyChant.OnSleep += Sleep;
+            Pet.OnEvolve += Flash;
 
             ShellBreaker.OnEggBreak += () =>
             {
@@ -123,6 +137,9 @@ namespace GlyphaeScripts
 
             NeedData.OnNeedCritical -= SetCiticals;
 
+            LullabyChant.OnSleep -= Sleep;
+            Pet.OnEvolve -= Flash;
+
             settings.SaveSettings();
         }
 
@@ -139,7 +156,7 @@ namespace GlyphaeScripts
         public void StartGame(Minigame original)
         {
             if (_pet.Energy.Current < original.EnergyCost) return;
-            if (original.PrimaryNeed.Current > original.PrimaryNeed.SatisfiedLimit)
+            if (!original.GetType().Equals(typeof(LullabyChant)) && original.PrimaryNeed.Current > original.PrimaryNeed.SatisfiedLimit)
             {
                 original.MessageSuccess();
                 return;
@@ -149,9 +166,19 @@ namespace GlyphaeScripts
             Minigame game = instance.GetComponent<Minigame>();
 
 
-            mainPanel.SetActive(false);
+            leftButtons.SetActive(false);
+            rightButtons.SetActive(false);
             game.SetupGame(_criticals.Contains(game.PrimaryNeed), _pet.Literals, CalculateBaselevel());
             game.NextRound();
+        }
+
+        public void WakeUp()
+        {
+            StartCoroutine(AnimateWake(1, 0, settings.AnimationSpeed));
+            leftButtons.SetActive(true);
+            rightButtons.SetActive(true);
+            wakeButton.SetActive(false);
+            _pet.WakeUp();
         }
 
         #endregion
@@ -162,9 +189,9 @@ namespace GlyphaeScripts
         private void CloseMinigame(Minigame game)
         {
             if (!settings.SelectedPet.gameObject.activeInHierarchy) settings.SelectedPet.gameObject.SetActive(!(_pet.Level == Evolutions.Egg));
-            mainPanel.SetActive(true);
+            leftButtons.SetActive(true);
+            rightButtons.SetActive(true);
             _pet.Energy.Decrease(game.EnergyCost);
-            _criticals.Remove(game.PrimaryNeed);
             game.UpdateValues();
             Destroy(game.gameObject);
         }
@@ -187,6 +214,41 @@ namespace GlyphaeScripts
         private void SetCiticals(NeedData data)
         {
             _criticals.Add(data);
+        }
+
+        private void Flash()
+        {
+            StartCoroutine(AnimateEvolution(0, 1, settings.AnimationSpeed));
+        }
+
+        private void Sleep()
+        {
+            StartCoroutine(AnimateSleep(0, 1, settings.AnimationSpeed));
+            leftButtons.SetActive(false);
+            rightButtons.SetActive(false);
+            wakeButton.SetActive(true);
+        }
+
+        private IEnumerator AnimateEvolution(float start, float end, float speedFactor)
+        {
+            yield return flashOverlay.Flash(Color.white, start, end, speedFactor);
+
+            yield return new WaitForSeconds(1f / speedFactor);
+
+            yield return flashOverlay.Flash(Color.white, end, start, speedFactor);
+        }
+
+        private IEnumerator AnimateSleep(float start, float end, float speedFactor)
+        {
+            yield return flashOverlay.Flash(Color.black, start, end, speedFactor);
+
+            yield return new WaitForSeconds(1f / speedFactor);
+        }
+        private IEnumerator AnimateWake(float start, float end, float speedFactor)
+        {
+            yield return flashOverlay.Flash(Color.clear, start, end, speedFactor);
+
+            yield return new WaitForSeconds(1f / speedFactor);
         }
 
         #endregion
