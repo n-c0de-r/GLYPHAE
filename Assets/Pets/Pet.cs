@@ -60,7 +60,7 @@ namespace GlyphaeScripts
         private BoxCollider2D _boxCollider;
 
         public Evolutions _level = Evolutions.Egg;
-        private HashSet<NeedData> _criticals = new();
+        public static HashSet<NeedData> _criticals = new();
         private int _evolutionCalls = 0;
         private int _sicknessChanceFactor, _sickCount;
 
@@ -232,7 +232,7 @@ namespace GlyphaeScripts
             Minigame.OnWrongGuess += Feedback;
 
             NeedData.OnNeedCritical += SetCiticals;
-            NeedData.OnNeedSatisfied += (need) => Debug.Log(need);
+            NeedData.OnNeedSatisfied += SatisfyCriticals;
 
             ChangeSprite((int)_level);
             CalculateNeedFactors();
@@ -271,7 +271,10 @@ namespace GlyphaeScripts
             Minigame.OnNextRound -= Call;
             Minigame.OnCorrectGuess -= Feedback;
             Minigame.OnWrongGuess -= Feedback;
-            
+
+            NeedData.OnNeedCritical -= SetCiticals;
+            NeedData.OnNeedSatisfied -= SatisfyCriticals;
+
             CalculateNotifications();
         }
 
@@ -290,6 +293,7 @@ namespace GlyphaeScripts
             _level++;
             ChangeSprite((int)_level);
             CalculateNeedFactors();
+            _criticals = new();
         }
 
         /// <summary>
@@ -387,10 +391,10 @@ namespace GlyphaeScripts
             needCall.Setup(data.Alarm);
         }
 
-        private void RemoveCriticals(NeedData data)
+        private void SatisfyCriticals(NeedData data)
         {
-            _criticals.Remove(data);
-            _evolutionCalls++;
+            if (_criticals.Remove(data))
+                _evolutionCalls++;
         }
 
         // MATH

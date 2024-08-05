@@ -37,9 +37,9 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<GlyphData> glyphs, int baseLevel)
+        public override void SetupGame(bool isTeaching, List<GlyphData> glyphs, int baseLevel)
         {
-            base.SetupGame(glyphs, baseLevel);
+            base.SetupGame(isTeaching, glyphs, baseLevel);
 
             _eggInstance = Instantiate(settings.Egg.gameObject, transform.parent);
             _egg = _eggInstance.GetComponent<Pet>();

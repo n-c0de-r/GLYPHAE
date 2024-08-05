@@ -125,8 +125,7 @@ namespace GlyphaeScripts
         #region Events
 
         public static event Action<NeedData, int> OnNeedUpdate;
-        public static event Action<NeedData> OnNeedCritical;
-        public static event Action<NeedData> OnNeedSatisfied;
+        public static event Action<NeedData> OnNeedCritical, OnNeedSatisfied;
 
         #endregion
 
@@ -172,9 +171,13 @@ namespace GlyphaeScripts
                 _isCritical = true;
             }
 
-            if (_isCritical && current > satisfiedLimit)
+            if (_isCritical && current > criticalLimit)
             {
                 OnNeedSatisfied?.Invoke(this);
+            }
+
+            if (_isCritical && current > satisfiedLimit)
+            {
                 _isCritical = false;
             }
         }
@@ -213,9 +216,13 @@ namespace GlyphaeScripts
             current = Mathf.Clamp(current + value, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
 
-            if (_isCritical && current > satisfiedLimit)
+            if (_isCritical && current > criticalLimit)
             {
                 OnNeedSatisfied?.Invoke(this);
+            }
+
+            if (_isCritical && current > satisfiedLimit)
+            {
                 _isCritical = false;
             }
         }

@@ -74,9 +74,9 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public override void SetupGame(List<GlyphData> glyphs, int baseLevel)
+        public override void SetupGame(bool isTeaching, List<GlyphData> glyphs, int baseLevel)
         {
-            base.SetupGame(glyphs, baseLevel);
+            base.SetupGame(isTeaching, glyphs, baseLevel);
 
             _usedGlyphs = new();
             _timeIcons = new(new TimeIcon[_rounds]);
@@ -92,15 +92,18 @@ namespace GlyphaeScripts
 
             for (int i = 0; i < _buttonCount; i++)
             {
-                if (_allOtherGlyphs.Count > 0)
+                if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
                 {
-                    _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                    _allOtherGlyphs.Remove(_toMatch);
-                }
-                else
-                {
+                    // On criticals prefer new glyphs, to teach
                     _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
                     _newGlyphs.Remove(_toMatch);
+                    _hasLearned = true;
+                }
+                else if (_allOtherGlyphs.Count > 0)
+                {
+                    // Normally pick known ones
+                    _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
+                    _allOtherGlyphs.Remove(_toMatch);
                 }
 
                 if(previous == null)
@@ -148,7 +151,7 @@ namespace GlyphaeScripts
 
         public override void UpdateValues()
         {
-            PrimaryNeed?.Increase(NeedData.MAX);
+            primaryNeed?.Increase(NeedData.MAX);
             base.UpdateValues();
         }
 

@@ -34,6 +34,7 @@ namespace GlyphaeScripts
         #region Fields
 
         private Pet _pet;
+        public static HashSet<NeedData> _criticals = new();
 
         #endregion
 
@@ -85,6 +86,9 @@ namespace GlyphaeScripts
         private void OnEnable()
         {
             Minigame.OnGameClose += CloseMinigame;
+
+            NeedData.OnNeedCritical += SetCiticals;
+
             ShellBreaker.OnEggBreak += () =>
             {
                 _pet.IncreaseLevel();
@@ -114,6 +118,8 @@ namespace GlyphaeScripts
         {
             Minigame.OnGameClose -= CloseMinigame;
 
+            NeedData.OnNeedCritical -= SetCiticals;
+
             settings.SaveSettings();
         }
 
@@ -141,7 +147,7 @@ namespace GlyphaeScripts
 
 
             mainPanel.SetActive(false);
-            game.SetupGame(_pet.Literals, CalculateBaselevel());
+            game.SetupGame(_criticals.Contains(game.PrimaryNeed), _pet.Literals, CalculateBaselevel());
             game.NextRound();
         }
 
@@ -155,6 +161,7 @@ namespace GlyphaeScripts
             if (!settings.SelectedPet.gameObject.activeInHierarchy) settings.SelectedPet.gameObject.SetActive(!(_pet.Level == Evolutions.Egg));
             mainPanel.SetActive(true);
             _pet.Energy.Decrease(game.EnergyCost);
+            _criticals.Remove(game.PrimaryNeed);
             game.UpdateValues();
             Destroy(game.gameObject);
         }
@@ -172,6 +179,11 @@ namespace GlyphaeScripts
                     return (int)_pet.Level >> 1;
             }
             return -1;
+        }
+
+        private void SetCiticals(NeedData data)
+        {
+            _criticals.Add(data);
         }
 
         #endregion

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.U2D;
 
 namespace GlyphaeScripts
 {
@@ -31,7 +30,7 @@ namespace GlyphaeScripts
         [Space]
         [Header("Need Values")]
         [Tooltip("The type of need this game fills.")]
-        [SerializeField] private NeedData primaryNeed;
+        [SerializeField] protected NeedData primaryNeed;
 
         [Tooltip("The type of need this game depletes.")]
         [SerializeField] protected NeedData secondaryNeed;
@@ -61,6 +60,8 @@ namespace GlyphaeScripts
         protected float _primaryValue = 0, _secondValue;
         protected int _successes, _fails, _failsToLose;
         protected int _level, _rounds, _buttonCount;
+        protected bool _isTeaching = false, _hasLearned = false;
+
 
         #endregion Fields
 
@@ -139,8 +140,9 @@ namespace GlyphaeScripts
         /// </summary>
         /// <param name="glyphs">The current list of glyphs the <see cref="Pet"/> holds.</param>
         /// <param name="baseLevel"><The <see cref="Minigame"/> base level, based on the <see cref="Pet"/>'s current <see cref="Evolutions"/> level.</param>
-        public virtual void SetupGame(List<GlyphData> glyphs, int baseLevel)
+        public virtual void SetupGame(bool isTeaching, List<GlyphData> glyphs, int baseLevel)
         {
+            _isTeaching = isTeaching;
             SetupGylphLists(new(glyphs));
             _level = baseLevel;
             _rounds = baseRounds + baseLevel;

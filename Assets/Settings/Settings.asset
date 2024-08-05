@@ -32,4 +32,4 @@ MonoBehaviour:
   _silenceEnd: 8
   debugCount: 3
   _isDebugMode: 0
-  _hasNotificationPermission: 0
+  _hasNotificationPermission: 1

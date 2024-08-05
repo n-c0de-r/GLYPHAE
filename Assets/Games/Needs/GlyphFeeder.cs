@@ -30,15 +30,18 @@ namespace GlyphaeScripts
         {
             _usedGlyphs = new();
 
-            if (_allOtherGlyphs.Count > 0)
+            if(_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
             {
-                _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                _allOtherGlyphs.Remove(_toMatch);
-            }
-            else
-            {
+                // On criticals prefer new glyphs, to teach
                 _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
                 _newGlyphs.Remove(_toMatch);
+                _hasLearned = true;
+            }
+            else if (_allOtherGlyphs.Count > 0)
+            {
+                // Normally pick known ones
+                _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
+                _allOtherGlyphs.Remove(_toMatch);
             }
             _usedGlyphs.Add(_toMatch);
 
@@ -53,16 +56,8 @@ namespace GlyphaeScripts
                 else
                 {
                     GlyphData wrongGlyph;
-                    if (_allOtherGlyphs.Count > 0)
-                    {
-                        wrongGlyph = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                        _allOtherGlyphs.Remove(wrongGlyph);
-                    }
-                    else
-                    {
-                        wrongGlyph = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
-                        _newGlyphs.Remove(wrongGlyph);
-                    }
+                    wrongGlyph = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
+                    _allOtherGlyphs.Remove(wrongGlyph);
                     _usedGlyphs.Add(wrongGlyph);
                     gameInputs[i].Setup(wrongGlyph, wrongGlyph.Symbol);
                 }
