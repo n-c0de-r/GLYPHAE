@@ -400,28 +400,6 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 3689269852940605554}
   m_SourcePrefab: {fileID: 100100000, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
---- !u!114 &2010705723608874241 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7163279744892444857, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-  m_PrefabInstance: {fileID: 8686989353091440056}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2222558796349072476 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7374221874061113828, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-  m_PrefabInstance: {fileID: 8686989353091440056}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2989419780686097254 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5905045642753849054, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
@@ -431,17 +409,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3496a183f6b3224699f963a21e84f13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3482897203305580445 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5250034190889949733, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-  m_PrefabInstance: {fileID: 8686989353091440056}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3741131052783192258 stripped
@@ -462,13 +429,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
-  gameInputs:
-  - {fileID: 3482897203305580445}
-  - {fileID: 7779412439334805349}
-  - {fileID: 2010705723608874241}
-  - {fileID: 4029308042143435332}
-  - {fileID: 5282150876595455105}
-  - {fileID: 2222558796349072476}
+  inputPositions: {fileID: 6665902349726388750}
+  gameInput: {fileID: 6393398320549125953, guid: 6c9028dd39a52c34a9068b1c6877eef4, type: 3}
   baseRounds: 3
   energyCost: 3
   primaryNeed: {fileID: 11400000, guid: aa5a0cb19d495f9419b67dae5a9473cb, type: 2}
@@ -494,36 +456,8 @@ MonoBehaviour:
 
     Either
     way, feeding negatively affects health a bit, too.'
---- !u!114 &4029308042143435332 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5720865216276207612, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+--- !u!224 &6665902349726388750 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2597565523961024438, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
   m_PrefabInstance: {fileID: 8686989353091440056}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5282150876595455105 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3585880109801806137, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-  m_PrefabInstance: {fileID: 8686989353091440056}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7779412439334805349 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1402981986730230493, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-  m_PrefabInstance: {fileID: 8686989353091440056}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -87,7 +87,6 @@ namespace GlyphaeScripts
         {
             //sound.clip = gylph.Sound;
             icon.sprite = display;
-            back.enabled = true;
             data = gylph;
         }
 

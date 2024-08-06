@@ -40,6 +40,7 @@ namespace GlyphaeScripts
         public override void SetupGame(bool isTeaching, List<GlyphData> glyphs, int baseLevel)
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
+            SetupDragging();
 
             _eggInstance = Instantiate(settings.Egg.gameObject, transform.parent);
             _egg = _eggInstance.GetComponent<Pet>();

@@ -134,6 +134,7 @@ MonoBehaviour:
   icon: {fileID: 5114492736151329153}
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   timeToMove: 0.6
+  target: {fileID: 0}
 --- !u!222 &7867610947448633443
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -211,7 +212,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 4069314394882800283}
   m_OnClick:
     m_PersistentCalls:

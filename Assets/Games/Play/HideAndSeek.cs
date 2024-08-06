@@ -168,8 +168,10 @@ namespace GlyphaeScripts
             {
                 ratio = (float)current / steps;
                 Vector2.Lerp(glass.position, goal, ratio);
-                yield return new WaitForSeconds(speed);
+                yield return null;
+                current++;
             }
+                yield return new WaitForSeconds(speed);
         }
 
         #endregion

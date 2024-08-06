@@ -105,11 +105,15 @@ namespace GlyphaeScripts
                     _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
                     _allOtherGlyphs.Remove(_toMatch);
                 }
+                _usedGlyphs.Add(_toMatch);
+            }
 
-                if(previous == null)
+            for (int i = 0; i < _buttonCount; i++)
+            {
+                if (previous == null)
                 {
                     int rng = Random.Range(0, 2);
-                    
+
                     gameInputs[i].Setup(_toMatch, rng == 0 ? _toMatch.Symbol : _toMatch.Letter);
                     previousSprites.Add(rng == 0 ? _toMatch.Letter : _toMatch.Symbol);
                     previous = rng == 0 ? _toMatch.Symbol : _toMatch.Letter;
@@ -126,8 +130,6 @@ namespace GlyphaeScripts
                     previousSprites.Add(_toMatch.Symbol);
                     previous = _toMatch.Letter;
                 }
-                
-                _usedGlyphs.Add(_toMatch);
             }
 
             for (int i = 0; i < _rounds; i++)

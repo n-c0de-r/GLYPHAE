@@ -535,17 +535,11 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 797963091724836728}
   m_SourcePrefab: {fileID: 100100000, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
---- !u!114 &3015695957183008889 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1402981986730230493, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+--- !u!224 &2210682224109804818 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2597565523961024438, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
   m_PrefabInstance: {fileID: 4224802862463079076}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3081345884124289627 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1180682044019919103, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
@@ -598,14 +592,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
-  gameInputs:
-  - {fileID: 8249008566737619073}
-  - {fileID: 3015695957183008889}
+  gameInput: {fileID: 6393398320549125953, guid: 6c9028dd39a52c34a9068b1c6877eef4, type: 3}
+  inputPositions: {fileID: 2210682224109804818}
   baseRounds: 3
   energyCost: 0
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   secondaryNeed: {fileID: 0}
   fillAmount: 0
+  lossAmount: 0
   helpContainer: {fileID: 7733644179223733370}
   gameDescription: The pet's egg will demand different things, either hieroglyphs
     or letters. Matching them correctly causes the egg shell to break.
@@ -626,14 +620,3 @@ MonoBehaviour:
     If
     you fail this game, you will be provided help, only here and only once!'
   flashOverlay: {fileID: 4472988653900005729}
---- !u!114 &8249008566737619073 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5250034190889949733, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
-  m_PrefabInstance: {fileID: 4224802862463079076}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

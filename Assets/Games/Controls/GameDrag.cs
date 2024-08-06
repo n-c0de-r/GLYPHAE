@@ -70,6 +70,11 @@ namespace GlyphaeScripts
 
         #region Methods
 
+        public void SetTarget(Transform incoming)
+        {
+            target = incoming;
+        }
+
         public void SetSColor(Color color)
         {
             back.color = color;

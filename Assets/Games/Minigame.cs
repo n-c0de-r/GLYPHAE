@@ -18,8 +18,11 @@ namespace GlyphaeScripts
         [SerializeField] protected Settings settings;
 
         [Header("Base Values")]
-        [Tooltip("The Inputs to set up at start.")]
-        [SerializeField] protected List<GameButton> gameInputs;
+        [Tooltip("The Input this game uses.")]
+        [SerializeField] protected GameButton gameInput;
+
+        [Tooltip("Object refereces where buttons should be set.")]
+        [SerializeField] protected RectTransform inputPositions;
 
         [Tooltip("Minimum number of rounds to play this game.")]
         [SerializeField][Range(1, 3)] protected int baseRounds = 1;
@@ -57,6 +60,8 @@ namespace GlyphaeScripts
 
         #region Fields
 
+        [Tooltip("The Inputs to set up at start.")]
+        protected List<GameButton> gameInputs;
         protected GlyphData _toMatch;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
         protected float _primaryValue = 0, _secondValue;
@@ -151,6 +156,8 @@ namespace GlyphaeScripts
             _rounds = baseRounds + baseLevel;
             _failsToLose = _rounds;
             _buttonCount = (baseLevel+1) << 1;
+
+            SetupButtons();
         }
 
         /// <summary>
@@ -236,6 +243,34 @@ namespace GlyphaeScripts
 
         public void MessageSuccess() => OnCorrectGuess?.Invoke(primaryNeed.Positive);
         public void MessageFail() => OnWrongGuess?.Invoke(primaryNeed.Negative);
+
+        /// <summary>
+        /// Instantiate the buttons needed to play the game.
+        /// </summary>
+        protected void SetupButtons()
+        {
+            gameInputs = new();
+
+            for (int i = 0; i < _buttonCount; i++)
+            {
+                Vector3 pos = inputPositions.GetChild(i).position;
+                GameButton button = Instantiate(gameInput, transform);
+                button.GetComponent<RectTransform>().position = pos;
+                gameInputs.Add(button);
+            }
+        }
+
+        /// <summary>
+        /// Set up the dragging buttons' target.
+        /// </summary>
+        protected void SetupDragging()
+        {
+            for (int i = 0; i < gameInputs.Count; i++)
+            {
+                GameDrag drag = (GameDrag)gameInputs[i];
+                drag.SetTarget(inputPositions.GetChild(inputPositions.childCount - 1));
+            }
+        }
 
         /// <summary>
         /// Activates all relevant buttons of a game.

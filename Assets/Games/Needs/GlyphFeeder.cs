@@ -45,6 +45,8 @@ namespace GlyphaeScripts
             }
             _usedGlyphs.Add(_toMatch);
 
+            SetupDragging();
+
             int correctPosition = Random.Range(0, _buttonCount);
 
             for (int i = 0; i < _buttonCount; i++)
