@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,25 +16,7 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Fields
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
-
-        #endregion
-
-
         #region Unity Built-Ins
-
-        void Awake()
-        {
-        }
 
         private void OnEnable()
         {
@@ -55,25 +36,8 @@ namespace GlyphaeScripts
 
         void Start()
         {
-            Reset();
+            //Reset();
         }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Events
-
-
 
         #endregion
 
@@ -90,28 +54,6 @@ namespace GlyphaeScripts
             sound.SetValueWithoutNotify(Settings.VOL_MAX);
             settings.VolumeVoice = Settings.VOL_MAX;
             voice.SetValueWithoutNotify(Settings.VOL_MAX);
-        }
-
-        #endregion
-
-
-        #region Helpers
-
-
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

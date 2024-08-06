@@ -69,7 +69,6 @@ namespace GlyphaeScripts
         protected int _level, _rounds, _buttonCount;
         protected bool _isTeaching = false, _hasLearned = false;
 
-
         #endregion Fields
 
 
@@ -95,11 +94,6 @@ namespace GlyphaeScripts
 
         #region Unity Built-Ins
 
-        protected void Awake()
-        {
-            
-        }
-
         protected void OnEnable()
         {
             GameButton.OnInput += CheckInput;
@@ -111,31 +105,11 @@ namespace GlyphaeScripts
             helpContainer.Setup(normalizedName, gameDescription, gameInstructions);
         }
 
-        protected void Start()
-        {
-
-        }
-
-        protected void FixedUpdate()
-        {
-
-        }
-
-        protected void Update()
-        {
-
-        }
-
         protected void OnDisable()
         {
             GameButton.OnInput -= CheckInput;
 
             NeedBubble.OnFeedbackDone -= NextRound;
-        }
-
-        protected void OnDestroy()
-        {
-            
         }
 
         #endregion
@@ -167,6 +141,7 @@ namespace GlyphaeScripts
         /// </summary>
         public virtual void CloseGame()
         {
+            ActivateButtons(false);
             _secondValue = lossAmount;
             OnGameClose?.Invoke(this);
         }
@@ -180,7 +155,7 @@ namespace GlyphaeScripts
         /// <summary>
         /// Sets up the next round after the <see cref="Pet"/> has messaged its next <see cref="NeedData"/>.
         /// </summary>
-        public abstract void NextRound();
+        public virtual void NextRound() { }
 
         #endregion
 
@@ -290,6 +265,8 @@ namespace GlyphaeScripts
         /// <param name="glyphs">The current list of glyphs the <see cref="Pet"/> holds.</param>
         private void SetupGylphLists(List<GlyphData> glyphs)
         {
+            if (glyphs == null || glyphs.Count == 0) return;
+
             if (_allOtherGlyphs == null) _allOtherGlyphs = new();
             if (_newGlyphs == null) _newGlyphs = new();
 

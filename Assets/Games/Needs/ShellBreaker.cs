@@ -48,21 +48,18 @@ namespace GlyphaeScripts
 
         public override void NextRound()
         {
-            _usedGlyphs = new();
+            if (_successes >= baseRounds) return;
+
             _toMatch = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
             _newGlyphs.Remove(_toMatch);
 
             // BUGS
             GlyphData wrongGlyph = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
             _newGlyphs.Remove(wrongGlyph);
-            _usedGlyphs.Add(wrongGlyph);
 
-            Sprite[] sprites = { _toMatch.Symbol, _toMatch.Letter };
-            int rng = UnityEngine.Random.Range(0, sprites.Length);
-            Sprite correct = sprites[rng];
+            Sprite correct = UnityEngine.Random.Range(0, 2) == 0 ? _toMatch.Symbol : _toMatch.Letter;
 
-
-            rng = UnityEngine.Random.Range(0, _gameInputs.Count);
+            int rng = UnityEngine.Random.Range(0, _gameInputs.Count);
 
             GlyphData[] glyphs = { _toMatch, wrongGlyph };
             Color[] colors = { Color.green, Color.red };
@@ -118,6 +115,7 @@ namespace GlyphaeScripts
         private IEnumerator AnimateFade(float start, float end, float speedFactor)
         {
             yield return flashOverlay.Flash(start, end, speedFactor);
+            foreach (GameDrag drag in _gameInputs) drag.gameObject.SetActive(false);
 
             OnEggBreak?.Invoke();
             yield return new WaitForSeconds(1f / speedFactor);

@@ -15,72 +15,16 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Fields
-
-
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
-
-        #endregion
-
-
         #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
 
         private void OnEnable()
         {
             SetupButtons();
         }
 
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
         private void OnDisable()
         {
             ResetButtons();
-        }
-
-        private void OnDestroy()
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Methods
-
-        public void TemplateMethod(bool param)
-        {
-            
         }
 
         #endregion
@@ -91,9 +35,7 @@ namespace GlyphaeScripts
         private void ResetButtons()
         {
             for (int i = 0; i < buttonContainer.transform.childCount; i++)
-            {
                 Destroy(buttonContainer.transform.GetChild(i).gameObject);
-            }
         }
 
         private void SetupButtons()
@@ -107,21 +49,6 @@ namespace GlyphaeScripts
                     button.Setup(pet, () => settings.SelectedPet = pet);
                 go.SetActive(true);
             }
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

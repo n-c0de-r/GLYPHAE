@@ -232,7 +232,6 @@ namespace GlyphaeScripts
             Minigame.OnWrongGuess += Feedback;
 
             NeedData.OnNeedCritical += SetCiticals;
-            NeedData.OnNeedSatisfied += SatisfyCriticals;
 
             notifications.ClearAllNotifications();
 
@@ -240,11 +239,6 @@ namespace GlyphaeScripts
             CalculateNeedFactors();
             RecalculateNeeds();
             CheckEvolution();
-        }
-
-        void Start()
-        {
-            
         }
 
         void FixedUpdate()
@@ -258,11 +252,6 @@ namespace GlyphaeScripts
             }
         }
 
-        void Update()
-        {
-
-        }
-
 
         private void OnDisable()
         {
@@ -271,7 +260,6 @@ namespace GlyphaeScripts
             Minigame.OnWrongGuess -= Feedback;
 
             NeedData.OnNeedCritical -= SetCiticals;
-            NeedData.OnNeedSatisfied -= SatisfyCriticals;
 
             CalculateNotifications();
             _previousTimeStamp = DateTime.Now;
@@ -574,17 +562,19 @@ namespace GlyphaeScripts
             StartCoroutine(needFeedback.ShowFeedback());
         }
 
-        private void SetCiticals(NeedData data)
+        private void SetCiticals(NeedData data, bool state)
         {
-            _criticals.Add(data);
-            needFeedback.Setup(data.Alarm);
-            StartCoroutine(needFeedback.ShowFeedback());
-        }
-
-        private void SatisfyCriticals(NeedData data)
-        {
-            if (_criticals.Remove(data))
-                _evolutionCalls++;
+            if (state)
+            {
+                _criticals.Add(data);
+                needFeedback.Setup(data.Alarm);
+                StartCoroutine(needFeedback.ShowFeedback());
+            }
+            else
+            {
+                if (_criticals.Remove(data))
+                    _evolutionCalls++;
+            }
         }
 
         #region Math

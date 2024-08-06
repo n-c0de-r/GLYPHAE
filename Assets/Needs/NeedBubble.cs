@@ -49,43 +49,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region GetSets / Properties
-
-
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-
-        }
-
-        void Start()
-        {
-
-        }
-
-        void FixedUpdate()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
-
-        private void OnDestroy()
-        {
-
-        }
-
-        #endregion
-
-
         #region Methods
 
         /// <summary>
@@ -223,21 +186,6 @@ namespace GlyphaeScripts
 
                 yield return new WaitForSeconds(0.01f / speedFactor);
             }
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-
         }
 
         #endregion

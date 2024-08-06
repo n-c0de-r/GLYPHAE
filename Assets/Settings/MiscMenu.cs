@@ -21,25 +21,7 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Fields
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
-
-        #endregion
-
-
         #region Unity Built-Ins
-
-        void Awake()
-        {
-        }
 
         private void OnEnable()
         {
@@ -51,32 +33,10 @@ namespace GlyphaeScripts
             animationSpeed.SetValueWithoutNotify(settings.AnimationSpeed);
         }
 
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
         private void OnDisable()
         {
             settings.SaveSettings();
         }
-
-        #endregion
-
-
-        #region Events
-
-
 
         #endregion
 
@@ -97,28 +57,6 @@ namespace GlyphaeScripts
             timerStart.SetValueWithoutNotify(2);
             settings.SilenceEnd = 8;
             timerEnd.SetValueWithoutNotify(2);
-        }
-
-        #endregion
-
-
-        #region Helpers
-
-
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

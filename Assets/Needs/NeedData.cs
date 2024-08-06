@@ -122,32 +122,7 @@ namespace GlyphaeScripts
         #region Events
 
         public static event Action<NeedData, int> OnNeedUpdate;
-        public static event Action<NeedData> OnNeedCritical, OnNeedSatisfied;
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
-
-        private void OnEnable()
-        {
-            
-        }
-
-        private void OnDisable()
-        {
-            
-        }
-
-        private void OnDestroy()
-        {
-            
-        }
+        public static event Action<NeedData, bool> OnNeedCritical;
 
         #endregion
 
@@ -164,13 +139,13 @@ namespace GlyphaeScripts
 
             if (!_isCritical && current <= criticalLimit)
             {
-                OnNeedCritical?.Invoke(this);
+                OnNeedCritical?.Invoke(this, true);
                 _isCritical = true;
             }
 
             if (_isCritical && current > criticalLimit)
             {
-                OnNeedSatisfied?.Invoke(this);
+                OnNeedCritical?.Invoke(this, false);
             }
 
             if (_isCritical && current > satisfiedLimit)
@@ -220,7 +195,7 @@ namespace GlyphaeScripts
 
             if (_isCritical && current > criticalLimit)
             {
-                OnNeedSatisfied?.Invoke(this);
+                OnNeedCritical?.Invoke(this, false);
             }
 
             if (_isCritical && current > satisfiedLimit)
@@ -244,7 +219,7 @@ namespace GlyphaeScripts
 
             if (!_isCritical && current <= criticalLimit)
             {
-                OnNeedCritical?.Invoke(this);
+                OnNeedCritical?.Invoke(this, true);
                 _isCritical = true;
             }
         }

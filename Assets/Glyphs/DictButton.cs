@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,56 +16,8 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Fields
-        
-        
-
-        #endregion
-
-
-        #region GetSets / Properties
-        
-        
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Events
-        
-        
-
-        #endregion
-
-
         #region Methods
         
-        
-
         public void SetupButton(GlyphData glyph)
         {
             MemoryLevels level = glyph.MemoryLevel;
@@ -82,33 +33,6 @@ namespace GlyphaeScripts
             gameObject.name = glyph.name;
 
             gameObject.SetActive(true);
-        }
-
-        #endregion
-
-
-        #region Helpers
-        
-        
-
-        private void TemplateHelper(bool param)
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

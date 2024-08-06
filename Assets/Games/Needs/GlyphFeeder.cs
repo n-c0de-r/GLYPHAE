@@ -7,23 +7,6 @@ namespace GlyphaeScripts
     /// </summary>
     public class GlyphFeeder : Minigame
     {
-        #region Serialized Fields
-
-
-
-        #endregion
-
-
-        #region Fields
-
-        #endregion
-
-
-        #region Events
-
-        #endregion
-
-
         #region Methods
 
         public override void NextRound()
@@ -43,13 +26,6 @@ namespace GlyphaeScripts
 
             DisplayRound(_toMatch.Letter);
         }
-
-        #endregion
-
-
-        #region Helpers
-
-
 
         #endregion
     }

@@ -38,20 +38,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
-
-        #endregion
-
-
         #region Unity Built-Ins
 
         private new void OnEnable()
@@ -80,7 +66,8 @@ namespace GlyphaeScripts
 
             SelectGlyphs();
 
-            _timeIcons = new(new TimeIcon[_rounds]);
+            for (int i = 0; i < _buttonCount; i++)
+                _gameInputs[i].Setup(_usedGlyphs[i], _usedGlyphs[i].Letter);
 
             _order = new();
             while (_order.Count < _rounds)
@@ -89,28 +76,17 @@ namespace GlyphaeScripts
                 if (_order.Contains(rng)) continue;
                 _order.Add(rng);
             }
-            
-            //gameInputs[i].Setup(_toMatch, _toMatch.Letter);
 
+            _timeIcons = new();
             for (int i = 0; i < _rounds; i++)
             {
                 GameObject instance = Instantiate(template.gameObject, container);
-                instance.SetActive(true);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
-
-                int rng = UnityEngine.Random.Range(0, _buttonCount);
-
-                timer.Setup(_usedGlyphs[rng], _usedGlyphs[rng].Symbol);
-                instance.name = _order[i] + "_" + _usedGlyphs[rng].name;
-                _timeIcons[i] = timer;
+                timer.Setup(_usedGlyphs[i % _usedGlyphs.Count], _usedGlyphs[i % _usedGlyphs.Count].Symbol);
+                _timeIcons.Add(timer);
             }
 
             AnimateNext();
-        }
-
-        public override void NextRound()
-        {
-
         }
 
         #endregion

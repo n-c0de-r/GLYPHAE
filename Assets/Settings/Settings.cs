@@ -60,13 +60,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-        //public static event Action<Needs, float> OnNeedUpdate;
-
-        #endregion
-
-
         #region GetSets / Properties
 
         /// <summary>
@@ -269,10 +262,8 @@ namespace GlyphaeScripts
         public void LoadSettings()
         {
             if (PlayerPrefs.HasKey(nameof(SelectedPet)))
-            {
                 _selectedPet = pets.Find(pet => pet.Name == PlayerPrefs.GetString(nameof(SelectedPet)));
-            }
-
+            
             // Volume values
             VolumeMain = PlayerPrefs.HasKey(nameof(VolumeMain)) ? PlayerPrefs.GetFloat(nameof(VolumeMain)) : VOL_MIN / 2;
             VolumeMusic = PlayerPrefs.HasKey(nameof(VolumeMusic)) ? PlayerPrefs.GetFloat(nameof(VolumeMusic)) : VOL_MAX;
@@ -290,9 +281,7 @@ namespace GlyphaeScripts
         public void SaveSettings()
         {
             if (_selectedPet != null)
-            {
                 PlayerPrefs.SetString(nameof(SelectedPet), _selectedPet.Name);
-            }
             
             PlayerPrefs.SetFloat(nameof(VolumeMain), main);
             PlayerPrefs.SetFloat(nameof(VolumeMusic), music);
@@ -306,10 +295,6 @@ namespace GlyphaeScripts
 
         #endregion
 
-
-        #region Helpers
-
-        #endregion
     }
 
     /// <summary>

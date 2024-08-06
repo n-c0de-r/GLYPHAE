@@ -12,52 +12,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Fields
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-        }
-
-        void Start()
-        {
-        }
-        void FixedUpdate()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
-
-        void OnDestroy()
-        {
-
-        }
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
         #region Methods
 
         /// <summary>
@@ -87,13 +41,6 @@ namespace GlyphaeScripts
         #endif
             Application.Quit();
         }
-
-        #endregion
-
-
-        #region Helpers
-
-
 
         #endregion
     }

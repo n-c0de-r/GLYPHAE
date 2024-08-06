@@ -45,13 +45,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-
-
-        #endregion
-
-
         #region GetSets / Properties
 
         public NeedData Need { get => need; }
@@ -74,37 +67,19 @@ namespace GlyphaeScripts
         private void OnEnable()
         {
             NeedData.OnNeedUpdate += UpdateValue;
-            NeedData.OnNeedCritical += ShowWarning;
-            NeedData.OnNeedSatisfied += HideWarning;
+            NeedData.OnNeedCritical += Warning;
 
             _current = need.Current;
-            if (need.Critical > _current) ShowWarning(need);
-            if (_current >= need.Critical) HideWarning(need);
+            if (need.Critical > _current) Warning(need, true);
+            if (_current >= need.Critical) Warning(need, false);
             nameTag.text = gameObject.name;
             valueTag.text = "" + (int)_current;
-
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-
         }
 
         private void OnDisable()
         {
             NeedData.OnNeedUpdate -= UpdateValue;
-            NeedData.OnNeedCritical -= ShowWarning;
-            NeedData.OnNeedSatisfied -= HideWarning;
+            NeedData.OnNeedCritical -= Warning;
         }
 
         #endregion
@@ -119,9 +94,7 @@ namespace GlyphaeScripts
         public void UpdateValue(NeedData incoming, int direction)
         {
             if (incoming == need)
-            {
                 if (isActiveAndEnabled) StartCoroutine(Animate(direction));
-            }
         }
 
         #endregion
@@ -154,20 +127,10 @@ namespace GlyphaeScripts
             yield return new WaitForSeconds(0.5f / settings.AnimationSpeed);
         }
 
-        private void ShowWarning(NeedData incoming)
+        private void Warning(NeedData incoming, bool state)
         {
             if (incoming == need)
-            {
-                if (isActiveAndEnabled) warning.gameObject.SetActive(true);
-            }
-        }
-
-        private void HideWarning(NeedData incoming)
-        {
-            if (incoming == need)
-            {
-                if (isActiveAndEnabled) warning.gameObject.SetActive(false);
-            }
+                if (isActiveAndEnabled) warning.gameObject.SetActive(state);
         }
 
         #endregion

@@ -212,7 +212,7 @@ namespace GlyphaeScripts
             return -1;
         }
 
-        private void SetCiticals(NeedData data)
+        private void SetCiticals(NeedData data, bool state)
         {
             _criticals.Add(data);
         }

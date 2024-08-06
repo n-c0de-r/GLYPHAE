@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -9,52 +8,6 @@ namespace GlyphaeScripts
 
         [SerializeField] private Transform container;
         [SerializeField] private GameObject iconTemplate;
-
-        #endregion
-
-
-        #region Fields
-        
-        
-
-        #endregion
-
-
-        #region GetSets / Properties
-        
-        
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Events
-        
-        
 
         #endregion
 
@@ -81,24 +34,7 @@ namespace GlyphaeScripts
         private void ClearContainer()
         {
             for (int i = 0; i < container.childCount; i++)
-            {
                 Destroy(container.GetChild(i).gameObject);
-            }
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

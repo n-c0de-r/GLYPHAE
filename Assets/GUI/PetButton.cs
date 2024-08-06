@@ -32,45 +32,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        #endregion
-
-
         #region Methods
 
         public void Setup(Pet pet, UnityAction action)
@@ -96,24 +57,9 @@ namespace GlyphaeScripts
             viewName.text = petName.text;
             viewCategory.text = petCategory.text;
             viewDescription.text = description;
-
+            // Remove later
             if (petName.text.Equals("Horus")) viewButton.SetActive(false);
             else viewButton.SetActive(true);
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

@@ -33,13 +33,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-
-
-        #endregion
-
-
         #region GetSets / Properties
 
         /// <summary>
@@ -64,31 +57,6 @@ namespace GlyphaeScripts
         /// based on Leitner flashcard system.
         /// </summary>
         public MemoryLevels MemoryLevel { get => memoryLevel; set => memoryLevel = value; }
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
-
-        void Start()
-        {
-
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
 
         #endregion
 
@@ -131,13 +99,6 @@ namespace GlyphaeScripts
                 _guesses = (int)memoryLevel;
             }
         }
-
-        #endregion
-
-
-        #region Helpers
-
-
 
         #endregion
     }

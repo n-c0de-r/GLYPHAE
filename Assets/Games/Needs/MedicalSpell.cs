@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.U2D;
 
 namespace GlyphaeScripts
 {
@@ -28,27 +27,6 @@ namespace GlyphaeScripts
         private List<int> _order;
         private List<Sprite> _sprites;
         private int _orderIndex = 0;
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
 
         #endregion
 
@@ -101,25 +79,19 @@ namespace GlyphaeScripts
                 _order.Add(rng);
             }
 
-            _timeIcons = new(new TimeIcon[_rounds]);
+            _timeIcons = new();
             for (int i = 0; i < _rounds; i++)
             {
-                GlyphData glyph = _usedGlyphs[i];
-                Sprite sprite = _sprites[i].name.Contains("letter") ? glyph.Symbol : glyph.Letter;
+                GlyphData glyph = _usedGlyphs[i %  _usedGlyphs.Count];
+                Sprite sprite = _sprites[i % _sprites.Count].name.Contains("letter") ? glyph.Symbol : glyph.Letter;
 
                 GameObject instance = Instantiate(template.gameObject, container);
-                instance.SetActive(true);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
                 timer.Setup(glyph, sprite);
-                _timeIcons[i] = timer;
+                _timeIcons.Add(timer);
             }
 
             AnimateNext();
-        }
-
-        public override void NextRound()
-        {
-
         }
 
         public override void UpdateValues()

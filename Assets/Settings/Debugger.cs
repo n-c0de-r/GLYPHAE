@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -52,26 +51,11 @@ namespace GlyphaeScripts
         [SerializeField] private TMP_Text energyDown;
         [SerializeField] private TMP_Text energyRng;
         [SerializeField] private TMP_Text energyInc;
-        #endregion
-
-
-        #region Fields
-
-
-
-        #endregion
-
-
-        #region Events
-
-
 
         #endregion
 
 
         #region GetSets / Properties
-
-
 
         /// <summary>
         /// The current Hunger <see cref="NeedData"/> value.
@@ -114,11 +98,6 @@ namespace GlyphaeScripts
 
         #region Unity Built-Ins
 
-        void Awake()
-        {
-            
-        }
-
         private void OnEnable()
         {
             hunger.SetValueWithoutNotify(needs[0].Current);
@@ -128,31 +107,6 @@ namespace GlyphaeScripts
 
             level.SetValueWithoutNotify((int)settings.SelectedPet.Level);
             UpdateNumbers();
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        private void OnDisable()
-        {
-            
-        }
-
-        private void OnDestroy()
-        {
-            
         }
 
         #endregion
@@ -185,31 +139,6 @@ namespace GlyphaeScripts
             energyDown.text = needs[3].DownFactor.ToString();
             energyRng.text = needs[3].RandomOffset.ToString("n2");
             energyInc.text = settings.SelectedPet.EnergyIncrement.ToString("n2");
-        }
-
-        #endregion
-
-
-        #region Helpers
-
-        private void TemplateHelper(bool param)
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion
