@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 namespace GlyphaeScripts
 {
@@ -25,8 +26,7 @@ namespace GlyphaeScripts
 
         private List<TimeIcon> _timeIcons;
         private List<int> _order;
-        private List<Sprite> previousSprites;
-        private Sprite previous;
+        private List<Sprite> _sprites;
         private int _orderIndex = 0;
 
         #endregion
@@ -78,9 +78,20 @@ namespace GlyphaeScripts
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
 
-            _usedGlyphs = new();
-            _timeIcons = new(new TimeIcon[_rounds]);
-            previousSprites = new();
+            SelectGlyphs();
+
+            _sprites = new();
+            string type = Random.Range(0, 2) == 0 ? "letter" : "symbol";
+
+            for (int i = 0; i < _buttonCount; i++)
+            {
+                Sprite sprite;
+                sprite = type.Contains("letter") ? _usedGlyphs[i].Symbol : _usedGlyphs[i].Letter;
+                type = type.Contains("letter") ? _usedGlyphs[i].Symbol.name : _usedGlyphs[i].Letter.name;
+
+                _gameInputs[i].Setup(_usedGlyphs[i], sprite);
+                _sprites.Add(sprite);
+            }
 
             _order = new();
             while (_order.Count < _rounds)
@@ -90,56 +101,16 @@ namespace GlyphaeScripts
                 _order.Add(rng);
             }
 
-            for (int i = 0; i < _buttonCount; i++)
-            {
-                if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
-                {
-                    // On criticals prefer new glyphs, to teach
-                    _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
-                    _newGlyphs.Remove(_toMatch);
-                    _hasLearned = true;
-                }
-                else if (_allOtherGlyphs.Count > 0)
-                {
-                    // Normally pick known ones
-                    _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                    _allOtherGlyphs.Remove(_toMatch);
-                }
-                _usedGlyphs.Add(_toMatch);
-            }
-
-            for (int i = 0; i < _buttonCount; i++)
-            {
-                if (previous == null)
-                {
-                    int rng = Random.Range(0, 2);
-
-                    gameInputs[i].Setup(_toMatch, rng == 0 ? _toMatch.Symbol : _toMatch.Letter);
-                    previousSprites.Add(rng == 0 ? _toMatch.Letter : _toMatch.Symbol);
-                    previous = rng == 0 ? _toMatch.Symbol : _toMatch.Letter;
-                }
-                else if (previous.name.Contains("letter"))
-                {
-                    gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
-                    previousSprites.Add(_toMatch.Letter);
-                    previous = _toMatch.Symbol;
-                }
-                else
-                {
-                    gameInputs[i].Setup(_toMatch, _toMatch.Letter);
-                    previousSprites.Add(_toMatch.Symbol);
-                    previous = _toMatch.Letter;
-                }
-            }
-
+            _timeIcons = new(new TimeIcon[_rounds]);
             for (int i = 0; i < _rounds; i++)
             {
+                GlyphData glyph = _usedGlyphs[i];
+                Sprite sprite = _sprites[i].name.Contains("letter") ? glyph.Symbol : glyph.Letter;
+
                 GameObject instance = Instantiate(template.gameObject, container);
                 instance.SetActive(true);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
-
-                timer.Setup(_usedGlyphs[_order[i] % _usedGlyphs.Count], previousSprites[_order[i] % previousSprites.Count]);
-                instance.name = _order[i] + "_" + previousSprites[_order[i] % previousSprites.Count].name;
+                timer.Setup(glyph, sprite);
                 _timeIcons[i] = timer;
             }
 

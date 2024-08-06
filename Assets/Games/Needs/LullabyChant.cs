@@ -78,7 +78,8 @@ namespace GlyphaeScripts
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
 
-            _usedGlyphs = new();
+            SelectGlyphs();
+
             _timeIcons = new(new TimeIcon[_rounds]);
 
             _order = new();
@@ -88,26 +89,8 @@ namespace GlyphaeScripts
                 if (_order.Contains(rng)) continue;
                 _order.Add(rng);
             }
-
-            for (int i = 0; i < _buttonCount; i++)
-            {
-                if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
-                {
-                    // On criticals prefer new glyphs, to teach
-                    _toMatch = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
-                    _newGlyphs.Remove(_toMatch);
-                    _hasLearned = true;
-                }
-                else if (_allOtherGlyphs.Count > 0)
-                {
-                    // Normally pick known ones
-                    _toMatch = _allOtherGlyphs[UnityEngine.Random.Range(0, _allOtherGlyphs.Count)];
-                    _allOtherGlyphs.Remove(_toMatch);
-                }
-
-                gameInputs[i].Setup(_toMatch, _toMatch.Letter);
-                _usedGlyphs.Add(_toMatch);
-            }
+            
+            //gameInputs[i].Setup(_toMatch, _toMatch.Letter);
 
             for (int i = 0; i < _rounds; i++)
             {

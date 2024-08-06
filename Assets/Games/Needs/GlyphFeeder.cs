@@ -28,22 +28,7 @@ namespace GlyphaeScripts
 
         public override void NextRound()
         {
-            _usedGlyphs = new();
-
-            if(_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
-            {
-                // On criticals prefer new glyphs, to teach
-                _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
-                _newGlyphs.Remove(_toMatch);
-                _hasLearned = true;
-            }
-            else if (_allOtherGlyphs.Count > 0)
-            {
-                // Normally pick known ones
-                _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                _allOtherGlyphs.Remove(_toMatch);
-            }
-            _usedGlyphs.Add(_toMatch);
+            SelectGlyphs();
 
             SetupDragging();
 
@@ -51,18 +36,9 @@ namespace GlyphaeScripts
 
             for (int i = 0; i < _buttonCount; i++)
             {
-                if (i == correctPosition)
-                {
-                    gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
-                }
-                else
-                {
-                    GlyphData wrongGlyph;
-                    wrongGlyph = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                    _allOtherGlyphs.Remove(wrongGlyph);
-                    _usedGlyphs.Add(wrongGlyph);
-                    gameInputs[i].Setup(wrongGlyph, wrongGlyph.Symbol);
-                }
+                _gameInputs[i].Setup(_usedGlyphs[i], _usedGlyphs[i].Symbol);
+
+                if (i == correctPosition) _toMatch = _usedGlyphs[i];
             }
 
             DisplayRound(_toMatch.Letter);

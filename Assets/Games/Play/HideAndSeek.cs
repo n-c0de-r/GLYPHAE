@@ -74,29 +74,10 @@ namespace GlyphaeScripts
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
 
-            _usedGlyphs = new();
+            SelectGlyphs();
+            //gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
 
-            for (int i = 0; i < _rounds; i++)
-            {
-                if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
-                {
-                    // On criticals prefer new glyphs, to teach
-                    _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
-                    _newGlyphs.Remove(_toMatch);
-                    _hasLearned = true;
-                }
-                else if (_allOtherGlyphs.Count > 0)
-                {
-                    // Normally pick known ones
-                    _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                    _allOtherGlyphs.Remove(_toMatch);
-                }
-
-                gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
-                _usedGlyphs.Add(_toMatch);
-            }
-
-            StartCoroutine(InitialAnimation(settings.AnimationSpeed));
+            //StartCoroutine(InitialAnimation(settings.AnimationSpeed));
         }
 
         
@@ -153,9 +134,9 @@ namespace GlyphaeScripts
 
             for (int i = 0; i < _rounds; i++)
             {
-                goal.x = gameInputs[i].transform.position.x;
-                int sum = (int)(goal.y + gameInputs[i].transform.position.y);
-                StartCoroutine(AnimateFall(gameInputs[i].GetComponent<RectTransform>(), goal, sum, 1f / speedFactor / i));
+                goal.x = _gameInputs[i].transform.position.x;
+                int sum = (int)(goal.y + _gameInputs[i].transform.position.y);
+                StartCoroutine(AnimateFall(_gameInputs[i].GetComponent<RectTransform>(), goal, sum, 1f / speedFactor / i));
             }
             yield return new WaitForSeconds(1f / speedFactor);
         }

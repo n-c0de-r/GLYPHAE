@@ -62,12 +62,12 @@ namespace GlyphaeScripts
             Sprite correct = sprites[rng];
 
 
-            rng = UnityEngine.Random.Range(0, gameInputs.Count);
+            rng = UnityEngine.Random.Range(0, _gameInputs.Count);
 
             GlyphData[] glyphs = { _toMatch, wrongGlyph };
             Color[] colors = { Color.green, Color.red };
 
-            foreach (GameButton button in gameInputs)
+            foreach (GameButton button in _gameInputs)
             {
                 Sprite icon = correct == _toMatch.Letter ? glyphs[rng].Symbol : glyphs[rng].Letter;
                 button.Setup(glyphs[rng], icon);

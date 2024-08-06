@@ -61,7 +61,7 @@ namespace GlyphaeScripts
         #region Fields
 
         [Tooltip("The Inputs to set up at start.")]
-        protected List<GameButton> gameInputs;
+        protected List<GameButton> _gameInputs;
         protected GlyphData _toMatch;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
         protected float _primaryValue = 0, _secondValue;
@@ -249,14 +249,14 @@ namespace GlyphaeScripts
         /// </summary>
         protected void SetupButtons()
         {
-            gameInputs = new();
+            _gameInputs = new();
 
             for (int i = 0; i < _buttonCount; i++)
             {
                 Vector3 pos = inputPositions.GetChild(i).position;
                 GameButton button = Instantiate(gameInput, transform);
                 button.GetComponent<RectTransform>().position = pos;
-                gameInputs.Add(button);
+                _gameInputs.Add(button);
             }
         }
 
@@ -265,9 +265,9 @@ namespace GlyphaeScripts
         /// </summary>
         protected void SetupDragging()
         {
-            for (int i = 0; i < gameInputs.Count; i++)
+            for (int i = 0; i < _gameInputs.Count; i++)
             {
-                GameDrag drag = (GameDrag)gameInputs[i];
+                GameDrag drag = (GameDrag)_gameInputs[i];
                 drag.SetTarget(inputPositions.GetChild(inputPositions.childCount - 1));
             }
         }
@@ -280,7 +280,7 @@ namespace GlyphaeScripts
         {
             for (int i = 0; i < _buttonCount; i++)
             {
-                gameInputs[i].Switch = state;
+                _gameInputs[i].Switch = state;
             }
         }
 
@@ -304,6 +304,33 @@ namespace GlyphaeScripts
                         _allOtherGlyphs.Add(glyph);
                         break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Select the glyphs for the next round.
+        /// </summary>
+        protected void SelectGlyphs()
+        {
+            _usedGlyphs = new();
+
+            for (int i = 0; i < _buttonCount; i++)
+            {
+                GlyphData temp = null;
+                if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
+                {
+                    // On criticals prefer new glyphs, to teach
+                    temp = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
+                    _newGlyphs.Remove(temp);
+                    _hasLearned = true;
+                }
+                else if (_allOtherGlyphs.Count > 0)
+                {
+                    // Normally pick known ones
+                    temp = _allOtherGlyphs[UnityEngine.Random.Range(0, _allOtherGlyphs.Count)];
+                    _allOtherGlyphs.Remove(temp);
+                }
+                _usedGlyphs.Add(temp);
             }
         }
 
