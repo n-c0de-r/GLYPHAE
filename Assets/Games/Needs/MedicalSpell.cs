@@ -96,7 +96,7 @@ namespace GlyphaeScripts
 
         public override void UpdateValues()
         {
-            primaryNeed?.Increase(NeedData.MAX);
+            primaryNeed?.Increase(_successes / _rounds *NeedData.MAX);
             base.UpdateValues();
         }
 

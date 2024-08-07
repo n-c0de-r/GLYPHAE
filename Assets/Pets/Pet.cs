@@ -14,6 +14,7 @@ namespace GlyphaeScripts
         #region Serialized Fields
 
         [SerializeField] private NotificationsAndroid notifications;
+        [SerializeField] private Settings settings;
 
         [Header("Need values")]
         [Tooltip("Basic needs of the pet:\r\nHunger, Health, Joy, Energy.")]
@@ -59,7 +60,7 @@ namespace GlyphaeScripts
         private SpriteRenderer _spriteRenderer;
         private BoxCollider2D _boxCollider;
 
-        public Evolutions _level = Evolutions.Egg;
+        private Evolutions _level = Evolutions.Egg;
         private HashSet<NeedData> _criticals = new();
         private DateTime _previousTimeStamp;
 
@@ -70,7 +71,6 @@ namespace GlyphaeScripts
         private float _hungerIncrement, _healthIncrement, _joyIncrement, _energyIncrement;
         private float _needTimer = 60;
         private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
-        public int _debugTimeFactor = 1;
         private bool _isSleeping = false;
 
         #endregion
@@ -163,12 +163,6 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// Sets the time factor value to speed up display.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public float TimeFactor { set => _debugTimeFactor = (int)value; }
-
-        /// <summary>
         /// Sets the hidden hunger increment value.
         /// Only for debugging on hardware.
         /// </summary>
@@ -218,8 +212,6 @@ namespace GlyphaeScripts
             if (_spriteRenderer == null) TryGetComponent(out _spriteRenderer);
             if (_boxCollider == null) TryGetComponent(out _boxCollider);
 
-            LoadPrefs();
-
             CalculateNeedFactors();
         }
 
@@ -234,6 +226,7 @@ namespace GlyphaeScripts
             NeedData.OnNeedCritical += SetCiticals;
 
             notifications.ClearAllNotifications();
+            LoadPrefs();
 
             ChangeSprite((int)_level);
             CalculateNeedFactors();
@@ -243,7 +236,7 @@ namespace GlyphaeScripts
 
         void FixedUpdate()
         {
-            _needTimer -= Time.fixedDeltaTime * _debugTimeFactor;
+            _needTimer -= Time.fixedDeltaTime * settings.GameSpeed;
 
             if (_needTimer <= 0)
             {
@@ -373,8 +366,9 @@ namespace GlyphaeScripts
 
                     string[] needsData = item.Split(VALUE_SPLIT);
                     int.TryParse(needsData[0][..1], out int index);
+                    if (index == 0) continue;
                     float.TryParse(needsData[1], out float value);
-                    needs[index-1].Current = value;
+                    needs[index-1].SetValue(value);
                 }
             }
 
@@ -389,6 +383,7 @@ namespace GlyphaeScripts
                     if (Enum.TryParse(glyphData[1], out MemoryLevels level))
                     {
                         int.TryParse(glyphData[0].Substring(3,2), out int index);
+                        if (index == 0) continue;
                         Literals[index-1].MemoryLevel = level;
                     }
                 }
@@ -430,6 +425,12 @@ namespace GlyphaeScripts
                 needValues += item.name + VALUE_SPLIT + item.Current + ITEM_SPLIT;
             }
             PlayerPrefs.SetString(prefix + nameof(needs), needValues);
+
+            string needCriticals = "";
+            foreach (NeedData item in _criticals)
+            {
+                
+            }
 
 
             string glyphs = "";
@@ -570,11 +571,8 @@ namespace GlyphaeScripts
                 needFeedback.Setup(data.Alarm);
                 StartCoroutine(needFeedback.ShowFeedback());
             }
-            else
-            {
-                if (_criticals.Remove(data))
-                    _evolutionCalls++;
-            }
+            else if (_criticals.Remove(data))
+                _evolutionCalls++;
         }
 
         #region Math

@@ -24,8 +24,14 @@ namespace GlyphaeScripts
         [Tooltip("The lower limit value at\r\nwhich a need sets a notification.")]
         [SerializeField][Range(10, 30)] private float criticalLimit = 20;
 
+        [Tooltip("Has the need reached a\r\ncritical point to issue a call?")]
+        [SerializeField] private bool isCritical = false;
+
         [Tooltip("The upper limit value at\r\nwhicha need call is satisfied.")]
         [SerializeField][Range(70, 90)] private float satisfiedLimit = 80;
+
+        [Tooltip("Has the need been satisfied enough to\r\nnot trigger another learning prematurely?")]
+        [SerializeField] private bool isSatisfied = true;
 
         [Space]
         [Header("Feedback Icons")]
@@ -55,7 +61,6 @@ namespace GlyphaeScripts
         public const int MIN = 0, MAX = 100;
         public const float RANDOM_MIN = -0.13f, RANDOM_MAX = 0.13f;
         private float _upFactor, _downFactor, _randomOffset;
-        [SerializeField] private bool _isCritical = false;
 
         #endregion
 
@@ -65,7 +70,7 @@ namespace GlyphaeScripts
         /// <summary>
         /// The current amount of this <see cref="NeedData"/>.
         /// </summary>
-        public float Current { get => current; set => current = value; }
+        public float Current { get => current; }
         
         /// <summary>
         /// The amount limit where a care call is issued by the <see cref="Pet"/>.
@@ -77,6 +82,10 @@ namespace GlyphaeScripts
         /// whicha need call is satisfied.
         /// </summary>
         public float SatisfiedLimit { get => satisfiedLimit; }
+
+
+        public bool IsSatisfied { get => isSatisfied; set => isSatisfied = value; }
+        public bool IsCritical { get => isCritical; set => isCritical = value; }
 
         /// <summary>
         /// The icon of the critical call.
@@ -136,22 +145,6 @@ namespace GlyphaeScripts
         {
             current = initial;
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
-
-            if (!_isCritical && current <= criticalLimit)
-            {
-                OnNeedCritical?.Invoke(this, true);
-                _isCritical = true;
-            }
-
-            if (_isCritical && current > criticalLimit)
-            {
-                OnNeedCritical?.Invoke(this, false);
-            }
-
-            if (_isCritical && current > satisfiedLimit)
-            {
-                _isCritical = false;
-            }
         }
 
         /// <summary>
@@ -181,6 +174,28 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
+        /// Resets this <see cref="NeedData"/> back to its initial values.
+        /// </summary>
+        public void SetValue(float value)
+        {
+            current = value;
+            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
+            
+            if (current > satisfiedLimit) isSatisfied = true;
+
+            if (current > criticalLimit) isCritical = false;
+
+            if (current < criticalLimit)
+            {
+                isCritical = true;
+
+                if (isSatisfied) isSatisfied = false;
+            }
+
+            OnNeedCritical?.Invoke(this, isCritical);
+        }
+
+        /// <summary>
         /// Increases the current <see cref="NeedData"/> value with a specific calculation.
         /// </summary>
         /// <param name="value">The base value to add.</param>
@@ -193,15 +208,13 @@ namespace GlyphaeScripts
             current = Mathf.Clamp(current + value, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
 
-            if (_isCritical && current > criticalLimit)
+            if (isCritical && current > criticalLimit)
             {
-                OnNeedCritical?.Invoke(this, false);
+                isCritical = false;
+                OnNeedCritical?.Invoke(this, isCritical);
             }
 
-            if (_isCritical && current > satisfiedLimit)
-            {
-                _isCritical = false;
-            }
+            if (current > satisfiedLimit) isSatisfied = true;
         }
 
         /// <summary>
@@ -217,10 +230,15 @@ namespace GlyphaeScripts
             current = Mathf.Clamp(current + value, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
 
-            if (!_isCritical && current <= criticalLimit)
+            if (!isCritical && current < criticalLimit)
             {
-                OnNeedCritical?.Invoke(this, true);
-                _isCritical = true;
+                isCritical = true;
+
+                if (isSatisfied)
+                {
+                    isSatisfied = false;
+                    OnNeedCritical?.Invoke(this, isCritical);
+                }
             }
         }
 

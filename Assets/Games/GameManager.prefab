@@ -2229,6 +2229,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6716490819143004851, guid: 95cdc65f302038143a39d9b684d5ffeb, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6995936970813244060, guid: 95cdc65f302038143a39d9b684d5ffeb, type: 3}
       propertyPath: m_text
       value: 'Restart

@@ -182,7 +182,6 @@ namespace GlyphaeScripts
                 _toMatch.WronglyGuessed();
                 Fail();
             }
-            SetupGylphLists(_usedGlyphs);
         }
 
         /// <summary>
@@ -263,7 +262,7 @@ namespace GlyphaeScripts
         /// Prepares lists divided by <see cref="MemoryLevels"/> so games can access different values for learning.
         /// </summary>
         /// <param name="glyphs">The current list of glyphs the <see cref="Pet"/> holds.</param>
-        private void SetupGylphLists(List<GlyphData> glyphs)
+        protected void SetupGylphLists(List<GlyphData> glyphs)
         {
             if (glyphs == null || glyphs.Count == 0) return;
 
@@ -289,6 +288,9 @@ namespace GlyphaeScripts
         /// </summary>
         protected void SelectGlyphs()
         {
+            if (_usedGlyphs != null && _usedGlyphs.Count > 0)
+                SetupGylphLists(_usedGlyphs);
+
             _usedGlyphs = new();
 
             for (int i = 0; i < _buttonCount; i++)

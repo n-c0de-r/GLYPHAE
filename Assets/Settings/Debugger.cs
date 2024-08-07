@@ -61,37 +61,31 @@ namespace GlyphaeScripts
         /// The current Hunger <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Hunger { set => needs[0].Current = value; }
+        public float Hunger { set => needs[0].SetValue(value); }
 
         /// <summary>
         /// The current Health <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Health { set => needs[1].Current = value; }
+        public float Health { set => needs[1].SetValue(value); }
 
         /// <summary>
         /// The current Joy <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Joy { set => needs[2].Current = value; }
+        public float Joy { set => needs[2].SetValue(value); }
 
         /// <summary>
         /// The current Energy <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Energy { set => needs[3].Current = value; }
+        public float Energy { set => needs[3].SetValue(value); }
 
         /// <summary>
         /// Set the current <see cref="Evolutions"/> level of the selected <see cref="Pet"/>.
         /// Only for debugging on hardware.
         /// </summary>
         public int DebugLevel { set => settings.SelectedPet.LevelValue = value; }
-
-        /// <summary>
-        /// Sets the time factor value to speed up display.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public float DebugTime { set => settings.SelectedPet.TimeFactor = value; }
 
         #endregion
 
