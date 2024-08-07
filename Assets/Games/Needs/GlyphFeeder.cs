@@ -1,4 +1,4 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace GlyphaeScripts
 {
@@ -11,17 +11,19 @@ namespace GlyphaeScripts
 
         public override void NextRound()
         {
-            SelectGlyphs();
-
             SetupDragging();
 
-            int correctPosition = Random.Range(0, _buttonCount);
+            List<GlyphData> temp = new(SelectGlyphs());
 
             for (int i = 0; i < _buttonCount; i++)
             {
-                _gameInputs[i].Setup(_usedGlyphs[i], _usedGlyphs[i].Symbol);
+                GlyphData glyph = temp[UnityEngine.Random.Range(0, temp.Count)];
 
-                if (i == correctPosition) _toMatch = _usedGlyphs[i];
+                if (_toLearn != null && _toLearn == glyph) _toMatch = _toLearn;
+                else if (_toMatch == null) _toMatch = glyph;
+
+                temp.Remove(glyph);
+                _gameInputs[i].Setup(glyph, glyph.Symbol);
             }
 
             DisplayRound(_toMatch.Letter);

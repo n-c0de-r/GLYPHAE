@@ -62,12 +62,12 @@ namespace GlyphaeScripts
 
         [Tooltip("The Inputs to set up at start.")]
         protected List<GameButton> _gameInputs;
-        protected GlyphData _toMatch;
+        protected GlyphData _toMatch, _toLearn;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
         protected float _primaryValue = 0, _secondValue;
         protected int _successes, _fails, _failsToLose;
         protected int _level, _rounds, _buttonCount;
-        protected bool _isTeaching = false, _hasLearned = false;
+        protected bool _isTeaching = false;
 
         #endregion Fields
 
@@ -174,6 +174,8 @@ namespace GlyphaeScripts
 
             if (_toMatch == input)
             {
+                _toLearn = null;
+                _isTeaching = false;
                 _toMatch.CorrectlyGuessed();
                 Success();
             }
@@ -182,6 +184,7 @@ namespace GlyphaeScripts
                 _toMatch.WronglyGuessed();
                 Fail();
             }
+            _toMatch = null;
         }
 
         /// <summary>
@@ -286,7 +289,7 @@ namespace GlyphaeScripts
         /// <summary>
         /// Select the glyphs for the next round.
         /// </summary>
-        protected void SelectGlyphs()
+        protected List<GlyphData> SelectGlyphs()
         {
             if (_usedGlyphs != null && _usedGlyphs.Count > 0)
                 SetupGylphLists(_usedGlyphs);
@@ -295,22 +298,22 @@ namespace GlyphaeScripts
 
             for (int i = 0; i < _buttonCount; i++)
             {
-                GlyphData temp = null;
-                if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
+                if (_isTeaching && _toLearn == null && _newGlyphs.Count > 0)
                 {
                     // On criticals prefer new glyphs, to teach
-                    temp = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
-                    _newGlyphs.Remove(temp);
-                    _hasLearned = true;
+                    _toLearn = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
+                    _newGlyphs.Remove(_toLearn);
+                    _usedGlyphs.Add(_toLearn);
                 }
                 else if (_allOtherGlyphs.Count > 0)
                 {
                     // Normally pick known ones
-                    temp = _allOtherGlyphs[UnityEngine.Random.Range(0, _allOtherGlyphs.Count)];
+                    GlyphData temp = _allOtherGlyphs[UnityEngine.Random.Range(0, _allOtherGlyphs.Count)];
                     _allOtherGlyphs.Remove(temp);
+                    _usedGlyphs.Add(temp);
                 }
-                _usedGlyphs.Add(temp);
             }
+            return _usedGlyphs;
         }
 
         #endregion
