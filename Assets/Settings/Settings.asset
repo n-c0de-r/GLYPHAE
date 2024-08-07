@@ -27,7 +27,7 @@ MonoBehaviour:
   gameSpeed: 1
   difficulty: 0
   language: 0
-  firstRun: 1
+  firstRun: 0
   _selectedPet: {fileID: 0}
   _silenceStart: 20
   _silenceEnd: 8

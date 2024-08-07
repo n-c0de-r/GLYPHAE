@@ -267,6 +267,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 6894285709733270685}
+    - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: CloseGame
+      objectReference: {fileID: 0}
     - target: {fileID: 6767062563584694041, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_Enabled
       value: 0

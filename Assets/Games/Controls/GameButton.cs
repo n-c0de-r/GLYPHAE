@@ -33,6 +33,7 @@ namespace GlyphaeScripts
         #region Events
 
         public static event Action<GlyphData> OnInput;
+        public static event Action<GlyphData, GameButton> OnMatch;
 
         #endregion
 
@@ -71,6 +72,7 @@ namespace GlyphaeScripts
         public void Clicked()
         {
             OnInput?.Invoke(data);
+            OnMatch?.Invoke(data, this);
         }
 
         #endregion

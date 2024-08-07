@@ -187,6 +187,8 @@ namespace GlyphaeScripts
 
         protected virtual void CheckInput(GlyphData input)
         {
+            if (_toMatch == null) return;
+
             ActivateButtons(false);
 
             if (_toMatch == input)
@@ -272,7 +274,7 @@ namespace GlyphaeScripts
         /// <param name="state">The state to switch to: true/on, false/off.</param>
         protected void ActivateButtons(bool state)
         {
-            for (int i = 0; i < _buttonCount; i++)
+            for (int i = 0; i < _gameInputs.Count; i++)
             {
                 _gameInputs[i].Switch = state;
             }

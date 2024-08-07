@@ -1,6 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 namespace GlyphaeScripts
 {
@@ -22,7 +25,27 @@ namespace GlyphaeScripts
         #region Fields
 
         private GameButton _clickedButton;
-        private int _foundPairs = 0;
+        private GameButton _currentButton;
+        private GlyphData _data;
+
+        #endregion
+
+
+        #region Unity Built-Ins
+
+        private new void OnEnable()
+        {
+            base.OnEnable();
+            GameButton.OnMatch += CheckInput;
+
+        }
+
+        private new void OnDisable()
+        {
+            base.OnDisable();
+            GameButton.OnMatch -= CheckInput;
+
+        }
 
         #endregion
 
@@ -36,6 +59,7 @@ namespace GlyphaeScripts
             
             _buttonCount = 9;
             SetupButtons(_buttonCount);
+            _failsToLose = 3;
 
             NextRound();
         }
@@ -43,6 +67,8 @@ namespace GlyphaeScripts
         
         public override void NextRound()
         {
+            if (_gameInputs.Count <= 1) return;
+
             List<int> positions = new();
             List<GlyphData> temp = new(SelectGlyphs());
 
@@ -64,9 +90,6 @@ namespace GlyphaeScripts
             {
                 // Correct ones
                 glyph = temp[Random.Range(0, temp.Count)];
-
-                //if (_toLearn != null && _toLearn == glyph) glyph = _toLearn;
-                //else if (_toMatch == null) _toMatch = glyph;
                 temp.Remove(glyph);
 
                 do
@@ -105,38 +128,62 @@ namespace GlyphaeScripts
             }
         }
 
-        protected override void CheckInput(GlyphData input)
+        private void CheckInput(GlyphData input, GameButton button)
         {
-            GameButton current = _gameInputs.Find(button => button.name == input.name);
-            current.GetComponent<Button>().interactable = false;
-            current.transform.GetChild(0).GetComponent<Image>().enabled = true;
+            button.GetComponent<Button>().interactable = false;
+            button.transform.GetChild(0).GetComponent<Image>().enabled = true;
 
-            if (_toMatch == null)
+            if (_clickedButton == null)
             {
-                _toMatch = input;
-                _clickedButton = current;
-            } else
-            {
-                if (_toMatch == input)
-                {
-                    _toLearn = null;
-                    _isTeaching = false;
-                    _toMatch.CorrectlyGuessed();
-                    _foundPairs++;
-                }
-                else
-                {
-                    _toMatch.WronglyGuessed();
-                    current.GetComponent<Button>().interactable = true;
-                    current.transform.GetChild(0).GetComponent<Image>().enabled = false;
-                    _clickedButton.GetComponent<Button>().interactable = true;
-                    _clickedButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
-                }
-                _clickedButton = null;
-                _toMatch = null;
-
-                if (_foundPairs >= 3) Success();
+                _clickedButton = button;
+                return;
             }
+
+            if (_clickedButton.name == input.name)
+            {
+                _toLearn = null;
+                _isTeaching = false;
+                _gameInputs.Remove(button);
+                _gameInputs.Remove(_clickedButton);
+                _clickedButton = null;
+                input.CorrectlyGuessed();
+            }
+            else
+            {
+                foreach (GameButton item in _gameInputs)
+                    item.GetComponent<Button>().interactable = false;
+                _data = input;
+                _currentButton = button;
+
+                Invoke(nameof(Check), 1f);
+            }
+
+
+            if (_gameInputs.Count <= 1)
+            {
+                foreach (GameButton item in _gameInputs)
+                    item.GetComponent<Button>().interactable = true;
+                Invoke(nameof(Success), 1f);
+            }
+        }
+
+        private void Check()
+        {
+            foreach (GameButton item in _gameInputs)
+                item.GetComponent<Button>().interactable = true;
+
+            _currentButton.GetComponent<Button>().interactable = true;
+            _currentButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
+            _clickedButton.GetComponent<Button>().interactable = true;
+            _clickedButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
+            _data.WronglyGuessed();
+            if (++_fails >= _failsToLose) CloseGame();
+            _clickedButton = null;
+        }
+
+        private void Won()
+        {
+             
         }
 
         #endregion
