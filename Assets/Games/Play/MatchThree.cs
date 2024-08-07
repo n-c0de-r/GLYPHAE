@@ -7,7 +7,7 @@ namespace GlyphaeScripts
     /// <summary>
     /// Played in the pre-stage. To break the egg's shell.
     /// </summary>
-    public class OddOneOut : Minigame
+    public class MAtchThree : Minigame
     {
         #region Fields
 
