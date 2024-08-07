@@ -51,31 +51,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        #endregion
-
-
         #region Methods
 
         /// <summary>

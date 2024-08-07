@@ -431,6 +431,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3496a183f6b3224699f963a21e84f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &8013556117841276515 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6614183005384954610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+  m_PrefabInstance: {fileID: 3818932305405361297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9194902003266742763 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5432827782634591610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
@@ -451,7 +456,8 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   gameInput: {fileID: 4184225798070569153, guid: f68798b580cdedf4f8db656fc502a611, type: 3}
   inputPositions: {fileID: 1221595516371776295}
-  baseRounds: 3
+  inputContainer: {fileID: 8013556117841276515}
+  baseRounds: 1
   energyCost: 5
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   secondaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}

@@ -95,14 +95,14 @@ namespace GlyphaeScripts
         protected override void Success()
         {
             _egg.ChangeSprite(++_successes);
-            MessageSuccess();
+            MessageSuccess(PrimaryNeed.Positive);
             if (_successes >= baseRounds) Win();
         }
 
 
         protected override void Fail()
         {
-            MessageFail();
+            MessageFail(PrimaryNeed.Negative);
             if (++_fails >= _failsToLose) ResetGame();
         }
 

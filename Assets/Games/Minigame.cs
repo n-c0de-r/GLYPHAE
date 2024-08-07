@@ -24,6 +24,9 @@ namespace GlyphaeScripts
         [Tooltip("Object refereces where buttons should be set.")]
         [SerializeField] protected RectTransform inputPositions;
 
+        [Tooltip("Object refereces where buttons will spawn.")]
+        [SerializeField] protected Transform inputContainer;
+
         [Tooltip("Minimum number of rounds to play this game.")]
         [SerializeField][Range(1, 3)] protected int baseRounds = 1;
 
@@ -41,7 +44,7 @@ namespace GlyphaeScripts
         [Tooltip("The strength of need filling by the game.")]
         [SerializeField][Range(0, 10)] protected int fillAmount;
 
-        [Tooltip("Secondary need is depleted on win or loss either way.")]
+        [Tooltip("The amount the secondary need is depleted\r\non win or loss either way.")]
         [SerializeField][Range(0, 5)] protected int lossAmount;
 
         [Space]
@@ -87,7 +90,21 @@ namespace GlyphaeScripts
         /// The base costs of Energy to play a game.
         /// </summary>
         public int EnergyCost { get => energyCost; }
+
+        /// <summary>
+        /// The type of need this game fills.
+        /// </summary>
         public NeedData PrimaryNeed { get => primaryNeed; }
+
+        /// <summary>
+        /// The type of need this game depletes.
+        /// </summary>
+        public NeedData SecondaryNeed { get => secondaryNeed; }
+
+        /// <summary>
+        /// The amount the secondary need is depleted on win or loss either way.
+        /// </summary>
+        public int LossAmount { get => lossAmount; }
 
         #endregion
 
@@ -131,7 +148,7 @@ namespace GlyphaeScripts
             _failsToLose = _rounds;
             _buttonCount = (baseLevel+1) << 1;
 
-            SetupButtons();
+            SetupButtons(_buttonCount);
         }
 
         /// <summary>
@@ -218,20 +235,20 @@ namespace GlyphaeScripts
             CloseGame();
         }
 
-        public void MessageSuccess() => OnCorrectGuess?.Invoke(primaryNeed.Positive);
-        public void MessageFail() => OnWrongGuess?.Invoke(primaryNeed.Negative);
+        public void MessageSuccess(Sprite sprite) => OnCorrectGuess?.Invoke(sprite);
+        public void MessageFail(Sprite sprite) => OnWrongGuess?.Invoke(sprite);
 
         /// <summary>
         /// Instantiate the buttons needed to play the game.
         /// </summary>
-        protected void SetupButtons()
+        protected void SetupButtons(int count)
         {
             _gameInputs = new();
 
-            for (int i = 0; i < _buttonCount; i++)
+            for (int i = 0; i < count; i++)
             {
                 Vector3 pos = inputPositions.GetChild(i).position;
-                GameButton button = Instantiate(gameInput, transform);
+                GameButton button = Instantiate(gameInput, inputContainer);
                 button.GetComponent<RectTransform>().position = pos;
                 _gameInputs.Add(button);
             }
