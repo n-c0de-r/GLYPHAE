@@ -109,6 +109,7 @@ namespace GlyphaeScripts
         private void ResetGame()
         {
             _fails = 0;
+            _successes = 0;
             _hasFailed = true;
         }
 
