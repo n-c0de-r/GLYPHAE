@@ -1,0 +1,108 @@
+using UnityEngine;
+
+#ROOTNAMESPACEBEGIN#
+    public class #SCRIPTNAME# : MonoBehaviour
+    {
+        #region Serialized Fields
+        
+        #NOTRIM#
+
+        #endregion
+
+
+        #region Fields
+        
+        #NOTRIM#
+
+        #endregion
+
+
+        #region Events
+        
+        #NOTRIM#
+
+        #endregion
+
+
+        #region GetSets / Properties
+        
+        #NOTRIM#
+
+        #endregion
+
+
+        #region Unity Built-Ins
+
+        void Awake()
+        {
+            #NOTRIM#
+        }
+
+        private void OnEnable()
+        {
+            #NOTRIM#
+        }
+
+        void Start()
+        {
+            #NOTRIM#
+        }
+
+        void FixedUpdate()
+        {
+            #NOTRIM#
+        }
+
+        void Update()
+        {
+            #NOTRIM#
+        }
+
+        private void OnDisable()
+        {
+            #NOTRIM#
+        }
+
+        private void OnDestroy()
+        {
+            #NOTRIM#
+        }
+
+        #endregion
+
+
+        #region Methods
+
+        public void TemplateMethod(bool param)
+        {
+            #NOTRIM#
+        }
+
+        #endregion
+
+
+        #region Helpers
+
+        private void TemplateHelper(bool param)
+        {
+            #NOTRIM#
+        }
+
+        #endregion
+
+
+        #region Gizmos
+
+        private void OnDrawGizmos()
+        {
+            #NOTRIM#
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+             #NOTRIM#
+        }
+
+        #endregion
+    }
+#ROOTNAMESPACEEND#

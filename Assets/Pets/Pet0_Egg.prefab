@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8113512096331248257
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 603445631893587804, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 603445631893587804, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 3.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 603445631893587804, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 3.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: petName
+      value: Egg
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: category
+      value: None
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: unlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: description
+      value: Just an egg, the fist stage of every of the selected gods.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: -1696121861, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: -1333150494, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 807436067, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: -404948746, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
+    - target: {fileID: 3721469564461433512, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_Name
+      value: Pet0_Egg
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059000855819877809, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1696121861, guid: c5dcbda1240a5b243888ea3cd1312009, type: 3}
+    - target: {fileID: 5059000855819877809, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975053190133048391, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975053190133048391, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975053190133048391, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}

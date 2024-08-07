@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &833198634134415645
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: symbol
+      value: 
+      objectReference: {fileID: -1528915049, guid: 6438ca2e908d244478afa9770245c553, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: petName
+      value: Wadjet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: category
+      value: Biliterals
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: description
+      value: 'The cobra goddess.
+
+        Goddess of protection and patron of Lower
+        Egypt.
+
+        She is very fierce and understands some language, thus needs
+        to learn a little more complex structures: symbols that consist of and are
+        read as two sounds.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: literals.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: -873353187, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: -903412119, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 1290692651, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[4]
+      value: 
+      objectReference: {fileID: -1048002338, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[5]
+      value: 
+      objectReference: {fileID: -1838494466, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[6]
+      value: 
+      objectReference: {fileID: -1838494466, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 3721469564461433512, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_Name
+      value: Pet2_Wadjet
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059000855819877809, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -873353187, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 5059000855819877809, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975053190133048391, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975053190133048391, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975053190133048391, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}

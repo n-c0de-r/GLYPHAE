@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1919775164533932745
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 603445631893587804, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 3.7800002
+      objectReference: {fileID: 0}
+    - target: {fileID: 603445631893587804, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 3.7800002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: symbol
+      value: 
+      objectReference: {fileID: -2132351657, guid: 6438ca2e908d244478afa9770245c553, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: petName
+      value: Horus
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: category
+      value: Vocabulary
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: description
+      value: "The falcon god.\r\nGod of sky and kingship of Ancient Egypt.\r\nHe
+        knows all the basic literals. Now it is time to teach him a few selected
+        full-fledged, standalone word-symbols. (Not implemented here)\r"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 1394146171, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: -1137515681, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 1289161388, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[4]
+      value: 
+      objectReference: {fileID: -66341770, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 1127947054445421824, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: levelSprites.Array.data[5]
+      value: 
+      objectReference: {fileID: 2086382178, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 3721469564461433512, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_Name
+      value: Pet4_Horus
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059000855819877809, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_Size.x
+      value: 3.7800002
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059000855819877809, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_Size.y
+      value: 3.7800002
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059000855819877809, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1394146171, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+    - target: {fileID: 5059000855819877809, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975053190133048391, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975053190133048391, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975053190133048391, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b41bd52e69569bc45b50405431d15b9c, type: 3}

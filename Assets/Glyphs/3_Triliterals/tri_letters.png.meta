@@ -1,0 +1,1176 @@
+fileFormatVersion: 2
+guid: 37bec2e1eae711147a4fe55b77b5b3cc
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tri_letters_01
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 3828
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ea4a3207568f7a42a69450ac912c229
+      internalID: 1947140809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_02
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 3824
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 064ab74d6d05b8446b048ffd6d193e41
+      internalID: -1286542658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_03
+      rect:
+        serializedVersion: 2
+        x: 1438
+        y: 3824
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c7e57e2024d72b428a39a04b596f000
+      internalID: -2094783020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_04
+      rect:
+        serializedVersion: 2
+        x: 1968
+        y: 3819
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8704a13283af8e44097bfdd8b5f5f10f
+      internalID: -1621014741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_05
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 3783
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10643e445bd69664488c285a2a31d300
+      internalID: 194172174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_06
+      rect:
+        serializedVersion: 2
+        x: 3005
+        y: 3812
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dad60446fd06ab6488f35cc668353e87
+      internalID: -291109992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_08
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 3240
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee0ea3f44b880ee4f8b47d150b177936
+      internalID: 1042552321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_10
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 3220
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5f4298c507109245b453519029e9ded
+      internalID: 1272936133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_12
+      rect:
+        serializedVersion: 2
+        x: 2974
+        y: 3236
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5f9b4ea29051cd459d428a93ed482cd
+      internalID: 1670884338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_07
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 3221
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92cf6313d4efad3468fa576b81807c12
+      internalID: -2059003010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_09
+      rect:
+        serializedVersion: 2
+        x: 1315
+        y: 3221
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edac8137c62afd74897efd525bef4613
+      internalID: 1411053767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_11
+      rect:
+        serializedVersion: 2
+        x: 2409
+        y: 3228
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76ff1edcbebcf374bb60e4f99392acb2
+      internalID: 19057942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_14
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 2620
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db72cd16f6518e743844607d90aa0dd4
+      internalID: -1492671792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_15
+      rect:
+        serializedVersion: 2
+        x: 1475
+        y: 2627
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3eecad1c6bc88b04798db20a61236a5c
+      internalID: -1620802316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_16
+      rect:
+        serializedVersion: 2
+        x: 2042
+        y: 2645
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3131ec2ec9379304d820df0546d129db
+      internalID: 1559699998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_17
+      rect:
+        serializedVersion: 2
+        x: 2606
+        y: 2643
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f03d9b08975c3ad47ba2dd5ee1093c1d
+      internalID: -661924577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_13
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 2630
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d2a3ae1bf3ee9f4cb79a1778ad27b66
+      internalID: -346172882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_18
+      rect:
+        serializedVersion: 2
+        x: 3129
+        y: 2649
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb30f441d0d2b74429fbd1d7c4d7a6bd
+      internalID: 2127134293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_20
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 2033
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f87ab13614b9154e9d328eff0edd22f
+      internalID: 1791184575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_21
+      rect:
+        serializedVersion: 2
+        x: 1317
+        y: 2032
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f213ab4a9a0c574181ec7aa722fee85
+      internalID: -749963364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_22
+      rect:
+        serializedVersion: 2
+        x: 1880
+        y: 2033
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ee8aef1dccc7bc4f909d256e8b5af7c
+      internalID: -962217034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_19
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 2043
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 964be4eb20cc9f04691137f94cdcb058
+      internalID: 138347421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_23
+      rect:
+        serializedVersion: 2
+        x: 2445
+        y: 2040
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09d33a29d0acf9847b18db9d1cbb7d62
+      internalID: 776536311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_24
+      rect:
+        serializedVersion: 2
+        x: 3005
+        y: 2033
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a666073659c41ca429dafe3d6e0ce723
+      internalID: -1377684061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_28
+      rect:
+        serializedVersion: 2
+        x: 2035
+        y: 1466
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 274009f763febfc43a035601652c929c
+      internalID: -1307619467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_29
+      rect:
+        serializedVersion: 2
+        x: 2561
+        y: 1418
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b964ad1803ee4241a20d269a05a41e3
+      internalID: 1721048089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_30
+      rect:
+        serializedVersion: 2
+        x: 3097
+        y: 1447
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bc2828ea65bc3f439a1d5b2b7f17fa9
+      internalID: 1762247358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_25
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 1449
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32be02ad1e14ebe419b30d473648d475
+      internalID: 1675027728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_26
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 1449
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43b577dc47bb9594b8bcdd46bba0b9d9
+      internalID: 706418788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_27
+      rect:
+        serializedVersion: 2
+        x: 1474
+        y: 1451
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e53e0e6dd19cb94d9eb5497f3da7321
+      internalID: -1511777155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_31
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 855
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc3e4f61f58a4b54085c8804e88ddef3
+      internalID: 162801438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_33
+      rect:
+        serializedVersion: 2
+        x: 1413
+        y: 874
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcb88862484398648997fa263ae5390f
+      internalID: 1251460292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_34
+      rect:
+        serializedVersion: 2
+        x: 1970
+        y: 841
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d7b5ebdeac0da943aacf898547421b5
+      internalID: -1418394258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_36
+      rect:
+        serializedVersion: 2
+        x: 3107
+        y: 852
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1092f4561d3c0741a46d6d581ad924c
+      internalID: -1484326884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_32
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 860
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 113b665c86eb7dd4c932d4a22cae22fa
+      internalID: -270819189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_35
+      rect:
+        serializedVersion: 2
+        x: 2538
+        y: 860
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c68a331ea5386ae47bf59a3efc5bbe63
+      internalID: -1665389878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_40
+      rect:
+        serializedVersion: 2
+        x: 2269
+        y: 280
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68b68d22a11a08f49b2a597653404dcc
+      internalID: 434692844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_37
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 284
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81569a2d02ddb4e41bfc3efbb36a228d
+      internalID: -1731459762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_38
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 268
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b063db5eef11f4e478f9564db2ea4efe
+      internalID: 1868399577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_39
+      rect:
+        serializedVersion: 2
+        x: 1738
+        y: 236
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59f5249ac809e0545934f6ba8b1c0636
+      internalID: -1035433404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tri_letters_41
+      rect:
+        serializedVersion: 2
+        x: 2795
+        y: 271
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d35de64261fbea44b7bb9ceccda0080
+      internalID: 138572909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      tri_letters2 1_0: -2071967260
+      tri_letters2 1_100: 81823439
+      tri_letters2 1_101: 1181242115
+      tri_letters2 1_103: 366143093
+      tri_letters2 1_104: 1544858778
+      tri_letters2 1_106: -1580938927
+      tri_letters2 1_107: 1886291488
+      tri_letters2 1_109: 2137654143
+      tri_letters2 1_110: -710409764
+      tri_letters2 1_111: 2081603235
+      tri_letters2 1_112: 1151463421
+      tri_letters2 1_116: -266214331
+      tri_letters2 1_117: 987315500
+      tri_letters2 1_118: -1795668604
+      tri_letters2 1_119: -1789041213
+      tri_letters2 1_120: 3194377
+      tri_letters2 1_121: 655346043
+      tri_letters2 1_123: 1108750903
+      tri_letters2 1_124: -164953879
+      tri_letters2 1_125: 2107581863
+      tri_letters2 1_127: 137665438
+      tri_letters2 1_128: -783484601
+      tri_letters2 1_13: -463791943
+      tri_letters2 1_130: -100847088
+      tri_letters2 1_131: 437537043
+      tri_letters2 1_132: 675737687
+      tri_letters2 1_134: 193391414
+      tri_letters2 1_135: 1951013994
+      tri_letters2 1_138: -349704700
+      tri_letters2 1_139: 1572798336
+      tri_letters2 1_141: 503268912
+      tri_letters2 1_142: -305058382
+      tri_letters2 1_143: 671330260
+      tri_letters2 1_144: -1284070940
+      tri_letters2 1_145: 1551167859
+      tri_letters2 1_147: -1940215568
+      tri_letters2 1_149: -151317268
+      tri_letters2 1_15: -1052350463
+      tri_letters2 1_150: 450302853
+      tri_letters2 1_152: -324880383
+      tri_letters2 1_153: 759098646
+      tri_letters2 1_154: -1461818056
+      tri_letters2 1_155: 1869790195
+      tri_letters2 1_156: 428554310
+      tri_letters2 1_17: -2021024161
+      tri_letters2 1_18: -93358007
+      tri_letters2 1_19: -231292595
+      tri_letters2 1_21: -719589082
+      tri_letters2 1_22: 1457479144
+      tri_letters2 1_23: 881285108
+      tri_letters2 1_24: 2059792253
+      tri_letters2 1_25: -1636706760
+      tri_letters2 1_26: -1290523548
+      tri_letters2 1_27: -1653238599
+      tri_letters2 1_28: 1922940272
+      tri_letters2 1_29: 623712197
+      tri_letters2 1_30: 278239666
+      tri_letters2 1_31: -1059383413
+      tri_letters2 1_32: 952570890
+      tri_letters2 1_34: -1032036638
+      tri_letters2 1_35: -1714464207
+      tri_letters2 1_36: -959553659
+      tri_letters2 1_38: -1956879602
+      tri_letters2 1_39: -1538470391
+      tri_letters2 1_40: 950074139
+      tri_letters2 1_41: 1087560642
+      tri_letters2 1_43: -1909570339
+      tri_letters2 1_47: -237587485
+      tri_letters2 1_48: -8501946
+      tri_letters2 1_49: -146771390
+      tri_letters2 1_51: -264465730
+      tri_letters2 1_52: 140100440
+      tri_letters2 1_54: 7598626
+      tri_letters2 1_55: 1531488581
+      tri_letters2 1_57: 124369308
+      tri_letters2 1_58: 55163760
+      tri_letters2 1_59: -890163382
+      tri_letters2 1_61: 1164790217
+      tri_letters2 1_62: -1856169911
+      tri_letters2 1_63: -1033807313
+      tri_letters2 1_64: 54716836
+      tri_letters2 1_65: 1255705754
+      tri_letters2 1_68: 1188227862
+      tri_letters2 1_69: 1629497213
+      tri_letters2 1_70: 865485246
+      tri_letters2 1_71: 1655417483
+      tri_letters2 1_73: 1600898109
+      tri_letters2 1_74: 540210619
+      tri_letters2 1_76: 2070258291
+      tri_letters2 1_77: 1913941280
+      tri_letters2 1_79: -284401751
+      tri_letters2 1_80: 911562049
+      tri_letters2 1_81: -1081917344
+      tri_letters2 1_82: -2049913740
+      tri_letters2 1_83: -1851922142
+      tri_letters2 1_84: 1393219204
+      tri_letters2 1_85: -889902568
+      tri_letters2 1_86: 409656040
+      tri_letters2 1_88: -574430350
+      tri_letters2 1_89: -252841145
+      tri_letters2 1_90: 1012336073
+      tri_letters2 1_93: -1685113424
+      tri_letters2 1_94: -273562617
+      tri_letters2 1_95: 1952135252
+      tri_letters2 1_96: -852433851
+      tri_letters2 1_97: 1034063277
+      tri_letters2 1_98: -1861905173
+      tri_letters2 1_99: -506359304
+      tri_letters_01: 1947140809
+      tri_letters_02: -1286542658
+      tri_letters_03: -2094783020
+      tri_letters_04: -1621014741
+      tri_letters_05: 194172174
+      tri_letters_06: -291109992
+      tri_letters_07: -2059003010
+      tri_letters_08: 1042552321
+      tri_letters_09: 1411053767
+      tri_letters_10: 1272936133
+      tri_letters_11: 19057942
+      tri_letters_12: 1670884338
+      tri_letters_13: -346172882
+      tri_letters_14: -1492671792
+      tri_letters_15: -1620802316
+      tri_letters_16: 1559699998
+      tri_letters_17: -661924577
+      tri_letters_18: 2127134293
+      tri_letters_19: 138347421
+      tri_letters_20: 1791184575
+      tri_letters_21: -749963364
+      tri_letters_22: -962217034
+      tri_letters_23: 776536311
+      tri_letters_24: -1377684061
+      tri_letters_25: 1675027728
+      tri_letters_26: 706418788
+      tri_letters_27: -1511777155
+      tri_letters_28: -1307619467
+      tri_letters_29: 1721048089
+      tri_letters_30: 1762247358
+      tri_letters_31: 162801438
+      tri_letters_32: -270819189
+      tri_letters_33: 1251460292
+      tri_letters_34: -1418394258
+      tri_letters_35: -1665389878
+      tri_letters_36: -1484326884
+      tri_letters_37: -1731459762
+      tri_letters_38: 1868399577
+      tri_letters_39: -1035433404
+      tri_letters_40: 434692844
+      tri_letters_41: 138572909
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85eda91f002ebda47bc7047a728fd63a, type: 3}
+  m_Name: 2_Health
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
+  initial: 100
+  current: 100
+  criticalLimit: 20
+  isCritical: 0
+  satisfiedLimit: 80
+  isSatisfied: 1
+  alarm: {fileID: 2041615289, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  positive: {fileID: -1228989046, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  negative: {fileID: -1338028822, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  notifications: {fileID: 3831587235750753166, guid: dccdcaddbbc2cfd4193c02bddff836e7, type: 3}
+  title: Your pet's health is low.
+  description: Please come back and heal your pet, so it can evolve.

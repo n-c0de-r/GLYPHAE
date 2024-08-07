@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d8983f9321eb0642a3b14e859f5c9d0, type: 3}
+  m_Name: Settings
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: dcc6d6a5f32ecf14c98005122344b0fc, type: 2}
+  egg: {fileID: 9169251450830870401, guid: 396f6b5493fe32c438e976ab3663848d, type: 3}
+  pets:
+  - {fileID: 1954297056406680469, guid: 8bcfe026b210b8546944478eb260dde7, type: 3}
+  - {fileID: 303808673359514653, guid: e8836ffa96a2f0447b1beb6682e344ba, type: 3}
+  - {fileID: 1729131231951407160, guid: 73e73120d572b824d97f50373503117a, type: 3}
+  - {fileID: 1514102868981016521, guid: 5871866cad727ad418b91138130ee4ae, type: 3}
+  main: -25
+  music: 0
+  sound: 0
+  voice: 0
+  animationSpeed: 3
+  gameSpeed: 1
+  difficulty: 0
+  language: 0
+  firstRun: 1
+  _selectedPet: {fileID: 0}
+  _silenceStart: 20
+  _silenceEnd: 8
+  debugCount: 0
+  _isDebugMode: 0
+  _hasNotificationPermission: 0

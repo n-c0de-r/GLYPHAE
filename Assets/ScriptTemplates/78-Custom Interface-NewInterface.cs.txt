@@ -1,0 +1,10 @@
+#ROOTNAMESPACEBEGIN#
+    public interface #SCRIPTNAME#
+    {
+        #region Methods
+
+        public void TemplateMethod(bool param);
+
+        #endregion
+    }
+#ROOTNAMESPACEEND#
