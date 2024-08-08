@@ -162,6 +162,7 @@ namespace GlyphaeScripts
         /// </summary>
         public virtual void CloseGame()
         {
+            SetupGylphLists(_usedGlyphs);
             ActivateButtons(false);
             _secondValue = lossAmount;
             OnGameClose?.Invoke(this);
@@ -288,9 +289,7 @@ namespace GlyphaeScripts
         protected void ActivateButtons(bool state)
         {
             for (int i = 0; i < _gameInputs.Count; i++)
-            {
                 _gameInputs[i].Switch = state;
-            }
         }
 
         /// <summary>
@@ -301,8 +300,9 @@ namespace GlyphaeScripts
         {
             if (glyphs == null || glyphs.Count == 0) return;
 
-            if (_allOtherGlyphs == null) _allOtherGlyphs = new();
-            if (_newGlyphs == null) _newGlyphs = new();
+            // Same as: if (_allOtherGlyphs == null) _allOtherGlyphs = new();
+            _allOtherGlyphs ??= new();
+            _newGlyphs ??= new();
 
             foreach (GlyphData glyph in glyphs)
             {
