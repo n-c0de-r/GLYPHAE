@@ -535,6 +535,7 @@ MonoBehaviour:
   gameInput: {fileID: 4923705575458611519, guid: bdc7df66d6f3273458a17ec211ff0c83, type: 3}
   inputPositions: {fileID: 8062555494654537735}
   inputContainer: {fileID: 1163573520976522563}
+  dropPoint: {fileID: 0}
   baseRounds: 1
   energyCost: 5
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
@@ -542,9 +543,24 @@ MonoBehaviour:
   fillAmount: 7
   lossAmount: 2
   helpContainer: {fileID: 1881787953759504751}
-  gameDescription: 
-  gameInstructions: 
-  container: {fileID: 0}
+  gameDescription: Kids love to play memory. But this is different. Match pairs to
+    isolate the one without a matching tile.
+  gameInstructions: 'Click buttons to uncover and select them.
+
+    After you selected
+    them, pick a second one.
+
+
+    If they match, perfect. You found a matching pair.
+
+    That
+    turn is done. Rey to find more pairs.
+
+
+    One tile has no matching pair!
+
+    Your
+    goal is to isolate that one, by finding all valid pairs.'
 --- !u!224 &1163573520976522563 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6614183005384954610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
