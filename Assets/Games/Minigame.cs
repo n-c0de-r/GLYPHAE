@@ -249,7 +249,7 @@ namespace GlyphaeScripts
 
             for (int i = 0; i < count; i++)
             {
-                Vector3 pos = inputPositions.GetChild(i).position;
+                Vector3 pos = inputPositions.GetChild(i % inputPositions.childCount).position;
                 GameButton button = Instantiate(gameInput, inputContainer);
                 button.GetComponent<RectTransform>().position = pos;
                 _gameInputs.Add(button);
@@ -264,7 +264,7 @@ namespace GlyphaeScripts
             for (int i = 0; i < _gameInputs.Count; i++)
             {
                 GameDrag drag = (GameDrag)_gameInputs[i];
-                drag.SetTarget(inputPositions.GetChild(inputPositions.childCount - 1));
+                drag.Target = inputPositions.GetChild(inputPositions.childCount - 1);
             }
         }
 

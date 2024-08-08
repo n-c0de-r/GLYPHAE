@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,30 +22,45 @@ namespace GlyphaeScripts
 
 
         #region Fields
-        
-        [SerializeField] private Transform target;
+
+        private Color32[] colors = { new(192,32,48,255), new(32, 192, 48, 255), new(32, 48, 192, 255), new(192, 192, 48, 255) };
+        private Transform _target;
         private Vector3 _startPosition;
         private bool isReturning = false;
+        private int _index = 0;
+
+        #endregion
+
+
+        #region Events
+
+        public static event Action<bool> OnDragging;
+
+        #endregion
+
+
+        #region GetSets / Properties
+
+        public Transform Target { set => _target = value; }
+        public Color Color { set => back.color = value; }
+        
+        public Color Red { get => colors[0]; }
+        public Color Green { get => colors[1]; }
+        public Color Blue { get => colors[2]; }
+        public Color Yellow { get => colors[3]; }
 
         #endregion
 
 
         #region Methods
 
-        public void SetTarget(Transform incoming)
-        {
-            target = incoming;
-        }
-
-        public void SetSColor(Color color)
-        {
-            back.color = color;
-        }
-
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (isReturning || !button.interactable) return;
+            OnDragging?.Invoke(true);
             _startPosition = transform.position;
+            _index = transform.GetSiblingIndex();
+            transform.SetAsLastSibling();
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -55,7 +71,7 @@ namespace GlyphaeScripts
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (Vector2.Distance(transform.localPosition, target.localPosition) <= 110)
+            if (Vector2.Distance(transform.localPosition, _target.localPosition) <= 110)
             {
                 Clicked();
             }
@@ -85,9 +101,10 @@ namespace GlyphaeScripts
                 transform.position = Vector3.Lerp(currentPosition, _startPosition, timeTotal / timeToMove);
                 yield return null;
             }
-
             transform.position = _startPosition;
             isReturning = false;
+            transform.SetSiblingIndex(_index);
+            OnDragging?.Invoke(false);
         }
 
         #endregion

@@ -57,12 +57,10 @@ namespace GlyphaeScripts
             GlyphData wrongGlyph = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
             _newGlyphs.Remove(wrongGlyph);
 
-            Sprite correct = UnityEngine.Random.Range(0, 2) == 0 ? _toMatch.Symbol : _toMatch.Letter;
-
             int rng = UnityEngine.Random.Range(0, _gameInputs.Count);
+            Sprite correct = rng == 0 ? _toMatch.Symbol : _toMatch.Letter;
 
             GlyphData[] glyphs = { _toMatch, wrongGlyph };
-            Color[] colors = { Color.green, Color.red };
 
             foreach (GameButton button in _gameInputs)
             {
@@ -72,11 +70,11 @@ namespace GlyphaeScripts
                 if (_hasFailed)
                 {
                     GameDrag drag = (GameDrag)button;
-                    drag.SetSColor(colors[rng]);
+                    Color[] colors = { drag.Green, drag.Red };
+                    drag.Color = colors[rng];
                 }
 
-                rng--;
-                rng = Mathf.Abs(rng);
+                rng = Mathf.Abs(--rng);
             }
 
             DisplayRound(correct);

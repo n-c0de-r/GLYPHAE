@@ -24,6 +24,8 @@ namespace GlyphaeScripts
         private GameButton _currentButton;
         private GlyphData _data;
 
+        private const int NR_OF_TRIPPLETS = 4;
+
         #endregion
 
 
@@ -32,13 +34,13 @@ namespace GlyphaeScripts
         private new void OnEnable()
         {
             base.OnEnable();
-            GameButton.OnMatch += CheckInput;
+            GameDrag.OnDragging += ToggleGrid;
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
-            GameButton.OnMatch -= CheckInput;
+            GameDrag.OnDragging -= ToggleGrid;
         }
 
         #endregion
@@ -50,15 +52,14 @@ namespace GlyphaeScripts
             base.SetupGame(isTeaching, glyphs, baseLevel);
 
             foreach (GameButton button in _gameInputs) Destroy(button.gameObject);
-            
-            _buttonCount = 12;
-            SetupButtons(_buttonCount);
+
+            _buttonCount = NR_OF_TRIPPLETS * _rounds * 3;
             _failsToLose = 2;
 
-            NextRound();
+            SetupButtons(_buttonCount);
         }
 
-        
+
         public override void NextRound()
         {
             if (_gameInputs.Count <= 0) return;
@@ -66,11 +67,12 @@ namespace GlyphaeScripts
             List<int> positions = new();
             List<GlyphData> temp = new(SelectGlyphs());
 
-            for (int i = 0; i < _buttonCount / 3; i++)
+            for (int i = 0; i < NR_OF_TRIPPLETS; i++)
             {
                 GlyphData glyph = temp[Random.Range(0, temp.Count)];
                 int index;
                 temp.Remove(glyph);
+
 
                 do
                 {
@@ -79,8 +81,8 @@ namespace GlyphaeScripts
 
                 positions.Add(index);
                 _gameInputs[index].Setup(glyph, soundSprite);
-                Destroy(_gameInputs[index].GetComponent<GameDrag>());
                 _gameInputs[index].name = glyph.name;
+                Destroy(_gameInputs[index].GetComponent<GameDrag>());
                 Transform target = _gameInputs[index].transform;
 
 
@@ -93,7 +95,7 @@ namespace GlyphaeScripts
                 _gameInputs[index].Setup(glyph, glyph.Symbol);
                 _gameInputs[index].name = glyph.name;
                 GameDrag drag = (GameDrag)_gameInputs[index];
-                drag.SetTarget(target);
+                drag.Target = target;
 
 
                 do
@@ -105,10 +107,10 @@ namespace GlyphaeScripts
                 _gameInputs[index].Setup(glyph, glyph.Letter);
                 _gameInputs[index].name = glyph.name;
                 drag = (GameDrag)_gameInputs[index];
-                drag.SetTarget(target);
+                drag.Target = target;
             }
 
-            ActivateButtons();
+            ActivateButtons(true);
         }
 
         #endregion
@@ -116,75 +118,61 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        protected override void SetupButtons(int count)
+        private void ToggleGrid(bool state)
         {
-            _gameInputs = new();
-
-            for (int i = 0; i < count; i++)
-            {
-                GameButton button = Instantiate(gameInput, inputContainer);
-                _gameInputs.Add(button);
-            }
+            inputContainer.GetComponent<GridLayoutGroup>().enabled = !state;
         }
 
-        private void ActivateButtons()
-        {
-            for (int i = 0; i < _buttonCount; i++)
-            {
-                _gameInputs[i].GetComponent<Button>().interactable = true;
-            }
-        }
+        //private void CheckInput(GlyphData input, GameButton button)
+        //{
+        //    button.GetComponent<Button>().interactable = false;
 
-        private void CheckInput(GlyphData input, GameButton button)
-        {
-            button.GetComponent<Button>().interactable = false;
+        //    if (_clickedButton == null)
+        //    {
+        //        _clickedButton = button;
+        //        return;
+        //    }
 
-            if (_clickedButton == null)
-            {
-                _clickedButton = button;
-                return;
-            }
+        //    if (_clickedButton.name == input.name)
+        //    {
+        //        _toLearn = null;
+        //        _isTeaching = false;
+        //        _gameInputs.Remove(button);
+        //        _gameInputs.Remove(_clickedButton);
+        //        _clickedButton = null;
+        //        input.CorrectlyGuessed();
+        //    }
+        //    else
+        //    {
+        //        foreach (GameButton item in _gameInputs)
+        //            item.GetComponent<Button>().interactable = false;
+        //        _data = input;
+        //        _currentButton = button;
 
-            if (_clickedButton.name == input.name)
-            {
-                _toLearn = null;
-                _isTeaching = false;
-                _gameInputs.Remove(button);
-                _gameInputs.Remove(_clickedButton);
-                _clickedButton = null;
-                input.CorrectlyGuessed();
-            }
-            else
-            {
-                foreach (GameButton item in _gameInputs)
-                    item.GetComponent<Button>().interactable = false;
-                _data = input;
-                _currentButton = button;
-
-                Invoke(nameof(Check), 1f);
-            }
+        //        Invoke(nameof(Check), 1f);
+        //    }
 
 
-            if (_gameInputs.Count <= 0)
-            {
-                foreach (GameButton item in _gameInputs)
-                    item.GetComponent<Button>().interactable = true;
-                Invoke(nameof(Success), 1f);
-            }
-        }
+        //    if (_gameInputs.Count <= 0)
+        //    {
+        //        foreach (GameButton item in _gameInputs)
+        //            item.GetComponent<Button>().interactable = true;
+        //        Invoke(nameof(Success), 1f);
+        //    }
+        //}
 
-        private void Check()
-        {
-            foreach (GameButton item in _gameInputs)
-                item.GetComponent<Button>().interactable = true;
+        //private void Check()
+        //{
+        //    foreach (GameButton item in _gameInputs)
+        //        item.GetComponent<Button>().interactable = true;
 
-            _currentButton.GetComponent<Button>().interactable = true;
-            _clickedButton.GetComponent<Button>().interactable = true;
-            //_clickedButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
-            _data.WronglyGuessed();
-            if (++_fails >= _failsToLose) CloseGame();
-            _clickedButton = null;
-        }
+        //    _currentButton.GetComponent<Button>().interactable = true;
+        //    _clickedButton.GetComponent<Button>().interactable = true;
+        //    //_clickedButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
+        //    _data.WronglyGuessed();
+        //    if (++_fails >= _failsToLose) CloseGame();
+        //    _clickedButton = null;
+        //}
 
         #endregion
     }
