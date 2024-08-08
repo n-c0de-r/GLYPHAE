@@ -24,7 +24,9 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private Color32[] _colors = { new(192,32,48,255), new(32, 192, 48, 255), new(32, 48, 192, 255), new(192, 192, 48, 255) };
+        private Color32[] _colors = {
+            new(224, 64, 80, 255), new(64, 224, 80, 255), new(64, 80, 224, 255), new(224, 224, 80, 255), new(192, 64, 224, 255)
+        };
         private HashSet<Transform> _targets = new();
         private Vector3 _startPosition;
         private int _index = 0, _checkDistance = 110;
@@ -37,8 +39,7 @@ namespace GlyphaeScripts
         #region Events
 
         public static event Action<bool> OnDragging;
-        //public static event Action<string, string> OnDropped;
-        public static event Action<GameObject, GameObject> OnDropped;
+        public static event Action<GameDrag, GameDrag> OnDropped;
 
         #endregion
 
@@ -51,6 +52,8 @@ namespace GlyphaeScripts
         public Color32[] Colors { get => _colors; set => _colors = value; }
 
         public int DragColor { set => _selectedColor = _colors[value]; }
+
+        public Color SelectedColor { get => _selectedColor; }
 
         public bool Mark { set { if (value) back.color = _selectedColor; } }
 
@@ -97,7 +100,7 @@ namespace GlyphaeScripts
                 if (Vector2.Distance(transform.localPosition, item.localPosition) <= _checkDistance)
                 {
                     Clicked();
-                    OnDropped?.Invoke(transform.gameObject, item.gameObject);
+                    OnDropped?.Invoke(this, item.GetComponent<GameDrag>());
                 }
             }
             StartCoroutine(ReturnToStartPosition());

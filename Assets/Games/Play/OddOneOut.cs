@@ -161,6 +161,9 @@ namespace GlyphaeScripts
             {
                 foreach (GameButton item in _gameInputs)
                     item.GetComponent<Button>().interactable = true;
+
+                _toLearn = null;
+                _isTeaching = false;
                 Invoke(nameof(Success), 1f);
             }
         }

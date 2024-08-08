@@ -216,7 +216,6 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Success()
         {
-            Debug.Log("success");
             OnCorrectGuess?.Invoke(primaryNeed.Positive);
             if (++_successes >= _rounds) Win();
         }
@@ -227,7 +226,6 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Fail()
         {
-            Debug.Log("fail");
             OnWrongGuess?.Invoke(primaryNeed.Negative);
             if (++_fails >= _failsToLose) CloseGame();
         }

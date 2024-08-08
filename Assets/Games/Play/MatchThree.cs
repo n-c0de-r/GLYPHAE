@@ -22,9 +22,9 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private GameButton _clickedButton;
-        private GameButton _currentButton;
-        private GlyphData _data;
+        private List<List<GameDrag>> _triplets;
+        private GameDrag _first, _second;
+        private Color _firstColor, _secondColor;
 
         private const int NR_OF_TRIPPLETS = 4;
 
@@ -37,16 +37,14 @@ namespace GlyphaeScripts
         {
             base.OnEnable();
             GameDrag.OnDragging += ToggleGrid;
-            //GameDrag.OnDropped += Test;
-            GameDrag.OnDropped += Test1;
+            GameDrag.OnDropped += CheckDrop;
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
             GameDrag.OnDragging -= ToggleGrid;
-            //GameDrag.OnDropped -= Test;
-            GameDrag.OnDropped -= Test1;
+            GameDrag.OnDropped -= CheckDrop;
         }
 
         #endregion
@@ -70,12 +68,15 @@ namespace GlyphaeScripts
         public override void NextRound()
         {
             if (_gameInputs.Count <= 0) return;
+            _triplets = new();
 
             List<int> positions = new();
             List<GlyphData> temp = new(SelectGlyphs());
 
             for (int i = 0; i < NR_OF_TRIPPLETS; i++)
             {
+                List<GameDrag> triplet = new();
+
                 GlyphData glyph = temp[Random.Range(0, temp.Count)];
                 int index;
                 temp.Remove(glyph);
@@ -90,8 +91,8 @@ namespace GlyphaeScripts
                 _gameInputs[index].Setup(glyph, soundSprite);
                 _gameInputs[index].name = glyph.name;
                 GameDrag drag = (GameDrag)_gameInputs[index];
-                drag.DragColor = i;
-
+                drag.DragColor = i+1;
+                triplet.Add(drag);
 
                 do
                 {
@@ -102,7 +103,8 @@ namespace GlyphaeScripts
                 _gameInputs[index].Setup(glyph, glyph.Symbol);
                 _gameInputs[index].name = glyph.name;
                 drag = (GameDrag)_gameInputs[index];
-                drag.DragColor = i;
+                drag.DragColor = i+1;
+                triplet.Add(drag);
 
 
                 do
@@ -114,7 +116,10 @@ namespace GlyphaeScripts
                 _gameInputs[index].Setup(glyph, glyph.Letter);
                 _gameInputs[index].name = glyph.name;
                 drag = (GameDrag)_gameInputs[index];
-                drag.DragColor = i;
+                drag.DragColor = i+1;
+                triplet.Add(drag);
+
+                _triplets.Add(triplet);
             }
 
             SetDrags();
@@ -127,6 +132,10 @@ namespace GlyphaeScripts
 
         #region Helpers
 
+        /// <summary>
+        /// Sets up the targets to each drag button.
+        /// Essentially making it a 2D construction.
+        /// </summary>
         private void SetDrags()
         {
             foreach (GameDrag drag in _gameInputs.Cast<GameDrag>())
@@ -144,88 +153,80 @@ namespace GlyphaeScripts
             inputContainer.GetComponent<GridLayoutGroup>().enabled = !state;
         }
 
-        private void Test(string original, string target)
-        {
-            if (original == target) Debug.Log("hit");
-            else Debug.Log("miss");
-        }
-
-        private void Test1(GameObject original, GameObject target)
+        /// <summary>
+        /// Checks the currently dropped button against the one dropped at.
+        /// </summary>
+        /// <param name="original">The button you moved now.</param>
+        /// <param name="target">The button you moved to.</param>
+        private void CheckDrop(GameDrag original, GameDrag target)
         {
             if (original.name == target.name)
             {
-                GameDrag drag = original.GetComponent<GameDrag>();
-                drag.Mark = true;
-                drag.enabled = false;
+                original.Mark = true;
+                original.GetComponent<Button>().interactable = false;
                 foreach (GameDrag item in _gameInputs.Cast<GameDrag>())
-                    item.RemoveTargets(drag.transform);
+                    item.RemoveTargets(original.transform);
 
-                drag = target.GetComponent<GameDrag>();
-                drag.Mark = true;
-                drag.enabled = false;
+                target.Mark = true;
+                target.GetComponent<Button>().interactable = false;
                 foreach (GameDrag item in _gameInputs.Cast<GameDrag>())
-                    item.RemoveTargets(drag.transform);
+                    item.RemoveTargets(target.transform);
 
-                Debug.Log("hit");
-                //Success();
+                List<GameDrag> toRemove = null;
+
+                foreach (List<GameDrag> items in _triplets)
+                {
+                    items.Remove(original);
+                    if (items.Count == 0)
+                    {
+                        toRemove = items;
+                        break;
+                    }
+
+                    items.Remove(target);
+                    if (items.Count == 0)
+                    {
+                        toRemove = items;
+                        break;
+                    }
+                }
+
+                if (toRemove != null) _triplets.Remove(toRemove);
+                if (_triplets.Count == 0)
+                {
+                    _toLearn = null;
+                    _isTeaching = false;
+                    Success();
+                }
             }
             else
             {
-                Debug.Log("miss");
-                //Fail();
+                foreach (var item in _gameInputs)
+                {
+                    if (item.TryGetComponent(out GameDrag drag ))
+                        drag.enabled = false;
+                }
+                _first = original;
+                _second = target;
+                _firstColor = original.SelectedColor;
+                _secondColor = target.SelectedColor;
+                original.GetComponent<Image>().color = Color.red;
+                target.GetComponent<Image>().color = Color.red;
+                Invoke(nameof(Reset), 1f);
             }
         }
 
-        //private void CheckInput(GlyphData input, GameButton button)
-        //{
-        //    button.GetComponent<Button>().interactable = false;
-
-        //    if (_clickedButton == null)
-        //    {
-        //        _clickedButton = button;
-        //        return;
-        //    }
-
-        //    if (_clickedButton.name == input.name)
-        //    {
-        //        _toLearn = null;
-        //        _isTeaching = false;
-        //        _gameInputs.Remove(button);
-        //        _gameInputs.Remove(_clickedButton);
-        //        _clickedButton = null;
-        //        input.CorrectlyGuessed();
-        //    }
-        //    else
-        //    {
-        //        foreach (GameButton item in _gameInputs)
-        //            item.GetComponent<Button>().interactable = false;
-        //        _data = input;
-        //        _currentButton = button;
-
-        //        Invoke(nameof(Check), 1f);
-        //    }
-
-
-        //    if (_gameInputs.Count <= 0)
-        //    {
-        //        foreach (GameButton item in _gameInputs)
-        //            item.GetComponent<Button>().interactable = true;
-        //        Invoke(nameof(Success), 1f);
-        //    }
-        //}
-
-        //private void Check()
-        //{
-        //    foreach (GameButton item in _gameInputs)
-        //        item.GetComponent<Button>().interactable = true;
-
-        //    _currentButton.GetComponent<Button>().interactable = true;
-        //    _clickedButton.GetComponent<Button>().interactable = true;
-        //    //_clickedButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
-        //    _data.WronglyGuessed();
-        //    if (++_fails >= _failsToLose) CloseGame();
-        //    _clickedButton = null;
-        //}
+        private void Reset()
+        {
+            if (++_fails >= _failsToLose) CloseGame();
+            _first.GetComponent<Image>().color = _first.GetComponent<Button>().IsInteractable() ? Color.white : _firstColor;
+            _second.GetComponent<Image>().color = _second.GetComponent<Button>().IsInteractable() ? Color.white : _secondColor;
+            foreach (var item in _gameInputs)
+            {
+                if (item.TryGetComponent(out GameDrag drag))
+                    drag.enabled = true;
+            }
+        }
 
         #endregion
     }
