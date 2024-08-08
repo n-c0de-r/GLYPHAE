@@ -243,7 +243,7 @@ namespace GlyphaeScripts
         /// <summary>
         /// Instantiate the buttons needed to play the game.
         /// </summary>
-        protected void SetupButtons(int count)
+        protected virtual void SetupButtons(int count)
         {
             _gameInputs = new();
 

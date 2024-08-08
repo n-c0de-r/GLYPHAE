@@ -29,45 +29,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Events
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-
-        }
-
-        void Start()
-        {
-
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        #endregion
-
-
         #region Methods
 
         public void SetTarget(Transform incoming)

@@ -502,7 +502,7 @@ MonoBehaviour:
   helpContainer: {fileID: 777706456401501799}
   gameDescription: 
   gameInstructions: 
-  container: {fileID: 8159884736091455909}
+  soundSprite: {fileID: -1922472273, guid: 6fc8fa6c8ee13e645a8dff8efb358473, type: 3}
 --- !u!1 &8578920209624519510 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3185850495110462447, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}

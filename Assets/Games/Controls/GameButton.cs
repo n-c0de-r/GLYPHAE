@@ -61,7 +61,7 @@ namespace GlyphaeScripts
         /// <param name="display">The <see cref="Sprite"/> to display on this input.</param>
         public void Setup(GlyphData gylph, Sprite display)
         {
-            //sound.clip = gylph.Sound;
+            sound.clip = gylph.Sound;
             icon.sprite = display;
             data = gylph;
         }

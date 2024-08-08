@@ -7,8 +7,17 @@ namespace GlyphaeScripts
     /// <summary>
     /// Played in the pre-stage. To break the egg's shell.
     /// </summary>
-    public class MAtchThree : Minigame
+    public class MatchThree : Minigame
     {
+        #region Serialized Fields
+
+        [Space]
+        [Header("Game Specific")]
+        [Tooltip("The sprite for listening to buttons.")]
+        [SerializeField] private Sprite soundSprite;
+
+        #endregion
+
         #region Fields
 
         private GameButton _clickedButton;
@@ -24,14 +33,12 @@ namespace GlyphaeScripts
         {
             base.OnEnable();
             GameButton.OnMatch += CheckInput;
-
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
             GameButton.OnMatch -= CheckInput;
-
         }
 
         #endregion
@@ -46,7 +53,7 @@ namespace GlyphaeScripts
             
             _buttonCount = 12;
             SetupButtons(_buttonCount);
-            _failsToLose = 4;
+            _failsToLose = 2;
 
             NextRound();
         }
@@ -59,25 +66,23 @@ namespace GlyphaeScripts
             List<int> positions = new();
             List<GlyphData> temp = new(SelectGlyphs());
 
-            GlyphData glyph = temp[Random.Range(0, temp.Count)];
-            while (glyph == _toLearn)
+            for (int i = 0; i < _buttonCount / 3; i++)
             {
-                glyph = temp[Random.Range(0, temp.Count)];
-            }
-            temp.Remove(glyph);
-
-            // Wrong one
-            int index = Random.Range(0, _buttonCount);
-            positions.Add(index);
-            Sprite sprite = Random.Range(0, 2) == 0 ? glyph.Symbol : glyph.Letter;
-            _gameInputs[index].Setup(glyph, sprite);
-            _gameInputs[index].name = glyph.name;
-
-            for (int i = 0; i < _buttonCount/2; i++)
-            {
-                // Correct ones
-                glyph = temp[Random.Range(0, temp.Count)];
+                GlyphData glyph = temp[Random.Range(0, temp.Count)];
+                int index;
                 temp.Remove(glyph);
+
+                do
+                {
+                    index = Random.Range(0, _buttonCount);
+                } while (positions.Contains(index));
+
+                positions.Add(index);
+                _gameInputs[index].Setup(glyph, soundSprite);
+                Destroy(_gameInputs[index].GetComponent<GameDrag>());
+                _gameInputs[index].name = glyph.name;
+                Transform target = _gameInputs[index].transform;
+
 
                 do
                 {
@@ -87,6 +92,9 @@ namespace GlyphaeScripts
                 positions.Add(index);
                 _gameInputs[index].Setup(glyph, glyph.Symbol);
                 _gameInputs[index].name = glyph.name;
+                GameDrag drag = (GameDrag)_gameInputs[index];
+                drag.SetTarget(target);
+
 
                 do
                 {
@@ -96,6 +104,8 @@ namespace GlyphaeScripts
                 positions.Add(index);
                 _gameInputs[index].Setup(glyph, glyph.Letter);
                 _gameInputs[index].name = glyph.name;
+                drag = (GameDrag)_gameInputs[index];
+                drag.SetTarget(target);
             }
 
             ActivateButtons();
@@ -105,6 +115,17 @@ namespace GlyphaeScripts
 
 
         #region Helpers
+
+        protected override void SetupButtons(int count)
+        {
+            _gameInputs = new();
+
+            for (int i = 0; i < count; i++)
+            {
+                GameButton button = Instantiate(gameInput, inputContainer);
+                _gameInputs.Add(button);
+            }
+        }
 
         private void ActivateButtons()
         {

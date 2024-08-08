@@ -106,6 +106,17 @@ namespace GlyphaeScripts
 
         #region Helpers
 
+        protected override void SetupButtons(int count)
+        {
+            _gameInputs = new();
+
+            for (int i = 0; i < count; i++)
+            {
+                GameButton button = Instantiate(gameInput, inputContainer);
+                _gameInputs.Add(button);
+            }
+        }
+
         private void ActivateButtons()
         {
             for (int i = 0; i < _buttonCount; i++)
