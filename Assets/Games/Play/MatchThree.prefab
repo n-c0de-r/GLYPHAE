@@ -284,6 +284,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2612830335069170341}
+    - target: {fileID: 6506995410078745988, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: CloseGame
+      objectReference: {fileID: 0}
     - target: {fileID: 6614183005384954610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
@@ -461,6 +469,7 @@ MonoBehaviour:
   gameInput: {fileID: 6393398320549125953, guid: 6c9028dd39a52c34a9068b1c6877eef4, type: 3}
   inputPositions: {fileID: 9166074613323982607}
   inputContainer: {fileID: 68209550250752587}
+  dropPoint: {fileID: 0}
   baseRounds: 1
   energyCost: 5
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
