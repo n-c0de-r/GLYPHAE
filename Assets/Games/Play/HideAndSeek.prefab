@@ -428,6 +428,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
   m_PrefabInstance: {fileID: 3818932305405361297}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &5072922807922102377 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8257691693904538872, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+  m_PrefabInstance: {fileID: 3818932305405361297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7281613660642642511 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5905045642753849054, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
@@ -465,6 +470,7 @@ MonoBehaviour:
   gameInput: {fileID: 4184225798070569153, guid: f68798b580cdedf4f8db656fc502a611, type: 3}
   inputPositions: {fileID: 1221595516371776295}
   inputContainer: {fileID: 8013556117841276515}
+  dropPoint: {fileID: 5072922807922102377}
   baseRounds: 1
   energyCost: 5
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}

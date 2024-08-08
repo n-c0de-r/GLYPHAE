@@ -438,6 +438,7 @@ MonoBehaviour:
   gameInput: {fileID: 4923705575458611519, guid: bdc7df66d6f3273458a17ec211ff0c83, type: 3}
   inputPositions: {fileID: 7940124158760360675}
   inputContainer: {fileID: 1294460159257626535}
+  dropPoint: {fileID: 4081846854210861485}
   baseRounds: 3
   energyCost: 5
   primaryNeed: {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
@@ -470,6 +471,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3496a183f6b3224699f963a21e84f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &4081846854210861485 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8257691693904538872, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+  m_PrefabInstance: {fileID: 5349314071824373077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4830579362782860761 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}

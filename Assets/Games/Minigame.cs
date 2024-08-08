@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace GlyphaeScripts
 {
@@ -26,6 +27,9 @@ namespace GlyphaeScripts
 
         [Tooltip("Object refereces where buttons will spawn.")]
         [SerializeField] protected Transform inputContainer;
+
+        [Tooltip("Object refereces where drop checks are done.")]
+        [SerializeField] protected Transform dropPoint;
 
         [Tooltip("Minimum number of rounds to play this game.")]
         [SerializeField][Range(1, 3)] protected int baseRounds = 1;
@@ -212,6 +216,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Success()
         {
+            Debug.Log("success");
             OnCorrectGuess?.Invoke(primaryNeed.Positive);
             if (++_successes >= _rounds) Win();
         }
@@ -222,6 +227,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Fail()
         {
+            Debug.Log("fail");
             OnWrongGuess?.Invoke(primaryNeed.Negative);
             if (++_fails >= _failsToLose) CloseGame();
         }
@@ -261,10 +267,19 @@ namespace GlyphaeScripts
         /// </summary>
         protected void SetupDragging()
         {
+            SetupDragging(dropPoint);
+        }
+
+        /// <summary>
+        /// Overload method.
+        /// Set up the dragging buttons' target.
+        /// </summary>
+        protected void SetupDragging(Transform target)
+        {
             for (int i = 0; i < _gameInputs.Count; i++)
             {
                 GameDrag drag = (GameDrag)_gameInputs[i];
-                drag.Target = inputPositions.GetChild(inputPositions.childCount - 1);
+                drag.Target = target;
             }
         }
 

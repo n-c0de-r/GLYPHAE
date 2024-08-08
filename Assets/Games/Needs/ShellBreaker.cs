@@ -41,6 +41,7 @@ namespace GlyphaeScripts
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
             SetupDragging();
+            ResetGame();
 
             _eggInstance = Instantiate(settings.Egg.gameObject, transform.parent);
             _egg = _eggInstance.GetComponent<Pet>();
@@ -52,10 +53,12 @@ namespace GlyphaeScripts
 
             _toMatch = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
             _newGlyphs.Remove(_toMatch);
+            _usedGlyphs.Add(_toMatch);
 
             // BUGS
             GlyphData wrongGlyph = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
             _newGlyphs.Remove(wrongGlyph);
+            _usedGlyphs.Add(wrongGlyph);
 
             int rng = UnityEngine.Random.Range(0, _gameInputs.Count);
             Sprite correct = rng == 0 ? _toMatch.Symbol : _toMatch.Letter;
@@ -67,12 +70,10 @@ namespace GlyphaeScripts
                 Sprite icon = correct == _toMatch.Letter ? glyphs[rng].Symbol : glyphs[rng].Letter;
                 button.Setup(glyphs[rng], icon);
 
-                if (_hasFailed)
-                {
-                    GameDrag drag = (GameDrag)button;
-                    Color[] colors = { drag.Green, drag.Red };
-                    drag.Color = colors[rng];
-                }
+
+                GameDrag drag = (GameDrag)button;
+                drag.DragColor = Mathf.Abs(rng-1);
+                drag.Mark = _hasFailed;
 
                 rng = Mathf.Abs(--rng);
             }
@@ -100,15 +101,32 @@ namespace GlyphaeScripts
 
         protected override void Fail()
         {
+            
             MessageFail(PrimaryNeed.Negative);
-            if (++_fails >= _failsToLose) ResetGame();
+            if (++_fails >= _failsToLose)
+            {
+                _hasFailed = true;
+                ResetGame();
+            }
         }
 
         private void ResetGame()
         {
             _fails = 0;
             _successes = 0;
-            _hasFailed = true;
+
+            if (_usedGlyphs == null || _usedGlyphs.Count == 0)
+            {
+                _usedGlyphs = new();
+                return;
+            }
+
+            foreach (GlyphData item in _usedGlyphs)
+            {
+                item.MemoryLevel = MemoryLevels.New;
+            }
+            
+            SetupGylphLists(_usedGlyphs);
         }
 
         private IEnumerator AnimateFade(float start, float end, float speedFactor)

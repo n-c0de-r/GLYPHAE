@@ -251,6 +251,7 @@ namespace GlyphaeScripts
 
             yield return new WaitForSeconds(1f / speedFactor);
         }
+
         private IEnumerator AnimateWake(float start, float end, float speedFactor)
         {
             yield return flashOverlay.Flash(Color.clear, start, end, speedFactor);

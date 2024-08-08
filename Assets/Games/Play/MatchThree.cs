@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ namespace GlyphaeScripts
 
         #endregion
 
+
         #region Fields
 
         private GameButton _clickedButton;
@@ -35,15 +37,20 @@ namespace GlyphaeScripts
         {
             base.OnEnable();
             GameDrag.OnDragging += ToggleGrid;
+            //GameDrag.OnDropped += Test;
+            GameDrag.OnDropped += Test1;
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
             GameDrag.OnDragging -= ToggleGrid;
+            //GameDrag.OnDropped -= Test;
+            GameDrag.OnDropped -= Test1;
         }
 
         #endregion
+
 
         #region Methods
 
@@ -82,8 +89,8 @@ namespace GlyphaeScripts
                 positions.Add(index);
                 _gameInputs[index].Setup(glyph, soundSprite);
                 _gameInputs[index].name = glyph.name;
-                Destroy(_gameInputs[index].GetComponent<GameDrag>());
-                Transform target = _gameInputs[index].transform;
+                GameDrag drag = (GameDrag)_gameInputs[index];
+                drag.DragColor = i;
 
 
                 do
@@ -94,8 +101,8 @@ namespace GlyphaeScripts
                 positions.Add(index);
                 _gameInputs[index].Setup(glyph, glyph.Symbol);
                 _gameInputs[index].name = glyph.name;
-                GameDrag drag = (GameDrag)_gameInputs[index];
-                drag.Target = target;
+                drag = (GameDrag)_gameInputs[index];
+                drag.DragColor = i;
 
 
                 do
@@ -107,8 +114,10 @@ namespace GlyphaeScripts
                 _gameInputs[index].Setup(glyph, glyph.Letter);
                 _gameInputs[index].name = glyph.name;
                 drag = (GameDrag)_gameInputs[index];
-                drag.Target = target;
+                drag.DragColor = i;
             }
+
+            SetDrags();
 
             ActivateButtons(true);
         }
@@ -118,9 +127,53 @@ namespace GlyphaeScripts
 
         #region Helpers
 
+        private void SetDrags()
+        {
+            foreach (GameDrag drag in _gameInputs.Cast<GameDrag>())
+            {
+                foreach (GameButton item in _gameInputs)
+                {
+                    if (drag.gameObject == item.gameObject) continue;
+                    drag.Target = item.transform;
+                }
+            }
+        }
+
         private void ToggleGrid(bool state)
         {
             inputContainer.GetComponent<GridLayoutGroup>().enabled = !state;
+        }
+
+        private void Test(string original, string target)
+        {
+            if (original == target) Debug.Log("hit");
+            else Debug.Log("miss");
+        }
+
+        private void Test1(GameObject original, GameObject target)
+        {
+            if (original.name == target.name)
+            {
+                GameDrag drag = original.GetComponent<GameDrag>();
+                drag.Mark = true;
+                drag.enabled = false;
+                foreach (GameDrag item in _gameInputs.Cast<GameDrag>())
+                    item.RemoveTargets(drag.transform);
+
+                drag = target.GetComponent<GameDrag>();
+                drag.Mark = true;
+                drag.enabled = false;
+                foreach (GameDrag item in _gameInputs.Cast<GameDrag>())
+                    item.RemoveTargets(drag.transform);
+
+                Debug.Log("hit");
+                //Success();
+            }
+            else
+            {
+                Debug.Log("miss");
+                //Fail();
+            }
         }
 
         //private void CheckInput(GlyphData input, GameButton button)
