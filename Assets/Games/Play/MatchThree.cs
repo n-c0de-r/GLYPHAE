@@ -44,9 +44,9 @@ namespace GlyphaeScripts
 
             foreach (GameButton button in _gameInputs) Destroy(button.gameObject);
             
-            _buttonCount = 9;
+            _buttonCount = 12;
             SetupButtons(_buttonCount);
-            _failsToLose = 3;
+            _failsToLose = 4;
 
             NextRound();
         }
@@ -54,7 +54,7 @@ namespace GlyphaeScripts
         
         public override void NextRound()
         {
-            if (_gameInputs.Count <= 1) return;
+            if (_gameInputs.Count <= 0) return;
 
             List<int> positions = new();
             List<GlyphData> temp = new(SelectGlyphs());
@@ -111,14 +111,12 @@ namespace GlyphaeScripts
             for (int i = 0; i < _buttonCount; i++)
             {
                 _gameInputs[i].GetComponent<Button>().interactable = true;
-                _gameInputs[i].transform.GetChild(0).GetComponent<Image>().enabled = false;
             }
         }
 
         private void CheckInput(GlyphData input, GameButton button)
         {
             button.GetComponent<Button>().interactable = false;
-            button.transform.GetChild(0).GetComponent<Image>().enabled = true;
 
             if (_clickedButton == null)
             {
@@ -146,7 +144,7 @@ namespace GlyphaeScripts
             }
 
 
-            if (_gameInputs.Count <= 1)
+            if (_gameInputs.Count <= 0)
             {
                 foreach (GameButton item in _gameInputs)
                     item.GetComponent<Button>().interactable = true;
@@ -160,9 +158,8 @@ namespace GlyphaeScripts
                 item.GetComponent<Button>().interactable = true;
 
             _currentButton.GetComponent<Button>().interactable = true;
-            _currentButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
             _clickedButton.GetComponent<Button>().interactable = true;
-            _clickedButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
+            //_clickedButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
             _data.WronglyGuessed();
             if (++_fails >= _failsToLose) CloseGame();
             _clickedButton = null;
