@@ -56,18 +56,23 @@ namespace GlyphaeScripts
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
 
-            SelectGlyphs();
+            List<GlyphData> temp = new(SelectGlyphs());
 
             _sprites = new();
             string type = Random.Range(0, 2) == 0 ? "letter" : "symbol";
 
             for (int i = 0; i < _buttonCount; i++)
             {
-                Sprite sprite;
-                sprite = type.Contains("letter") ? _usedGlyphs[i].Symbol : _usedGlyphs[i].Letter;
-                type = type.Contains("letter") ? _usedGlyphs[i].Symbol.name : _usedGlyphs[i].Letter.name;
+                GlyphData glyph = temp[Random.Range(0, temp.Count)];
 
-                _gameInputs[i].Setup(_usedGlyphs[i], sprite);
+                if (_toLearn != null && _toLearn == glyph) glyph = _toLearn;
+                temp.Remove(glyph);
+
+                Sprite sprite;
+                sprite = type.Contains("letter") ? glyph.Symbol : glyph.Letter;
+                type = type.Contains("letter") ? glyph.Symbol.name : glyph.Letter.name;
+
+                _gameInputs[i].Setup(glyph, sprite);
                 _sprites.Add(sprite);
             }
 

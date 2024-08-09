@@ -153,19 +153,25 @@ namespace GlyphaeScripts
 
         #region Methods
 
-        public void StartGame(Minigame original)
+        public void StartGame(Minigame picked)
         {
             int baseLevel = CalculateBaselevel();
-            if (_pet.Energy.Current < original.EnergyCost + baseLevel) return;
-            if (!original.GetType().Equals(typeof(LullabyChant)) && original.PrimaryNeed.Current > original.PrimaryNeed.SatisfiedLimit)
+            if (_pet.Energy.Current < picked.EnergyCost + baseLevel) return;
+
+            if (!picked.GetType().Equals(typeof(LullabyChant)) && picked.PrimaryNeed.Current > picked.PrimaryNeed.SatisfiedLimit)
             {
-                original.MessageSuccess();
+                picked.MessageSuccess(picked.PrimaryNeed.Positive);
                 return;
             }
 
-            GameObject instance = Instantiate(original.gameObject, objectContainer);
-            Minigame game = instance.GetComponent<Minigame>();
+            if (picked.GetType().Equals(typeof(LullabyChant)) && picked.SecondaryNeed.Current < picked.LossAmount)
+            {
+                picked.MessageFail(picked.SecondaryNeed.Negative);
+                return;
+            }
 
+            GameObject instance = Instantiate(picked.gameObject, objectContainer);
+            Minigame game = instance.GetComponent<Minigame>();
 
             leftButtons.SetActive(false);
             rightButtons.SetActive(false);
@@ -245,28 +251,13 @@ namespace GlyphaeScripts
 
             yield return new WaitForSeconds(1f / speedFactor);
         }
+
         private IEnumerator AnimateWake(float start, float end, float speedFactor)
         {
             yield return flashOverlay.Flash(Color.clear, start, end, speedFactor);
 
             yield return new WaitForSeconds(1f / speedFactor);
         }
-
-        #endregion
-
-        #region Gizmos
-
-        //private void OnDrawGizmos()
-        //{
-        //    Gizmos.color = new Color(0, 0, 1, 0.2f);
-        //    Gizmos.DrawCube(petContainer.localPosition - new Vector3(0, petContainer.anchoredPosition.y + petContainer.pivot.y, 0), petContainer.rect.size);
-        //}
-
-        //private void OnDrawGizmosSelected()
-        //{
-        //    Gizmos.color = new Color(1, 0, 0, 0.3f);
-        //    Gizmos.DrawCube(petContainer.localPosition - new Vector3(0, petContainer.anchoredPosition.y + petContainer.pivot.y, 0), petContainer.rect.size);
-        //}
 
         #endregion
     }

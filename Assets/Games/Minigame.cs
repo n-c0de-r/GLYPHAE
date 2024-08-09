@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace GlyphaeScripts
 {
@@ -24,6 +25,12 @@ namespace GlyphaeScripts
         [Tooltip("Object refereces where buttons should be set.")]
         [SerializeField] protected RectTransform inputPositions;
 
+        [Tooltip("Object refereces where buttons will spawn.")]
+        [SerializeField] protected Transform inputContainer;
+
+        [Tooltip("Object refereces where drop checks are done.")]
+        [SerializeField] protected Transform dropPoint;
+
         [Tooltip("Minimum number of rounds to play this game.")]
         [SerializeField][Range(1, 3)] protected int baseRounds = 1;
 
@@ -41,7 +48,7 @@ namespace GlyphaeScripts
         [Tooltip("The strength of need filling by the game.")]
         [SerializeField][Range(0, 10)] protected int fillAmount;
 
-        [Tooltip("Secondary need is depleted on win or loss either way.")]
+        [Tooltip("The amount the secondary need is depleted\r\non win or loss either way.")]
         [SerializeField][Range(0, 5)] protected int lossAmount;
 
         [Space]
@@ -62,12 +69,12 @@ namespace GlyphaeScripts
 
         [Tooltip("The Inputs to set up at start.")]
         protected List<GameButton> _gameInputs;
-        protected GlyphData _toMatch;
+        protected GlyphData _toMatch, _toLearn;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
         protected float _primaryValue = 0, _secondValue;
         protected int _successes, _fails, _failsToLose;
         protected int _level, _rounds, _buttonCount;
-        protected bool _isTeaching = false, _hasLearned = false;
+        protected bool _isTeaching = false;
 
         #endregion Fields
 
@@ -87,7 +94,21 @@ namespace GlyphaeScripts
         /// The base costs of Energy to play a game.
         /// </summary>
         public int EnergyCost { get => energyCost; }
+
+        /// <summary>
+        /// The type of need this game fills.
+        /// </summary>
         public NeedData PrimaryNeed { get => primaryNeed; }
+
+        /// <summary>
+        /// The type of need this game depletes.
+        /// </summary>
+        public NeedData SecondaryNeed { get => secondaryNeed; }
+
+        /// <summary>
+        /// The amount the secondary need is depleted on win or loss either way.
+        /// </summary>
+        public int LossAmount { get => lossAmount; }
 
         #endregion
 
@@ -131,7 +152,7 @@ namespace GlyphaeScripts
             _failsToLose = _rounds;
             _buttonCount = (baseLevel+1) << 1;
 
-            SetupButtons();
+            SetupButtons(_buttonCount);
         }
 
         /// <summary>
@@ -141,6 +162,7 @@ namespace GlyphaeScripts
         /// </summary>
         public virtual void CloseGame()
         {
+            SetupGylphLists(_usedGlyphs);
             ActivateButtons(false);
             _secondValue = lossAmount;
             OnGameClose?.Invoke(this);
@@ -170,10 +192,14 @@ namespace GlyphaeScripts
 
         protected virtual void CheckInput(GlyphData input)
         {
+            if (_toMatch == null) return;
+
             ActivateButtons(false);
 
             if (_toMatch == input)
             {
+                _toLearn = null;
+                _isTeaching = false;
                 _toMatch.CorrectlyGuessed();
                 Success();
             }
@@ -182,6 +208,7 @@ namespace GlyphaeScripts
                 _toMatch.WronglyGuessed();
                 Fail();
             }
+            _toMatch = null;
         }
 
         /// <summary>
@@ -215,20 +242,20 @@ namespace GlyphaeScripts
             CloseGame();
         }
 
-        public void MessageSuccess() => OnCorrectGuess?.Invoke(primaryNeed.Positive);
-        public void MessageFail() => OnWrongGuess?.Invoke(primaryNeed.Negative);
+        public void MessageSuccess(Sprite sprite) => OnCorrectGuess?.Invoke(sprite);
+        public void MessageFail(Sprite sprite) => OnWrongGuess?.Invoke(sprite);
 
         /// <summary>
         /// Instantiate the buttons needed to play the game.
         /// </summary>
-        protected void SetupButtons()
+        protected virtual void SetupButtons(int count)
         {
             _gameInputs = new();
 
-            for (int i = 0; i < _buttonCount; i++)
+            for (int i = 0; i < count; i++)
             {
-                Vector3 pos = inputPositions.GetChild(i).position;
-                GameButton button = Instantiate(gameInput, transform);
+                Vector3 pos = inputPositions.GetChild(i % inputPositions.childCount).position;
+                GameButton button = Instantiate(gameInput, inputContainer);
                 button.GetComponent<RectTransform>().position = pos;
                 _gameInputs.Add(button);
             }
@@ -239,10 +266,19 @@ namespace GlyphaeScripts
         /// </summary>
         protected void SetupDragging()
         {
+            SetupDragging(dropPoint);
+        }
+
+        /// <summary>
+        /// Overload method.
+        /// Set up the dragging buttons' target.
+        /// </summary>
+        protected void SetupDragging(Transform target)
+        {
             for (int i = 0; i < _gameInputs.Count; i++)
             {
                 GameDrag drag = (GameDrag)_gameInputs[i];
-                drag.SetTarget(inputPositions.GetChild(inputPositions.childCount - 1));
+                drag.Target = target;
             }
         }
 
@@ -252,10 +288,8 @@ namespace GlyphaeScripts
         /// <param name="state">The state to switch to: true/on, false/off.</param>
         protected void ActivateButtons(bool state)
         {
-            for (int i = 0; i < _buttonCount; i++)
-            {
+            for (int i = 0; i < _gameInputs.Count; i++)
                 _gameInputs[i].Switch = state;
-            }
         }
 
         /// <summary>
@@ -266,8 +300,9 @@ namespace GlyphaeScripts
         {
             if (glyphs == null || glyphs.Count == 0) return;
 
-            if (_allOtherGlyphs == null) _allOtherGlyphs = new();
-            if (_newGlyphs == null) _newGlyphs = new();
+            // Same as: if (_allOtherGlyphs == null) _allOtherGlyphs = new();
+            _allOtherGlyphs ??= new();
+            _newGlyphs ??= new();
 
             foreach (GlyphData glyph in glyphs)
             {
@@ -286,7 +321,7 @@ namespace GlyphaeScripts
         /// <summary>
         /// Select the glyphs for the next round.
         /// </summary>
-        protected void SelectGlyphs()
+        protected List<GlyphData> SelectGlyphs()
         {
             if (_usedGlyphs != null && _usedGlyphs.Count > 0)
                 SetupGylphLists(_usedGlyphs);
@@ -295,22 +330,22 @@ namespace GlyphaeScripts
 
             for (int i = 0; i < _buttonCount; i++)
             {
-                GlyphData temp = null;
-                if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
+                if (_isTeaching && _toLearn == null && _newGlyphs.Count > 0)
                 {
                     // On criticals prefer new glyphs, to teach
-                    temp = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
-                    _newGlyphs.Remove(temp);
-                    _hasLearned = true;
+                    _toLearn = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
+                    _newGlyphs.Remove(_toLearn);
+                    _usedGlyphs.Add(_toLearn);
                 }
                 else if (_allOtherGlyphs.Count > 0)
                 {
                     // Normally pick known ones
-                    temp = _allOtherGlyphs[UnityEngine.Random.Range(0, _allOtherGlyphs.Count)];
+                    GlyphData temp = _allOtherGlyphs[UnityEngine.Random.Range(0, _allOtherGlyphs.Count)];
                     _allOtherGlyphs.Remove(temp);
+                    _usedGlyphs.Add(temp);
                 }
-                _usedGlyphs.Add(temp);
             }
+            return _usedGlyphs;
         }
 
         #endregion

@@ -25,7 +25,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        GlyphData data;
+        private GlyphData data;
 
         #endregion
 
@@ -33,6 +33,7 @@ namespace GlyphaeScripts
         #region Events
 
         public static event Action<GlyphData> OnInput;
+        public static event Action<GlyphData, GameButton> OnMatch;
 
         #endregion
 
@@ -51,31 +52,6 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        #endregion
-
-
         #region Methods
 
         /// <summary>
@@ -85,7 +61,7 @@ namespace GlyphaeScripts
         /// <param name="display">The <see cref="Sprite"/> to display on this input.</param>
         public void Setup(GlyphData gylph, Sprite display)
         {
-            //sound.clip = gylph.Sound;
+            sound.clip = gylph.Sound;
             icon.sprite = display;
             data = gylph;
         }
@@ -96,6 +72,7 @@ namespace GlyphaeScripts
         public void Clicked()
         {
             OnInput?.Invoke(data);
+            OnMatch?.Invoke(data, this);
         }
 
         #endregion

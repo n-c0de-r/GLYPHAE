@@ -256,9 +256,11 @@ namespace GlyphaeScripts
             value *= (_downFactor + _randomOffset);
             int minutes = (int)(current / value);
             if (minutes <= 0) return;
+
             DateTime now = DateTime.Now;
             DateTime later = now.AddMinutes(minutes);
-            if (later.Hour < settings.SilenceEnd || later.Hour > settings.SilenceStart) return;
+            if (later.Hour < settings.SilenceEnd || later.Hour > settings.SilenceStart)
+                later = new DateTime(later.Year, later.Month, later.Day, settings.SilenceEnd, later.Minute, later.Second);
             notifications.SendNotification(title, description, minutes);
         }
 
