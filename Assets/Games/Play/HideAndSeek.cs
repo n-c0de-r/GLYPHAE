@@ -28,6 +28,7 @@ namespace GlyphaeScripts
 
         private List<Sprite> previousSprites;
         private Sprite previous;
+        private bool shuffledOnce;
 
         #endregion
 
@@ -59,13 +60,14 @@ namespace GlyphaeScripts
         {
             base.OnEnable();
             NeedBubble.OnFeedbackDone += NextRound;
-
+            GameBasket.OnHidden += ShuffleBaskets;
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
             NeedBubble.OnFeedbackDone -= NextRound;
+            GameBasket.OnHidden -= ShuffleBaskets;
         }
 
         #endregion
@@ -91,6 +93,7 @@ namespace GlyphaeScripts
         
         public override void NextRound()
         {
+            shuffledOnce = false;
             SelectGlyphs();
             List<GlyphData> temp = new(_usedGlyphs);
 
@@ -106,45 +109,6 @@ namespace GlyphaeScripts
 
             GameBasket basket = (GameBasket)_gameInputs[rng];
             basket.HideSprite(petSprite.transform);
-
-            /*
-            _usedGlyphs = new();
-
-            if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
-            {
-                // On criticals prefer new glyphs, to teach
-                _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
-                _newGlyphs.Remove(_toMatch);
-                _hasLearned = true;
-            }
-            else if (_allOtherGlyphs.Count > 0)
-            {
-                // Normally pick known ones
-                _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                _allOtherGlyphs.Remove(_toMatch);
-            }
-            _usedGlyphs.Add(_toMatch);
-
-            int correctPosition = Random.Range(0, _buttonCount);
-
-            for (int i = 0; i < _buttonCount; i++)
-            {
-                if (i == correctPosition)
-                {
-                    gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
-                }
-                else
-                {
-                    GlyphData wrongGlyph;
-                    wrongGlyph = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                    _allOtherGlyphs.Remove(wrongGlyph);
-                    _usedGlyphs.Add(wrongGlyph);
-                    gameInputs[i].Setup(wrongGlyph, wrongGlyph.Symbol);
-                }
-            }
-
-            DisplayRound(_toMatch.Letter);
-            */
         }
 
         #endregion
@@ -154,7 +118,25 @@ namespace GlyphaeScripts
 
         private void ShuffleBaskets()
         {
+            List<Transform> positions = new();
+            foreach (GameButton item in _gameInputs)
+            {
+                positions.Add(item.transform);
+            }
 
+            foreach (GameButton item in _gameInputs)
+            {
+                GameBasket basket = (GameBasket)item;
+                Transform target = positions[Random.Range(0, positions.Count)];
+                positions.Remove(target);
+                basket.MoveTo(target);
+            }
+
+            if (!shuffledOnce)
+            {
+                Invoke(nameof(ShuffleBaskets), 1/settings.AnimationSpeed);
+                shuffledOnce = true;
+            }
         }
 
         #endregion
