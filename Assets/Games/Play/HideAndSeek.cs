@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,28 +27,7 @@ namespace GlyphaeScripts
 
         private List<Sprite> previousSprites;
         private Sprite previous;
-        private bool shuffledOnce;
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
+        private int shuffleNumber;
 
         #endregion
 
@@ -93,7 +71,7 @@ namespace GlyphaeScripts
         
         public override void NextRound()
         {
-            shuffledOnce = false;
+            shuffleNumber = 0;
             SelectGlyphs();
             List<GlyphData> temp = new(_usedGlyphs);
 
@@ -116,9 +94,25 @@ namespace GlyphaeScripts
 
         #region Helpers
 
+        /// <summary>
+        /// Shuffles basket around to another position.
+        /// </summary>
         private void ShuffleBaskets()
         {
             List<Transform> positions = new();
+            GameObject temp = new();
+
+            Vector3 outer = _gameInputs[0].transform.position - _gameInputs[1].transform.position;
+            outer = _gameInputs[0].transform.position + outer;
+            temp.transform.position = outer;
+            positions.Add(temp.transform);
+
+            temp = new();
+            outer = _gameInputs[2].transform.position - _gameInputs[1].transform.position;
+            outer = _gameInputs[2].transform.position + outer;
+            temp.transform.position = outer;
+            positions.Add(temp.transform);
+
             foreach (GameButton item in _gameInputs)
             {
                 positions.Add(item.transform);
@@ -132,10 +126,10 @@ namespace GlyphaeScripts
                 basket.MoveTo(target);
             }
 
-            if (!shuffledOnce)
+            if (shuffleNumber < 2)
             {
-                Invoke(nameof(ShuffleBaskets), 1/settings.AnimationSpeed);
-                shuffledOnce = true;
+                Invoke(nameof(ShuffleBaskets), 2/settings.AnimationSpeed);
+                shuffleNumber++;
             }
         }
 
