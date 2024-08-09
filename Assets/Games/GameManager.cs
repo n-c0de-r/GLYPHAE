@@ -196,6 +196,7 @@ namespace GlyphaeScripts
         private void CloseMinigame(Minigame game)
         {
             if (!settings.SelectedPet.gameObject.activeInHierarchy) settings.SelectedPet.gameObject.SetActive(!(_pet.Level == Evolutions.Egg));
+            settings.SelectedPet.GetComponent<SpriteRenderer>().enabled = true;
             leftButtons.SetActive(true);
             rightButtons.SetActive(true);
             _pet.Energy.Decrease(game.EnergyCost);

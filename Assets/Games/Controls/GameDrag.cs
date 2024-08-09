@@ -13,9 +13,7 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [Tooltip("The current Settings for display values.")]
-        [SerializeField] private Settings settings;
-
+        [Header("Input specific.")]
         [Tooltip("The base duration of the move animation.")]
         [SerializeField][Range(0, 1)] float timeToMove = 0.6f;
 
@@ -133,32 +131,6 @@ namespace GlyphaeScripts
             isReturning = false;
             transform.SetSiblingIndex(_index);
             OnDragging?.Invoke(false);
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            foreach (Transform item in _targets)
-            {
-                if (Vector2.Distance(transform.localPosition, item.localPosition) <= _checkDistance)
-                {
-                    Gizmos.color = Color.green;
-                }
-                else
-                {
-                    Gizmos.color = Color.red;
-                }
-                    Gizmos.DrawLine(transform.localPosition, item.localPosition);
-            }
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-
         }
 
         #endregion

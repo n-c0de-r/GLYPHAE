@@ -17,6 +17,9 @@ namespace GlyphaeScripts
         [Tooltip("The sprite for listening to buttons.")]
         [SerializeField] private Sprite soundSprite;
 
+        [Tooltip("The grid holding the buttons to match.")]
+        [SerializeField] private GridLayoutGroup grid;
+
         #endregion
 
 
@@ -150,7 +153,7 @@ namespace GlyphaeScripts
 
         private void ToggleGrid(bool state)
         {
-            inputContainer.GetComponent<GridLayoutGroup>().enabled = !state;
+            grid.enabled = !state;
         }
 
         /// <summary>
@@ -212,7 +215,7 @@ namespace GlyphaeScripts
                 _secondColor = target.SelectedColor;
                 original.GetComponent<Image>().color = Color.red;
                 target.GetComponent<Image>().color = Color.red;
-                Invoke(nameof(Reset), 1f);
+                Invoke(nameof(Reset), 1f/settings.AnimationSpeed);
             }
         }
 

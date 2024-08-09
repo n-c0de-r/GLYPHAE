@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a220907e47fcff74a8c4b679f722e298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   sound: {fileID: 6097012175085379513}
   button: {fileID: 1327371733362430170}
   back: {fileID: 4069314394882800283}

@@ -2170,7 +2170,7 @@ PrefabInstance:
     - target: {fileID: 8179377987939423622, guid: adc4edb731186f3479ecfb2b0332bae8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 389471677704256631, guid: 329f8ac674665704a85228c19b60764f, type: 3}
+      objectReference: {fileID: 6894285709733270685, guid: 74f620ed37838234380bba7a826bb9c9, type: 3}
     - target: {fileID: 8179377987939423622, guid: adc4edb731186f3479ecfb2b0332bae8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: GlyphaeScripts.Minigame, Assembly-CSharp

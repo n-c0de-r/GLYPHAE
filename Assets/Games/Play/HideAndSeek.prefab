@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8293598073653647608}
   - component: {fileID: 8663201289779293235}
   m_Layer: 5
-  m_Name: SpriteContainer
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,14 +27,14 @@ RectTransform:
   m_GameObject: {fileID: 8138994591009215026}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4452560480378387485}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -50}
+  m_AnchoredPosition: {x: 0, y: -10}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8293598073653647608
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 922343693, guid: cd901a4c29e37f941a52bf001645d23f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -110,6 +110,14 @@ PrefabInstance:
     - target: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 728019509247714355, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 728019509247714355, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 1849452249708600496, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -231,6 +239,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: HideAndSeek
       objectReference: {fileID: 0}
+    - target: {fileID: 5888961232407821515, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -400
+      objectReference: {fileID: 0}
+    - target: {fileID: 5888961232407821515, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -300
+      objectReference: {fileID: 0}
     - target: {fileID: 5919741906222116516, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -351,6 +367,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8794124571084113495, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 8794124571084113495, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -300
+      objectReference: {fileID: 0}
     - target: {fileID: 8867534711324231525, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -408,7 +432,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6596055250300101573, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+    - {fileID: 872572440240128792, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+    - {fileID: 8267204214361886173, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       insertIndex: -1
@@ -417,12 +444,46 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5432827782634591610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
       insertIndex: 1
       addedObject: {fileID: 6894285709733270685}
+    - targetCorrespondingSourceObject: {fileID: 3185850495110462447, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7328506741508460686}
   m_SourcePrefab: {fileID: 100100000, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
 --- !u!224 &1221595516371776295 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2597565523961024438, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
   m_PrefabInstance: {fileID: 3818932305405361297}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1786232058419119998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3185850495110462447, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+  m_PrefabInstance: {fileID: 3818932305405361297}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7328506741508460686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786232058419119998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 200
+    m_Right: 200
+    m_Top: 0
+    m_Bottom: 200
+  m_ChildAlignment: 7
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!224 &4452560480378387485 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
@@ -467,7 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
-  gameInput: {fileID: 4184225798070569153, guid: f68798b580cdedf4f8db656fc502a611, type: 3}
+  gameInput: {fileID: 4897172688366737309, guid: 247cfebc2bf23f24b8472048b1bb386b, type: 3}
   inputPositions: {fileID: 1221595516371776295}
   inputContainer: {fileID: 8013556117841276515}
   dropPoint: {fileID: 5072922807922102377}
@@ -485,5 +546,5 @@ MonoBehaviour:
     symbols.\n\r\nThe mixture and amount of marks increases with the level, as do
     the hiding containers. Like all games, it costs additional energy, as playing
     is tiring. Keep in mind: exhaustion can make you sick!\r"
-  container: {fileID: 0}
-  startPoition: {fileID: 0}
+  petSprite: {fileID: 8663201289779293235}
+  grid: {fileID: 7328506741508460686}

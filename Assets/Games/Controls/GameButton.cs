@@ -8,6 +8,9 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [Tooltip("The current Settings for display values.")]
+        [SerializeField] protected Settings settings;
+
         [Header("UI Values")]
         [Tooltip("The sound this plays when clicked.")]
         [SerializeField] protected AudioSource sound;

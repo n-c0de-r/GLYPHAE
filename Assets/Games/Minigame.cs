@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace GlyphaeScripts
 {
