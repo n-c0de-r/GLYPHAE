@@ -550,17 +550,17 @@ MonoBehaviour:
     After you selected
     them, pick a second one.
 
-
     If they match, perfect. You found a matching pair.
 
     That
-    turn is done. Rey to find more pairs.
+    turn is done. Try to find more pairs after that.
 
 
-    One tile has no matching pair!
 
-    Your
-    goal is to isolate that one, by finding all valid pairs.'
+    One tile has no matching
+    pair!
+
+    Your goal is to isolate that one, by finding all other valid pairs.'
 --- !u!224 &1163573520976522563 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6614183005384954610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}

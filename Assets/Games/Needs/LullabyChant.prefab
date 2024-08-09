@@ -514,9 +514,9 @@ MonoBehaviour:
     magical hieroglyphs in the correct order should help.
   gameInstructions: "You will be presented one round with a few hieroglyphs, increasing
     with the creature level, on the screen and they will react in a specific sequence.
-    Repeat it correctly to win.\r\n\r\nSleeping pet's needs fill up or deplete differently
-    than normal.\r\nThey won't trigger calls needed to evolve, too. Be careful.\r\nSleeping
-    restores energy, but going to bed is a buzzkill and reduces joy.\r"
+    Repeat it correctly to win.\r\n\r\nSleeping depletes needs slower than normal.\r\nThey
+    won't trigger calls to evolve & learn either. Be careful.\r\nSleeping restores
+    energy, but reduces joy a little.\r\r"
   container: {fileID: 7408270817505839210}
   template: {fileID: 6639314528526266745, guid: b9b21a12cd41bec478fd2baa859de323, type: 3}
 --- !u!224 &1294460159257626535 stripped

@@ -448,11 +448,11 @@ MonoBehaviour:
   helpContainer: {fileID: 2003674638442865547}
   gameDescription: Health and cleanliness is vital, literally. Cast a complicated
     magic spell to wipe away all dirt and sickness off your pet.
-  gameInstructions: "You will be presented a list of mixed literals: transliteration
+  gameInstructions: "You will be presented a list of mixed symbols: transliteration
     letters and hieroglyphs to match. Press the corresponding buttons in the shown
     order to execute the spell.\r\nThe number of glyphs and mixture increases with
     the level.\r\n\r\nAs this is medicine after all, and some pets don't like water
-    either, this is not desired and reduces joy a bit, too.\r"
+    either, this is not desired and reduces joy a bit, too.\r\r"
   container: {fileID: 7408270817505839210}
   template: {fileID: 6639314528526266745, guid: b9b21a12cd41bec478fd2baa859de323, type: 3}
 --- !u!224 &1294460159257626535 stripped

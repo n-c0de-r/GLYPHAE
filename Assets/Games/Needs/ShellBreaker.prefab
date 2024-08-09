@@ -630,5 +630,5 @@ MonoBehaviour:
     Guess them 3x right to win, and 6x wrong to lose.
 
     If
-    you fail this game, you will be provided help, only here and only once!'
+    you fail this game, you will be provided help. Only here!'
   flashOverlay: {fileID: 4472988653900005729}

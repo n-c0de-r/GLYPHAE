@@ -477,8 +477,18 @@ MonoBehaviour:
   fillAmount: 7
   lossAmount: 2
   helpContainer: {fileID: 777706456401501799}
-  gameDescription: 
-  gameInstructions: 
+  gameDescription: Adults like casual but complex games. Where they can use all senses.
+    In this game you need to listen carefully, too!
+  gameInstructions: 'You will be presented with many icons on 4x3 grid. You can drag
+    & drop them onto each other to "match" them.
+
+
+    Find all the matching triplets:
+    the hieroglyph, its transcription literal and its spoken sound.
+
+
+    Drag and
+    drop a circle on a matching one you think it belongs to.'
   soundSprite: {fileID: -1922472273, guid: 6fc8fa6c8ee13e645a8dff8efb358473, type: 3}
 --- !u!1 &8578920209624519510 stripped
 GameObject:
