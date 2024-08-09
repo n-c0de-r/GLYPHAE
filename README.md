@@ -111,8 +111,11 @@ TODO
 
 This project is dual-licensed under the GNU General Public License v3.0 for the software and the Creative Commons Attribution-ShareAlike (CC BY-SA) license for some derivatives for the created or edited assets based on originals from Openmoji or Wikipedia. 
 
-GNU General Public License v3.0: See the [LICENSE-GPL3](LICENSE-GPL3) file for details.
-CC BY-SA License: See the [LICENSE-CC-BY-SA](LICENSE-CC-BY-SA) file for details.
+- Software Code: Licensed under the GNU General Public License v3.0 (GPLv3). See [LICENSE-GPLv3](LICENSE-GPLv3) file for details.
+- Assets: Licensed under the Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0). See [LICENSE-CC-BY-SA](LICENSE-CC-BY-SA) file for details.
+
+GNU General Public License v3.0: See the  file for details.
+CC BY-SA License: See the  file for details.
 
 ## :e-mail: Contact
 
