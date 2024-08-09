@@ -116,4 +116,4 @@ CC BY-SA License: See the [LICENSE-CC-BY-SA](LICENSE-CC-BY-SA) file for details.
 
 ## :e-mail: Contact
 
-Feel free to open an issue or contact me at [mailto:n-c0de-r_contact@e.mail.de]n-c0de-r_contact@e.mail.de.
+Feel free to open an issue or contact me at n-c0de-r_contact@e.mail.de.
