@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -15,10 +15,14 @@ public class MazeGenerator : MonoBehaviour
     #region Serialized Fields
 
     [SerializeField]
-    private Tilemap wallMap;
+    private GridLayoutGroup gridMap;
 
     [SerializeField]
-    private Tile[] wallTiles;
+    private GameObject tileTemplate;
+
+
+    [SerializeField]
+    private Sprite[] gridTiles;
 
     #endregion
 
@@ -78,7 +82,7 @@ public class MazeGenerator : MonoBehaviour
     public void PaintMap(int[,] mazeData, int mazeWidth, int mazeHeight)
     {
         // Visualize the data as numbers. Uncomment if needed
-        /*Debug.Log("Maze generated");
+        Debug.Log("Maze generated");
         String s = "";
         for (int y = 0; y < mazeHeight; y++)
         {
@@ -95,32 +99,26 @@ public class MazeGenerator : MonoBehaviour
             }
             s += "\n";
         }
-        Debug.Log(s);*/
+        Debug.Log(s);
 
-        wallMap.ClearAllTiles();
+        //Clear map
+        //for (int i = 0; i < gridMap.transform.childCount; i++)
+        //{
+        //    Destroy(gridMap.transform.GetChild(i).gameObject);
+        //}
 
-        Vector3Int pos = new(0, 0, 0);
+        //Vector3Int pos = new(0, 0, 0);
 
-        for (int y = 0; y < mazeHeight; y++)
-        {
-            for (int x = 0; x < mazeWidth; x++)
-            {
-                pos.x = x - mazeWidth / 2;
-                pos.y = y - mazeHeight / 2;
+        //for (int y = 0; y < mazeHeight; y++)
+        //{
+        //    for (int x = 0; x < mazeWidth; x++)
+        //    {
+        //        pos.x = x - mazeWidth / 2;
+        //        pos.y = y - mazeHeight / 2;
 
-                wallMap.SetTile(pos, wallTiles[mazeData[x, mazeHeight - y - 1]]);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Returns the maps bound size.
-    /// </summary>
-    /// <returns>The number of set tiles.</returns>
-    public Bounds GetBounds()
-    {
-        wallMap.CompressBounds();
-        return wallMap.localBounds;
+        //        //gridMap.SetTile(pos, gridTiles[mazeData[x, mazeHeight - y - 1]]);
+        //    }
+        //}
     }
 
     #endregion
