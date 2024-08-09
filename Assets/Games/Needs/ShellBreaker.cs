@@ -41,6 +41,7 @@ namespace GlyphaeScripts
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
             SetupDragging();
+            ResetGame();
 
             _eggInstance = Instantiate(settings.Egg.gameObject, transform.parent);
             _egg = _eggInstance.GetComponent<Pet>();
@@ -52,31 +53,29 @@ namespace GlyphaeScripts
 
             _toMatch = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
             _newGlyphs.Remove(_toMatch);
+            _usedGlyphs.Add(_toMatch);
 
             // BUGS
             GlyphData wrongGlyph = _newGlyphs[UnityEngine.Random.Range(0, _newGlyphs.Count)];
             _newGlyphs.Remove(wrongGlyph);
-
-            Sprite correct = UnityEngine.Random.Range(0, 2) == 0 ? _toMatch.Symbol : _toMatch.Letter;
+            _usedGlyphs.Add(wrongGlyph);
 
             int rng = UnityEngine.Random.Range(0, _gameInputs.Count);
+            Sprite correct = rng == 0 ? _toMatch.Symbol : _toMatch.Letter;
 
             GlyphData[] glyphs = { _toMatch, wrongGlyph };
-            Color[] colors = { Color.green, Color.red };
 
             foreach (GameButton button in _gameInputs)
             {
                 Sprite icon = correct == _toMatch.Letter ? glyphs[rng].Symbol : glyphs[rng].Letter;
                 button.Setup(glyphs[rng], icon);
 
-                if (_hasFailed)
-                {
-                    GameDrag drag = (GameDrag)button;
-                    drag.SetSColor(colors[rng]);
-                }
 
-                rng--;
-                rng = Mathf.Abs(rng);
+                GameDrag drag = (GameDrag)button;
+                drag.DragColor = Mathf.Abs(rng-1);
+                drag.Mark = _hasFailed;
+
+                rng = Mathf.Abs(--rng);
             }
 
             DisplayRound(correct);
@@ -95,22 +94,39 @@ namespace GlyphaeScripts
         protected override void Success()
         {
             _egg.ChangeSprite(++_successes);
-            MessageSuccess();
+            MessageSuccess(PrimaryNeed.Positive);
             if (_successes >= baseRounds) Win();
         }
 
 
         protected override void Fail()
         {
-            MessageFail();
-            if (++_fails >= _failsToLose) ResetGame();
+            
+            MessageFail(PrimaryNeed.Negative);
+            if (++_fails >= _failsToLose)
+            {
+                _hasFailed = true;
+                ResetGame();
+            }
         }
 
         private void ResetGame()
         {
             _fails = 0;
             _successes = 0;
-            _hasFailed = true;
+
+            if (_usedGlyphs == null || _usedGlyphs.Count == 0)
+            {
+                _usedGlyphs = new();
+                return;
+            }
+
+            foreach (GlyphData item in _usedGlyphs)
+            {
+                item.MemoryLevel = MemoryLevels.New;
+            }
+            
+            SetupGylphLists(_usedGlyphs);
         }
 
         private IEnumerator AnimateFade(float start, float end, float speedFactor)

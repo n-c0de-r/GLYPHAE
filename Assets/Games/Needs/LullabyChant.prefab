@@ -501,22 +501,29 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   gameInput: {fileID: 4923705575458611519, guid: bdc7df66d6f3273458a17ec211ff0c83, type: 3}
   inputPositions: {fileID: 7940124158760360675}
+  inputContainer: {fileID: 1294460159257626535}
+  dropPoint: {fileID: 4081846854210861485}
   baseRounds: 3
   energyCost: 0
   primaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
   secondaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   fillAmount: 0
-  lossAmount: 1
+  lossAmount: 2
   helpContainer: {fileID: 2003674638442865547}
   gameDescription: Singing lullabies helps to induce sleep, so reading out a few
     magical hieroglyphs in the correct order should help.
   gameInstructions: "You will be presented one round with a few hieroglyphs, increasing
     with the creature level, on the screen and they will react in a specific sequence.
-    Repeat it correctly to win.\r\n\r\nSleeping pet's needs fill up or deplete differently
-    than normal.\r\nThey won't trigger calls needed to evolve, too. Be careful.\r\nSleeping
-    restores energy, but going to bed is a buzzkill and reduces joy.\r"
+    Repeat it correctly to win.\r\n\r\nSleeping depletes needs slower than normal.\r\nThey
+    won't trigger calls to evolve & learn either. Be careful.\r\nSleeping restores
+    energy, but reduces joy a little.\r\r"
   container: {fileID: 7408270817505839210}
   template: {fileID: 6639314528526266745, guid: b9b21a12cd41bec478fd2baa859de323, type: 3}
+--- !u!224 &1294460159257626535 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6614183005384954610, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+  m_PrefabInstance: {fileID: 5349314071824373077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2003674638442865547 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5905045642753849054, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
@@ -528,6 +535,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3496a183f6b3224699f963a21e84f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &4081846854210861485 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8257691693904538872, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
+  m_PrefabInstance: {fileID: 5349314071824373077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4830579362782860761 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 663505343486509196, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}

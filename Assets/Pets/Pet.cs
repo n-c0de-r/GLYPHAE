@@ -616,7 +616,7 @@ namespace GlyphaeScripts
             Hunger.SetupFactors(1, 1);
             Health.SetupFactors(1, 1);
             Joy.SetupFactors(1, 1);
-            Energy.SetupFactors(1, 1);
+            Energy.SetupFactors(Enum.GetNames(typeof(Evolutions)).Length * 2, 1);
 
             _sicknessChanceFactor = 1;
 

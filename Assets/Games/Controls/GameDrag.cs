@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -21,9 +23,14 @@ namespace GlyphaeScripts
 
 
         #region Fields
-        
-        [SerializeField] private Transform target;
+
+        private Color32[] _colors = {
+            new(224, 64, 80, 255), new(64, 224, 80, 255), new(64, 80, 224, 255), new(224, 224, 80, 255), new(192, 64, 224, 255)
+        };
+        private HashSet<Transform> _targets = new();
         private Vector3 _startPosition;
+        private int _index = 0, _checkDistance = 110;
+        private Color _selectedColor;
         private bool isReturning = false;
 
         #endregion
@@ -31,59 +38,53 @@ namespace GlyphaeScripts
 
         #region Events
 
-
+        public static event Action<bool> OnDragging;
+        public static event Action<GameDrag, GameDrag> OnDropped;
 
         #endregion
 
 
         #region GetSets / Properties
 
+        public Transform Target { set => _targets.Add(value); }
+        public HashSet<Transform> Targets { get => _targets; }
+        
+        public Color32[] Colors { get => _colors; set => _colors = value; }
 
+        public int DragColor { set => _selectedColor = _colors[value]; }
 
-        #endregion
+        public Color SelectedColor { get => _selectedColor; }
 
+        public bool Mark { set { if (value) back.color = _selectedColor; } }
 
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-
-        }
-
-        void Start()
-        {
-
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
+        public int CheckDistance { set => _checkDistance = value; }
 
         #endregion
 
 
         #region Methods
 
-        public void SetTarget(Transform incoming)
+        public void RemoveTargets(Transform target)
         {
-            target = incoming;
-        }
+            foreach (Transform item in _targets)
+            {
+                if (item == target) continue;
 
-        public void SetSColor(Color color)
-        {
-            back.color = color;
+                if( target == item)
+                {
+                    _targets.Remove(item);
+                    return;
+                }
+            }
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (isReturning || !button.interactable) return;
+            OnDragging?.Invoke(true);
             _startPosition = transform.position;
+            _index = transform.GetSiblingIndex();
+            transform.SetAsLastSibling();
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -94,9 +95,13 @@ namespace GlyphaeScripts
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (Vector2.Distance(transform.localPosition, target.localPosition) <= 110)
+            foreach (Transform item in _targets)
             {
-                Clicked();
+                if (Vector2.Distance(transform.localPosition, item.localPosition) <= _checkDistance)
+                {
+                    Clicked();
+                    OnDropped?.Invoke(this, item.GetComponent<GameDrag>());
+                }
             }
             StartCoroutine(ReturnToStartPosition());
         }
@@ -124,9 +129,36 @@ namespace GlyphaeScripts
                 transform.position = Vector3.Lerp(currentPosition, _startPosition, timeTotal / timeToMove);
                 yield return null;
             }
-
             transform.position = _startPosition;
             isReturning = false;
+            transform.SetSiblingIndex(_index);
+            OnDragging?.Invoke(false);
+        }
+
+        #endregion
+
+
+        #region Gizmos
+
+        private void OnDrawGizmos()
+        {
+            foreach (Transform item in _targets)
+            {
+                if (Vector2.Distance(transform.localPosition, item.localPosition) <= _checkDistance)
+                {
+                    Gizmos.color = Color.green;
+                }
+                else
+                {
+                    Gizmos.color = Color.red;
+                }
+                    Gizmos.DrawLine(transform.localPosition, item.localPosition);
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+
         }
 
         #endregion
