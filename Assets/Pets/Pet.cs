@@ -45,7 +45,7 @@ namespace GlyphaeScripts
         [SerializeField] private string category;
 
         [Tooltip("A short description of this Pet.")]
-        [SerializeField][TextArea(3, 10)] protected string description;
+        [SerializeField][TextArea(3, 10)] private string description;
 
         [Tooltip("The Pet's icon for the menu.")]
         [SerializeField] private Sprite symbol;

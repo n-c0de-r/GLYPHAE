@@ -34,7 +34,7 @@ namespace GlyphaeScripts
         [SerializeField][Range(1, 3)] protected int baseRounds = 1;
 
         [Tooltip("The base costs of Energy to play a game.")]
-        [SerializeField][Range(0, 10)] private int energyCost;
+        [SerializeField][Range(0, 10)] protected int energyCost;
 
         [Space]
         [Header("Need Values")]

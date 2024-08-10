@@ -35,6 +35,9 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Feedback Icons")]
+        [Tooltip("The icon of the need.")]
+        [SerializeField] private Sprite icon;
+
         [Tooltip("The icon of the critical call.")]
         [SerializeField] private Sprite alarm;
 
@@ -51,7 +54,7 @@ namespace GlyphaeScripts
         [Tooltip("The title text to show for the notification.")]
         [SerializeField] private string title;
         [Tooltip("The Notification text message.")]
-        [SerializeField][TextArea(1, 3)] protected string description;
+        [SerializeField][TextArea(1, 3)] private string description;
 
         #endregion
 
@@ -83,9 +86,14 @@ namespace GlyphaeScripts
         /// </summary>
         public float SatisfiedLimit { get => satisfiedLimit; }
 
-
         public bool IsSatisfied { get => isSatisfied; set => isSatisfied = value; }
+
         public bool IsCritical { get => isCritical; set => isCritical = value; }
+
+        /// <summary>
+        /// The icon of the need.
+        /// </summary>
+        public Sprite Icon { get => icon; }
 
         /// <summary>
         /// The icon of the critical call.

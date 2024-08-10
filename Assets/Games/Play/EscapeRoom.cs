@@ -69,21 +69,21 @@ namespace GlyphaeScripts
         
         public override void NextRound()
         {
-            shuffleNumber = 0;
-            SelectGlyphs();
-            List<GlyphData> temp = new(_usedGlyphs);
+            //shuffleNumber = 0;
+            //SelectGlyphs();
+            //List<GlyphData> temp = new(_usedGlyphs);
 
-            int rng = Random.Range(0, _usedGlyphs.Count);
+            //int rng = Random.Range(0, _usedGlyphs.Count);
 
-            foreach (GameButton item in _gameInputs)
-            {
-                GlyphData glyph = temp[Random.Range(0, temp.Count)];
-                item.Setup(glyph, glyph.Symbol);
-                _toMatch = item.transform.GetSiblingIndex() == rng ? glyph : _toMatch;
-                temp.Remove(glyph);
-            }
+            //foreach (GameButton item in _gameInputs)
+            //{
+            //    GlyphData glyph = temp[Random.Range(0, temp.Count)];
+            //    item.Setup(glyph, glyph.Symbol);
+            //    _toMatch = item.transform.GetSiblingIndex() == rng ? glyph : _toMatch;
+            //    temp.Remove(glyph);
+            //}
 
-            GameBasket basket = (GameBasket)_gameInputs[rng];
+            //GameBasket basket = (GameBasket)_gameInputs[rng];
             //basket.HideSprite(petSprite.transform);
         }
 

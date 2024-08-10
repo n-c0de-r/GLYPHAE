@@ -19,6 +19,7 @@ MonoBehaviour:
   isCritical: 0
   satisfiedLimit: 80
   isSatisfied: 1
+  icon: {fileID: 849349905, guid: 25e8c2e1752d6164782cae62a53bcb3c, type: 3}
   alarm: {fileID: 2041615289, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: -1228989046, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   negative: {fileID: -1338028822, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
