@@ -11,16 +11,18 @@ namespace GlyphaeScripts
         [Tooltip("The current Settings for display values.")]
         [SerializeField] private Settings settings;
 
-        [Header("Base values")]
-        [Header("Other objects")]
-        [Tooltip("GUI buttons panel .")]
-        [SerializeField] private GameObject buttonsPanel;
+        [Header("Objects")]
+        [Tooltip("The main buttons panel.")]
+        [SerializeField] private GameObject mainPanel;
 
-        [Tooltip("Used for evolution and sleep.")]
-        [SerializeField] private FlashOverlay flashOverlay;
+        [Tooltip("The action buttons panel.")]
+        [SerializeField] private GameObject actionPanel;
 
         [Tooltip("Button to wake the pet.")]
         [SerializeField] private GameObject wakeButton;
+
+        [Tooltip("Used for evolution and sleep.")]
+        [SerializeField] private FlashOverlay flashOverlay;
 
         [Tooltip("Hidden button to activate debug mode.")]
         [SerializeField] private GameObject debugActivator;
@@ -98,7 +100,8 @@ namespace GlyphaeScripts
         public void WakeUp()
         {
             StartCoroutine(AnimateWake(1, 0, settings.AnimationSpeed));
-            buttonsPanel.SetActive(true);
+            actionPanel.SetActive(false);
+            mainPanel.SetActive(true);
             wakeButton.SetActive(false);
             settings.SelectedPet.WakeUp();
         }
@@ -110,7 +113,8 @@ namespace GlyphaeScripts
 
         private void ToggleButtons(bool state)
         {
-            buttonsPanel.SetActive(state);
+            actionPanel.SetActive(state);
+            mainPanel.SetActive(state);
         }
 
         private void Flash()
@@ -121,7 +125,8 @@ namespace GlyphaeScripts
         private void Sleep()
         {
             StartCoroutine(AnimateSleep(0, 1, settings.AnimationSpeed));
-            buttonsPanel.SetActive(false);
+            actionPanel.SetActive(false);
+            mainPanel.SetActive(true);
             wakeButton.SetActive(true);
         }
 

@@ -88,6 +88,11 @@ namespace GlyphaeScripts
         /// <summary>
         /// The current Hunger <see cref="NeedData"/> container.
         /// </summary>
+        public NeedData[] Needs { get => needs; }
+
+        /// <summary>
+        /// The current Hunger <see cref="NeedData"/> container.
+        /// </summary>
         public NeedData Hunger { get => needs[0]; }
 
         /// <summary>
