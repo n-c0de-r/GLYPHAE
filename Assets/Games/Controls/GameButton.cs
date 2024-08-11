@@ -28,7 +28,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private GlyphData data;
+        protected GlyphData data;
 
         #endregion
 

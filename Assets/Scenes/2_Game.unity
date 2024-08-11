@@ -1444,6 +1444,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2902467976724253553, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2902467976724253553, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2902467976724253553, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2548,6 +2556,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8749451638414256853, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8749451638414256853, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8749451638414256853, guid: 476c6c0c6c002444a98116b8a9edcd61, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -3043,5 +3059,5 @@ SceneRoots:
   - {fileID: 1855124864}
   - {fileID: 619394802}
   - {fileID: 2611573992484759207}
-  - {fileID: 1827342089}
   - {fileID: 1897634777}
+  - {fileID: 1827342089}

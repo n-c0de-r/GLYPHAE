@@ -63,7 +63,7 @@ namespace GlyphaeScripts
             ShellBreaker.OnEggBreak += () =>
             {
                 _pet.IncreaseLevel();
-                settings.SelectedPet.gameObject.SetActive(_pet.Level != Evolutions.Egg);
+                _pet.gameObject.SetActive(_pet.Level != Evolutions.Egg);
                 settings.FirstRun = false;
             };
         }
@@ -104,21 +104,21 @@ namespace GlyphaeScripts
         public void StartGame(Minigame picked)
         {
             int baseLevel = CalculateBaselevel();
-            if (_pet.Energy.Current < picked.EnergyCost + baseLevel) return;
 
-            if (!picked.GetType().Equals(typeof(LullabyChant)) && picked.PrimaryNeed.Current > picked.PrimaryNeed.SatisfiedLimit)
+            if (picked.PrimaryNeed.Current > picked.PrimaryNeed.SatisfiedLimit)
             {
                 picked.MessageSuccess(picked.PrimaryNeed.Positive);
                 return;
             }
 
-            if (picked.GetType().Equals(typeof(LullabyChant)) && picked.SecondaryNeed.Current < picked.LossAmount)
+            if (!picked.GetType().Equals(typeof(LullabyChant)) && (picked.SecondaryNeed.Current < picked.LossAmount || _pet.Energy.Current < _pet.Energy.Critical))
             {
-                picked.MessageFail(picked.SecondaryNeed.Negative);
+                picked.MessageFail(picked.SecondaryNeed.Alarm);
                 return;
             }
 
             GameObject instance = Instantiate(picked.gameObject, transform);
+            instance.transform.SetAsFirstSibling();
             Minigame game = instance.GetComponent<Minigame>();
 
             OnGameFinished?.Invoke(false);
@@ -134,12 +134,12 @@ namespace GlyphaeScripts
 
         private void CloseMinigame(Minigame game)
         {
-            if (!settings.SelectedPet.gameObject.activeInHierarchy) settings.SelectedPet.gameObject.SetActive(!(_pet.Level == Evolutions.Egg));
-            settings.SelectedPet.GetComponent<SpriteRenderer>().enabled = true;
+            if (!_pet.gameObject.activeInHierarchy) _pet.gameObject.SetActive(!(_pet.Level == Evolutions.Egg));
             OnGameFinished?.Invoke(true);
             _pet.Energy.Decrease(game.EnergyCost);
             game.UpdateValues();
             Destroy(game.gameObject);
+            _pet.GetComponent<SpriteRenderer>().enabled = true;
         }
 
         private int CalculateBaselevel()

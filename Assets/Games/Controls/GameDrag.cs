@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
@@ -79,6 +80,7 @@ namespace GlyphaeScripts
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (isReturning || !button.interactable) return;
+            transform.parent.gameObject.GetComponent<LayoutGroup>().enabled = false;
             OnDragging?.Invoke(true);
             _startPosition = transform.position;
             _index = transform.GetSiblingIndex();
@@ -131,6 +133,7 @@ namespace GlyphaeScripts
             isReturning = false;
             transform.SetSiblingIndex(_index);
             OnDragging?.Invoke(false);
+            transform.parent.gameObject.GetComponent<LayoutGroup>().enabled = true;
         }
 
         #endregion

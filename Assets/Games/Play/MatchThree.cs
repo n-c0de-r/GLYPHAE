@@ -39,14 +39,12 @@ namespace GlyphaeScripts
         private new void OnEnable()
         {
             base.OnEnable();
-            GameDrag.OnDragging += ToggleGrid;
             GameDrag.OnDropped += CheckDrop;
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
-            GameDrag.OnDragging -= ToggleGrid;
             GameDrag.OnDropped -= CheckDrop;
         }
 
@@ -58,10 +56,11 @@ namespace GlyphaeScripts
         public override void SetupGame(bool isTeaching, List<GlyphData> glyphs, int baseLevel)
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
+            settings.SelectedPet.GetComponent<SpriteRenderer>().enabled = false;
 
             foreach (GameButton button in _gameInputs) Destroy(button.gameObject);
 
-            _buttonCount = NR_OF_TRIPPLETS * _rounds * 3;
+            _buttonCount = NR_OF_TRIPPLETS * 3;
             _failsToLose = 2;
 
             SetupButtons(_buttonCount);
@@ -151,11 +150,6 @@ namespace GlyphaeScripts
             }
         }
 
-        private void ToggleGrid(bool state)
-        {
-            grid.enabled = !state;
-        }
-
         /// <summary>
         /// Checks the currently dropped button against the one dropped at.
         /// </summary>
@@ -166,12 +160,14 @@ namespace GlyphaeScripts
             if (original.name == target.name)
             {
                 original.Mark = true;
-                original.GetComponent<Button>().interactable = false;
+                original.GetComponent<Button>().enabled = false;
+                original.enabled = false;
                 foreach (GameDrag item in _gameInputs.Cast<GameDrag>())
                     item.RemoveTargets(original.transform);
 
                 target.Mark = true;
-                target.GetComponent<Button>().interactable = false;
+                target.GetComponent<Button>().enabled = false;
+                target.enabled = false;
                 foreach (GameDrag item in _gameInputs.Cast<GameDrag>())
                     item.RemoveTargets(target.transform);
 
@@ -222,8 +218,8 @@ namespace GlyphaeScripts
         private void Reset()
         {
             if (++_fails >= _failsToLose) CloseGame();
-            _first.GetComponent<Image>().color = _first.GetComponent<Button>().IsInteractable() ? Color.white : _firstColor;
-            _second.GetComponent<Image>().color = _second.GetComponent<Button>().IsInteractable() ? Color.white : _secondColor;
+            _first.GetComponent<Image>().color = _first.GetComponent<Button>().enabled ? Color.white : _firstColor;
+            _second.GetComponent<Image>().color = _second.GetComponent<Button>().enabled ? Color.white : _secondColor;
             foreach (var item in _gameInputs)
             {
                 if (item.TryGetComponent(out GameDrag drag))

@@ -532,7 +532,7 @@ MonoBehaviour:
   inputPositions: {fileID: 1221595516371776295}
   inputContainer: {fileID: 8013556117841276515}
   dropPoint: {fileID: 5072922807922102377}
-  baseRounds: 1
+  baseRounds: 2
   energyCost: 5
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   secondaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}

@@ -14,6 +14,7 @@ namespace GlyphaeScripts
         private GameButton _clickedButton;
         private GameButton _currentButton;
         private GlyphData _data;
+        private int _pairsFound = 0;
 
         #endregion
 
@@ -24,14 +25,12 @@ namespace GlyphaeScripts
         {
             base.OnEnable();
             GameButton.OnMatch += CheckInput;
-
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
             GameButton.OnMatch -= CheckInput;
-
         }
 
         #endregion
@@ -41,20 +40,20 @@ namespace GlyphaeScripts
         public override void SetupGame(bool isTeaching, List<GlyphData> glyphs, int baseLevel)
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
+            settings.SelectedPet.GetComponent<SpriteRenderer>().enabled = false;
 
             foreach (GameButton button in _gameInputs) Destroy(button.gameObject);
-            
             _buttonCount = 9;
             SetupButtons(_buttonCount);
-            _failsToLose = 3;
-
-            NextRound();
+            _failsToLose = _buttonCount / 2;
         }
 
-        
+
         public override void NextRound()
         {
-            if (_gameInputs.Count <= 1) return;
+            _pairsFound = _fails = 0;
+            settings.SelectedPet.GetComponent<SpriteRenderer>().enabled = false;
+            inputContainer.gameObject.SetActive(true);
 
             List<int> positions = new();
             List<GlyphData> temp = new(SelectGlyphs());
@@ -128,7 +127,7 @@ namespace GlyphaeScripts
 
         private void CheckInput(GlyphData input, GameButton button)
         {
-            button.GetComponent<Button>().interactable = false;
+            button.GetComponent<Button>().enabled = false;
             button.transform.GetChild(0).GetComponent<Image>().enabled = true;
 
             if (_clickedButton == null)
@@ -141,42 +140,43 @@ namespace GlyphaeScripts
             {
                 _toLearn = null;
                 _isTeaching = false;
-                _gameInputs.Remove(button);
-                _gameInputs.Remove(_clickedButton);
                 _clickedButton = null;
+                _pairsFound++;
                 input.CorrectlyGuessed();
             }
             else
             {
                 foreach (GameButton item in _gameInputs)
-                    item.GetComponent<Button>().interactable = false;
+                    item.GetComponent<Button>().enabled = false;
                 _data = input;
                 _currentButton = button;
 
-                Invoke(nameof(Check), 1f);
+                Invoke(nameof(Check), 2f / settings.AnimationSpeed);
             }
 
 
-            if (_gameInputs.Count <= 1)
+            if (_pairsFound >= _buttonCount / 2)
             {
                 foreach (GameButton item in _gameInputs)
-                    item.GetComponent<Button>().interactable = true;
+                    item.GetComponent<Button>().enabled = true;
 
-                Invoke(nameof(Success), 1f);
+                inputContainer.gameObject.SetActive(false);
+                settings.SelectedPet.GetComponent<SpriteRenderer>().enabled = true;
+                Success();
+                Invoke(nameof(NextRound), 2f / settings.AnimationSpeed);
             }
         }
 
         private void Check()
         {
-            foreach (GameButton item in _gameInputs)
-                item.GetComponent<Button>().interactable = true;
-
-            _currentButton.GetComponent<Button>().interactable = true;
             _currentButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
-            _clickedButton.GetComponent<Button>().interactable = true;
             _clickedButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
+
             _data.WronglyGuessed();
-            if (++_fails >= _failsToLose) CloseGame();
+            if (++_fails >= _failsToLose) Invoke(nameof(CloseGame), 2f / settings.AnimationSpeed);
+
+            foreach (GameButton item in _gameInputs)
+                item.GetComponent<Button>().enabled = true;
             _clickedButton = null;
         }
 

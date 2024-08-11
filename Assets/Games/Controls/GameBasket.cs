@@ -18,7 +18,6 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private Vector3 _petStart;
         private Transform _petSprite;
         private float _delay = 2f;
 
@@ -28,6 +27,7 @@ namespace GlyphaeScripts
         #region Events
 
         public static event Action OnHidden;
+        public static event Action<bool> OnBasketPick;
 
         #endregion
 
@@ -85,7 +85,6 @@ namespace GlyphaeScripts
             yield return new WaitForSeconds(_delay / settings.AnimationSpeed);
 
             _petSprite = target;
-            _petStart = target.position;
 
             target.SetParent(transform);
             target.SetAsFirstSibling();
@@ -125,6 +124,7 @@ namespace GlyphaeScripts
         /// <param name="target">The position to shuffle to.</param>
         private IEnumerator AnimateShuffle(Transform target)
         {
+            icon.enabled = false;
             Vector2 heightPoint1 = movablePart.position - (movablePart.position - target.position)/2 + new Vector3(0, Random.Range(300,600), 0);
 
             yield return new WaitForSeconds(_delay / settings.AnimationSpeed);
@@ -143,6 +143,8 @@ namespace GlyphaeScripts
                 yield return null;
             }
             yield return new WaitForSeconds(_delay / settings.AnimationSpeed);
+
+            icon.sprite = data.Letter;
         }
 
         /// <summary>
@@ -191,6 +193,7 @@ namespace GlyphaeScripts
 
                 yield return new WaitForSeconds(1 / settings.AnimationSpeed);
             }
+            OnBasketPick?.Invoke(_petSprite != null);
 
             timeTotal = 0;
 
@@ -204,7 +207,6 @@ namespace GlyphaeScripts
             }
 
             yield return new WaitForSeconds(_delay / settings.AnimationSpeed);
-            Clicked();
         }
 
         #endregion

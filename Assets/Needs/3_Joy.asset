@@ -15,7 +15,7 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   initial: 60
   current: 60
-  criticalLimit: 20
+  criticalLimit: 10
   isCritical: 0
   satisfiedLimit: 80
   isSatisfied: 1
