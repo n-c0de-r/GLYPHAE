@@ -44,7 +44,6 @@ namespace GlyphaeScripts
         {
             base.OnEnable();
             TimeIcon.OnAnimationDone += AnimateNext;
-            NeedBubble.OnFeedbackDone += NextRound;
 
         }
 
@@ -52,7 +51,6 @@ namespace GlyphaeScripts
         {
             base.OnDisable();
             TimeIcon.OnAnimationDone -= AnimateNext;
-            NeedBubble.OnFeedbackDone -= NextRound;
         }
 
         #endregion

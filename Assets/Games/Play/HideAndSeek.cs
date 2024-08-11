@@ -37,14 +37,12 @@ namespace GlyphaeScripts
         private new void OnEnable()
         {
             base.OnEnable();
-            NeedBubble.OnFeedbackDone += NextRound;
             GameBasket.OnHidden += ShuffleBaskets;
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
-            NeedBubble.OnFeedbackDone -= NextRound;
             GameBasket.OnHidden -= ShuffleBaskets;
         }
 

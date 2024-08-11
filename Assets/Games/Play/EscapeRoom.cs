@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,19 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Game Specific")]
-        [Tooltip("The container where the maze will be generated in.")]
+        [Tooltip("The system responsible fo generating maze data.")]
         [SerializeField] private MazeGenerator mazeGenerator;
+
+        [Tooltip("The container where the maze will be generated in.")]
+        //[SerializeField] private GameObject mazeContainer;
+
+        [SerializeField] private Sprite[] wallSprites;
+
+        [SerializeField] private Transform gridWalls;
+
+        [SerializeField] private Transform gridIcons;
+
+        [SerializeField] private Transform gridPositions;
 
         #endregion
 
@@ -23,8 +35,11 @@ namespace GlyphaeScripts
         #region Fields
 
         private List<Sprite> previousSprites;
-        private Sprite previous;
-        private int shuffleNumber;
+        private Sprite _previousSprite;
+        int[,] _mazeData;
+        private const int SIZE = 5;
+        private int _currentX, _currentY;
+        private int _currentData;
 
         #endregion
 
@@ -34,57 +49,33 @@ namespace GlyphaeScripts
         private new void OnEnable()
         {
             base.OnEnable();
-            NeedBubble.OnFeedbackDone += NextRound;
-            GameBasket.OnHidden += ShuffleBaskets;
+            //NeedBubble.OnFeedbackDone += NextRound;
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
-            NeedBubble.OnFeedbackDone -= NextRound;
-            GameBasket.OnHidden -= ShuffleBaskets;
+            //NeedBubble.OnFeedbackDone -= NextRound;
         }
 
         #endregion
 
         #region Methods
 
-        public override void SetupGame(bool isTeaching, List<GlyphData> glyphs, int baseLevel)
-        {
-            base.SetupGame(isTeaching, glyphs, baseLevel);
-
-            mazeGenerator.GenerateMaze();
-
-            //petSprite.sprite = settings.SelectedPet.gameObject.GetComponent<SpriteRenderer>().sprite;
-            //settings.SelectedPet.GetComponent<SpriteRenderer>().enabled = false;
-
-            //Vector3 pos = inputPositions.GetChild(inputPositions.childCount-1).position;
-            //GameButton button = Instantiate(gameInput, inputContainer);
-            //button.GetComponent<RectTransform>().position = pos;
-            //_gameInputs.Add(button);
-
-            //_buttonCount = 3;
-        }
-
-        
         public override void NextRound()
         {
-            //shuffleNumber = 0;
-            //SelectGlyphs();
-            //List<GlyphData> temp = new(_usedGlyphs);
+            SelectGlyphs();
+            if (_usedGlyphs.Count < 4) CloseGame();
 
-            //int rng = Random.Range(0, _usedGlyphs.Count);
+            _mazeData = mazeGenerator.GenerateMaze();
+            ResetMaze();
+            ShowNextIcons();
+        }
 
-            //foreach (GameButton item in _gameInputs)
-            //{
-            //    GlyphData glyph = temp[Random.Range(0, temp.Count)];
-            //    item.Setup(glyph, glyph.Symbol);
-            //    _toMatch = item.transform.GetSiblingIndex() == rng ? glyph : _toMatch;
-            //    temp.Remove(glyph);
-            //}
-
-            //GameBasket basket = (GameBasket)_gameInputs[rng];
-            //basket.HideSprite(petSprite.transform);
+        public void GenerateMaze()
+        {
+            _mazeData = mazeGenerator.GenerateMaze();
+            ResetMaze();
         }
 
         #endregion
@@ -93,41 +84,45 @@ namespace GlyphaeScripts
         #region Helpers
 
         /// <summary>
-        /// Shuffles basket around to another position.
+        /// Show the generated maze.
         /// </summary>
-        private void ShuffleBaskets()
+        private void ResetMaze()
         {
-            List<Transform> positions = new();
-            GameObject temp = new();
-
-            Vector3 outer = _gameInputs[0].transform.position - _gameInputs[1].transform.position;
-            outer = _gameInputs[0].transform.position + outer;
-            temp.transform.position = outer;
-            positions.Add(temp.transform);
-
-            temp = new();
-            outer = _gameInputs[2].transform.position - _gameInputs[1].transform.position;
-            outer = _gameInputs[2].transform.position + outer;
-            temp.transform.position = outer;
-            positions.Add(temp.transform);
-
-            foreach (GameButton item in _gameInputs)
+            for (int y = 0; y < SIZE; y++)
             {
-                positions.Add(item.transform);
+                for (int x = 0; x < SIZE; x++)
+                {
+                    gridWalls.GetChild(x + SIZE * y).GetComponent<Image>().sprite = wallSprites[_mazeData[x, y]];
+                }
             }
+            // Set Exits
+            gridWalls.GetChild(0 + SIZE * 2).GetComponent<Image>().sprite = wallSprites[_mazeData[0, 2] + 8];
+            gridWalls.GetChild(4 + SIZE * 2).GetComponent<Image>().sprite = wallSprites[_mazeData[4, 2] + 2];
+            
+            // Set pet in the midpoint
+            _previousSprite = gridPositions.GetChild(2 + SIZE * 2).GetComponent<Image>().sprite;
+            gridPositions.GetChild(2 + SIZE * 2).GetComponent<Image>().sprite = settings.SelectedPet.GetComponent<SpriteRenderer>().sprite;
+            _currentX = 2;
+            _currentY = 2;
+            _currentData = _mazeData[2, 2];
+        }
 
-            foreach (GameButton item in _gameInputs)
-            {
-                GameBasket basket = (GameBasket)item;
-                Transform target = positions[Random.Range(0, positions.Count)];
-                positions.Remove(target);
-                basket.MoveTo(target);
-            }
+        private void MoveSprite()
+        {
 
-            if (shuffleNumber < 2)
+        }
+
+        private void ShowNextIcons()
+        {
+            // Set Exits
+            for (int x = -1; x <= 1; x+=2)
             {
-                Invoke(nameof(ShuffleBaskets), 2/settings.AnimationSpeed);
-                shuffleNumber++;
+                for (int y = -1; y <= 1; y+=2)
+                {
+                    if (_currentX + x < 0 || _currentX + x >= SIZE || _currentY + y < 0 || _currentY + y >= SIZE) continue;
+                    gridIcons.GetChild((_currentX + x) + SIZE * (_currentY)).GetComponent<Image>().enabled = true;
+                    gridIcons.GetChild((_currentX) + SIZE * (_currentY + y)).GetComponent<Image>().enabled = true;
+                }
             }
         }
 
