@@ -69,8 +69,7 @@ namespace GlyphaeScripts
         public void PaintMap()
         {
             // Visualize the data as numbers. Uncomment if needed
-            Debug.Log("Maze generated");
-            String s = "";
+            String s = "Maze generated\n";
             for (int y = 0; y < size; y++)
             {
                 for (int x = 0; x < size; x++)
@@ -86,7 +85,7 @@ namespace GlyphaeScripts
                 }
                 s += "\n";
             }
-            Debug.Log(s);
+            //Debug.Log(s);
         }
 
         #endregion
