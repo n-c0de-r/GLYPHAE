@@ -39,7 +39,7 @@ namespace GlyphaeScripts
 
         private List<GameButton> _floorButtons;
         private List<int> _exitPositions;
-        private GameButton _clickedButton, _currentButton;
+        private GameButton _clickedButton;
         private GlyphData _data;
         int[,] _mazeData;
         private const int SIZE = 5, NORTH = 1, EAST = 2, SOUTH = 4, WEST = 8;
@@ -54,14 +54,12 @@ namespace GlyphaeScripts
         {
             base.OnEnable();
             GameButton.OnMatch += CheckInput;
-            //NeedBubble.OnFeedbackDone += NextRound;
         }
 
         private new void OnDisable()
         {
             base.OnDisable();
             GameButton.OnMatch -= CheckInput;
-            //NeedBubble.OnFeedbackDone -= NextRound;
         }
 
         #endregion
@@ -78,16 +76,7 @@ namespace GlyphaeScripts
                 _gameInputs[i].name = _usedGlyphs[i].name;
             }
 
-            _mazeData = mazeGenerator.GenerateMaze();
-            ResetMaze();
-        }
-
-        /// <summary>
-        /// To delete. Only debug.
-        /// </summary>
-        public void GenerateMaze()
-        {
-            _mazeData = mazeGenerator.GenerateMaze();
+            ActivateButtons(false);
             ResetMaze();
         }
 
@@ -101,6 +90,8 @@ namespace GlyphaeScripts
         /// </summary>
         private void ResetMaze()
         {
+            _mazeData = mazeGenerator.GenerateMaze();
+
             for (int y = 0; y < SIZE; y++)
             {
                 for (int x = 0; x < SIZE; x++)
@@ -223,6 +214,8 @@ namespace GlyphaeScripts
         /// </summary>
         private void HidePreviousIcons()
         {
+            if (_floorButtons == null || _floorButtons.Count == 0) return;
+
             int index = _clickedButton.transform.GetSiblingIndex();
             int.TryParse(gridPositions.GetChild(index).name, out _currentDirection);
 
@@ -235,6 +228,11 @@ namespace GlyphaeScripts
             }
         }
 
+        /// <summary>
+        /// Checks the currently done input.
+        /// </summary>
+        /// <param name="input">The data to update.</param>
+        /// <param name="button">The button to compare.</param>
         private void CheckInput(GlyphData input, GameButton button)
         {
             if (_clickedButton == null)
@@ -263,6 +261,9 @@ namespace GlyphaeScripts
             }
         }
 
+        /// <summary>
+        /// Wrap method on wrong guesses, so it can be delayed.
+        /// </summary>
         private void Check()
         {
             _data.WronglyGuessed();
@@ -277,47 +278,38 @@ namespace GlyphaeScripts
         /// <param name="goalPosition">The index of the tile in the hierarchy.</param>
         private void MoveSprite(int goalPosition)
         {
-            Debug.Log("data: " + _currentData + ", dir: " + _currentDirection);
-            int.TryParse(gridWalls.transform.GetChild(goalPosition).name, out int goalData);
+            List<int> direction = new();
+            int data = _currentData;
 
-            if (_currentData / _currentDirection != 0)
+            for (int i = 8; i > 0; i >>=1)
             {
+                if (data - i >= 0)
+                {
+                    direction.Add(i);
+                    data -= i;
+                }
+            }
+
+            if (direction.Contains(_currentDirection))
+            {
+                HidePreviousIcons();
                 petSprite.transform.SetParent(gridPositions.GetChild(goalPosition));
                 petSprite.transform.localPosition = Vector3.zero;
                 _currentX = goalPosition % SIZE;
                 _currentY = goalPosition / SIZE;
                 _currentData = _mazeData[_currentX, _currentY];
-                
+                _clickedButton = null;
+
                 if (_exitPositions.Contains(goalPosition))
                 {
+                    _toLearn = null;
+                    _isTeaching = false;
                     Invoke(nameof(Success), 1f / settings.AnimationSpeed);
                     return;
                 }
-
-                _toLearn = null;
-                _isTeaching = false;
             }
             _clickedButton = null;
             ShowNextIcons();
-        }
-
-        /// <summary>
-        /// Toggles buttons or florr tiles on/off.
-        /// </summary>
-        /// <param name="button">Either buttons or tiles.</param>
-        /// <param name="state">The state to switch to.</param>
-        private void ToogleButtons(GameButton button, bool state)
-        {
-            if (button.transform.parent == inputContainer)
-            {
-                foreach (GameButton item in _gameInputs)
-                    item.GetComponent<Button>().interactable = state;
-            }
-            else
-            {
-                foreach (GameButton item in _floorButtons)
-                    item.GetComponent<Button>().interactable = state;
-            }
         }
 
         #endregion
