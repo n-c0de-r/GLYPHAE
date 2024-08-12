@@ -105,15 +105,21 @@ namespace GlyphaeScripts
         {
             int baseLevel = CalculateBaselevel();
 
-            if (picked.PrimaryNeed.Current > picked.PrimaryNeed.SatisfiedLimit)
+            if (!picked.GetType().Equals(typeof(LullabyChant)) && _pet.Energy.Current < _pet.Energy.Critical)
             {
-                picked.MessageSuccess(picked.PrimaryNeed.Positive);
+                picked.MessageFail(_pet.Energy.Alarm);
                 return;
             }
 
-            if (!picked.GetType().Equals(typeof(LullabyChant)) && (picked.SecondaryNeed.Current < picked.LossAmount || _pet.Energy.Current < _pet.Energy.Critical))
+            if (!picked.GetType().Equals(typeof(LullabyChant)) && picked.SecondaryNeed.Current < picked.LossAmount)
             {
                 picked.MessageFail(picked.SecondaryNeed.Alarm);
+                return;
+            }
+
+            if (picked.PrimaryNeed.Current > picked.PrimaryNeed.SatisfiedLimit)
+            {
+                picked.MessageSuccess(picked.PrimaryNeed.Positive);
                 return;
             }
 

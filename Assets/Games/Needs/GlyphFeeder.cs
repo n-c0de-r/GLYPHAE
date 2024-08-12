@@ -14,13 +14,13 @@ namespace GlyphaeScripts
             SetupDragging();
 
             List<GlyphData> temp = new(SelectGlyphs());
+            _toMatch = temp[UnityEngine.Random.Range(0, temp.Count)];
 
             for (int i = 0; i < _buttonCount; i++)
             {
                 GlyphData glyph = temp[UnityEngine.Random.Range(0, temp.Count)];
 
                 if (_toLearn != null && _toLearn == glyph) _toMatch = _toLearn;
-                else if (_toMatch == null) _toMatch = glyph;
 
                 temp.Remove(glyph);
                 _gameInputs[i].Setup(glyph, glyph.Symbol);

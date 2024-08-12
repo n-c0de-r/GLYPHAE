@@ -183,12 +183,20 @@ namespace GlyphaeScripts
 
         #region Helpers
 
+        /// <summary>
+        /// Displays the next <see cref="NeedData"/> sprite.
+        /// </summary>
+        /// <param name="correct">The correct sprite to match.</param>
         protected virtual void DisplayRound(Sprite correct)
         {
             OnNextRound?.Invoke(correct);
             ActivateButtons(true);
         }
 
+        /// <summary>
+        /// General input check method, can be overridden.
+        /// </summary>
+        /// <param name="input">The incoming input data to match.</param>
         protected virtual void CheckInput(GlyphData input)
         {
             if (_toMatch == null) return;

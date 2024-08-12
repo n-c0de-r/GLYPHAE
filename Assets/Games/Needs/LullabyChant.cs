@@ -25,6 +25,7 @@ namespace GlyphaeScripts
         #region Fields
 
         private List<TimeIcon> _timeIcons;
+        List<GlyphData> _orderData;
         private List<int> _order;
         private int _orderIndex = 0;
 
@@ -71,7 +72,6 @@ namespace GlyphaeScripts
             while (_order.Count < _rounds)
             {
                 int rng = UnityEngine.Random.Range(0, _rounds);
-                if (_order.Contains(rng)) continue;
                 _order.Add(rng);
             }
 
@@ -80,7 +80,7 @@ namespace GlyphaeScripts
             {
                 GameObject instance = Instantiate(template.gameObject, container);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
-                timer.Setup(_usedGlyphs[i % _usedGlyphs.Count], _usedGlyphs[i % _usedGlyphs.Count].Symbol);
+                timer.Setup(_usedGlyphs[i % _buttonCount].Symbol);
                 _timeIcons.Add(timer);
             }
 
@@ -108,7 +108,7 @@ namespace GlyphaeScripts
                 _timeIcons[_order[_orderIndex]].Disable();
                 _orderIndex++;
                 if (_orderIndex >= _order.Count) return;
-                _toMatch = _timeIcons[_order[_orderIndex]].Data;
+                _toMatch = _usedGlyphs[_order[_orderIndex]];
             }
             else
             {
@@ -123,7 +123,7 @@ namespace GlyphaeScripts
             {
                 ActivateButtons(true);
                 _orderIndex = 0;
-                _toMatch = _timeIcons[_order[_orderIndex]].Data;
+                _toMatch = _usedGlyphs[_order[_orderIndex]];
                 return;
             }
 

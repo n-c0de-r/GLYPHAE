@@ -79,27 +79,5 @@ namespace GlyphaeScripts
         }
 
         #endregion
-
-
-        #region Helpers
-
-
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
-        }
-
-        #endregion
     }
 }

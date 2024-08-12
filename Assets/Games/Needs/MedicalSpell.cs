@@ -24,8 +24,8 @@ namespace GlyphaeScripts
         #region Fields
 
         private List<TimeIcon> _timeIcons;
+        List<GlyphData> _orderData;
         private List<int> _order;
-        private List<Sprite> _sprites;
         private int _orderIndex = 0;
 
         #endregion
@@ -54,43 +54,41 @@ namespace GlyphaeScripts
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
 
-            List<GlyphData> temp = new(SelectGlyphs());
+            _orderData = new(SelectGlyphs());
 
-            _sprites = new();
-            string type = Random.Range(0, 2) == 0 ? "letter" : "symbol";
+            List<Sprite> sprites = new();
+            List<Sprite> reverses = new();
+            string type = Random.Range(0, 2) == 0 ? "letter" : "icon";
 
             for (int i = 0; i < _buttonCount; i++)
             {
-                GlyphData glyph = temp[Random.Range(0, temp.Count)];
-
-                if (_toLearn != null && _toLearn == glyph) glyph = _toLearn;
-                temp.Remove(glyph);
-
-                Sprite sprite;
-                sprite = type.Contains("letter") ? glyph.Symbol : glyph.Letter;
-                type = type.Contains("letter") ? glyph.Symbol.name : glyph.Letter.name;
+                GlyphData glyph = _orderData[i];
+                Sprite sprite = type.Contains("letter") ? glyph.Symbol : glyph.Letter;
 
                 _gameInputs[i].Setup(glyph, sprite);
-                _sprites.Add(sprite);
+                sprites.Add(sprite);
+                type = sprite.name;
+
+                sprite = type.Contains("letter") ? glyph.Symbol : glyph.Letter;
+                reverses.Add(sprite);
             }
 
             _order = new();
             while (_order.Count < _rounds)
             {
                 int rng = Random.Range(0, _rounds);
-                if (_order.Contains(rng)) continue;
                 _order.Add(rng);
             }
 
             _timeIcons = new();
             for (int i = 0; i < _rounds; i++)
             {
-                GlyphData glyph = _usedGlyphs[i %  _usedGlyphs.Count];
-                Sprite sprite = _sprites[i % _sprites.Count].name.Contains("letter") ? glyph.Symbol : glyph.Letter;
+                Sprite sprite = reverses[i % _buttonCount];
 
                 GameObject instance = Instantiate(template.gameObject, container);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
-                timer.Setup(glyph, sprite);
+                timer.Setup(sprite);
+                timer.name = sprite.name;
                 _timeIcons.Add(timer);
             }
 
@@ -99,7 +97,7 @@ namespace GlyphaeScripts
 
         public override void UpdateValues()
         {
-            primaryNeed?.Increase(_successes / _rounds *NeedData.MAX);
+            primaryNeed?.Increase(_successes / _rounds * NeedData.MAX);
             base.UpdateValues();
         }
 
@@ -118,7 +116,7 @@ namespace GlyphaeScripts
                 _timeIcons[_order[_orderIndex]].Disable();
                 _orderIndex++;
                 if (_orderIndex >= _order.Count) return;
-                _toMatch = _timeIcons[_order[_orderIndex]].Data;
+                _toMatch = _orderData[_order[_orderIndex] % _buttonCount];
             }
             else
             {
@@ -133,7 +131,7 @@ namespace GlyphaeScripts
             {
                 ActivateButtons(true);
                 _orderIndex = 0;
-                _toMatch = _timeIcons[_order[_orderIndex]].Data;
+                _toMatch = _orderData[_order[_orderIndex] % _buttonCount];
                 return;
             }
 
