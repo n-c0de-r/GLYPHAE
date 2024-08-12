@@ -85,7 +85,7 @@ namespace GlyphaeScripts
                 }
                 s += "\n";
             }
-            //Debug.Log(s);
+            Debug.Log(s);
         }
 
         #endregion

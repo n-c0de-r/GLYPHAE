@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
-using UnityEngine.TextCore;
 using UnityEngine.UI;
 
 
@@ -225,11 +223,14 @@ namespace GlyphaeScripts
         /// </summary>
         private void HidePreviousIcons()
         {
+            int index = _clickedButton.transform.GetSiblingIndex();
+            int.TryParse(gridPositions.GetChild(index).name, out _currentDirection);
+
             foreach (GameButton item in _floorButtons)
             {
                 item.GetComponent<Button>().interactable = false;
                 item.transform.GetChild(0).GetComponent<Image>().enabled = false;
-                int index = item.transform.GetSiblingIndex();
+                index = item.transform.GetSiblingIndex();
                 gridPositions.GetChild(index).name = "0";
             }
         }
@@ -251,17 +252,14 @@ namespace GlyphaeScripts
                 GameButton item = button.transform.parent == gridFloors ? button : _clickedButton;
                 int index = item.transform.GetSiblingIndex();
                 
-                _currentButton = button;
                 input.CorrectlyGuessed();
-
                 MoveSprite(index);
             }
             else
             {
                 _data = input;
-                _currentButton = button;
-
                 Invoke(nameof(Check), 1f / settings.AnimationSpeed);
+
             }
         }
 
@@ -270,6 +268,7 @@ namespace GlyphaeScripts
             _data.WronglyGuessed();
             if (++_fails >= _failsToLose) CloseGame();
             _clickedButton = null;
+            ShowNextIcons();
         }
 
         /// <summary>
@@ -278,9 +277,10 @@ namespace GlyphaeScripts
         /// <param name="goalPosition">The index of the tile in the hierarchy.</param>
         private void MoveSprite(int goalPosition)
         {
-            int.TryParse(gridPositions.GetChild(goalPosition).name, out int direction);
+            Debug.Log("data: " + _currentData + ", dir: " + _currentDirection);
+            int.TryParse(gridWalls.transform.GetChild(goalPosition).name, out int goalData);
 
-            if (_currentData / direction != 0)
+            if (_currentData / _currentDirection != 0)
             {
                 petSprite.transform.SetParent(gridPositions.GetChild(goalPosition));
                 petSprite.transform.localPosition = Vector3.zero;
@@ -296,10 +296,9 @@ namespace GlyphaeScripts
 
                 _toLearn = null;
                 _isTeaching = false;
-                _clickedButton = null;
-
-                ShowNextIcons();
             }
+            _clickedButton = null;
+            ShowNextIcons();
         }
 
         /// <summary>
