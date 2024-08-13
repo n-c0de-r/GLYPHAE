@@ -184,16 +184,12 @@ namespace GlyphaeScripts
             //OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
 
             if (!_isCritical && current < criticalLimit)
-            {
                 _isCritical = true;
-                OnNeedCritical?.Invoke(this, current < criticalLimit);
-            }
 
             if (_isCritical && current > criticalLimit)
-            {
                 _isCritical = false;
-                OnNeedCritical?.Invoke(this, current > criticalLimit);
-            }
+            
+            OnNeedCritical?.Invoke(this, _isCritical);
         }
 
         /// <summary>
@@ -212,7 +208,7 @@ namespace GlyphaeScripts
             if (_isCritical && current > criticalLimit)
             {
                 _isCritical = false;
-                OnNeedCritical?.Invoke(this, current > criticalLimit);
+                OnNeedCritical?.Invoke(this, _isCritical);
             }
         }
 
@@ -232,7 +228,7 @@ namespace GlyphaeScripts
             if (!_isCritical && current < criticalLimit)
             {
                 _isCritical = true;
-                OnNeedCritical?.Invoke(this, current < criticalLimit);
+                OnNeedCritical?.Invoke(this, _isCritical);
             }
         }
 

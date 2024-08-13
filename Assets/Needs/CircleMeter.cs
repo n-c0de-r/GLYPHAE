@@ -115,13 +115,6 @@ namespace GlyphaeScripts
         private IEnumerator AnimateFill(float start, float end, int inc)
         {
             Color color = Color.black;
-            int MIN = Mathf.Min((int)Mathf.Round(start), (int)Mathf.Round(end));
-            int MAX = Mathf.Max((int)Mathf.Round(start), (int)Mathf.Round(end));
-
-            if (inc == 1)
-            {
-
-            }
             int begin = (int)(start * NeedData.MAX);
             int final = (int)(end * NeedData.MAX);
 

@@ -69,6 +69,8 @@ namespace GlyphaeScripts
         private const float INCREMENT_MIN = 0.13f, INCREMENT_MAX = 0.23f;
         private float _needTimer = 60;
         private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
+        private float _sleepynessFactor = 1f;
+
         private bool _isSleeping = false;
 
         #endregion
@@ -346,7 +348,8 @@ namespace GlyphaeScripts
             }
 
 
-            if (PlayerPrefs.HasKey(petName + nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(petName + nameof(_evolutionCalls));
+            if (PlayerPrefs.HasKey(petName + nameof(_evolutionCalls)))
+                _evolutionCalls = PlayerPrefs.GetInt(petName + nameof(_evolutionCalls));
 
 
             if (PlayerPrefs.HasKey(prefix + nameof(unlocked)))
@@ -396,11 +399,11 @@ namespace GlyphaeScripts
 
             PlayerPrefs.SetString(petName + nameof(_isSleeping), _isSleeping.ToString());
 
-
             PlayerPrefs.SetString(petName + nameof(_level), _level.ToString());
 
-
             PlayerPrefs.SetInt(petName + nameof(_evolutionCalls), _evolutionCalls);
+
+            PlayerPrefs.SetString(petName + nameof(_previousTimeStamp), DateTime.Now.ToString());
 
 
             string needValues = "";
@@ -409,6 +412,7 @@ namespace GlyphaeScripts
                 needValues += item.name + VALUE_SPLIT + item.Current + PART_SPLIT + item.RandomOffset + ITEM_SPLIT;
             }
             PlayerPrefs.SetString(prefix + nameof(needs), needValues);
+
 
             string needCriticals = "";
             foreach (NeedData item in _criticals)
@@ -424,8 +428,6 @@ namespace GlyphaeScripts
             }
 
             PlayerPrefs.SetString(prefix + nameof(literals), glyphs);
-
-            PlayerPrefs.SetString(petName + nameof(_previousTimeStamp), DateTime.Now.ToString());
         }
 
         #endregion Persistence
@@ -444,18 +446,19 @@ namespace GlyphaeScripts
             if (_level == Evolutions.Egg) return;
 
             float factor = 1f * _sickCount + 1;
-            float sleepynessFactor = 1f;
 
             Hunger.Decrease(minutesPassed);
             Health.Decrease(minutesPassed * factor);
             Joy.Decrease(minutesPassed * factor);
 
-            if (!_isSleeping && (DateTime.Now.Hour >= settings.SilenceStart || DateTime.Now.Hour < settings.SilenceEnd))
-                sleepynessFactor *= 1.10f;
+            _sleepynessFactor =
+                (!_isSleeping && (DateTime.Now.Hour >= settings.SilenceStart || DateTime.Now.Hour < settings.SilenceEnd))
+                ? _sleepynessFactor * 1.10f : 1f;
+                
             
             if (_isSleeping) factor = 1f / factor;
 
-            Energy.Decrease(minutesPassed * factor * sleepynessFactor);
+            Energy.Decrease(minutesPassed * factor * _sleepynessFactor);
 
             CheckSickness();
             CheckEvolution();
