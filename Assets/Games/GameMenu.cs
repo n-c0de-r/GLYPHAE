@@ -15,9 +15,6 @@ namespace GlyphaeScripts
         [Tooltip("The main buttons panel.")]
         [SerializeField] private GameObject mainPanel;
 
-        [Tooltip("The action buttons panel.")]
-        [SerializeField] private GameObject actionPanel;
-
         [Tooltip("Button to wake the pet.")]
         [SerializeField] private GameObject wakeButton;
 
@@ -100,7 +97,6 @@ namespace GlyphaeScripts
         public void WakeUp()
         {
             StartCoroutine(AnimateWake(1, 0, settings.AnimationSpeed));
-            actionPanel.SetActive(false);
             mainPanel.SetActive(true);
             wakeButton.SetActive(false);
             settings.SelectedPet.WakeUp();
@@ -113,7 +109,6 @@ namespace GlyphaeScripts
 
         private void ToggleButtons(bool state)
         {
-            actionPanel.SetActive(state);
             mainPanel.SetActive(state);
         }
 
@@ -125,7 +120,6 @@ namespace GlyphaeScripts
         private void Sleep()
         {
             StartCoroutine(AnimateSleep(0, 1, settings.AnimationSpeed));
-            actionPanel.SetActive(false);
             mainPanel.SetActive(true);
             wakeButton.SetActive(true);
         }

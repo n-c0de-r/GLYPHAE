@@ -27,6 +27,7 @@ namespace GlyphaeScripts
         [Tooltip("The upper limit value at\r\nwhicha need call is satisfied.")]
         [SerializeField][Range(70, 90)] private float satisfiedLimit = 80;
 
+
         [Space]
         [Header("Feedback Icons")]
         [Tooltip("The icon of the need.")]
@@ -41,12 +42,15 @@ namespace GlyphaeScripts
         [Tooltip("The icon of the negative feedback.")]
         [SerializeField] private Sprite negative;
 
+
         [Space]
         [Header("Notification Values")]
         [Tooltip("The notification managment system.")]
         [SerializeField] private NotificationsAndroid notifications;
+
         [Tooltip("The title text to show for the notification.")]
         [SerializeField] private string title;
+
         [Tooltip("The Notification text message.")]
         [SerializeField][TextArea(1, 3)] private string description;
 
@@ -58,7 +62,7 @@ namespace GlyphaeScripts
         private DateTime _callTime;
         public const int MIN = 0, MAX = 100;
         public const float RANDOM_MIN = -0.13f, RANDOM_MAX = 0.13f;
-        private float _upFactor, _downFactor, _randomOffset;
+        private float _upFactor, _downFactor, _incrementValue, _randomOffset;
         private bool _isCritical = false;
 
         #endregion
@@ -81,6 +85,16 @@ namespace GlyphaeScripts
         /// whicha need call is satisfied.
         /// </summary>
         public float SatisfiedLimit { get => satisfiedLimit; }
+
+        /// <summary>
+        /// Gets the calculated increment value.
+        /// </summary>
+        public float Increment { get => _incrementValue; }
+
+        /// <summary>
+        /// Gets the hidden random offset value.
+        /// </summary>
+        public float RandomOffset { get => _randomOffset; }
 
         /// <summary>
         /// The icon of the need.
@@ -117,12 +131,6 @@ namespace GlyphaeScripts
         /// </summary>
         public float DownFactor { get => _downFactor; }
 
-        /// <summary>
-        /// Gets the hidden random offset value.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public float RandomOffset { get => _randomOffset; }
-
         #endregion Debug
 
         #endregion
@@ -152,34 +160,28 @@ namespace GlyphaeScripts
         /// </summary>
         /// <param name="upFactor">The factor that is applied when satisfying needs.</param>
         /// <param name="downFactor">The factor that is applied when reducing needs.</param>
-        public void SetupFactors(int upFactor, int downFactor)
+        /// <param name="increment">The increment this need rises or falls by.</param>
+        /// <param name="randomFactor">The factor to calculate randomness offset by.</param>
+        public void SetupValues(int upFactor, int downFactor, float increment, int randomFactor)
         {
             _upFactor = upFactor;
             _downFactor = downFactor;
-        }
-
-        /// <summary>
-        /// Adds a random offset to factors.
-        /// They get updated after calls, level-ups and day changes.
-        /// </summary>
-        /// <param name="calls">The number of calls of a <see cref="Pet"/> satisfied so far. Ramps up randomness.</param>
-        /// <param name="seed">The random seed.</param>
-        public long Randomize(int calls, long seed = -1)
-        {
-            if (seed != -1) UnityEngine.Random.InitState((int)seed);
-            else seed = DateTime.Now.Ticks;
-            UnityEngine.Random.InitState((int)seed);
-            _randomOffset = UnityEngine.Random.Range(RANDOM_MIN, RANDOM_MAX) * calls;
-            return seed;
+            _incrementValue = increment;
+            Randomize(randomFactor);
         }
 
         /// <summary>
         /// Resets this <see cref="NeedData"/> back to its initial values.
         /// </summary>
-        public void SetValue(float value)
+        /// <param name="value">The value to set.</param>
+        /// <param name="randomness">The randomness offset to set.</param>
+        public void SetValue(float value, float increment, float randomness)
         {
             current = value;
-            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
+            _incrementValue = increment;
+            _randomOffset = randomness;
+
+            //OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
 
             if (!_isCritical && current < criticalLimit)
             {
@@ -197,15 +199,15 @@ namespace GlyphaeScripts
         /// <summary>
         /// Increases the current <see cref="NeedData"/> value with a specific calculation.
         /// </summary>
-        /// <param name="value">The base value to add.</param>
-        public void Increase(float value)
+        /// <param name="factor">The factor to influence increment by additionally.</param>
+        public void Increase(float factor = 1)
         {
-            if (value == 0) return;
+            if (factor == 0) return;
             
             if (current < MIN || current > MAX) return;
-            value = value * (_upFactor + _randomOffset);
-            current = Mathf.Clamp(current + value, MIN, MAX);
-            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
+            factor = _incrementValue * factor * (_upFactor + _randomOffset);
+            current = Mathf.Clamp(current + factor, MIN, MAX);
+            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(factor));
 
             if (_isCritical && current > criticalLimit)
             {
@@ -217,15 +219,15 @@ namespace GlyphaeScripts
         /// <summary>
         /// Decreases the current <see cref="NeedData"/> value with a specific calculation.
         /// </summary>
-        /// <param name="value">The base value to subtract.</param>
-        public void Decrease(float value)
+        /// <param name="value">The factor to influence increment by additionally.</param>
+        public void Decrease(float factor = 1)
         {
-            if (value == 0) return;
+            if (factor == 0) return;
 
             if (current < MIN || current > MAX) return;
-            value = -value * (_downFactor + _randomOffset);
-            current = Mathf.Clamp(current + value, MIN, MAX);
-            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
+            factor = -_incrementValue * factor * (_downFactor + _randomOffset);
+            current = Mathf.Clamp(current + factor, MIN, MAX);
+            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(factor));
 
             if (!_isCritical && current < criticalLimit)
             {
@@ -240,13 +242,25 @@ namespace GlyphaeScripts
         #region Helpers
 
         /// <summary>
+        /// Adds a random offset to factors.
+        /// They get updated after calls, level-ups and day changes.
+        /// </summary>
+        /// <param name="calls">The number of calls of a <see cref="Pet"/> satisfied so far. Ramps up randomness.</param>
+        /// <returns>The offset to apply to all calculations of this need.</returns>
+        public float Randomize(int calls)
+        {
+            _randomOffset = UnityEngine.Random.Range(RANDOM_MIN, RANDOM_MAX) * calls;
+            return _randomOffset;
+        }
+
+        /// <summary>
         /// Sets up a mobile notification based on <see cref="NeedData"/> values.
         /// <param name="value">The base value to subtract.</param>
         /// </summary>
-        public void CalculateNotification(float value)
+        public void CalculateNotification()
         {
-            value *= (_downFactor + _randomOffset);
-            int minutes = (int)(current / value);
+            _incrementValue *= (_downFactor + _randomOffset);
+            int minutes = (int)(current / _incrementValue);
             if (minutes <= 0) return;
 
             DateTime now = DateTime.Now;

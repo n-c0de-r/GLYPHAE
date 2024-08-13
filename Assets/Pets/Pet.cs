@@ -65,10 +65,8 @@ namespace GlyphaeScripts
         private DateTime _previousTimeStamp;
 
 
-        private const char ITEM_SPLIT = ';', VALUE_SPLIT = ':';
+        private const char ITEM_SPLIT = ';', VALUE_SPLIT = ':', PART_SPLIT = '~';
         private const float INCREMENT_MIN = 0.13f, INCREMENT_MAX = 0.23f;
-        private long[] _randomSeeds = { -1, -1, -1, -1, -1 }; // Invalid seeds
-        private float _hungerIncrement, _healthIncrement, _joyIncrement, _energyIncrement;
         private float _needTimer = 60;
         private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
         private bool _isSleeping = false;
@@ -109,6 +107,7 @@ namespace GlyphaeScripts
         /// The current Energy <see cref="NeedData"/> container.
         /// </summary>
         public NeedData Energy { get => needs[3]; }
+
 
         /// <summary>
         /// The list of all <see cref="GlyphData"/>s
@@ -167,35 +166,12 @@ namespace GlyphaeScripts
             }
         }
 
-        /// <summary>
-        /// Sets the hidden hunger increment value.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public float HungerIncrement { get => _hungerIncrement; }
-
-        /// <summary>
-        /// Sets the hidden health increment value.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public float HealthIncrement { get => _healthIncrement; }
-
-        /// <summary>
-        /// Sets the hidden joy increment value.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public float JoyIncrement { get => _joyIncrement; }
-
-        /// <summary>
-        /// Sets the hidden energy increment value.
-        /// Only for debugging on hardware.
-        /// </summary>
-        public float EnergyIncrement { get => _energyIncrement; }
 
         /// <summary>
         /// Sets the hidden evolution calls number value.
         /// Only for debugging on hardware.
         /// </summary>
-        public int EvolutionCalls { get => _evolutionCalls; }
+        public int EvolutionCalls { get => _evolutionCalls; set => _evolutionCalls = value; }
 
         /// <summary>
         /// Sets the hidden sickness chance factor value.
@@ -356,6 +332,20 @@ namespace GlyphaeScripts
             }
 
 
+            if (PlayerPrefs.HasKey(petName + nameof(_isSleeping)))
+            {
+                _isSleeping = PlayerPrefs.GetString(petName + nameof(_isSleeping)).Equals(true.ToString());
+                SleepFactors();
+            }
+
+
+            if (PlayerPrefs.HasKey(petName + nameof(_previousTimeStamp)))
+            {
+                DateTime.TryParse(PlayerPrefs.GetString(petName + nameof(_previousTimeStamp)), out DateTime timeStamp);
+                _previousTimeStamp = timeStamp;
+            }
+
+
             if (PlayerPrefs.HasKey(petName + nameof(_evolutionCalls))) _evolutionCalls = PlayerPrefs.GetInt(petName + nameof(_evolutionCalls));
 
 
@@ -372,8 +362,11 @@ namespace GlyphaeScripts
                     string[] needsData = item.Split(VALUE_SPLIT);
                     int.TryParse(needsData[0][..1], out int index);
                     if (index == 0) continue;
-                    float.TryParse(needsData[1], out float value);
-                    needs[index-1].SetValue(value);
+                    string[] values = needsData[1].Split(PART_SPLIT);
+                    float.TryParse(values[0], out float current);
+                    float.TryParse(values[1], out float randomness);
+
+                    needs[index-1].SetValue(current, CalculateNeedIncrement(), randomness);
                 }
             }
 
@@ -393,29 +386,15 @@ namespace GlyphaeScripts
                     }
                 }
             }
-
-            if (PlayerPrefs.HasKey(petName + nameof(_randomSeeds)))
-            {
-                string[] values = PlayerPrefs.GetString(petName + nameof(_randomSeeds)).Split(ITEM_SPLIT);
-                for (int i = 0; i < values.Length; i++)
-                {
-                    long.TryParse(values[i], out long value);
-                    _randomSeeds[0] = value;
-                }
-            }
-
-            if (PlayerPrefs.HasKey(petName + nameof(_previousTimeStamp)))
-            {
-                DateTime.TryParse(PlayerPrefs.GetString(petName + nameof(_previousTimeStamp)), out DateTime timeStamp);
-                _previousTimeStamp = timeStamp;
-            }
         }
 
         public void SavePrefs()
         {
             string prefix = petName + "_";
 
-            PlayerPrefs.SetString(prefix + nameof(unlocked), prefix + unlocked.ToString());
+            PlayerPrefs.SetString(prefix + nameof(unlocked), unlocked.ToString());
+
+            PlayerPrefs.SetString(petName + nameof(_isSleeping), _isSleeping.ToString());
 
 
             PlayerPrefs.SetString(petName + nameof(_level), _level.ToString());
@@ -427,7 +406,7 @@ namespace GlyphaeScripts
             string needValues = "";
             foreach (NeedData item in needs)
             {
-                needValues += item.name + VALUE_SPLIT + item.Current + ITEM_SPLIT;
+                needValues += item.name + VALUE_SPLIT + item.Current + PART_SPLIT + item.RandomOffset + ITEM_SPLIT;
             }
             PlayerPrefs.SetString(prefix + nameof(needs), needValues);
 
@@ -446,13 +425,6 @@ namespace GlyphaeScripts
 
             PlayerPrefs.SetString(prefix + nameof(literals), glyphs);
 
-            string seeds = "";
-            foreach (long item in _randomSeeds)
-            {
-                seeds += item.ToString() + ITEM_SPLIT;
-            }
-            PlayerPrefs.SetString(petName + nameof(_randomSeeds), seeds);
-
             PlayerPrefs.SetString(petName + nameof(_previousTimeStamp), DateTime.Now.ToString());
         }
 
@@ -465,24 +437,25 @@ namespace GlyphaeScripts
 
         /// <summary>
         /// Reduces the needs when the internal timer is up.
+        /// <param name="minutesPassed">The amount of minutes that have passed.</param>
         /// </summary>
-        private void DecreaseNeeds()
+        private void DecreaseNeeds(int minutesPassed = 1)
         {
             if (_level == Evolutions.Egg) return;
 
-            Hunger.Decrease(_hungerIncrement);
-            Health.Decrease(_healthIncrement * (_sickCount + 1));
-            Joy.Decrease(_joyIncrement * (_sickCount + 1));
+            float factor = 1f * _sickCount + 1;
+            float sleepynessFactor = 1f;
 
-            if (_isSleeping)
-            {
-                Energy.Increase(_energyIncrement / (_sickCount + 1));
-            }
-            else
-            {
-                Energy.Decrease(_energyIncrement * (_sickCount + 1));
-            }
+            Hunger.Decrease(minutesPassed);
+            Health.Decrease(minutesPassed * factor);
+            Joy.Decrease(minutesPassed * factor);
+
+            if (!_isSleeping && (DateTime.Now.Hour >= settings.SilenceStart || DateTime.Now.Hour < settings.SilenceEnd))
+                sleepynessFactor *= 1.10f;
             
+            if (_isSleeping) factor = 1f / factor;
+
+            Energy.Decrease(minutesPassed * factor * sleepynessFactor);
 
             CheckSickness();
             CheckEvolution();
@@ -495,9 +468,9 @@ namespace GlyphaeScripts
         {
             if (_previousTimeStamp == null) return;
 
-            double difference = (_previousTimeStamp - DateTime.Now).TotalMinutes;
-            int minutes = (int)Mathf.Round((float)difference);
-            for (int i = 0; i < minutes; i++) DecreaseNeeds();
+            float difference = Mathf.Abs((float)(_previousTimeStamp - DateTime.Now).TotalMinutes);
+            int minutes = (int)Mathf.Round(difference);
+            if(minutes > 1)DecreaseNeeds(minutes);
         }
 
         /// <summary>
@@ -524,16 +497,6 @@ namespace GlyphaeScripts
             float joyFactor = Joy.Critical / (Joy.Current + 1) / 2;
             float energyFactor = Energy.Critical / (Energy.Current + 1) / 4;
 
-            if (_randomSeeds[4] != -1)
-            {
-                UnityEngine.Random.InitState((int)_randomSeeds[4]);
-            }
-            else
-            {
-                UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
-                _randomSeeds[4] = DateTime.Now.Ticks;
-            }
-
             int rng = UnityEngine.Random.Range(3, 11);
             float sicknessChance = (hungerFactor + healthFactor + energyFactor + joyFactor + rng) * _sicknessChanceFactor;
             rng = UnityEngine.Random.Range(NeedData.MAX / (10 / _sicknessChanceFactor), NeedData.MAX * NeedData.MAX / _sicknessChanceFactor);
@@ -542,7 +505,7 @@ namespace GlyphaeScripts
             if (sicknessChance > rng)
             {
                 _sickCount = Mathf.Clamp(_sickCount+1, 0, 3);
-                Health.Decrease(_healthIncrement * _sicknessChanceFactor * 10);
+                Health.Decrease(_sicknessChanceFactor * 10);
                 needCall.Setup(Health.Alarm);
             }
         }
@@ -592,21 +555,10 @@ namespace GlyphaeScripts
         {
             if (_level == Evolutions.Egg) return;
             
-            _hungerIncrement = CalculateNeedIncrement();
-            Hunger.SetupFactors(CalculateReverseCurve(), CalculateReverseLine());
-            _randomSeeds[0] = Hunger.Randomize(_evolutionCalls);
-
-            _healthIncrement = CalculateNeedIncrement() / 3.0f;
-            Health.SetupFactors(1, 1);
-            _randomSeeds[1] = Health.Randomize(_evolutionCalls);
-
-            _joyIncrement = CalculateNeedIncrement();
-            Joy.SetupFactors(CalculateReverseLine(), CalculateCurve());
-            _randomSeeds[2] = Joy.Randomize(_evolutionCalls);
-
-            _energyIncrement = CalculateNeedIncrement();
-            Energy.SetupFactors(CalculateReverseLine(), CalculateReverseCurve());
-            _randomSeeds[3] = Energy.Randomize(_evolutionCalls);
+            Hunger.SetupValues(CalculateReverseCurve(), CalculateReverseLine(), CalculateNeedIncrement(), _evolutionCalls);
+            Health.SetupValues(1, 1, CalculateNeedIncrement() / 3.0f, _evolutionCalls);
+            Joy.SetupValues(CalculateReverseLine(), CalculateCurve(), CalculateNeedIncrement(), _evolutionCalls);
+            Energy.SetupValues(CalculateReverseLine(), CalculateReverseCurve(), CalculateNeedIncrement(), _evolutionCalls);
 
             _sicknessChanceFactor = CalculateReverseCurve();
         }
@@ -618,10 +570,10 @@ namespace GlyphaeScripts
         {
             if (_level == Evolutions.Egg) return;
 
-            Hunger.SetupFactors(1, 1);
-            Health.SetupFactors(1, 1);
-            Joy.SetupFactors(1, 1);
-            Energy.SetupFactors(Enum.GetNames(typeof(Evolutions)).Length * 2, 1);
+            Hunger.SetupValues(1, 1, CalculateNeedIncrement(), _evolutionCalls);
+            Health.SetupValues(1, 1, CalculateNeedIncrement(), _evolutionCalls);
+            Joy.SetupValues(1, 1, CalculateNeedIncrement(), _evolutionCalls);
+            Energy.SetupValues(Enum.GetNames(typeof(Evolutions)).Length * 2, 1, CalculateNeedIncrement(), _evolutionCalls);
 
             _sicknessChanceFactor = 1;
 
@@ -678,12 +630,10 @@ namespace GlyphaeScripts
             notifications.ClearAllNotifications();
             if (_level == Evolutions.Egg) return;
             
-            Hunger.CalculateNotification(_hungerIncrement);
-            Health.CalculateNotification(_healthIncrement);
-            Joy.CalculateNotification(_joyIncrement);
-            Energy.CalculateNotification(_energyIncrement);
-
-            //_randomSeed = Mathf.Abs((int)DateTime.Now.Ticks);
+            Hunger.CalculateNotification();
+            Health.CalculateNotification();
+            Joy.CalculateNotification();
+            Energy.CalculateNotification();
         }
 
         #endregion Math
