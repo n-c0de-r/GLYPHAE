@@ -235,6 +235,15 @@ namespace GlyphaeScripts
         protected virtual void Fail()
         {
             OnWrongGuess?.Invoke(primaryNeed.Negative);
+            switch (settings.Difficulty)
+            {
+                case Difficulty.Easy:
+                    _failsToLose = int.MaxValue;
+                    break;
+                case Difficulty.Hard:
+                    _failsToLose /= 2;
+                    break;
+            }
             if (++_fails >= _failsToLose) CloseGame();
         }
 

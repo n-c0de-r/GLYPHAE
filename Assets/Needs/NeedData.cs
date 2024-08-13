@@ -24,14 +24,8 @@ namespace GlyphaeScripts
         [Tooltip("The lower limit value at\r\nwhich a need sets a notification.")]
         [SerializeField][Range(10, 30)] private float criticalLimit = 20;
 
-        [Tooltip("Has the need reached a\r\ncritical point to issue a call?")]
-        [SerializeField] private bool isCritical = false;
-
         [Tooltip("The upper limit value at\r\nwhicha need call is satisfied.")]
         [SerializeField][Range(70, 90)] private float satisfiedLimit = 80;
-
-        [Tooltip("Has the need been satisfied enough to\r\nnot trigger another learning prematurely?")]
-        [SerializeField] private bool isSatisfied = true;
 
         [Space]
         [Header("Feedback Icons")]
@@ -61,9 +55,11 @@ namespace GlyphaeScripts
 
         #region Fields
 
+        private DateTime _callTime;
         public const int MIN = 0, MAX = 100;
         public const float RANDOM_MIN = -0.13f, RANDOM_MAX = 0.13f;
         private float _upFactor, _downFactor, _randomOffset;
+        private bool _isCritical = false;
 
         #endregion
 
@@ -85,10 +81,6 @@ namespace GlyphaeScripts
         /// whicha need call is satisfied.
         /// </summary>
         public float SatisfiedLimit { get => satisfiedLimit; }
-
-        public bool IsSatisfied { get => isSatisfied; set => isSatisfied = value; }
-
-        public bool IsCritical { get => isCritical; set => isCritical = value; }
 
         /// <summary>
         /// The icon of the need.
@@ -188,19 +180,18 @@ namespace GlyphaeScripts
         {
             current = value;
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
-            
-            if (current > satisfiedLimit) isSatisfied = true;
 
-            if (current > criticalLimit) isCritical = false;
-
-            if (current < criticalLimit)
+            if (!_isCritical && current < criticalLimit)
             {
-                isCritical = true;
-
-                if (isSatisfied) isSatisfied = false;
+                _isCritical = true;
+                OnNeedCritical?.Invoke(this, current < criticalLimit);
             }
 
-            OnNeedCritical?.Invoke(this, isCritical);
+            if (_isCritical && current > criticalLimit)
+            {
+                _isCritical = false;
+                OnNeedCritical?.Invoke(this, current > criticalLimit);
+            }
         }
 
         /// <summary>
@@ -216,13 +207,11 @@ namespace GlyphaeScripts
             current = Mathf.Clamp(current + value, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
 
-            if (isCritical && current > criticalLimit)
+            if (_isCritical && current > criticalLimit)
             {
-                isCritical = false;
-                OnNeedCritical?.Invoke(this, isCritical);
+                _isCritical = false;
+                OnNeedCritical?.Invoke(this, current > criticalLimit);
             }
-
-            if (current > satisfiedLimit) isSatisfied = true;
         }
 
         /// <summary>
@@ -238,15 +227,10 @@ namespace GlyphaeScripts
             current = Mathf.Clamp(current + value, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(value));
 
-            if (!isCritical && current < criticalLimit)
+            if (!_isCritical && current < criticalLimit)
             {
-                isCritical = true;
-
-                if (isSatisfied)
-                {
-                    isSatisfied = false;
-                    OnNeedCritical?.Invoke(this, isCritical);
-                }
+                _isCritical = true;
+                OnNeedCritical?.Invoke(this, current < criticalLimit);
             }
         }
 
@@ -266,9 +250,10 @@ namespace GlyphaeScripts
             if (minutes <= 0) return;
 
             DateTime now = DateTime.Now;
-            DateTime later = now.AddMinutes(minutes);
-            if (later.Hour < settings.SilenceEnd || later.Hour > settings.SilenceStart)
-                later = new DateTime(later.Year, later.Month, later.Day, settings.SilenceEnd, later.Minute, later.Second);
+            _callTime = now.AddMinutes(minutes);
+
+            if (_callTime.Hour < settings.SilenceEnd || _callTime.Hour > settings.SilenceStart)
+                _callTime = new DateTime(_callTime.Year, _callTime.Month, _callTime.Day, settings.SilenceEnd, _callTime.Minute, _callTime.Second);
             notifications.SendNotification(title, description, minutes);
         }
 

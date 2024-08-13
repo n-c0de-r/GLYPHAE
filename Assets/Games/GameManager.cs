@@ -98,29 +98,33 @@ namespace GlyphaeScripts
 
         public void StartGame()
         {
-            StartGame(minigames[Random.Range(1, minigames.Count)]);
+            StartGame(minigames[Random.Range(1, (int)_pet.Level)]);
         }
 
         public void StartGame(Minigame picked)
         {
             int baseLevel = CalculateBaselevel();
 
-            if (!picked.GetType().Equals(typeof(LullabyChant)) && _pet.Energy.Current < _pet.Energy.Critical)
+            if (!picked.GetType().Equals(typeof(ShellBreaker)))
             {
-                picked.MessageFail(_pet.Energy.Alarm);
-                return;
-            }
+                if (!picked.GetType().Equals(typeof(LullabyChant)) && _pet.Energy.Current < _pet.Energy.Critical)
+                {
+                    picked.MessageFail(_pet.Energy.Alarm);
+                    return;
+                }
 
-            if (!picked.GetType().Equals(typeof(LullabyChant)) && picked.SecondaryNeed.Current < picked.LossAmount)
-            {
-                picked.MessageFail(picked.SecondaryNeed.Alarm);
-                return;
-            }
+                if (!picked.GetType().Equals(typeof(LullabyChant))
+                    && picked.SecondaryNeed != null && picked.SecondaryNeed.Current < picked.LossAmount)
+                {
+                    picked.MessageFail(picked.SecondaryNeed.Alarm);
+                    return;
+                }
 
-            if (picked.PrimaryNeed.Current > picked.PrimaryNeed.SatisfiedLimit)
-            {
-                picked.MessageSuccess(picked.PrimaryNeed.Positive);
-                return;
+                if (picked.PrimaryNeed.Current > picked.PrimaryNeed.SatisfiedLimit)
+                {
+                    picked.MessageSuccess(picked.PrimaryNeed.Positive);
+                    return;
+                }
             }
 
             GameObject instance = Instantiate(picked.gameObject, transform);

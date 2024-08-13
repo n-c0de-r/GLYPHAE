@@ -15,10 +15,8 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   initial: 60
   current: 60
-  criticalLimit: 10
-  isCritical: 0
+  criticalLimit: 20
   satisfiedLimit: 80
-  isSatisfied: 1
   icon: {fileID: 973455981, guid: 25e8c2e1752d6164782cae62a53bcb3c, type: 3}
   alarm: {fileID: 1333884041, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: 1875779347, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}

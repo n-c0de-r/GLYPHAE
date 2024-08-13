@@ -25,12 +25,12 @@ MonoBehaviour:
   voice: 0
   animationSpeed: 3
   gameSpeed: 1
-  difficulty: 0
+  difficulty: 1
   language: 0
-  firstRun: 0
+  firstRun: 1
   _selectedPet: {fileID: 0}
   _silenceStart: 20
   _silenceEnd: 8
-  debugCount: 0
-  _isDebugMode: 1
+  debugCount: 3
+  _isDebugMode: 0
   _hasNotificationPermission: 0

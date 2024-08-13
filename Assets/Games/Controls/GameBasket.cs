@@ -19,7 +19,7 @@ namespace GlyphaeScripts
         #region Fields
 
         private Transform _petSprite;
-        private float _delay = 2f;
+        private float _delay = 1f;
 
         #endregion
 
