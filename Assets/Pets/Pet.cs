@@ -66,7 +66,7 @@ namespace GlyphaeScripts
 
 
         private const char ITEM_SPLIT = ';', VALUE_SPLIT = ':', PART_SPLIT = '~';
-        private const float INCREMENT_MIN = 0.41f, INCREMENT_MAX = 0.61f;
+        private const float INCREMENT_MIN = 0.13f, INCREMENT_MAX = 0.23f;
         private float _needTimer = 60;
         private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
         private float _sleepynessFactor = 1f;
