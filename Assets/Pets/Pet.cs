@@ -66,7 +66,7 @@ namespace GlyphaeScripts
 
 
         private const char ITEM_SPLIT = ';', VALUE_SPLIT = ':', PART_SPLIT = '~';
-        private const float INCREMENT_MIN = 0.13f, INCREMENT_MAX = 0.23f;
+        private const float INCREMENT_MIN = 0.41f, INCREMENT_MAX = 0.61f;
         private float _needTimer = 60;
         private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
         private float _sleepynessFactor = 1f;
@@ -248,10 +248,13 @@ namespace GlyphaeScripts
         {
             if (isPaused)
             {
-                CalculateNotifications();
-                _previousTimeStamp = DateTime.Now;
+                if (Mathf.Abs(Mathf.Round((float)(_previousTimeStamp -DateTime.Now).TotalMinutes)) > 1)
+                {
+                    CalculateNotifications();
+                    _previousTimeStamp = DateTime.Now;
 
-                if (_level != Evolutions.Egg) SavePrefs();
+                    if (_level != Evolutions.Egg) SavePrefs();
+                }
             }
             else
             {
@@ -277,10 +280,13 @@ namespace GlyphaeScripts
             }
             else
             {
-                CalculateNotifications();
-                _previousTimeStamp = DateTime.Now;
+                if (Mathf.Abs(Mathf.Round((float)(_previousTimeStamp - DateTime.Now).TotalMinutes)) > 1)
+                {
+                    CalculateNotifications();
+                    _previousTimeStamp = DateTime.Now;
 
-                if (_level != Evolutions.Egg) SavePrefs();
+                    if (_level != Evolutions.Egg) SavePrefs();
+                }
             }
         }
 
@@ -448,19 +454,22 @@ namespace GlyphaeScripts
             float factor = 1f * _sickCount + 1;
 
             Hunger.Decrease(minutesPassed);
-            Health.Decrease(minutesPassed * factor);
-            Joy.Decrease(minutesPassed * factor);
+            Health.Decrease(minutesPassed);
+            Joy.Decrease(minutesPassed);
 
-            _sleepynessFactor =
-                (!_isSleeping && (DateTime.Now.Hour >= settings.SilenceStart || DateTime.Now.Hour < settings.SilenceEnd))
-                ? _sleepynessFactor * 1.10f : 1f;
-                
-            
-            if (_isSleeping) factor = 1f / factor;
+            if (!_isSleeping)
+            {
+                if (DateTime.Now.Hour >= settings.SilenceStart
+                    || DateTime.Now.Hour < settings.SilenceEnd) _sleepynessFactor *= 1.10f;
+                Energy.Decrease(minutesPassed * _sleepynessFactor);
+            } else
+            {
+                _sleepynessFactor = 1f;
+                factor = 1f / factor;
+                Energy.Increase(minutesPassed * _sleepynessFactor);
+            }
 
-            Energy.Decrease(minutesPassed * factor * _sleepynessFactor);
-
-            CheckSickness();
+            //CheckSickness();
             CheckEvolution();
         }
 

@@ -533,10 +533,10 @@ MonoBehaviour:
   inputContainer: {fileID: 8013556117841276515}
   dropPoint: {fileID: 5072922807922102377}
   baseRounds: 2
-  energyCost: 5
+  energyCost: 3
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   secondaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
-  fillAmount: 7
+  fillAmount: 5
   lossAmount: 2
   helpContainer: {fileID: 7281613660642642511}
   gameDescription: Small children and pets enjoy hiding and making you seek them.

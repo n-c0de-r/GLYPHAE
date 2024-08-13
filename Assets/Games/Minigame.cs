@@ -45,10 +45,10 @@ namespace GlyphaeScripts
         [SerializeField] protected NeedData secondaryNeed;
 
         [Tooltip("The strength of need filling by the game.")]
-        [SerializeField][Range(0, 10)] protected int fillAmount;
+        [SerializeField][Range(0, 20)] protected int fillAmount;
 
         [Tooltip("The amount the secondary need is depleted\r\non win or loss either way.")]
-        [SerializeField][Range(0, 5)] protected int lossAmount;
+        [SerializeField][Range(0, 10)] protected int lossAmount;
 
         [Space]
         [Header("Help Data")]

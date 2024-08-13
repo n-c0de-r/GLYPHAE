@@ -201,7 +201,7 @@ namespace GlyphaeScripts
             if (factor == 0) return;
             
             if (current < MIN || current > MAX) return;
-            factor = _incrementValue * factor * (_upFactor + _randomOffset);
+            factor = (_incrementValue + factor) * (_upFactor + _randomOffset);
             current = Mathf.Clamp(current + factor, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(factor));
 
@@ -216,12 +216,12 @@ namespace GlyphaeScripts
         /// Decreases the current <see cref="NeedData"/> value with a specific calculation.
         /// </summary>
         /// <param name="value">The factor to influence increment by additionally.</param>
-        public void Decrease(float factor = 1)
+        public void Decrease(float factor = 1f)
         {
             if (factor == 0) return;
 
             if (current < MIN || current > MAX) return;
-            factor = -_incrementValue * factor * (_downFactor + _randomOffset);
+            factor = -(_incrementValue + factor) * (_downFactor + _randomOffset) / 10;
             current = Mathf.Clamp(current + factor, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(factor));
 
