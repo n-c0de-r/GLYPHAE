@@ -70,6 +70,7 @@ namespace GlyphaeScripts
         protected List<GameButton> _gameInputs;
         protected GlyphData _toMatch, _toLearn;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
+        protected HashSet<GlyphData> _correctGuesses;
         protected float _primaryValue = 0, _secondValue;
         protected int _successes, _fails, _failsToLose;
         protected int _level, _rounds, _buttonCount;
@@ -144,6 +145,7 @@ namespace GlyphaeScripts
         /// <param name="baseLevel"><The <see cref="Minigame"/> base level, based on the <see cref="Pet"/>'s current <see cref="Evolutions"/> level.</param>
         public virtual void SetupGame(bool isTeaching, List<GlyphData> glyphs, int baseLevel)
         {
+            _correctGuesses = new();
             _isTeaching = isTeaching;
             SetupGylphLists(new(glyphs));
             _level = baseLevel;
@@ -207,7 +209,7 @@ namespace GlyphaeScripts
             {
                 _toLearn = null;
                 _isTeaching = false;
-                _toMatch.CorrectlyGuessed();
+                _correctGuesses.Add(_toMatch);
                 Success();
             }
             else
@@ -253,6 +255,8 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Win()
         {
+            foreach (GlyphData item in _correctGuesses)
+                item.CorrectlyGuessed();
             OnGameWin?.Invoke(primaryNeed);
             _primaryValue = fillAmount;
             CloseGame();

@@ -45,6 +45,8 @@ namespace GlyphaeScripts
 
         #region GetSets / Properties
 
+        public GlyphData Data { get => data; }
+
         public Transform Target { set => _targets.Add(value); }
         public HashSet<Transform> Targets { get => _targets; }
         

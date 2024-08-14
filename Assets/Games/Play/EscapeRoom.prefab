@@ -8929,7 +8929,7 @@ MonoBehaviour:
   energyCost: 3
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   secondaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
-  fillAmount: 15
+  fillAmount: 9
   lossAmount: 2
   helpContainer: {fileID: 4433346635537188152}
   gameDescription: 'Rebellious teens alsways try to sneak out.

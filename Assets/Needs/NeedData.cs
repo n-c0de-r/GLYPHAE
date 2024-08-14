@@ -221,7 +221,7 @@ namespace GlyphaeScripts
             if (factor == 0) return;
 
             if (current < MIN || current > MAX) return;
-            factor = -_incrementValue * factor * (_downFactor + _randomOffset) / 10;
+            factor = -_incrementValue * factor * (_downFactor + _randomOffset) / 5;
             current = Mathf.Clamp(current + factor, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(factor));
 
@@ -262,7 +262,7 @@ namespace GlyphaeScripts
             DateTime now = DateTime.Now;
             _callTime = now.AddMinutes(minutes);
 
-            if (_callTime.Hour < settings.SilenceEnd || _callTime.Hour > settings.SilenceStart)
+            if ((_callTime.Day > DateTime.Now.Day && _callTime.Hour < settings.SilenceEnd) || _callTime.Hour > settings.SilenceStart)
                 _callTime = new DateTime(_callTime.Year, _callTime.Month, _callTime.Day, settings.SilenceEnd, _callTime.Minute, _callTime.Second);
             notifications.SendNotification(title, description, minutes);
         }

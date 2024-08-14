@@ -142,7 +142,7 @@ namespace GlyphaeScripts
                 _isTeaching = false;
                 _clickedButton = null;
                 _pairsFound++;
-                input.CorrectlyGuessed();
+                _correctGuesses.Add(input);
             }
             else
             {

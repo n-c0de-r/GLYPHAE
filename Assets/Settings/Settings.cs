@@ -334,6 +334,6 @@ namespace GlyphaeScripts
     /// </summary>
     public enum Language
     {
-        English, Deutsch
+        English, Deutsch, Enpanol, Srpski
     }
 }

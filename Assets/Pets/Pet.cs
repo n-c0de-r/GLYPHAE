@@ -168,7 +168,6 @@ namespace GlyphaeScripts
             }
         }
 
-
         /// <summary>
         /// Sets the hidden evolution calls number value.
         /// Only for debugging on hardware.
@@ -237,10 +236,13 @@ namespace GlyphaeScripts
 
             NeedData.OnNeedCritical -= SetCiticals;
 
-            CalculateNotifications();
-            _previousTimeStamp = DateTime.Now;
+            if (Mathf.Abs(Mathf.Round((float)(_previousTimeStamp - DateTime.Now).TotalMinutes)) > 1)
+            {
+                CalculateNotifications();
+                _previousTimeStamp = DateTime.Now;
 
-            if (_level != Evolutions.Egg) SavePrefs();
+                if (_level != Evolutions.Egg) SavePrefs();
+            }
         }
 
         // Apparently needed on mobile. Better safe than sorry?
@@ -329,6 +331,9 @@ namespace GlyphaeScripts
 
         #region Persistence
 
+        /// <summary>
+        /// Load <see cref="Pet"/>'s values.
+        /// </summary>
         public void LoadPrefs()
         {
             string prefix = petName + "_";
@@ -397,6 +402,9 @@ namespace GlyphaeScripts
             }
         }
 
+        /// <summary>
+        /// Saves <see cref="Pet"/>'s values.
+        /// </summary>
         public void SavePrefs()
         {
             string prefix = petName + "_";
@@ -543,6 +551,11 @@ namespace GlyphaeScripts
             StartCoroutine(needFeedback.ShowFeedback());
         }
 
+        /// <summary>
+        /// Sets up ctitical values.
+        /// </summary>
+        /// <param name="data">The data to set critical.</param>
+        /// <param name="state">The state to set to.</param>
         private void SetCiticals(NeedData data, bool state)
         {
             if (state)
@@ -553,6 +566,7 @@ namespace GlyphaeScripts
             }
             else if (_criticals.Remove(data))
                 _evolutionCalls++;
+            // FIX BUGS
         }
 
         #region Math
@@ -636,11 +650,14 @@ namespace GlyphaeScripts
             return UnityEngine.Random.Range(INCREMENT_MIN, INCREMENT_MAX) * CalculateReverseLine();
         }
 
-        // ENDGAME
+        /// <summary>
+        /// Calculate the notification calls when game is closed.
+        /// </summary>
         private void CalculateNotifications()
         {
             notifications.ClearAllNotifications();
             if (_level == Evolutions.Egg) return;
+            if (_isSleeping) return;
             
             Hunger.CalculateNotification();
             Health.CalculateNotification();

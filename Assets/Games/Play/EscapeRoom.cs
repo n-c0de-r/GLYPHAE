@@ -249,8 +249,8 @@ namespace GlyphaeScripts
             {
                 GameButton item = button.transform.parent == gridFloors ? button : _clickedButton;
                 int index = item.transform.GetSiblingIndex();
-                
-                input.CorrectlyGuessed();
+
+                _correctGuesses.Add(input);
                 MoveSprite(index);
             }
             else

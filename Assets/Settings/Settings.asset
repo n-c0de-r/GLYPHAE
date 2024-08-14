@@ -32,5 +32,5 @@ MonoBehaviour:
   _silenceStart: 20
   _silenceEnd: 8
   debugCount: 0
-  _isDebugMode: 0
+  _isDebugMode: 1
   _hasNotificationPermission: 0

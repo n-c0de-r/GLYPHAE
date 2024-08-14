@@ -153,7 +153,7 @@ namespace GlyphaeScripts
             {
                 _toLearn = null;
                 _isTeaching = false;
-                _toMatch.CorrectlyGuessed();
+                _correctGuesses.Add(_toMatch);
                 Success();
                 if (_successes < _rounds) NextRound();
             }

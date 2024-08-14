@@ -112,7 +112,8 @@ namespace GlyphaeScripts
         {
             if (_toMatch == input)
             {
-                _toMatch.CorrectlyGuessed();
+
+                _correctGuesses.Add(_toMatch);
                 Success();
 
                 _timeIcons[_order[_orderIndex]].Disable();
