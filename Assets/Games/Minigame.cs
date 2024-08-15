@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace GlyphaeScripts
 {
@@ -35,7 +34,7 @@ namespace GlyphaeScripts
         [SerializeField][Range(1, 3)] protected int baseRounds = 1;
 
         [Tooltip("The base costs of Energy to play a game.")]
-        [SerializeField][Range(0, 10)] private int energyCost;
+        [SerializeField][Range(0, 10)] protected int energyCost;
 
         [Space]
         [Header("Need Values")]
@@ -49,7 +48,7 @@ namespace GlyphaeScripts
         [SerializeField][Range(0, 10)] protected int fillAmount;
 
         [Tooltip("The amount the secondary need is depleted\r\non win or loss either way.")]
-        [SerializeField][Range(0, 5)] protected int lossAmount;
+        [SerializeField][Range(0, 10)] protected int lossAmount;
 
         [Space]
         [Header("Help Data")]
@@ -70,7 +69,8 @@ namespace GlyphaeScripts
         [Tooltip("The Inputs to set up at start.")]
         protected List<GameButton> _gameInputs;
         protected GlyphData _toMatch, _toLearn;
-        protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
+        protected List<GlyphData> _newGlyphs, _usedGlyphs, _seenGlyphs, _unknownGlyphs, _knownGlyphs, _memorizedGlyphs;
+        protected HashSet<GlyphData> _correctGuesses;
         protected float _primaryValue = 0, _secondValue;
         protected int _successes, _fails, _failsToLose;
         protected int _level, _rounds, _buttonCount;
@@ -83,7 +83,8 @@ namespace GlyphaeScripts
 
         public static event Action<NeedData> OnGameWin;
         public static event Action<Minigame> OnGameClose;
-        public static event Action<Sprite> OnNextRound, OnCorrectGuess, OnWrongGuess;
+        public static event Action<AudioClip, Sprite> OnNextRound;
+        public static event Action<Sprite> OnCorrectGuess, OnWrongGuess;
 
         #endregion
 
@@ -145,6 +146,7 @@ namespace GlyphaeScripts
         /// <param name="baseLevel"><The <see cref="Minigame"/> base level, based on the <see cref="Pet"/>'s current <see cref="Evolutions"/> level.</param>
         public virtual void SetupGame(bool isTeaching, List<GlyphData> glyphs, int baseLevel)
         {
+            _correctGuesses = new();
             _isTeaching = isTeaching;
             SetupGylphLists(new(glyphs));
             _level = baseLevel;
@@ -184,12 +186,31 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        protected virtual void DisplayRound(Sprite correct)
+        /// <summary>
+        /// Displays the next <see cref="NeedData"/> sprite.
+        /// </summary>
+        /// <param name="clip">The sound to play on match.</param>
+        /// <param name="correct">The correct sprite to match.</param>
+        protected virtual void DisplayRound(AudioClip clip, Sprite correct)
         {
-            OnNextRound?.Invoke(correct);
+            OnNextRound?.Invoke(clip, correct);
             ActivateButtons(true);
         }
 
+        /// <summary>
+        /// Displays the next <see cref="NeedData"/> sprite.
+        /// </summary>
+        /// <param name="correct">The correct sprite to match.</param>
+        //protected virtual void DisplayRound(Sprite correct)
+        //{
+        //    OnNextRound?.Invoke(correct);
+        //    ActivateButtons(true);
+        //}
+
+        /// <summary>
+        /// General input check method, can be overridden.
+        /// </summary>
+        /// <param name="input">The incoming input data to match.</param>
         protected virtual void CheckInput(GlyphData input)
         {
             if (_toMatch == null) return;
@@ -198,9 +219,14 @@ namespace GlyphaeScripts
 
             if (_toMatch == input)
             {
+                _correctGuesses.Add(_toMatch);
+                if (_toLearn != null)
+                {
+                    _toLearn.LevelUp();
+                    _correctGuesses.Remove(_toLearn);
+                }
                 _toLearn = null;
                 _isTeaching = false;
-                _toMatch.CorrectlyGuessed();
                 Success();
             }
             else
@@ -228,6 +254,15 @@ namespace GlyphaeScripts
         protected virtual void Fail()
         {
             OnWrongGuess?.Invoke(primaryNeed.Negative);
+            switch (settings.Difficulty)
+            {
+                case Difficulty.Easy:
+                    _failsToLose = int.MaxValue;
+                    break;
+                case Difficulty.Hard:
+                    _failsToLose /= 2;
+                    break;
+            }
             if (++_fails >= _failsToLose) CloseGame();
         }
 
@@ -237,6 +272,8 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Win()
         {
+            foreach (GlyphData item in _correctGuesses)
+                item.CorrectlyGuessed();
             OnGameWin?.Invoke(primaryNeed);
             _primaryValue = fillAmount;
             CloseGame();
@@ -301,8 +338,11 @@ namespace GlyphaeScripts
             if (glyphs == null || glyphs.Count == 0) return;
 
             // Same as: if (_allOtherGlyphs == null) _allOtherGlyphs = new();
-            _allOtherGlyphs ??= new();
             _newGlyphs ??= new();
+            _seenGlyphs ??= new();
+            _unknownGlyphs ??= new();
+            _knownGlyphs ??= new();
+            _memorizedGlyphs ??= new();
 
             foreach (GlyphData glyph in glyphs)
             {
@@ -311,8 +351,17 @@ namespace GlyphaeScripts
                     case MemoryLevels.New:
                         _newGlyphs.Add(glyph);
                         break;
-                    default:
-                        _allOtherGlyphs.Add(glyph);
+                    case MemoryLevels.Seen:
+                        _seenGlyphs.Add(glyph);
+                        break;
+                    case MemoryLevels.Unknown:
+                        _unknownGlyphs.Add(glyph);
+                        break;
+                    case MemoryLevels.Known:
+                        _knownGlyphs.Add(glyph);
+                        break;
+                    case MemoryLevels.Memorized:
+                        _memorizedGlyphs.Add(glyph);
                         break;
                 }
             }
@@ -337,11 +386,29 @@ namespace GlyphaeScripts
                     _newGlyphs.Remove(_toLearn);
                     _usedGlyphs.Add(_toLearn);
                 }
-                else if (_allOtherGlyphs.Count > 0)
+                else if (_seenGlyphs.Count > 0)
                 {
                     // Normally pick known ones
-                    GlyphData temp = _allOtherGlyphs[UnityEngine.Random.Range(0, _allOtherGlyphs.Count)];
-                    _allOtherGlyphs.Remove(temp);
+                    GlyphData temp = _seenGlyphs[UnityEngine.Random.Range(0, _seenGlyphs.Count)];
+                    _seenGlyphs.Remove(temp);
+                    _usedGlyphs.Add(temp);
+                }
+                else if (_unknownGlyphs.Count > 0)
+                {
+                    GlyphData temp = _unknownGlyphs[UnityEngine.Random.Range(0, _unknownGlyphs.Count)];
+                    _unknownGlyphs.Remove(temp);
+                    _usedGlyphs.Add(temp);
+                }
+                else if (_knownGlyphs.Count > 0)
+                {
+                    GlyphData temp = _knownGlyphs[UnityEngine.Random.Range(0, _knownGlyphs.Count)];
+                    _knownGlyphs.Remove(temp);
+                    _usedGlyphs.Add(temp);
+                }
+                else if (_memorizedGlyphs.Count > 0)
+                {
+                    GlyphData temp = _memorizedGlyphs[UnityEngine.Random.Range(0, _memorizedGlyphs.Count)];
+                    _memorizedGlyphs.Remove(temp);
                     _usedGlyphs.Add(temp);
                 }
             }

@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   initial: 100
-  current: 100
+  current: 65.9235
   criticalLimit: 20
-  isCritical: 0
   satisfiedLimit: 80
-  isSatisfied: 1
+  icon: {fileID: 676651089, guid: 25e8c2e1752d6164782cae62a53bcb3c, type: 3}
   alarm: {fileID: 1381043269, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   positive: {fileID: -1228989046, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
   negative: {fileID: 1333884041, guid: 69ea5a7e136ac5a4cb81a7d0f0534a9d, type: 3}
+  alarmSound: {fileID: 8300000, guid: afbb8fba3352f7745bd31f417a750496, type: 3}
   notifications: {fileID: 3831587235750753166, guid: dccdcaddbbc2cfd4193c02bddff836e7, type: 3}
   title: Your pet is exhausted.
   description: Please come back and bring your pet to bed, so it can rest and grow.

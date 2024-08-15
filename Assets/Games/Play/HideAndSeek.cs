@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
@@ -14,39 +14,18 @@ namespace GlyphaeScripts
         [Space]
         [Header("Game Specific")]
         [Tooltip("The container where the list of items to match will spawn.")]
-        [SerializeField] private Transform container;
-        
-        [Tooltip("The container where the list of items to match will spawn.")]
-        [SerializeField] private Transform startPoition;
+        [SerializeField] private Image petSprite;
+
+        [Tooltip("The grid holding the baskets to check.")]
+        [SerializeField] private HorizontalLayoutGroup grid;
 
         #endregion
 
 
         #region Fields
 
-        private List<Sprite> previousSprites;
-        private Sprite previous;
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
+        GameBasket _correctBasket;
+        private int shuffleNumber;
 
         #endregion
 
@@ -55,18 +34,18 @@ namespace GlyphaeScripts
 
         private new void OnEnable()
         {
-            base.OnEnable();
-            NeedBubble.OnFeedbackDone += NextRound;
-
+            GameBasket.OnHidden += ShuffleBaskets;
+            GameBasket.OnBasketPick += RevealCorrect;
         }
 
         private new void OnDisable()
         {
-            base.OnDisable();
-            NeedBubble.OnFeedbackDone -= NextRound;
+            GameBasket.OnHidden -= ShuffleBaskets;
+            GameBasket.OnBasketPick -= RevealCorrect;
         }
 
         #endregion
+
 
         #region Methods
 
@@ -74,53 +53,31 @@ namespace GlyphaeScripts
         {
             base.SetupGame(isTeaching, glyphs, baseLevel);
 
-            SelectGlyphs();
-            //gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
-
-            //StartCoroutine(InitialAnimation(settings.AnimationSpeed));
+            petSprite.sprite = settings.SelectedPet.gameObject.GetComponent<SpriteRenderer>().sprite;
+            settings.SelectedPet.GetComponent<SpriteRenderer>().enabled = false;
+            _buttonCount = 3;
         }
 
-        
+
         public override void NextRound()
         {
-            /*
-            _usedGlyphs = new();
+            ResetBaskets();
 
-            if (_isTeaching && !_hasLearned && _newGlyphs.Count > 0)
-            {
-                // On criticals prefer new glyphs, to teach
-                _toMatch = _newGlyphs[Random.Range(0, _newGlyphs.Count)];
-                _newGlyphs.Remove(_toMatch);
-                _hasLearned = true;
-            }
-            else if (_allOtherGlyphs.Count > 0)
-            {
-                // Normally pick known ones
-                _toMatch = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                _allOtherGlyphs.Remove(_toMatch);
-            }
-            _usedGlyphs.Add(_toMatch);
+            List<GlyphData> temp = new(SelectGlyphs());
 
-            int correctPosition = Random.Range(0, _buttonCount);
+            _toMatch = temp[Random.Range(0, temp.Count)];
+            _correctBasket = null;
 
-            for (int i = 0; i < _buttonCount; i++)
+            foreach (GameButton item in _gameInputs)
             {
-                if (i == correctPosition)
-                {
-                    gameInputs[i].Setup(_toMatch, _toMatch.Symbol);
-                }
-                else
-                {
-                    GlyphData wrongGlyph;
-                    wrongGlyph = _allOtherGlyphs[Random.Range(0, _allOtherGlyphs.Count)];
-                    _allOtherGlyphs.Remove(wrongGlyph);
-                    _usedGlyphs.Add(wrongGlyph);
-                    gameInputs[i].Setup(wrongGlyph, wrongGlyph.Symbol);
-                }
+                GlyphData glyph = temp[Random.Range(0, temp.Count)];
+                item.Setup(glyph, glyph.Symbol);
+                if (_toMatch == glyph) _correctBasket = (GameBasket)item;
+                temp.Remove(glyph);
             }
 
-            DisplayRound(_toMatch.Letter);
-            */
+            DisplayRound(_toMatch.Sound, _toMatch.Letter);
+            _correctBasket.HideSprite(petSprite.transform);
         }
 
         #endregion
@@ -128,31 +85,88 @@ namespace GlyphaeScripts
 
         #region Helpers
 
-        private IEnumerator InitialAnimation(float speedFactor)
+        private void ResetBaskets()
         {
-            Vector2 goal = startPoition.position;
+            shuffleNumber = 0;
+            grid.enabled = false;
 
-            for (int i = 0; i < _rounds; i++)
+            foreach (GameButton button in _gameInputs) Destroy(button.gameObject);
+            _gameInputs = new();
+
+
+            for (int i = 0; i < _buttonCount; i++)
             {
-                goal.x = _gameInputs[i].transform.position.x;
-                int sum = (int)(goal.y + _gameInputs[i].transform.position.y);
-                StartCoroutine(AnimateFall(_gameInputs[i].GetComponent<RectTransform>(), goal, sum, 1f / speedFactor / i));
+                Vector3 pos = inputPositions.GetChild(i).position;
+                GameButton basket = Instantiate(gameInput, inputContainer);
+                basket.GetComponent<RectTransform>().position = pos;
+                _gameInputs.Add(basket);
             }
-            yield return new WaitForSeconds(1f / speedFactor);
+
+            grid.enabled = false;
         }
 
-        private IEnumerator AnimateFall(RectTransform glass, Vector2 goal, int steps, float speed)
+        /// <summary>
+        /// Shuffles basket around to another position.
+        /// </summary>
+        private void ShuffleBaskets()
         {
-            int current = 0;
-            float ratio;
-            while (current < steps)
+            List<Transform> positions = new();
+            GameObject temp = new();
+
+            Vector3 outer = _gameInputs[0].transform.position - _gameInputs[1].transform.position;
+            outer = _gameInputs[0].transform.position + outer;
+            temp.transform.position = outer;
+            positions.Add(temp.transform);
+
+            temp = new();
+            outer = _gameInputs[2].transform.position - _gameInputs[1].transform.position;
+            outer = _gameInputs[2].transform.position + outer;
+            temp.transform.position = outer;
+            positions.Add(temp.transform);
+
+            foreach (GameButton item in _gameInputs)
             {
-                ratio = (float)current / steps;
-                Vector2.Lerp(glass.position, goal, ratio);
-                yield return null;
-                current++;
+                positions.Add(item.transform);
             }
-                yield return new WaitForSeconds(speed);
+
+            foreach (GameButton item in _gameInputs)
+            {
+                GameBasket basket = (GameBasket)item;
+                Transform target = positions[Random.Range(0, positions.Count)];
+                positions.Remove(target);
+                basket.MoveTo(target);
+            }
+
+            if (shuffleNumber < _rounds)
+            {
+                Invoke(nameof(ShuffleBaskets), 2/settings.AnimationSpeed);
+                shuffleNumber++;
+            }
+        }
+
+        private void RevealCorrect(bool state)
+        {
+            ActivateButtons(false);
+
+            if (state)
+            {
+                _correctGuesses.Add(_toMatch);
+                if (_toLearn != null)
+                {
+                    _toLearn.LevelUp();
+                    _correctGuesses.Remove(_toLearn);
+                }
+                _toLearn = null;
+                _isTeaching = false;
+                Success();
+                if (_successes < _rounds) NextRound();
+            }
+            else
+            {
+                _toMatch.WronglyGuessed();
+                Fail();
+                _correctBasket.RevealContent();
+            }
         }
 
         #endregion

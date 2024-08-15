@@ -7,6 +7,8 @@ GLYPHAE is an Android mobile game designed to make learning Ancient Egyptian hie
 
 Each need is met by playing games that teach the player hieroglyphs through a [Leitner-flashcard](https://en.wikipedia.org/wiki/Leitner_system)-inspired memory system. As you progress, the difficulty increases and new mini-games become available, reflecting the [five steps of second language acquisition described by Stephen Krashen](https://en.wikipedia.org/wiki/Second-language_acquisition#Stages).
 
+![Dictionary](./Screenshots/2_Dictionary.png)
+
 ## :scroll: Table of Contents
 
 - [Features](#hammer-features)
@@ -31,6 +33,8 @@ Each need is met by playing games that teach the player hieroglyphs through a [L
 - Engage in 8 different mini-games (so far) to fulfill your pet's needs: hunger, health, joy, and energy
 - Receive notifications when needs drop to low, and by fulfilling these requests evolve your creature
 
+![Main Menu](./Screenshots/1_Main.png)
+
 ## :dart: Gameplay
 
 ### :heartpulse: Needs
@@ -41,6 +45,8 @@ Each need is met by playing games that teach the player hieroglyphs through a [L
 - Energy: Read a magic lullaby-spell to boost your pet’s energy, so you can play on.
 
 When any of these needs drops below a threshold, your pet will notify you. Each notification serves as an opportunity to learn new hieroglyphs and evolve your pet to the next stage.
+
+![Game View](./Screenshots/4_GameView.png)
 
 ### :hatching_chick: Evolution
 
@@ -56,9 +62,13 @@ As your pet evolves, the following will happen:
   4. Intermediate Fluency
   5. Advanced Fluency
 
+![Game View](./Screenshots/3_PetSelect.png)
+
 ### :video_game: Games
 
 #### Shell Breaker
+
+![Minigame](./Screenshots/5_MiniGame.png)
 
 TODO
 
@@ -68,15 +78,7 @@ TODO
 
 or
 
-2. Download the APK from my [itch.io page]()
-
-or
-
-3. ~~Install the game using [F-Droid]()~~
-
-or
-
-4. ~~Install via [Google PlayStore]()~~
+2. Download the APK from my [itch.io page](https://n-c0de-r.itch.io/glyphae)
 
 ## :iphone: Usage
 

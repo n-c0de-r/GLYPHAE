@@ -25,6 +25,7 @@ namespace GlyphaeScripts
         #region Fields
 
         private List<TimeIcon> _timeIcons;
+        List<GlyphData> _orderData;
         private List<int> _order;
         private int _orderIndex = 0;
 
@@ -44,7 +45,6 @@ namespace GlyphaeScripts
         {
             base.OnEnable();
             TimeIcon.OnAnimationDone += AnimateNext;
-            NeedBubble.OnFeedbackDone += NextRound;
 
         }
 
@@ -52,7 +52,6 @@ namespace GlyphaeScripts
         {
             base.OnDisable();
             TimeIcon.OnAnimationDone -= AnimateNext;
-            NeedBubble.OnFeedbackDone -= NextRound;
         }
 
         #endregion
@@ -70,6 +69,7 @@ namespace GlyphaeScripts
                 _gameInputs[i].Setup(_usedGlyphs[i], _usedGlyphs[i].Letter);
 
             _order = new();
+            _orderData = new();
             while (_order.Count < _rounds)
             {
                 int rng = UnityEngine.Random.Range(0, _rounds);
@@ -80,9 +80,10 @@ namespace GlyphaeScripts
             _timeIcons = new();
             for (int i = 0; i < _rounds; i++)
             {
+                _orderData.Add(_usedGlyphs[_order[i] % _buttonCount]);
                 GameObject instance = Instantiate(template.gameObject, container);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
-                timer.Setup(_usedGlyphs[i % _usedGlyphs.Count], _usedGlyphs[i % _usedGlyphs.Count].Symbol);
+                timer.Setup(_usedGlyphs[_order[i] % _buttonCount].Symbol);
                 _timeIcons.Add(timer);
             }
 
@@ -104,13 +105,13 @@ namespace GlyphaeScripts
         {
             if (_toMatch == input)
             {
-                _toMatch.CorrectlyGuessed();
+                _correctGuesses.Add(_toMatch);
                 Success();
 
                 _timeIcons[_order[_orderIndex]].Disable();
                 _orderIndex++;
                 if (_orderIndex >= _order.Count) return;
-                _toMatch = _timeIcons[_order[_orderIndex]].Data;
+                _toMatch = _orderData[_order[_orderIndex]];
             }
             else
             {
@@ -125,7 +126,7 @@ namespace GlyphaeScripts
             {
                 ActivateButtons(true);
                 _orderIndex = 0;
-                _toMatch = _timeIcons[_order[_orderIndex]].Data;
+                _toMatch = _orderData[_order[_orderIndex]];
                 return;
             }
 

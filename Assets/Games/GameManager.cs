@@ -1,5 +1,5 @@
+using Random = UnityEngine.Random;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,28 +16,6 @@ namespace GlyphaeScripts
         [Tooltip("List of Minigames to play.")]
         [SerializeField] private List<Minigame> minigames;
 
-        [Header("Other objects")]
-        [Tooltip("GUI buttons left panel to turn on and off.")]
-        [SerializeField] private GameObject leftButtons;
-
-        [Tooltip("GUI buttons right panel to turn on and off.")]
-        [SerializeField] private GameObject rightButtons;
-
-        [Tooltip("Used for evolution and sleep.")]
-        [SerializeField] private FlashOverlay flashOverlay;
-
-        [Tooltip("Button to wake the pet.")]
-        [SerializeField] private GameObject wakeButton;
-
-        [Tooltip("Field where the Pet will 'live' in.")]
-        [SerializeField] private RectTransform objectContainer;
-
-        [Tooltip("Hidden button to activate debug mode.")]
-        [SerializeField] private GameObject debugActivator;
-
-        [Tooltip("The actual button to show the debug view.")]
-        [SerializeField] private GameObject debugButton;
-
         #endregion
 
 
@@ -51,7 +29,7 @@ namespace GlyphaeScripts
 
         #region Events
 
-
+        public static event Action<bool> OnGameFinished;
 
         #endregion
 
@@ -67,85 +45,50 @@ namespace GlyphaeScripts
             set => minigames = value;
         }
 
-        /// <summary>
-        /// Sets the debug counter. Only for editor access.
-        /// </summary>
-        public int DebugClick
-        {
-            set
-            {
-                if (settings.DebugMode) return;
-                settings.DebugCount = value;
-                debugActivator.SetActive(settings.DebugCount == 0);
-            }
-        }
-
         #endregion
 
 
         #region Unity Built-Ins
 
-        void Awake()
-        {
-            if (settings.SelectedPet != null)
-            {
-                GameObject instance = Instantiate(settings.SelectedPet.gameObject, objectContainer);
-                _pet = instance.GetComponent<Pet>();
-                settings.SelectedPet = _pet;
-                instance.SetActive(_pet.Level != Evolutions.Egg);
-            }
-        }
-
         private void OnEnable()
         {
+            GameMenu.OnGameSelected += StartGame;
+            GameMenu.OnGameRandom += StartGame;
+
             Minigame.OnGameClose += CloseMinigame;
             Minigame.OnGameWin += (need) => _criticals.Remove(need);
 
             NeedData.OnNeedCritical += SetCiticals;
 
-            LullabyChant.OnSleep += Sleep;
-            Pet.OnEvolve += Flash;
-
             ShellBreaker.OnEggBreak += () =>
             {
                 _pet.IncreaseLevel();
-                settings.SelectedPet.gameObject.SetActive(_pet.Level != Evolutions.Egg);
+                _pet.gameObject.SetActive(_pet.Level != Evolutions.Egg);
                 settings.FirstRun = false;
             };
-
-            debugButton.SetActive(settings.DebugMode);
         }
 
         void Start()
         {
+            if (settings.SelectedPet != null)
+            {
+                GameObject instance = Instantiate(settings.SelectedPet.gameObject, transform);
+                _pet = instance.GetComponent<Pet>();
+                settings.SelectedPet = _pet;
+                instance.SetActive(_pet.Level != Evolutions.Egg);
+            }
+
             if (_pet.Level == Evolutions.Egg) StartGame(minigames[0]);
-        }
-
-        void FixedUpdate()
-        {
-
-        }
-
-        void Update()
-        {
-
         }
 
         private void OnDisable()
         {
+            GameMenu.OnGameSelected -= StartGame;
+            GameMenu.OnGameRandom -= StartGame;
+
             Minigame.OnGameClose -= CloseMinigame;
 
             NeedData.OnNeedCritical -= SetCiticals;
-
-            LullabyChant.OnSleep -= Sleep;
-            Pet.OnEvolve -= Flash;
-
-            settings.SaveSettings();
-        }
-
-        void OnDestroy()
-        {
-
         }
 
         #endregion
@@ -153,39 +96,45 @@ namespace GlyphaeScripts
 
         #region Methods
 
+        public void StartGame()
+        {
+            StartGame(minigames[Random.Range(1, (int)_pet.Level)]);
+        }
+
         public void StartGame(Minigame picked)
         {
             int baseLevel = CalculateBaselevel();
-            if (_pet.Energy.Current < picked.EnergyCost + baseLevel) return;
 
-            if (!picked.GetType().Equals(typeof(LullabyChant)) && picked.PrimaryNeed.Current > picked.PrimaryNeed.SatisfiedLimit)
+            if (!picked.GetType().Equals(typeof(ShellBreaker)))
             {
-                picked.MessageSuccess(picked.PrimaryNeed.Positive);
-                return;
+                if (!picked.GetType().Equals(typeof(LullabyChant)) && _pet.Energy.Current < _pet.Energy.Critical)
+                {
+                    picked.MessageFail(_pet.Energy.Alarm);
+                    return;
+                }
+
+                if (!picked.GetType().Equals(typeof(LullabyChant))
+                    && picked.SecondaryNeed != null && picked.SecondaryNeed.Current < picked.LossAmount)
+                {
+                    picked.MessageFail(picked.SecondaryNeed.Alarm);
+                    return;
+                }
+
+                if (picked.PrimaryNeed.Current > picked.PrimaryNeed.SatisfiedLimit)
+                {
+                    picked.MessageSuccess(picked.PrimaryNeed.Positive);
+                    return;
+                }
             }
 
-            if (picked.GetType().Equals(typeof(LullabyChant)) && picked.SecondaryNeed.Current < picked.LossAmount)
-            {
-                picked.MessageFail(picked.SecondaryNeed.Negative);
-                return;
-            }
-
-            GameObject instance = Instantiate(picked.gameObject, objectContainer);
+            GameObject instance = Instantiate(picked.gameObject, transform);
+            instance.transform.SetAsFirstSibling();
             Minigame game = instance.GetComponent<Minigame>();
 
-            leftButtons.SetActive(false);
-            rightButtons.SetActive(false);
+            OnGameFinished?.Invoke(false);
+
             game.SetupGame(_criticals.Contains(game.PrimaryNeed), _pet.Literals, baseLevel);
             game.NextRound();
-        }
-
-        public void WakeUp()
-        {
-            StartCoroutine(AnimateWake(1, 0, settings.AnimationSpeed));
-            leftButtons.SetActive(true);
-            rightButtons.SetActive(true);
-            wakeButton.SetActive(false);
-            _pet.WakeUp();
         }
 
         #endregion
@@ -195,12 +144,12 @@ namespace GlyphaeScripts
 
         private void CloseMinigame(Minigame game)
         {
-            if (!settings.SelectedPet.gameObject.activeInHierarchy) settings.SelectedPet.gameObject.SetActive(!(_pet.Level == Evolutions.Egg));
-            leftButtons.SetActive(true);
-            rightButtons.SetActive(true);
+            if (!_pet.gameObject.activeInHierarchy) _pet.gameObject.SetActive(!(_pet.Level == Evolutions.Egg));
+            OnGameFinished?.Invoke(true);
             _pet.Energy.Decrease(game.EnergyCost);
             game.UpdateValues();
             Destroy(game.gameObject);
+            _pet.GetComponent<SpriteRenderer>().enabled = true;
         }
 
         private int CalculateBaselevel()
@@ -221,42 +170,6 @@ namespace GlyphaeScripts
         private void SetCiticals(NeedData data, bool state)
         {
             _criticals.Add(data);
-        }
-
-        private void Flash()
-        {
-            StartCoroutine(AnimateEvolution(0, 1, settings.AnimationSpeed));
-        }
-
-        private void Sleep()
-        {
-            StartCoroutine(AnimateSleep(0, 1, settings.AnimationSpeed));
-            leftButtons.SetActive(false);
-            rightButtons.SetActive(false);
-            wakeButton.SetActive(true);
-        }
-
-        private IEnumerator AnimateEvolution(float start, float end, float speedFactor)
-        {
-            yield return flashOverlay.Flash(Color.white, start, end, speedFactor);
-
-            yield return new WaitForSeconds(1f / speedFactor);
-
-            yield return flashOverlay.Flash(Color.clear, end, start, speedFactor);
-        }
-
-        private IEnumerator AnimateSleep(float start, float end, float speedFactor)
-        {
-            yield return flashOverlay.Flash(Color.black, start, end, speedFactor);
-
-            yield return new WaitForSeconds(1f / speedFactor);
-        }
-
-        private IEnumerator AnimateWake(float start, float end, float speedFactor)
-        {
-            yield return flashOverlay.Flash(Color.clear, start, end, speedFactor);
-
-            yield return new WaitForSeconds(1f / speedFactor);
         }
 
         #endregion

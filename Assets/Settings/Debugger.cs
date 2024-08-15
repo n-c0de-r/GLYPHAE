@@ -61,31 +61,37 @@ namespace GlyphaeScripts
         /// The current Hunger <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Hunger { set => needs[0].SetValue(value); }
+        public float Hunger { set => needs[0].SetValue(value, needs[0].Increment, needs[0].RandomOffset); }
 
         /// <summary>
         /// The current Health <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Health { set => needs[1].SetValue(value); }
+        public float Health { set => needs[1].SetValue(value, needs[1].Increment, needs[1].RandomOffset); }
 
         /// <summary>
         /// The current Joy <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Joy { set => needs[2].SetValue(value); }
+        public float Joy { set => needs[2].SetValue(value, needs[2].Increment, needs[2].RandomOffset); }
 
         /// <summary>
         /// The current Energy <see cref="NeedData"/> value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float Energy { set => needs[3].SetValue(value); }
+        public float Energy { set => needs[3].SetValue(value, needs[3].Increment, needs[3].RandomOffset); }
 
         /// <summary>
         /// Set the current <see cref="Evolutions"/> level of the selected <see cref="Pet"/>.
         /// Only for debugging on hardware.
         /// </summary>
-        public int DebugLevel { set => settings.SelectedPet.LevelValue = value; }
+        public int DebugLevel { set => settings.SelectedPet.LevelValue = value+1; }
+
+        /// <summary>
+        /// Set the current <see cref="Evolutions"/> level of the selected <see cref="Pet"/>.
+        /// Only for debugging on hardware.
+        /// </summary>
+        public int DebugEvo { set => settings.SelectedPet.EvolutionCalls = value; }
 
         #endregion
 
@@ -114,25 +120,27 @@ namespace GlyphaeScripts
             //placeholder;
             sickFactor.text = settings.SelectedPet.SicknessChanceFactor.ToString();
 
+            settings.SelectedPet.WakeUp();
+
             hungerUp.text = needs[0].UpFactor.ToString();
             hungerDown.text = needs[0].DownFactor.ToString();
             hungerRng.text = needs[0].RandomOffset.ToString("n2");
-            hungerInc.text = settings.SelectedPet.HungerIncrement.ToString("n2");
+            hungerInc.text = needs[0].Increment.ToString("n2");
 
             healthUp.text = needs[1].UpFactor.ToString();
             healthDown.text = needs[1].DownFactor.ToString();
             healthRng.text = needs[1].RandomOffset.ToString("n2");
-            healthInc.text = settings.SelectedPet.HealthIncrement.ToString("n2");
+            healthInc.text = needs[1].Increment.ToString("n2");
 
             joyUp.text = needs[2].UpFactor.ToString();
             joyDown.text = needs[2].DownFactor.ToString();
             joyRng.text = needs[2].RandomOffset.ToString("n2");
-            joyInc.text = settings.SelectedPet.JoyIncrement.ToString("n2");
+            joyInc.text = needs[2].Increment.ToString("n2");
 
             energyUp.text = needs[3].UpFactor.ToString();
             energyDown.text = needs[3].DownFactor.ToString();
             energyRng.text = needs[3].RandomOffset.ToString("n2");
-            energyInc.text = settings.SelectedPet.EnergyIncrement.ToString("n2");
+            energyInc.text = needs[3].Increment.ToString("n2");
         }
 
         #endregion

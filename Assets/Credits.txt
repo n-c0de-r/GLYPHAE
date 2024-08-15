@@ -3,6 +3,10 @@ https://assetstore.unity.com/packages/audio/music/ancient-egyptian-desert-music-
 https://opengameart.org/users/projecthelmet
 https://opengameart.org/content/desert-theme-1
 
+https://opengameart.org/content/interface-sounds-starter-pack
+https://opengameart.org/content/level-up-power-up-coin-get-13-sounds
+
+
 https://assetstore.unity.com/packages/2d/gui/fantasy-wooden-gui-free-103811
 
 https://openmoji.org/

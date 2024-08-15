@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
@@ -13,9 +14,7 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
-        [Tooltip("The current Settings for display values.")]
-        [SerializeField] private Settings settings;
-
+        [Header("Input specific.")]
         [Tooltip("The base duration of the move animation.")]
         [SerializeField][Range(0, 1)] float timeToMove = 0.6f;
 
@@ -45,6 +44,8 @@ namespace GlyphaeScripts
 
 
         #region GetSets / Properties
+
+        public GlyphData Data { get => data; }
 
         public Transform Target { set => _targets.Add(value); }
         public HashSet<Transform> Targets { get => _targets; }
@@ -81,6 +82,7 @@ namespace GlyphaeScripts
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (isReturning || !button.interactable) return;
+            transform.parent.gameObject.GetComponent<LayoutGroup>().enabled = false;
             OnDragging?.Invoke(true);
             _startPosition = transform.position;
             _index = transform.GetSiblingIndex();
@@ -133,32 +135,7 @@ namespace GlyphaeScripts
             isReturning = false;
             transform.SetSiblingIndex(_index);
             OnDragging?.Invoke(false);
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            foreach (Transform item in _targets)
-            {
-                if (Vector2.Distance(transform.localPosition, item.localPosition) <= _checkDistance)
-                {
-                    Gizmos.color = Color.green;
-                }
-                else
-                {
-                    Gizmos.color = Color.red;
-                }
-                    Gizmos.DrawLine(transform.localPosition, item.localPosition);
-            }
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-
+            transform.parent.gameObject.GetComponent<LayoutGroup>().enabled = true;
         }
 
         #endregion

@@ -24,49 +24,9 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Fields
-
-        private GlyphData _data;
-
-
-        #endregion
-
-
         #region Events
 
         public static event Action OnAnimationDone;
-
-        #endregion
-
-
-        #region GetSets / Properties
-        
-        public GlyphData Data { get => _data; }
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
 
         #endregion
 
@@ -84,17 +44,14 @@ namespace GlyphaeScripts
         /// <summary>
         /// Sets up this icon for display.
         /// </summary>
-        /// <param name="gylph"><see cref="GlyphData"/> to compare against on click.</param>
         /// <param name="display">The sprite to show.</param>
-        public void Setup(GlyphData gylph, Sprite display)
+        public void Setup(Sprite display)
         {
-            _data = gylph;
             icon.sprite = display;
         }
 
         public void Disable()
         {
-            _data = null;
             icon.enabled = false;
         }
 
@@ -126,21 +83,6 @@ namespace GlyphaeScripts
                 timerCircle.fillAmount += Time.deltaTime * (settings.AnimationSpeed) / 3;
                 yield return new WaitForEndOfFrame();
             }
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

@@ -8,6 +8,9 @@ namespace GlyphaeScripts
     {
         #region Serialized Fields
 
+        [Tooltip("The current Settings for display values.")]
+        [SerializeField] protected Settings settings;
+
         [Header("UI Values")]
         [Tooltip("The sound this plays when clicked.")]
         [SerializeField] protected AudioSource sound;
@@ -25,7 +28,7 @@ namespace GlyphaeScripts
 
         #region Fields
 
-        private GlyphData data;
+        protected GlyphData data;
 
         #endregion
 
@@ -73,28 +76,6 @@ namespace GlyphaeScripts
         {
             OnInput?.Invoke(data);
             OnMatch?.Invoke(data, this);
-        }
-
-        #endregion
-
-
-        #region Helpers
-
-
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

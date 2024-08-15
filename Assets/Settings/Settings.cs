@@ -35,7 +35,7 @@ namespace GlyphaeScripts
 
         [Header("Other Values")]
         [Tooltip("The speed of the game, just for testing.")]
-        [SerializeField][Range(1, 20)] private float gameSpeed = 1;
+        [SerializeField][Range(1, 200)] private float gameSpeed = 1;
         [Tooltip("The difficulty of the game,\r\nchanges game behavior slightly.")]
         [SerializeField] private Difficulty difficulty = Difficulty.Easy;
         [Tooltip("The selected language.")]
@@ -334,6 +334,6 @@ namespace GlyphaeScripts
     /// </summary>
     public enum Language
     {
-        English, Deutsch
+        English, Deutsch, Enpanol, Srpski
     }
 }

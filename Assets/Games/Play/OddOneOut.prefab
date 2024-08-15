@@ -537,11 +537,11 @@ MonoBehaviour:
   inputContainer: {fileID: 1163573520976522563}
   dropPoint: {fileID: 0}
   baseRounds: 1
-  energyCost: 5
+  energyCost: 3
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   secondaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
-  fillAmount: 7
-  lossAmount: 2
+  fillAmount: 2
+  lossAmount: 5
   helpContainer: {fileID: 1881787953759504751}
   gameDescription: Kids love to play memory. But this is different. Match pairs to
     isolate the one without a matching tile.

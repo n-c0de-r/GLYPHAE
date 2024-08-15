@@ -23,12 +23,11 @@ namespace GlyphaeScripts
         [Tooltip("The strength of memorization,\r\nbased on Leitner flashcard system.")]
         [SerializeField] private MemoryLevels memoryLevel;
 
-        #endregion
+        [Tooltip("The number of times this was guessed correctly.")]
+        [SerializeField] [Range(0, 5)] private int correctGuesses = 0;
 
-
-        #region Fields
-
-        [Range(0,5)]public int _guesses = 0;
+        [Tooltip("The number of times this was guessed wrongly.")]
+        [SerializeField] [Range(0, 5)] private int wrongGuesses = 0;
 
         #endregion
 
@@ -56,7 +55,17 @@ namespace GlyphaeScripts
         /// The strength of memorization,
         /// based on Leitner flashcard system.
         /// </summary>
-        public MemoryLevels MemoryLevel { get => memoryLevel; set => memoryLevel = value; }
+        public MemoryLevels MemoryLevel { get => memoryLevel; }
+
+        /// <summary>
+        /// The number of times this was guessed correctly.
+        /// </summary>
+        public int CorrectGuesses { get => correctGuesses; }
+
+        /// <summary>
+        /// The number of times this was guessed wrongly.
+        /// </summary>
+        public int WrongGuesses { get => wrongGuesses; }
 
         #endregion
 
@@ -68,16 +77,17 @@ namespace GlyphaeScripts
         /// </summary>
         public void CorrectlyGuessed()
         {
-            if (++_guesses > (int)memoryLevel)
+            if (++correctGuesses > Enum.GetValues(typeof(MemoryLevels)).Length)
             {
                 if (!Enum.IsDefined(typeof(MemoryLevels), ++memoryLevel))
                 {
                     memoryLevel--;
-                    _guesses--; // reset
+                    correctGuesses--; // reset
                     return;
                 }
 
-                _guesses = 0;
+                correctGuesses = 0;
+                wrongGuesses = 0;
             }
         }
 
@@ -87,17 +97,49 @@ namespace GlyphaeScripts
         /// <param name="sprite">The sprite to display as feedback.</param>
         public void WronglyGuessed()
         {
-            if (--_guesses < 0)
+            if (++wrongGuesses > Enum.GetValues(typeof(MemoryLevels)).Length)
             {
                 if (!Enum.IsDefined(typeof(MemoryLevels), --memoryLevel))
                 {
                     memoryLevel++;
-                    _guesses++; // reset
+                    wrongGuesses--; // reset
                     return;
                 }
 
-                _guesses = (int)memoryLevel;
+                correctGuesses = 0;
+                wrongGuesses = 0;
             }
+        }
+
+        /// <summary>
+        /// Sets the glyph data after reload.
+        /// </summary>
+        /// <param name="level">The glyphs <see cref="MemoryLevels"/></param>
+        /// <param name="correct">The number of correct guesses for this glyph.</param>
+        /// <param name="wrong">The number of wrong guesses for this glyph.</param>
+        public void SetupData(MemoryLevels level, int correct, int wrong)
+        {
+            memoryLevel = level;
+            correctGuesses = correct;
+            wrongGuesses = wrong;
+        }
+
+        /// <summary>
+        /// Resets back all values of this glyph to the start.
+        /// </summary>
+        public void ResetLevel()
+        {
+            memoryLevel = MemoryLevels.New;
+            correctGuesses = 0;
+            wrongGuesses = 0;
+        }
+
+        /// <summary>
+        /// Increases the <see cref="MemoryLevels"/> of this glyph by 1.
+        /// </summary>
+        public void LevelUp()
+        {
+            memoryLevel++;
         }
 
         #endregion

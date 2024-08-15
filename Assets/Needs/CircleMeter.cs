@@ -94,7 +94,16 @@ namespace GlyphaeScripts
         public void UpdateValue(NeedData incoming, int direction)
         {
             if (incoming == need)
-                if (isActiveAndEnabled) StartCoroutine(Animate(direction));
+            {
+                Color color = Color.black;
+                _current = need.Current;
+                slider.fillAmount = _current / NeedData.MAX;
+                color.r = (NeedData.MAX - _current) / _half;
+                color.g = _current / _half;
+                slider.color = color;
+                valueTag.text = "" + (int)_current;
+                //if (isActiveAndEnabled) StartCoroutine(Animate(direction));
+            }
         }
 
         #endregion
@@ -115,8 +124,10 @@ namespace GlyphaeScripts
         private IEnumerator AnimateFill(float start, float end, int inc)
         {
             Color color = Color.black;
+            int begin = (int)(start * NeedData.MAX);
+            int final = (int)(end * NeedData.MAX);
 
-            for (int i = (int)(start * NeedData.MAX); i != (int)(end * NeedData.MAX); i += inc)
+            for (int i = begin; i != final; i += inc)
             {
                 float value = (float)i / NeedData.MAX;
                 slider.fillAmount = value / NeedData.MAX;

@@ -440,10 +440,10 @@ MonoBehaviour:
   inputContainer: {fileID: 1294460159257626535}
   dropPoint: {fileID: 4081846854210861485}
   baseRounds: 3
-  energyCost: 5
+  energyCost: 3
   primaryNeed: {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
   secondaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
-  fillAmount: 4
+  fillAmount: 3
   lossAmount: 3
   helpContainer: {fileID: 2003674638442865547}
   gameDescription: Health and cleanliness is vital, literally. Cast a complicated

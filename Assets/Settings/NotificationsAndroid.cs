@@ -59,13 +59,13 @@ namespace GlyphaeScripts
             AndroidNotificationCenter.RegisterNotificationChannel(channel);
         }
 
-        public void SendNotification(string title, string text, int fireTimeInMinutes)
+        public void SendNotification(string title, string text, DateTime fireAt)
         {
             AndroidNotification notification = new()
             {
                 Title = title,
                 Text = text,
-                FireTime = DateTime.Now.AddMinutes(Math.Clamp(fireTimeInMinutes,0,1440)),
+                FireTime = fireAt,
                 SmallIcon = "small",
                 LargeIcon = "large",
                 ShowTimestamp = true,

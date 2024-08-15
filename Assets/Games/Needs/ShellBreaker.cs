@@ -78,7 +78,7 @@ namespace GlyphaeScripts
                 rng = Mathf.Abs(--rng);
             }
 
-            DisplayRound(correct);
+            DisplayRound(_toMatch.Sound, correct);
         }
 
         #endregion
@@ -88,7 +88,9 @@ namespace GlyphaeScripts
 
         protected override void Win()
         {
-            StartCoroutine(AnimateFade(0,1, settings.AnimationSpeed));
+            foreach (GlyphData item in _correctGuesses)
+                item.LevelUp();
+            StartCoroutine(AnimateFade(0, 1, settings.AnimationSpeed));
         }
 
         protected override void Success()
@@ -110,6 +112,10 @@ namespace GlyphaeScripts
             }
         }
 
+        /// <summary>
+        /// Resets the game back to initial state.
+        /// All glyph values back and turn on help.
+        /// </summary>
         private void ResetGame()
         {
             _fails = 0;
@@ -122,13 +128,18 @@ namespace GlyphaeScripts
             }
 
             foreach (GlyphData item in _usedGlyphs)
-            {
-                item.MemoryLevel = MemoryLevels.New;
-            }
+                item.ResetLevel();
             
             SetupGylphLists(_usedGlyphs);
         }
 
+        /// <summary>
+        /// Coroutine to flash when done.
+        /// </summary>
+        /// <param name="start">Start alpha value.</param>
+        /// <param name="end">End alpha value.</param>
+        /// <param name="speedFactor">How fast to flash.</param>
+        /// <returns></returns>
         private IEnumerator AnimateFade(float start, float end, float speedFactor)
         {
             yield return flashOverlay.Flash(start, end, speedFactor);

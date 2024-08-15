@@ -474,8 +474,8 @@ MonoBehaviour:
   energyCost: 5
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   secondaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
-  fillAmount: 7
-  lossAmount: 2
+  fillAmount: 8
+  lossAmount: 5
   helpContainer: {fileID: 777706456401501799}
   gameDescription: Adults like casual but complex games. Where they can use all senses.
     In this game you need to listen carefully, too!
@@ -490,6 +490,7 @@ MonoBehaviour:
     Drag and
     drop a circle on a matching one you think it belongs to.'
   soundSprite: {fileID: -1922472273, guid: 6fc8fa6c8ee13e645a8dff8efb358473, type: 3}
+  grid: {fileID: 3521553332299374356}
 --- !u!1 &8578920209624519510 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3185850495110462447, guid: 40ecc848e33998c47af580cb8efcf1cd, type: 3}
