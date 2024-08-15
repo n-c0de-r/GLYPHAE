@@ -76,6 +76,7 @@ namespace GlyphaeScripts
         protected List<GameButton> _gameInputs;
         protected GlyphData _toMatch, _toLearn;
         protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
+        protected List<GlyphData> _seenGlyphs, _unknownGlyphs, _knownGlyphs, _memorizedGlyphs;
         protected HashSet<GlyphData> _correctGuesses;
         protected float _primaryValue = 0, _secondValue;
         protected int _successes, _fails, _failsToLose;
@@ -343,8 +344,12 @@ namespace GlyphaeScripts
             if (glyphs == null || glyphs.Count == 0) return;
 
             // Same as: if (_allOtherGlyphs == null) _allOtherGlyphs = new();
-            _allOtherGlyphs ??= new();
             _newGlyphs ??= new();
+            _seenGlyphs ??= new();
+            _unknownGlyphs ??= new();
+            _knownGlyphs ??= new();
+            _memorizedGlyphs ??= new();
+            _allOtherGlyphs ??= new();
 
             foreach (GlyphData glyph in glyphs)
             {
@@ -353,7 +358,20 @@ namespace GlyphaeScripts
                     case MemoryLevels.New:
                         _newGlyphs.Add(glyph);
                         break;
-                    default:
+                    case MemoryLevels.Seen:
+                        _seenGlyphs.Add(glyph);
+                        _allOtherGlyphs.Add(glyph);
+                        break;
+                    case MemoryLevels.Unknown:
+                        _unknownGlyphs.Add(glyph);
+                        _allOtherGlyphs.Add(glyph);
+                        break;
+                    case MemoryLevels.Known:
+                        _knownGlyphs.Add(glyph);
+                        _allOtherGlyphs.Add(glyph);
+                        break;
+                    case MemoryLevels.Memorized:
+                        _memorizedGlyphs.Add(glyph);
                         _allOtherGlyphs.Add(glyph);
                         break;
                 }
@@ -379,11 +397,29 @@ namespace GlyphaeScripts
                     _newGlyphs.Remove(_toLearn);
                     _usedGlyphs.Add(_toLearn);
                 }
-                else if (_allOtherGlyphs.Count > 0)
+                else if (_seenGlyphs.Count > 0)
                 {
                     // Normally pick known ones
-                    GlyphData temp = _allOtherGlyphs[UnityEngine.Random.Range(0, _allOtherGlyphs.Count)];
-                    _allOtherGlyphs.Remove(temp);
+                    GlyphData temp = _seenGlyphs[UnityEngine.Random.Range(0, _seenGlyphs.Count)];
+                    _seenGlyphs.Remove(temp);
+                    _usedGlyphs.Add(temp);
+                }
+                else if (_unknownGlyphs.Count > 0)
+                {
+                    GlyphData temp = _unknownGlyphs[UnityEngine.Random.Range(0, _unknownGlyphs.Count)];
+                    _unknownGlyphs.Remove(temp);
+                    _usedGlyphs.Add(temp);
+                }
+                else if (_knownGlyphs.Count > 0)
+                {
+                    GlyphData temp = _knownGlyphs[UnityEngine.Random.Range(0, _knownGlyphs.Count)];
+                    _knownGlyphs.Remove(temp);
+                    _usedGlyphs.Add(temp);
+                }
+                else if (_memorizedGlyphs.Count > 0)
+                {
+                    GlyphData temp = _memorizedGlyphs[UnityEngine.Random.Range(0, _memorizedGlyphs.Count)];
+                    _memorizedGlyphs.Remove(temp);
                     _usedGlyphs.Add(temp);
                 }
             }
