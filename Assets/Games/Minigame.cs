@@ -35,12 +35,6 @@ namespace GlyphaeScripts
 
         [Tooltip("The base costs of Energy to play a game.")]
         [SerializeField][Range(0, 10)] protected int energyCost;
-        
-        [Tooltip("The sound played on correct guess.")]
-        [SerializeField] protected AudioClip correctSound;
-
-        [Tooltip("The sound played on wrong guess.")]
-        [SerializeField] protected AudioClip wrongSound;
 
         [Space]
         [Header("Need Values")]
@@ -89,7 +83,8 @@ namespace GlyphaeScripts
 
         public static event Action<NeedData> OnGameWin;
         public static event Action<Minigame> OnGameClose;
-        public static event Action<AudioClip, Sprite> OnNextRound, OnCorrectGuess, OnWrongGuess;
+        public static event Action<AudioClip, Sprite> OnNextRound;
+        public static event Action<Sprite> OnCorrectGuess, OnWrongGuess;
 
         #endregion
 
@@ -248,7 +243,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Success()
         {
-            OnCorrectGuess?.Invoke(correctSound, primaryNeed.Positive);
+            OnCorrectGuess?.Invoke(primaryNeed.Positive);
             if (++_successes >= _rounds) Win();
         }
 
@@ -258,7 +253,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Fail()
         {
-            OnWrongGuess?.Invoke(wrongSound, primaryNeed.Negative);
+            OnWrongGuess?.Invoke(primaryNeed.Negative);
             switch (settings.Difficulty)
             {
                 case Difficulty.Easy:
@@ -284,8 +279,8 @@ namespace GlyphaeScripts
             CloseGame();
         }
 
-        public void MessageSuccess(Sprite sprite) => OnCorrectGuess?.Invoke(correctSound, sprite);
-        public void MessageFail(Sprite sprite) => OnWrongGuess?.Invoke(wrongSound, sprite);
+        public void MessageSuccess(Sprite sprite) => OnCorrectGuess?.Invoke(sprite);
+        public void MessageFail(Sprite sprite) => OnWrongGuess?.Invoke(sprite);
 
         /// <summary>
         /// Instantiate the buttons needed to play the game.

@@ -16,5 +16,5 @@ MonoBehaviour:
   letter: {fileID: 60759092, guid: 87d6be13a6aef9f408bc65038d30e8b9, type: 3}
   sound: {fileID: 8300000, guid: 999803761f3ac3a4b9cfe93fe7ea6d41, type: 3}
   memoryLevel: 0
-  correctGuesses: 1
-  wrongGuesses: 1
+  correctGuesses: 0
+  wrongGuesses: 0

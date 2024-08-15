@@ -102,6 +102,11 @@ namespace GlyphaeScripts
             settings.SelectedPet.WakeUp();
         }
 
+        public void RestartGame()
+        {
+            settings.SelectedPet.ResetPet();
+        }
+
         #endregion
 
 

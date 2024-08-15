@@ -66,7 +66,7 @@ namespace GlyphaeScripts
 
 
         private const char ITEM_SPLIT = ';', VALUE_SPLIT = ':', PART_SPLIT = '~';
-        private const float INCREMENT_MIN = 0.13f, INCREMENT_MAX = 0.23f;
+        private const float INCREMENT_MIN = 0.23f, INCREMENT_MAX = 0.31f;
         private float _needTimer = 60;
         private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
         private float _sleepynessFactor = 1f;
@@ -326,6 +326,20 @@ namespace GlyphaeScripts
             _isSleeping = false;
         }
 
+        public void ResetPet()
+        {
+            _level = Evolutions.Egg;
+            foreach (GlyphData item in literals)
+                item.ResetLevel();
+
+            foreach (NeedData item in needs)
+                item.Initialize();
+
+            foreach (Pet item in settings.Pets)
+                if (gameObject.name.Contains(item.name))
+                    settings.SelectedPet = item;
+        }
+
         #region Persistence
 
         /// <summary>
@@ -543,24 +557,13 @@ namespace GlyphaeScripts
         }
 
         /// <summary>
-        /// Displays a need <see cref="NeedBubble"/>.
-        /// </summary>
-        /// <param name="sprite">The icon to show, taken from <see cref="NeedData"/>. Either positive or negative.</param>
-        private void Call(Sprite sprite)
-        {
-            //
-            needCall.Setup(sprite);
-            StartCoroutine(needCall.ShowCall());
-        }
-
-        /// <summary>
         /// Displays a feedback <see cref="NeedBubble"/>.
         /// </summary>
         /// <param name="sprite">The icon to show, taken from <see cref="NeedData"/>. Either positive or negative.</param>
-        private void Feedback(AudioClip clip, Sprite sprite)
+        private void Feedback(Sprite sprite)
         {
             needCall.Disable();
-            needFeedback.Setup(clip, sprite);
+            needFeedback.Setup(sprite);
             StartCoroutine(needFeedback.ShowFeedback());
         }
 

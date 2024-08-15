@@ -15,6 +15,6 @@ MonoBehaviour:
   symbol: {fileID: 1332081645, guid: b442477e76df41e4a90338d1373e6e87, type: 3}
   letter: {fileID: -1197382041, guid: 87d6be13a6aef9f408bc65038d30e8b9, type: 3}
   sound: {fileID: 8300000, guid: e96d444b5f7d9444eb2853466cdaf845, type: 3}
-  memoryLevel: 1
-  correctGuesses: 1
-  wrongGuesses: 1
+  memoryLevel: 0
+  correctGuesses: 0
+  wrongGuesses: 0

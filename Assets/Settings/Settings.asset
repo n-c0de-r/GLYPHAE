@@ -19,9 +19,9 @@ MonoBehaviour:
   - {fileID: 303808673359514653, guid: e8836ffa96a2f0447b1beb6682e344ba, type: 3}
   - {fileID: 1729131231951407160, guid: 73e73120d572b824d97f50373503117a, type: 3}
   - {fileID: 1514102868981016521, guid: 5871866cad727ad418b91138130ee4ae, type: 3}
-  main: -0
+  main: 0
   music: -25
-  sound: -0
+  sound: -10
   voice: -10
   animationSpeed: 3
   gameSpeed: 1

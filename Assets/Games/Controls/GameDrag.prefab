@@ -128,11 +128,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7190db2fb9f36ae4f967db8f6444652c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   sound: {fileID: 6097012175085379513}
   button: {fileID: 1327371733362430170}
   back: {fileID: 4069314394882800283}
   icon: {fileID: 5114492736151329153}
-  settings: {fileID: 11400000, guid: dd2d4b68c8bb20d49a7bcebc5ac59d05, type: 2}
   timeToMove: 0.6
 --- !u!222 &7867610947448633443
 CanvasRenderer:
@@ -215,19 +215,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4069314394882800283}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6097012175085379513}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!82 &6097012175085379513
 AudioSource:
   m_ObjectHideFlags: 0

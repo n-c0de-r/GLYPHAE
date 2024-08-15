@@ -1,4 +1,5 @@
 using System;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace GlyphaeScripts
@@ -159,8 +160,7 @@ namespace GlyphaeScripts
         /// </summary>
         public void Initialize()
         {
-            current = initial;
-            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
+            SetValue(initial, _incrementValue, _randomOffset);
         }
 
         /// <summary>
@@ -240,23 +240,6 @@ namespace GlyphaeScripts
             }
         }
 
-        #endregion
-
-
-        #region Helpers
-
-        /// <summary>
-        /// Adds a random offset to factors.
-        /// They get updated after calls, level-ups and day changes.
-        /// </summary>
-        /// <param name="calls">The number of calls of a <see cref="Pet"/> satisfied so far. Ramps up randomness.</param>
-        /// <returns>The offset to apply to all calculations of this need.</returns>
-        public float Randomize(int calls)
-        {
-            _randomOffset = UnityEngine.Random.Range(RANDOM_MIN, RANDOM_MAX) * calls;
-            return _randomOffset;
-        }
-
         /// <summary>
         /// Sets up a mobile notification based on <see cref="NeedData"/> values.
         /// <param name="value">The base value to subtract.</param>
@@ -270,9 +253,26 @@ namespace GlyphaeScripts
             DateTime now = DateTime.Now;
             _callTime = now.AddMinutes(minutes);
 
-            if ((_callTime.Day > DateTime.Now.Day && _callTime.Hour < settings.SilenceEnd) || _callTime.Hour > settings.SilenceStart)
+            if ((_callTime.Day == now.Day && _callTime.Hour >= settings.SilenceStart) || (_callTime.Day > now.Day && _callTime.Hour < settings.SilenceEnd))
                 _callTime = new DateTime(_callTime.Year, _callTime.Month, _callTime.Day, settings.SilenceEnd, _callTime.Minute, _callTime.Second);
-            notifications.SendNotification(title, description, minutes);
+            notifications.SendNotification(title, description, _callTime);
+        }
+
+        #endregion
+
+
+        #region Helpers
+
+        /// <summary>
+        /// Adds a random offset to factors.
+        /// They get updated after calls, level-ups and day changes.
+        /// </summary>
+        /// <param name="calls">The number of calls of a <see cref="Pet"/> satisfied so far. Ramps up randomness.</param>
+        /// <returns>The offset to apply to all calculations of this need.</returns>
+        private float Randomize(int calls)
+        {
+            _randomOffset = UnityEngine.Random.Range(RANDOM_MIN, RANDOM_MAX) * calls;
+            return _randomOffset;
         }
 
         #endregion
