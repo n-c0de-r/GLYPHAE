@@ -35,6 +35,12 @@ namespace GlyphaeScripts
 
         [Tooltip("The base costs of Energy to play a game.")]
         [SerializeField][Range(0, 10)] protected int energyCost;
+        
+        [Tooltip("The sound played on correct guess.")]
+        [SerializeField] protected AudioClip correctSound;
+
+        [Tooltip("The sound played on wrong guess.")]
+        [SerializeField] protected AudioClip wrongSound;
 
         [Space]
         [Header("Need Values")]
@@ -45,7 +51,7 @@ namespace GlyphaeScripts
         [SerializeField] protected NeedData secondaryNeed;
 
         [Tooltip("The strength of need filling by the game.")]
-        [SerializeField][Range(0, 20)] protected int fillAmount;
+        [SerializeField][Range(0, 10)] protected int fillAmount;
 
         [Tooltip("The amount the secondary need is depleted\r\non win or loss either way.")]
         [SerializeField][Range(0, 10)] protected int lossAmount;
@@ -83,7 +89,7 @@ namespace GlyphaeScripts
 
         public static event Action<NeedData> OnGameWin;
         public static event Action<Minigame> OnGameClose;
-        public static event Action<Sprite> OnNextRound, OnCorrectGuess, OnWrongGuess;
+        public static event Action<AudioClip, Sprite> OnNextRound, OnCorrectGuess, OnWrongGuess;
 
         #endregion
 
@@ -188,12 +194,23 @@ namespace GlyphaeScripts
         /// <summary>
         /// Displays the next <see cref="NeedData"/> sprite.
         /// </summary>
+        /// <param name="clip">The sound to play on match.</param>
         /// <param name="correct">The correct sprite to match.</param>
-        protected virtual void DisplayRound(Sprite correct)
+        protected virtual void DisplayRound(AudioClip clip, Sprite correct)
         {
-            OnNextRound?.Invoke(correct);
+            OnNextRound?.Invoke(clip, correct);
             ActivateButtons(true);
         }
+
+        /// <summary>
+        /// Displays the next <see cref="NeedData"/> sprite.
+        /// </summary>
+        /// <param name="correct">The correct sprite to match.</param>
+        //protected virtual void DisplayRound(Sprite correct)
+        //{
+        //    OnNextRound?.Invoke(correct);
+        //    ActivateButtons(true);
+        //}
 
         /// <summary>
         /// General input check method, can be overridden.
@@ -207,9 +224,14 @@ namespace GlyphaeScripts
 
             if (_toMatch == input)
             {
+                _correctGuesses.Add(_toMatch);
+                if (_toLearn != null)
+                {
+                    _toLearn.LevelUp();
+                    _correctGuesses.Remove(_toLearn);
+                }
                 _toLearn = null;
                 _isTeaching = false;
-                _correctGuesses.Add(_toMatch);
                 Success();
             }
             else
@@ -226,7 +248,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Success()
         {
-            OnCorrectGuess?.Invoke(primaryNeed.Positive);
+            OnCorrectGuess?.Invoke(correctSound, primaryNeed.Positive);
             if (++_successes >= _rounds) Win();
         }
 
@@ -236,7 +258,7 @@ namespace GlyphaeScripts
         /// </summary>
         protected virtual void Fail()
         {
-            OnWrongGuess?.Invoke(primaryNeed.Negative);
+            OnWrongGuess?.Invoke(wrongSound, primaryNeed.Negative);
             switch (settings.Difficulty)
             {
                 case Difficulty.Easy:
@@ -262,8 +284,8 @@ namespace GlyphaeScripts
             CloseGame();
         }
 
-        public void MessageSuccess(Sprite sprite) => OnCorrectGuess?.Invoke(sprite);
-        public void MessageFail(Sprite sprite) => OnWrongGuess?.Invoke(sprite);
+        public void MessageSuccess(Sprite sprite) => OnCorrectGuess?.Invoke(correctSound, sprite);
+        public void MessageFail(Sprite sprite) => OnWrongGuess?.Invoke(wrongSound, sprite);
 
         /// <summary>
         /// Instantiate the buttons needed to play the game.

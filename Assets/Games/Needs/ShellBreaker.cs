@@ -78,7 +78,7 @@ namespace GlyphaeScripts
                 rng = Mathf.Abs(--rng);
             }
 
-            DisplayRound(correct);
+            DisplayRound(_toMatch.Sound, correct);
         }
 
         #endregion
@@ -89,8 +89,8 @@ namespace GlyphaeScripts
         protected override void Win()
         {
             foreach (GlyphData item in _correctGuesses)
-                item.CorrectlyGuessed();
-            StartCoroutine(AnimateFade(0,1, settings.AnimationSpeed));
+                item.LevelUp();
+            StartCoroutine(AnimateFade(0, 1, settings.AnimationSpeed));
         }
 
         protected override void Success()
@@ -128,9 +128,7 @@ namespace GlyphaeScripts
             }
 
             foreach (GlyphData item in _usedGlyphs)
-            {
-                item.MemoryLevel = MemoryLevels.New;
-            }
+                item.ResetLevel();
             
             SetupGylphLists(_usedGlyphs);
         }

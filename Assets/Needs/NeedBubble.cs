@@ -108,6 +108,7 @@ namespace GlyphaeScripts
                 deltaLabel.transform.parent.gameObject.SetActive(true);
             }
 
+            audioSource.Play();
             yield return lastCoroutine = AnimateFade(settings.AnimationSpeed);
             yield return new WaitForSeconds(1f / settings.AnimationSpeed);
             yield return lastCoroutine = AnimateFade(settings.AnimationSpeed * 2, - 1);

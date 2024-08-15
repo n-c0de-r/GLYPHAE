@@ -302,6 +302,11 @@ namespace GlyphaeScripts
 
                 if (_exitPositions.Contains(goalPosition))
                 {
+                    if (_toLearn != null)
+                    {
+                        _toLearn.LevelUp();
+                        _correctGuesses.Remove(_toLearn);
+                    }
                     _toLearn = null;
                     _isTeaching = false;
                     Invoke(nameof(Success), 1f / settings.AnimationSpeed);

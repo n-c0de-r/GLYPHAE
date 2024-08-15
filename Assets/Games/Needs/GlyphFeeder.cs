@@ -26,7 +26,7 @@ namespace GlyphaeScripts
                 _gameInputs[i].Setup(glyph, glyph.Symbol);
             }
 
-            DisplayRound(_toMatch.Letter);
+            DisplayRound(_toMatch.Sound, _toMatch.Letter);
         }
 
         #endregion

@@ -240,9 +240,8 @@ namespace GlyphaeScripts
             {
                 CalculateNotifications();
                 _previousTimeStamp = DateTime.Now;
-
-                if (_level != Evolutions.Egg) SavePrefs();
             }
+            if (_level != Evolutions.Egg) SavePrefs();
         }
 
         // Apparently needed on mobile. Better safe than sorry?
@@ -254,9 +253,8 @@ namespace GlyphaeScripts
                 {
                     CalculateNotifications();
                     _previousTimeStamp = DateTime.Now;
-
-                    if (_level != Evolutions.Egg) SavePrefs();
                 }
+                if (_level != Evolutions.Egg) SavePrefs();
             }
             else
             {
@@ -286,9 +284,8 @@ namespace GlyphaeScripts
                 {
                     CalculateNotifications();
                     _previousTimeStamp = DateTime.Now;
-
-                    if (_level != Evolutions.Egg) SavePrefs();
                 }
+                if (_level != Evolutions.Egg) SavePrefs();
             }
         }
 
@@ -392,11 +389,14 @@ namespace GlyphaeScripts
                     if (item == "") continue;
 
                     string[] glyphData = item.Split(VALUE_SPLIT);
-                    if (Enum.TryParse(glyphData[1], out MemoryLevels level))
+                    string[] values = glyphData[1].Split(PART_SPLIT);
+                    if (Enum.TryParse(values[0], out MemoryLevels level))
                     {
                         int.TryParse(glyphData[0].Substring(3,2), out int index);
                         if (index == 0) continue;
-                        Literals[index-1].MemoryLevel = level;
+                        int.TryParse(values[1], out int correct);
+                        int.TryParse(values[1], out int wrong);
+                        Literals[index - 1].SetupData(level, correct, wrong);
                     }
                 }
             }
@@ -428,17 +428,17 @@ namespace GlyphaeScripts
             PlayerPrefs.SetString(prefix + nameof(needs), needValues);
 
 
-            string needCriticals = "";
-            foreach (NeedData item in _criticals)
-            {
+            //string needCriticals = "";
+            //foreach (NeedData item in _criticals)
+            //{
                 
-            }
+            //}
 
 
             string glyphs = "";
             foreach (GlyphData item in literals)
             {
-                glyphs += item.name + VALUE_SPLIT + item.MemoryLevel.ToString() + ITEM_SPLIT;
+                glyphs += item.name + VALUE_SPLIT + item.MemoryLevel.ToString() + PART_SPLIT + item.CorrectGuesses + PART_SPLIT + item.WrongGuesses + ITEM_SPLIT;
             }
 
             PlayerPrefs.SetString(prefix + nameof(literals), glyphs);
@@ -526,8 +526,20 @@ namespace GlyphaeScripts
             {
                 _sickCount = Mathf.Clamp(_sickCount+1, 0, 3);
                 Health.Decrease(_sicknessChanceFactor * 10);
-                needCall.Setup(Health.Alarm);
+                needCall.Setup(Health.AlarmSound, Health.Alarm);
             }
+        }
+
+
+
+        /// <summary>
+        /// Displays a need <see cref="NeedBubble"/>.
+        /// </summary>
+        /// <param name="sprite">The icon to show, taken from <see cref="NeedData"/>. Either positive or negative.</param>
+        private void Call(AudioClip clip, Sprite sprite)
+        {
+            needCall.Setup(clip, sprite);
+            StartCoroutine(needCall.ShowCall());
         }
 
         /// <summary>
@@ -536,6 +548,7 @@ namespace GlyphaeScripts
         /// <param name="sprite">The icon to show, taken from <see cref="NeedData"/>. Either positive or negative.</param>
         private void Call(Sprite sprite)
         {
+            //
             needCall.Setup(sprite);
             StartCoroutine(needCall.ShowCall());
         }
@@ -544,10 +557,10 @@ namespace GlyphaeScripts
         /// Displays a feedback <see cref="NeedBubble"/>.
         /// </summary>
         /// <param name="sprite">The icon to show, taken from <see cref="NeedData"/>. Either positive or negative.</param>
-        private void Feedback(Sprite sprite)
+        private void Feedback(AudioClip clip, Sprite sprite)
         {
             needCall.Disable();
-            needFeedback.Setup(sprite);
+            needFeedback.Setup(clip, sprite);
             StartCoroutine(needFeedback.ShowFeedback());
         }
 
@@ -561,7 +574,7 @@ namespace GlyphaeScripts
             if (state)
             {
                 _criticals.Add(data);
-                needFeedback.Setup(data.Alarm);
+                needFeedback.Setup(data.AlarmSound, data.Alarm);
                 StartCoroutine(needFeedback.ShowFeedback());
             }
             else if (_criticals.Remove(data))

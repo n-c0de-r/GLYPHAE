@@ -194,6 +194,11 @@ namespace GlyphaeScripts
                 if (_triplets.Count == 0)
                 {
                     _correctGuesses.Add(original.Data);
+                    if (_toLearn != null)
+                    {
+                        _toLearn.LevelUp();
+                        _correctGuesses.Remove(_toLearn);
+                    }
                     _toLearn = null;
                     _isTeaching = false;
                     Success();

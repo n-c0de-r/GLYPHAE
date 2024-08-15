@@ -94,7 +94,16 @@ namespace GlyphaeScripts
         public void UpdateValue(NeedData incoming, int direction)
         {
             if (incoming == need)
-                if (isActiveAndEnabled) StartCoroutine(Animate(direction));
+            {
+                Color color = Color.black;
+                _current = need.Current;
+                slider.fillAmount = _current / NeedData.MAX;
+                color.r = (NeedData.MAX - _current) / _half;
+                color.g = _current / _half;
+                slider.color = color;
+                valueTag.text = "" + (int)_current;
+                //if (isActiveAndEnabled) StartCoroutine(Animate(direction));
+            }
         }
 
         #endregion

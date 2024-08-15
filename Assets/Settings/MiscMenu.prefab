@@ -1060,7 +1060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3952092407491118168, guid: 218d33fcf6319af47a70a62d61e3c2f4, type: 3}
       propertyPath: m_Options.m_Options.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3952092407491118168, guid: 218d33fcf6319af47a70a62d61e3c2f4, type: 3}
       propertyPath: m_Options.m_Options.Array.data[0].m_Text
@@ -1068,7 +1068,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3952092407491118168, guid: 218d33fcf6319af47a70a62d61e3c2f4, type: 3}
       propertyPath: m_Options.m_Options.Array.data[1].m_Text
-      value: Deutsch
+      value: (More Later)
       objectReference: {fileID: 0}
     - target: {fileID: 3952092407491118168, guid: 218d33fcf6319af47a70a62d61e3c2f4, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size

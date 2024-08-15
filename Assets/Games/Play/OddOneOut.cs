@@ -138,11 +138,16 @@ namespace GlyphaeScripts
 
             if (_clickedButton.name == input.name)
             {
+                _correctGuesses.Add(input);
+                if (_toLearn != null)
+                {
+                    _toLearn.LevelUp();
+                    _correctGuesses.Remove(_toLearn);
+                }
                 _toLearn = null;
                 _isTeaching = false;
                 _clickedButton = null;
                 _pairsFound++;
-                _correctGuesses.Add(input);
             }
             else
             {

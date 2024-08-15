@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 namespace GlyphaeScripts
 {
     /// <summary>
@@ -77,7 +76,7 @@ namespace GlyphaeScripts
                 temp.Remove(glyph);
             }
 
-            DisplayRound(_toMatch.Letter);
+            DisplayRound(_toMatch.Sound, _toMatch.Letter);
             _correctBasket.HideSprite(petSprite.transform);
         }
 
@@ -151,9 +150,14 @@ namespace GlyphaeScripts
 
             if (state)
             {
+                _correctGuesses.Add(_toMatch);
+                if (_toLearn != null)
+                {
+                    _toLearn.LevelUp();
+                    _correctGuesses.Remove(_toLearn);
+                }
                 _toLearn = null;
                 _isTeaching = false;
-                _correctGuesses.Add(_toMatch);
                 Success();
                 if (_successes < _rounds) NextRound();
             }

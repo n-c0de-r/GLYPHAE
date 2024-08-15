@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   symbol: {fileID: 1254644313, guid: b442477e76df41e4a90338d1373e6e87, type: 3}
   letter: {fileID: 878304875, guid: 87d6be13a6aef9f408bc65038d30e8b9, type: 3}
-  sound: {fileID: 0}
-  memoryLevel: 0
-  _guesses: 0
+  sound: {fileID: 8300000, guid: 5643f9dd943c01e4a8864e4df772c800, type: 3}
+  memoryLevel: 1
+  correctGuesses: 1
+  wrongGuesses: 1

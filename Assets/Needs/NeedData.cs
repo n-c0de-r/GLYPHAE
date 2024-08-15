@@ -42,6 +42,9 @@ namespace GlyphaeScripts
         [Tooltip("The icon of the negative feedback.")]
         [SerializeField] private Sprite negative;
 
+        [Tooltip("The sound a need alarm issues.")]
+        [SerializeField] private AudioClip alarmSound;
+
 
         [Space]
         [Header("Notification Values")]
@@ -116,6 +119,11 @@ namespace GlyphaeScripts
         /// </summary>
         public Sprite Negative { get => negative; }
 
+        /// <summary>
+        /// The sound a need alarm issues.
+        /// </summary>
+        public AudioClip AlarmSound { get => alarmSound; }
+
 
         #region Debug
 
@@ -181,7 +189,7 @@ namespace GlyphaeScripts
             _incrementValue = increment;
             _randomOffset = randomness;
 
-            //OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
+            OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(current));
 
             if (!_isCritical && current < criticalLimit)
                 _isCritical = true;
@@ -221,7 +229,7 @@ namespace GlyphaeScripts
             if (factor == 0) return;
 
             if (current < MIN || current > MAX) return;
-            factor = -_incrementValue * factor * (_downFactor + _randomOffset) / 5;
+            factor = -_incrementValue * factor * (_downFactor + _randomOffset) / 3;
             current = Mathf.Clamp(current + factor, MIN, MAX);
             OnNeedUpdate?.Invoke(this, (int)Mathf.Sign(factor));
 

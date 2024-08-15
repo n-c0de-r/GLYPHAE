@@ -471,11 +471,11 @@ MonoBehaviour:
   inputContainer: {fileID: 68209550250752587}
   dropPoint: {fileID: 0}
   baseRounds: 1
-  energyCost: 3
+  energyCost: 5
   primaryNeed: {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   secondaryNeed: {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
-  fillAmount: 12
-  lossAmount: 2
+  fillAmount: 8
+  lossAmount: 5
   helpContainer: {fileID: 777706456401501799}
   gameDescription: Adults like casual but complex games. Where they can use all senses.
     In this game you need to listen carefully, too!
