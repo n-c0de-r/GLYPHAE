@@ -75,8 +75,7 @@ namespace GlyphaeScripts
         [Tooltip("The Inputs to set up at start.")]
         protected List<GameButton> _gameInputs;
         protected GlyphData _toMatch, _toLearn;
-        protected List<GlyphData> _newGlyphs, _allOtherGlyphs, _usedGlyphs;
-        protected List<GlyphData> _seenGlyphs, _unknownGlyphs, _knownGlyphs, _memorizedGlyphs;
+        protected List<GlyphData> _newGlyphs, _usedGlyphs, _seenGlyphs, _unknownGlyphs, _knownGlyphs, _memorizedGlyphs;
         protected HashSet<GlyphData> _correctGuesses;
         protected float _primaryValue = 0, _secondValue;
         protected int _successes, _fails, _failsToLose;
@@ -349,7 +348,6 @@ namespace GlyphaeScripts
             _unknownGlyphs ??= new();
             _knownGlyphs ??= new();
             _memorizedGlyphs ??= new();
-            _allOtherGlyphs ??= new();
 
             foreach (GlyphData glyph in glyphs)
             {
@@ -360,19 +358,15 @@ namespace GlyphaeScripts
                         break;
                     case MemoryLevels.Seen:
                         _seenGlyphs.Add(glyph);
-                        _allOtherGlyphs.Add(glyph);
                         break;
                     case MemoryLevels.Unknown:
                         _unknownGlyphs.Add(glyph);
-                        _allOtherGlyphs.Add(glyph);
                         break;
                     case MemoryLevels.Known:
                         _knownGlyphs.Add(glyph);
-                        _allOtherGlyphs.Add(glyph);
                         break;
                     case MemoryLevels.Memorized:
                         _memorizedGlyphs.Add(glyph);
-                        _allOtherGlyphs.Add(glyph);
                         break;
                 }
             }
