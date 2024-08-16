@@ -21,7 +21,7 @@ MonoBehaviour:
   - {fileID: 1514102868981016521, guid: 5871866cad727ad418b91138130ee4ae, type: 3}
   main: 0
   music: -25
-  sound: -10
+  sound: 0
   voice: -10
   animationSpeed: 3
   gameSpeed: 1
@@ -31,6 +31,6 @@ MonoBehaviour:
   _selectedPet: {fileID: 0}
   _silenceStart: 20
   _silenceEnd: 8
-  debugCount: 0
+  debugCount: 3
   _isDebugMode: 0
   _hasNotificationPermission: 0

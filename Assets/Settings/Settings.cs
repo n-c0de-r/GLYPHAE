@@ -24,10 +24,10 @@ namespace GlyphaeScripts
         [SerializeField] private List<Pet> pets;
 
         [Header("Volume Settings")]
-        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float main = VOL_MIN / 2;
-        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float music = VOL_MAX;
+        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float main = VOL_MAX;
+        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float music = VOL_MIN / 2;
         [SerializeField][Range(VOL_MIN, VOL_MAX)] private float sound = VOL_MAX;
-        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float voice = VOL_MAX;
+        [SerializeField][Range(VOL_MIN, VOL_MAX)] private float voice = VOL_MIN / 5;
 
         [Header("Display Values")]
         [Tooltip("The speed of animations.")]
@@ -276,10 +276,10 @@ namespace GlyphaeScripts
                 _selectedPet = pets.Find(pet => pet.Name == PlayerPrefs.GetString(nameof(SelectedPet)));
             
             // Volume values
-            VolumeMain = PlayerPrefs.HasKey(nameof(VolumeMain)) ? PlayerPrefs.GetFloat(nameof(VolumeMain)) : VOL_MIN / 2;
-            VolumeMusic = PlayerPrefs.HasKey(nameof(VolumeMusic)) ? PlayerPrefs.GetFloat(nameof(VolumeMusic)) : VOL_MAX;
+            VolumeMain = PlayerPrefs.HasKey(nameof(VolumeMain)) ? PlayerPrefs.GetFloat(nameof(VolumeMain)) : VOL_MAX;
+            VolumeMusic = PlayerPrefs.HasKey(nameof(VolumeMusic)) ? PlayerPrefs.GetFloat(nameof(VolumeMusic)) : VOL_MIN / 2;
             VolumeSound = PlayerPrefs.HasKey(nameof(VolumeSound)) ? PlayerPrefs.GetFloat(nameof(VolumeSound)) : VOL_MAX;
-            VolumeVoice = PlayerPrefs.HasKey(nameof(VolumeVoice)) ? PlayerPrefs.GetFloat(nameof(VolumeVoice)) : VOL_MAX;
+            VolumeVoice = PlayerPrefs.HasKey(nameof(VolumeVoice)) ? PlayerPrefs.GetFloat(nameof(VolumeVoice)) : VOL_MIN / 5;
 
             if (PlayerPrefs.HasKey(nameof(FirstRun)))
                 FirstRun = PlayerPrefs.GetString(nameof(FirstRun)).Equals(true.ToString());

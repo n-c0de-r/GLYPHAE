@@ -18,7 +18,7 @@ namespace GlyphaeScripts
 
         #region Unity Built-Ins
 
-        private void OnEnable()
+        void Start()
         {
             main.SetValueWithoutNotify(settings.VolumeMain);
             main.minValue = Settings.VOL_MIN;
@@ -34,11 +34,6 @@ namespace GlyphaeScripts
             voice.maxValue = Settings.VOL_MAX;
         }
 
-        void Start()
-        {
-            //Reset();
-        }
-
         #endregion
 
 
@@ -46,14 +41,14 @@ namespace GlyphaeScripts
 
         public void Reset()
         {
-            settings.VolumeMain = Settings.VOL_MIN / 2;
-            main.SetValueWithoutNotify(Settings.VOL_MIN / 2);
-            settings.VolumeMusic = Settings.VOL_MAX;
-            music.SetValueWithoutNotify(Settings.VOL_MAX);
+            settings.VolumeMain = Settings.VOL_MAX;
+            main.SetValueWithoutNotify(Settings.VOL_MAX);
+            settings.VolumeMusic = Settings.VOL_MIN / 2;
+            music.SetValueWithoutNotify(Settings.VOL_MIN / 2);
             settings.VolumeSound = Settings.VOL_MAX;
             sound.SetValueWithoutNotify(Settings.VOL_MAX);
-            settings.VolumeVoice = Settings.VOL_MAX;
-            voice.SetValueWithoutNotify(Settings.VOL_MAX);
+            settings.VolumeVoice = Settings.VOL_MIN / 5;
+            voice.SetValueWithoutNotify(Settings.VOL_MIN / 5);
         }
 
         #endregion

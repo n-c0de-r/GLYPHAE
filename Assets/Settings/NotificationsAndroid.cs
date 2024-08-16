@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
+#if UNITY_ANDROID
 using UnityEngine.Android;
 using Unity.Notifications.Android;
+
 
 namespace GlyphaeScripts
 {
@@ -83,3 +85,4 @@ namespace GlyphaeScripts
         #endregion
     }
 }
+#endif

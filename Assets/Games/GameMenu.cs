@@ -15,6 +15,9 @@ namespace GlyphaeScripts
         [Tooltip("The main buttons panel.")]
         [SerializeField] private GameObject mainPanel;
 
+        [Tooltip("The main buttons panel.")]
+        [SerializeField] private GameObject quitPanel;
+
         [Tooltip("Button to wake the pet.")]
         [SerializeField] private GameObject wakeButton;
 
@@ -102,7 +105,7 @@ namespace GlyphaeScripts
             settings.SelectedPet.WakeUp();
         }
 
-        public void RestartGame()
+        public void QuitGame()
         {
             settings.SelectedPet.ResetPet();
         }
@@ -125,7 +128,7 @@ namespace GlyphaeScripts
         private void Sleep()
         {
             StartCoroutine(AnimateSleep(0, 1, settings.AnimationSpeed));
-            mainPanel.SetActive(true);
+            mainPanel.SetActive(false);
             wakeButton.SetActive(true);
         }
 
