@@ -29,7 +29,6 @@ namespace GlyphaeScripts
 
         public bool RequestNotificationPermission()
         {
-
             if (!Permission.HasUserAuthorizedPermission(REQUEST_MESSAGE))
             {
                 Permission.RequestUserPermission(REQUEST_MESSAGE);

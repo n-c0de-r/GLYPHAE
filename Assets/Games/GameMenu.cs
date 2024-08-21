@@ -15,6 +15,9 @@ namespace GlyphaeScripts
         [Tooltip("The main buttons panel.")]
         [SerializeField] private GameObject mainPanel;
 
+        [Tooltip("The initial help panel.")]
+        [SerializeField] private GameObject firstPanel;
+
         [Tooltip("The main buttons panel.")]
         [SerializeField] private GameObject quitPanel;
 
@@ -66,7 +69,11 @@ namespace GlyphaeScripts
             GameManager.OnGameFinished += ToggleButtons;
 
             LullabyChant.OnSleep += Sleep;
+            ShellBreaker.OnEggBreak += () => firstPanel.SetActive(true);
+
             Pet.OnEvolve += Flash;
+            Pet.OnWakeUp += () => wakeButton.SetActive(true);
+
 
             debugButton.SetActive(settings.DebugMode);
         }
@@ -129,7 +136,7 @@ namespace GlyphaeScripts
         {
             StartCoroutine(AnimateSleep(0, 1, settings.AnimationSpeed));
             mainPanel.SetActive(false);
-            wakeButton.SetActive(true);
+            //wakeButton.SetActive(true);
         }
 
         private IEnumerator AnimateEvolution(float start, float end, float speedFactor)

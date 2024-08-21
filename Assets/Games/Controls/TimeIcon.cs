@@ -15,6 +15,9 @@ namespace GlyphaeScripts
         [Header("Animation Values")]
         [Tooltip("The image to fill.")]
         [SerializeField] private Image timerCircle;
+        
+        [Tooltip("The sound this plays when clicked.")]
+        [SerializeField] private AudioSource sound;
 
         [Tooltip("The delay before the start of animation.")]
         [SerializeField][Range(0.1f, 1f)] private float delay = 0.25f;
@@ -45,8 +48,9 @@ namespace GlyphaeScripts
         /// Sets up this icon for display.
         /// </summary>
         /// <param name="display">The sprite to show.</param>
-        public void Setup(Sprite display)
+        public void Setup(AudioClip clip, Sprite display)
         {
+            sound.clip = clip;
             icon.sprite = display;
         }
 
@@ -76,6 +80,7 @@ namespace GlyphaeScripts
         /// </summary>
         private IEnumerator AnimateFill()
         {
+            sound.Play();
             yield return new WaitForSeconds(delay);
 
             while (timerCircle.fillAmount < 1)

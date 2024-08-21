@@ -219,6 +219,7 @@ namespace GlyphaeScripts
             {
                 _isCritical = false;
                 OnNeedCritical?.Invoke(this, _isCritical);
+                notifications.ClearAllNotifications();
             }
         }
 
@@ -259,7 +260,6 @@ namespace GlyphaeScripts
                 _callTime = new DateTime(_callTime.Year, _callTime.Month, _callTime.Day, settings.SilenceEnd, _callTime.Minute, _callTime.Second);
             #if UNITY_ANDROID
             notifications.SendNotification(title, description, _callTime);
-            Debug.Log(_callTime);
             #endif
         }
 

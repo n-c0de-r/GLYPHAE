@@ -106,7 +106,7 @@ namespace GlyphaeScripts
             joy.SetValueWithoutNotify(needs[2].Current);
             energy.SetValueWithoutNotify(needs[3].Current);
 
-            timeFactor.SetValueWithoutNotify(needs[3].Current);
+            timeFactor.SetValueWithoutNotify(settings.GameSpeed);
 
             level.SetValueWithoutNotify((int)settings.SelectedPet.Level - 1);
             calls.SetValueWithoutNotify(settings.SelectedPet.EvolutionCalls);

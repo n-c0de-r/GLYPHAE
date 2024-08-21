@@ -59,7 +59,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ffe8588ddf47daa4eb931c5d0d34d7b8, type: 2}
   - {fileID: 11400000, guid: ea15af4b0eda3a2489dc093f826b4248, type: 2}
   - {fileID: 11400000, guid: 203e51ee71562ed42b49cdf684994f67, type: 2}
-  timeFactor: {fileID: 0}
+  timeFactor: {fileID: 1119919988848072776}
   hunger: {fileID: 9156768247017801955}
   health: {fileID: 4316307880730654325}
   joy: {fileID: 9095024508671561389}

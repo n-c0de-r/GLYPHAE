@@ -69,7 +69,7 @@ namespace GlyphaeScripts
         private const char ITEM_SPLIT = ';', VALUE_SPLIT = ':', PART_SPLIT = '~';
         private const float INCREMENT_MIN = 0.23f, INCREMENT_MAX = 0.31f;
         private float _needTimer = 60;
-        private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
+        private int _evolutionCalls, _sicknessChanceFactor, _sickCount;
         private float _sleepynessFactor = 1f;
 
         private bool _isSleeping = false, _isEvolving = false;
@@ -79,7 +79,7 @@ namespace GlyphaeScripts
 
         #region Events
 
-        public static event Action OnEvolve;
+        public static event Action OnEvolve, OnWakeUp;
 
         #endregion
 
@@ -234,8 +234,11 @@ namespace GlyphaeScripts
 
             if (_needTimer <= 0)
             {
-                DecreaseNeeds();
                 _needTimer = 60;
+                DecreaseNeeds();
+                CheckEvolution();
+                if (_isSleeping && Energy.Current > Energy.SatisfiedLimit)
+                    OnWakeUp?.Invoke();
             }
         }
 
@@ -317,13 +320,17 @@ namespace GlyphaeScripts
             if ((int)_level >= levelSprites.Length) return;
             _isEvolving = false;
             _evolutionCalls = 0;
+
             if (_level == Evolutions.Egg)
                 _birthTime = DateTime.Now;
+
             if (_level != Evolutions.Egg) OnEvolve?.Invoke();
             _level++;
+
             ChangeSprite((int)_level);
             CalculateNeedFactors();
             _criticals = new();
+
             foreach (NeedData item in needs)
                 item.Initialize();
         }
@@ -387,7 +394,7 @@ namespace GlyphaeScripts
             if (PlayerPrefs.HasKey(petName + nameof(_isSleeping)))
             {
                 _isSleeping = PlayerPrefs.GetString(petName + nameof(_isSleeping)).Equals(true.ToString());
-                SleepFactors();
+                if (_isSleeping) SleepFactors();
             }
 
 
@@ -527,7 +534,6 @@ namespace GlyphaeScripts
             }
 
             //CheckSickness();
-            CheckEvolution();
         }
 
         /// <summary>
@@ -539,7 +545,7 @@ namespace GlyphaeScripts
 
             float difference = Mathf.Abs((float)(_previousTimeStamp - DateTime.Now).TotalMinutes);
             int minutes = (int)Mathf.Round(difference);
-            if(minutes > 1)DecreaseNeeds(minutes);
+            if(minutes > 1) DecreaseNeeds(minutes);
         }
 
         /// <summary>
@@ -547,15 +553,12 @@ namespace GlyphaeScripts
         /// </summary>
         private void CheckEvolution()
         {
-            if (!_isEvolving && _evolutionCalls > Enum.GetValues(typeof(Evolutions)).Length)
+            if (!_isEvolving && _evolutionCalls >= Enum.GetValues(typeof(Evolutions)).Length)
             {
                 _isEvolving = true;
 
-                if (!_isSleeping)
-                {
-                    Energy.SetValue(10, 0, 0);
-                    EvolutionFactors();
-                }
+                Energy.Decrease(Energy.Current - 10);
+                EvolutionFactors();
             }
         }
 
@@ -619,8 +622,12 @@ namespace GlyphaeScripts
                 needFeedback.Setup(data.AlarmSound, data.Alarm);
                 StartCoroutine(needFeedback.ShowFeedback());
             }
-            else if (_criticals.Remove(data))
+            else if (!_isEvolving && _criticals.Remove(data))
+            {
                 _evolutionCalls++;
+                CheckEvolution();
+            }
+
             // FIX BUGS
         }
 
@@ -671,7 +678,7 @@ namespace GlyphaeScripts
             Hunger.SetupValues(0, 0, 0, 0);
             Health.SetupValues(0, 0, 0, 0);
             Joy.SetupValues(0, 0, 0, 0);
-            Energy.SetupValues(Energy.UpFactor, 1, 1, 0);
+            Energy.SetupValues(Energy.UpFactor * 2, Energy.DownFactor * 2, 1, 0);
 
             _sicknessChanceFactor = 0;
         }
