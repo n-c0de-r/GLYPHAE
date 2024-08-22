@@ -97,8 +97,8 @@ namespace GlyphaeScripts
 
         protected override void Win()
         {
-            OnSleep?.Invoke();
             base.Win();
+            OnSleep?.Invoke();
         }
 
         protected override void CheckInput(GlyphData input)

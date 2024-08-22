@@ -85,9 +85,9 @@ ehthumbs.db
 Thumbs.db
 
 # My Scriptable Objects
-/[Aa]ssets/[Gg]lyphs/[1-3]_[Uu]niliterals/*.asset
-/[Aa]ssets/[Gg]lyphs/[1-3]_[Uu]niliterals/*.meta
-/[Aa]ssets/[Gg]lyphs/[1-3]_[Bb]iliterals/*.asset
-/[Aa]ssets/[Gg]lyphs/[1-3]_[Bb]iliterals/*.meta
-/[Aa]ssets/[Gg]lyphs/[1-3]_[Tt]riliterals/*.asset
-/[Aa]ssets/[Gg]lyphs/[1-3]_[Tt]riliterals/*.meta
+# /[Aa]ssets/[Gg]lyphs/[1-3]_[Uu]niliterals/*.asset
+# /[Aa]ssets/[Gg]lyphs/[1-3]_[Uu]niliterals/*.meta
+# /[Aa]ssets/[Gg]lyphs/[1-3]_[Bb]iliterals/*.asset
+# /[Aa]ssets/[Gg]lyphs/[1-3]_[Bb]iliterals/*.meta
+# /[Aa]ssets/[Gg]lyphs/[1-3]_[Tt]riliterals/*.asset
+# /[Aa]ssets/[Gg]lyphs/[1-3]_[Tt]riliterals/*.meta

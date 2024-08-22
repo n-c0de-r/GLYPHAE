@@ -257,7 +257,8 @@ namespace GlyphaeScripts
             _callTime = now.AddMinutes(minutes);
 
             if (_callTime.Hour >= settings.SilenceStart || _callTime.Hour < settings.SilenceEnd)
-                _callTime = new DateTime(_callTime.Year, _callTime.Month, _callTime.Day, settings.SilenceEnd, _callTime.Minute, _callTime.Second);
+                _callTime = new DateTime(_callTime.Year, _callTime.Month, _callTime.Day, settings.SilenceEnd, 0, 0);
+            Debug.Log(_callTime);
             #if UNITY_ANDROID
             notifications.SendNotification(title, description, _callTime);
             #endif

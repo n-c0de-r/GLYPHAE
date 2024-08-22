@@ -1,7 +1,6 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GlyphaeScripts
 {
@@ -22,33 +21,7 @@ namespace GlyphaeScripts
         #endregion
 
 
-        #region Fields
-
-
-
-        #endregion
-
-
-        #region Events
-
-
-
-        #endregion
-
-
-        #region GetSets / Properties
-
-
-
-        #endregion
-
-
         #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
 
         private void OnEnable()
         {
@@ -61,70 +34,10 @@ namespace GlyphaeScripts
 
             int learned = 0;
             foreach (GlyphData item in settings.SelectedPet.Literals)
-                if (item.MemoryLevel == MemoryLevels.Memorized)
+                if (item.MemoryLevel == MemoryLevels.Seen)
                     learned++;
 
             learning.text = learned + "/" + settings.SelectedPet.Literals.Count.ToString();
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
-        private void OnDisable()
-        {
-            
-        }
-
-        private void OnDestroy()
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Methods
-
-        public void TemplateMethod(bool param)
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Helpers
-
-        private void TemplateHelper(bool param)
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

@@ -251,31 +251,29 @@ namespace GlyphaeScripts
 
             NeedData.OnNeedCritical -= SetCiticals;
 
-            if (Mathf.Abs(Mathf.Round((float)(_previousTimeStamp - DateTime.Now).TotalMinutes)) > 1)
-            {
-                CalculateNotifications();
-                _previousTimeStamp = DateTime.Now;
-            }
+            #if UNITY_ANDROID
+            notifications.ClearAllNotifications();
+            #endif
+            CalculateNotifications();
+            _previousTimeStamp = DateTime.Now;
             if (_level != Evolutions.Egg) SavePrefs();
         }
 
         // Apparently needed on mobile. Better safe than sorry?
         private void OnApplicationPause(bool isPaused)
         {
+            #if UNITY_ANDROID
+            notifications.ClearAllNotifications();
+            #endif
             if (isPaused)
             {
-                if (Mathf.Abs(Mathf.Round((float)(_previousTimeStamp -DateTime.Now).TotalMinutes)) > 1)
-                {
-                    CalculateNotifications();
-                    _previousTimeStamp = DateTime.Now;
-                }
+                CalculateNotifications();
+                _previousTimeStamp = DateTime.Now;
+
                 if (_level != Evolutions.Egg) SavePrefs();
             }
             else
             {
-                #if UNITY_ANDROID
-                notifications.ClearAllNotifications();
-                #endif
                 ChangeSprite((int)_level);
                 CalculateNeedFactors();
                 RecalculateNeeds();
@@ -285,11 +283,11 @@ namespace GlyphaeScripts
 
         private void OnApplicationFocus(bool focus)
         {
+            #if UNITY_ANDROID
+            notifications.ClearAllNotifications();
+            #endif
             if (focus)
             {
-                #if UNITY_ANDROID
-                notifications.ClearAllNotifications();
-                # endif
                 ChangeSprite((int)_level);
                 CalculateNeedFactors();
                 RecalculateNeeds();
@@ -297,11 +295,8 @@ namespace GlyphaeScripts
             }
             else
             {
-                if (Mathf.Abs(Mathf.Round((float)(_previousTimeStamp - DateTime.Now).TotalMinutes)) > 1)
-                {
-                    CalculateNotifications();
-                    _previousTimeStamp = DateTime.Now;
-                }
+                CalculateNotifications();
+                _previousTimeStamp = DateTime.Now;
                 if (_level != Evolutions.Egg) SavePrefs();
             }
         }
@@ -732,9 +727,6 @@ namespace GlyphaeScripts
         /// </summary>
         private void CalculateNotifications()
         {
-            #if UNITY_ANDROID
-            notifications.ClearAllNotifications();
-            #endif
             if (_level == Evolutions.Egg) return;
             if (_isSleeping) return;
             
