@@ -83,7 +83,7 @@ namespace GlyphaeScripts
                 _orderData.Add(_usedGlyphs[_order[i] % _buttonCount]);
                 GameObject instance = Instantiate(template.gameObject, container);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
-                timer.Setup(_usedGlyphs[_order[i] % _buttonCount].Symbol);
+                timer.Setup(_usedGlyphs[_order[i] % _buttonCount].Sound, _usedGlyphs[_order[i] % _buttonCount].Symbol);
                 _timeIcons.Add(timer);
             }
 
@@ -97,8 +97,8 @@ namespace GlyphaeScripts
 
         protected override void Win()
         {
-            OnSleep?.Invoke();
             base.Win();
+            OnSleep?.Invoke();
         }
 
         protected override void CheckInput(GlyphData input)

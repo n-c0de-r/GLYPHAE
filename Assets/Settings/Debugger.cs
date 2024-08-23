@@ -12,13 +12,14 @@ namespace GlyphaeScripts
 
         [Header("Dropdown Controls")]
         [SerializeField] private TMP_Dropdown level;
+        [SerializeField] private TMP_Dropdown calls;
 
         [Header("Need values")]
         [Tooltip("Basic needs of the pet:\r\nHunger, Health, Joy, Energy.")]
         [SerializeField] private NeedData[] needs;
 
         [Header("Slider Controls")]
-        [SerializeField] private Slider TimeFactor;
+        [SerializeField] private Slider timeFactor;
         [SerializeField] private Slider hunger, health, joy, energy;
 
         [Header("Pet Numbers")]
@@ -105,7 +106,10 @@ namespace GlyphaeScripts
             joy.SetValueWithoutNotify(needs[2].Current);
             energy.SetValueWithoutNotify(needs[3].Current);
 
-            level.SetValueWithoutNotify((int)settings.SelectedPet.Level);
+            timeFactor.SetValueWithoutNotify(settings.GameSpeed);
+
+            level.SetValueWithoutNotify((int)settings.SelectedPet.Level - 1);
+            calls.SetValueWithoutNotify(settings.SelectedPet.EvolutionCalls);
             UpdateNumbers();
         }
 
@@ -120,7 +124,7 @@ namespace GlyphaeScripts
             //placeholder;
             sickFactor.text = settings.SelectedPet.SicknessChanceFactor.ToString();
 
-            settings.SelectedPet.WakeUp();
+            //settings.SelectedPet.WakeUp();
 
             hungerUp.text = needs[0].UpFactor.ToString();
             hungerDown.text = needs[0].DownFactor.ToString();

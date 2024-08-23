@@ -12,8 +12,9 @@ namespace GlyphaeScripts
     public class Pet : MonoBehaviour
     {
         #region Serialized Fields
-
+        #if UNITY_ANDROID
         [SerializeField] private NotificationsAndroid notifications;
+        #endif
         [SerializeField] private Settings settings;
 
         [Header("Need values")]
@@ -62,23 +63,23 @@ namespace GlyphaeScripts
 
         private Evolutions _level = Evolutions.Egg;
         private HashSet<NeedData> _criticals = new();
-        private DateTime _previousTimeStamp;
+        private DateTime _birthTime, _previousTimeStamp;
 
 
         private const char ITEM_SPLIT = ';', VALUE_SPLIT = ':', PART_SPLIT = '~';
         private const float INCREMENT_MIN = 0.23f, INCREMENT_MAX = 0.31f;
         private float _needTimer = 60;
-        private int _evolutionCalls,_sicknessChanceFactor, _sickCount;
+        private int _evolutionCalls, _sicknessChanceFactor, _sickCount;
         private float _sleepynessFactor = 1f;
 
-        private bool _isSleeping = false;
+        private bool _isSleeping = false, _isEvolving = false;
 
         #endregion
 
 
         #region Events
 
-        public static event Action OnEvolve;
+        public static event Action OnEvolve, OnWakeUp;
 
         #endregion
 
@@ -151,6 +152,16 @@ namespace GlyphaeScripts
         /// </summary>
         public Evolutions Level { get => _level; }
 
+        /// <summary>
+        /// The <see cref="Pet"/>'s birth time.
+        /// </summary>
+        public DateTime BirthTime { get => _birthTime; }
+
+        /// <summary>
+        /// The <see cref="Pet"/>'s age.
+        /// </summary>
+        public int Age { get => Mathf.Abs((DateTime.Now - settings.SelectedPet.BirthTime).Days); }
+
 
         #region Debug 
 
@@ -206,14 +217,17 @@ namespace GlyphaeScripts
             Minigame.OnWrongGuess += Feedback;
 
             NeedData.OnNeedCritical += SetCiticals;
-
+            #if UNITY_ANDROID
             notifications.ClearAllNotifications();
+            #endif
             LoadPrefs();
 
             ChangeSprite((int)_level);
             CalculateNeedFactors();
             RecalculateNeeds();
             CheckEvolution();
+            if (_isSleeping && Energy.Current > Energy.SatisfiedLimit)
+                OnWakeUp?.Invoke();
         }
 
         void FixedUpdate()
@@ -222,8 +236,11 @@ namespace GlyphaeScripts
 
             if (_needTimer <= 0)
             {
-                DecreaseNeeds();
                 _needTimer = 60;
+                DecreaseNeeds();
+                CheckEvolution();
+                if (_isSleeping && Energy.Current > Energy.SatisfiedLimit)
+                    OnWakeUp?.Invoke();
             }
         }
 
@@ -236,55 +253,56 @@ namespace GlyphaeScripts
 
             NeedData.OnNeedCritical -= SetCiticals;
 
-            if (Mathf.Abs(Mathf.Round((float)(_previousTimeStamp - DateTime.Now).TotalMinutes)) > 1)
-            {
-                CalculateNotifications();
-                _previousTimeStamp = DateTime.Now;
-            }
+            #if UNITY_ANDROID
+            notifications.ClearAllNotifications();
+            #endif
+            CalculateNotifications();
+            _previousTimeStamp = DateTime.Now;
             if (_level != Evolutions.Egg) SavePrefs();
         }
 
         // Apparently needed on mobile. Better safe than sorry?
         private void OnApplicationPause(bool isPaused)
         {
+            #if UNITY_ANDROID
+            notifications.ClearAllNotifications();
+            #endif
             if (isPaused)
             {
-                if (Mathf.Abs(Mathf.Round((float)(_previousTimeStamp -DateTime.Now).TotalMinutes)) > 1)
-                {
-                    CalculateNotifications();
-                    _previousTimeStamp = DateTime.Now;
-                }
+                CalculateNotifications();
+                _previousTimeStamp = DateTime.Now;
+
                 if (_level != Evolutions.Egg) SavePrefs();
             }
             else
             {
-                notifications.ClearAllNotifications();
-
                 ChangeSprite((int)_level);
                 CalculateNeedFactors();
                 RecalculateNeeds();
                 CheckEvolution();
+                if (_isSleeping && Energy.Current > Energy.SatisfiedLimit)
+                    OnWakeUp?.Invoke();
             }
         }
 
         private void OnApplicationFocus(bool focus)
         {
+            #if UNITY_ANDROID
+            notifications.ClearAllNotifications();
+            #endif
             if (focus)
             {
-                notifications.ClearAllNotifications();
-
                 ChangeSprite((int)_level);
                 CalculateNeedFactors();
                 RecalculateNeeds();
                 CheckEvolution();
+                if (_isSleeping && Energy.Current > Energy.SatisfiedLimit)
+                    OnWakeUp?.Invoke();
             }
             else
             {
-                if (Mathf.Abs(Mathf.Round((float)(_previousTimeStamp - DateTime.Now).TotalMinutes)) > 1)
-                {
-                    CalculateNotifications();
-                    _previousTimeStamp = DateTime.Now;
-                }
+                CalculateNotifications();
+                _previousTimeStamp = DateTime.Now;
                 if (_level != Evolutions.Egg) SavePrefs();
             }
         }
@@ -301,11 +319,21 @@ namespace GlyphaeScripts
         public void IncreaseLevel()
         {
             if ((int)_level >= levelSprites.Length) return;
+            _isEvolving = false;
+            _evolutionCalls = 0;
+
+            if (_level == Evolutions.Egg)
+                _birthTime = DateTime.Now;
+
             if (_level != Evolutions.Egg) OnEvolve?.Invoke();
             _level++;
+
             ChangeSprite((int)_level);
             CalculateNeedFactors();
             _criticals = new();
+
+            foreach (NeedData item in needs)
+                item.Initialize();
         }
 
         /// <summary>
@@ -322,8 +350,16 @@ namespace GlyphaeScripts
         /// </summary>
         public void WakeUp()
         {
-            CalculateNeedFactors();
+            if (_isEvolving && Energy.Current > Energy.SatisfiedLimit)
+            {
+                IncreaseLevel();
+            }
+            else
+            {
+                CalculateNeedFactors();
+            }
             _isSleeping = false;
+            
         }
 
         public void ResetPet()
@@ -359,7 +395,7 @@ namespace GlyphaeScripts
             if (PlayerPrefs.HasKey(petName + nameof(_isSleeping)))
             {
                 _isSleeping = PlayerPrefs.GetString(petName + nameof(_isSleeping)).Equals(true.ToString());
-                SleepFactors();
+                if (_isSleeping) SleepFactors();
             }
 
 
@@ -367,6 +403,12 @@ namespace GlyphaeScripts
             {
                 DateTime.TryParse(PlayerPrefs.GetString(petName + nameof(_previousTimeStamp)), out DateTime timeStamp);
                 _previousTimeStamp = timeStamp;
+            }
+
+            if (PlayerPrefs.HasKey(petName + nameof(_birthTime)))
+            {
+                DateTime.TryParse(PlayerPrefs.GetString(petName + nameof(_birthTime)), out DateTime timeStamp);
+                _birthTime = timeStamp;
             }
 
 
@@ -433,6 +475,8 @@ namespace GlyphaeScripts
 
             PlayerPrefs.SetString(petName + nameof(_previousTimeStamp), DateTime.Now.ToString());
 
+            PlayerPrefs.SetString(petName + nameof(_birthTime), _birthTime.ToString());
+
 
             string needValues = "";
             foreach (NeedData item in needs)
@@ -487,12 +531,10 @@ namespace GlyphaeScripts
             } else
             {
                 _sleepynessFactor = 1f;
-                factor = 1f / factor;
                 Energy.Increase(minutesPassed * _sleepynessFactor);
             }
 
             //CheckSickness();
-            CheckEvolution();
         }
 
         /// <summary>
@@ -504,7 +546,7 @@ namespace GlyphaeScripts
 
             float difference = Mathf.Abs((float)(_previousTimeStamp - DateTime.Now).TotalMinutes);
             int minutes = (int)Mathf.Round(difference);
-            if(minutes > 1)DecreaseNeeds(minutes);
+            if(minutes > 1) DecreaseNeeds(minutes);
         }
 
         /// <summary>
@@ -512,11 +554,12 @@ namespace GlyphaeScripts
         /// </summary>
         private void CheckEvolution()
         {
-            if (_evolutionCalls > Enum.GetValues(typeof(Evolutions)).Length)
+            if (!_isEvolving && _evolutionCalls >= Enum.GetValues(typeof(Evolutions)).Length)
             {
-                IncreaseLevel();
-                //TODO: Animation
-                _evolutionCalls = 0;
+                _isEvolving = true;
+
+                Energy.Decrease(Energy.Current - 10);
+                EvolutionFactors();
             }
         }
 
@@ -580,8 +623,12 @@ namespace GlyphaeScripts
                 needFeedback.Setup(data.AlarmSound, data.Alarm);
                 StartCoroutine(needFeedback.ShowFeedback());
             }
-            else if (_criticals.Remove(data))
+            else if (!_isEvolving && _criticals.Remove(data))
+            {
                 _evolutionCalls++;
+                CheckEvolution();
+            }
+
             // FIX BUGS
         }
 
@@ -612,14 +659,29 @@ namespace GlyphaeScripts
         {
             if (_level == Evolutions.Egg) return;
 
-            Hunger.SetupValues(1, 1, CalculateNeedIncrement(), _evolutionCalls);
-            Health.SetupValues(1, 1, CalculateNeedIncrement(), _evolutionCalls);
-            Joy.SetupValues(1, 1, CalculateNeedIncrement(), _evolutionCalls);
-            Energy.SetupValues(Enum.GetNames(typeof(Evolutions)).Length * 2, 1, CalculateNeedIncrement(), _evolutionCalls);
+            Hunger.SetupValues(0, 1, CalculateNeedIncrement(), _evolutionCalls);
+            Health.SetupValues(0, 1, CalculateNeedIncrement(), _evolutionCalls);
+            Joy.SetupValues(0, 1, CalculateNeedIncrement(), _evolutionCalls);
+            Energy.SetupValues(Energy.UpFactor, 0, CalculateNeedIncrement(), _evolutionCalls);
 
             _sicknessChanceFactor = 1;
 
             _isSleeping = true;
+        }
+
+        /// <summary>
+        /// Sets all factors to 0 while evolving
+        /// </summary>
+        private void EvolutionFactors()
+        {
+            if (_level == Evolutions.Egg) return;
+
+            Hunger.SetupValues(0, 0, 0, 0);
+            Health.SetupValues(0, 0, 0, 0);
+            Joy.SetupValues(0, 0, 0, 0);
+            Energy.SetupValues(Energy.UpFactor * 2, Energy.DownFactor * 2, 1, 0);
+
+            _sicknessChanceFactor = 0;
         }
 
         /// <summary>
@@ -671,7 +733,6 @@ namespace GlyphaeScripts
         /// </summary>
         private void CalculateNotifications()
         {
-            notifications.ClearAllNotifications();
             if (_level == Evolutions.Egg) return;
             if (_isSleeping) return;
             

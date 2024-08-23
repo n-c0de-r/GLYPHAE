@@ -21,7 +21,7 @@ MonoBehaviour:
   - {fileID: 1514102868981016521, guid: 5871866cad727ad418b91138130ee4ae, type: 3}
   main: 0
   music: -25
-  sound: -10
+  sound: 0
   voice: -10
   animationSpeed: 3
   gameSpeed: 1

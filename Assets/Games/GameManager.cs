@@ -64,7 +64,6 @@ namespace GlyphaeScripts
             {
                 _pet.IncreaseLevel();
                 _pet.gameObject.SetActive(_pet.Level != Evolutions.Egg);
-                settings.FirstRun = false;
             };
         }
 

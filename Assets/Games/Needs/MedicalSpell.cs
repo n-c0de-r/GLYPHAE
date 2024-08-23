@@ -89,7 +89,7 @@ namespace GlyphaeScripts
 
                 GameObject instance = Instantiate(template.gameObject, container);
                 TimeIcon timer = instance.GetComponent<TimeIcon>();
-                timer.Setup(sprite);
+                timer.Setup(_usedGlyphs[_order[i] % _buttonCount].Sound, sprite);
                 timer.name = sprite.name;
                 _timeIcons.Add(timer);
             }

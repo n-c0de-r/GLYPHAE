@@ -49,9 +49,10 @@ namespace GlyphaeScripts
 
         [Space]
         [Header("Notification Values")]
+        #if UNITY_ANDROID
         [Tooltip("The notification managment system.")]
         [SerializeField] private NotificationsAndroid notifications;
-
+        #endif
         [Tooltip("The title text to show for the notification.")]
         [SerializeField] private string title;
 
@@ -66,7 +67,8 @@ namespace GlyphaeScripts
         private DateTime _callTime;
         public const int MIN = 0, MAX = 100;
         public const float RANDOM_MIN = -0.13f, RANDOM_MAX = 0.13f;
-        private float _upFactor, _downFactor, _incrementValue, _randomOffset;
+        private float _incrementValue, _randomOffset;
+        private int _upFactor, _downFactor;
         private bool _isCritical = false;
 
         #endregion
@@ -132,13 +134,13 @@ namespace GlyphaeScripts
         /// Gets the hidden up factor value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float UpFactor { get => _upFactor; }
+        public int UpFactor { get => _upFactor; }
 
         /// <summary>
         /// Gets the hidden down factor value.
         /// Only for debugging on hardware.
         /// </summary>
-        public float DownFactor { get => _downFactor; }
+        public int DownFactor { get => _downFactor; }
 
         #endregion Debug
 
@@ -217,6 +219,9 @@ namespace GlyphaeScripts
             {
                 _isCritical = false;
                 OnNeedCritical?.Invoke(this, _isCritical);
+                #if UNITY_ANDROID
+                notifications.ClearAllNotifications();
+                #endif
             }
         }
 
@@ -253,9 +258,12 @@ namespace GlyphaeScripts
             DateTime now = DateTime.Now;
             _callTime = now.AddMinutes(minutes);
 
-            if ((_callTime.Day == now.Day && _callTime.Hour >= settings.SilenceStart) || (_callTime.Day > now.Day && _callTime.Hour < settings.SilenceEnd))
-                _callTime = new DateTime(_callTime.Year, _callTime.Month, _callTime.Day, settings.SilenceEnd, _callTime.Minute, _callTime.Second);
+            if (_callTime.Hour >= settings.SilenceStart || _callTime.Hour < settings.SilenceEnd)
+                _callTime = new DateTime(_callTime.Year, _callTime.Month, _callTime.Day, settings.SilenceEnd, 0, 0);
+            Debug.Log(_callTime);
+            #if UNITY_ANDROID
             notifications.SendNotification(title, description, _callTime);
+            #endif
         }
 
         #endregion

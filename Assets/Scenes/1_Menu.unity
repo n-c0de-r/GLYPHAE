@@ -5848,6 +5848,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7944922830877963577, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
+      propertyPath: m_text
+      value: "<link=\"\r\">'Ancient Egyptian Desert Music'</link>"
+      objectReference: {fileID: 0}
     - target: {fileID: 7972641023645646598, guid: de7dbf2c9946188458ad2cc17071af9d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

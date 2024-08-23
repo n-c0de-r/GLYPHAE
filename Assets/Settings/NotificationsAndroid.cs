@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
+#if UNITY_ANDROID
 using UnityEngine.Android;
 using Unity.Notifications.Android;
+
 
 namespace GlyphaeScripts
 {
@@ -27,7 +29,6 @@ namespace GlyphaeScripts
 
         public bool RequestNotificationPermission()
         {
-
             if (!Permission.HasUserAuthorizedPermission(REQUEST_MESSAGE))
             {
                 Permission.RequestUserPermission(REQUEST_MESSAGE);
@@ -83,3 +84,4 @@ namespace GlyphaeScripts
         #endregion
     }
 }
+#endif
