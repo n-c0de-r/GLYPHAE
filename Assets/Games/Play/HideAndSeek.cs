@@ -34,12 +34,14 @@ namespace GlyphaeScripts
 
         private new void OnEnable()
         {
+            base.OnEnable();
             GameBasket.OnHidden += ShuffleBaskets;
             GameBasket.OnBasketPick += RevealCorrect;
         }
 
         private new void OnDisable()
         {
+            base.OnDisable();
             GameBasket.OnHidden -= ShuffleBaskets;
             GameBasket.OnBasketPick -= RevealCorrect;
         }
