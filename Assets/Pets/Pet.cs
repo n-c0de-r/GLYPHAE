@@ -226,6 +226,8 @@ namespace GlyphaeScripts
             CalculateNeedFactors();
             RecalculateNeeds();
             CheckEvolution();
+            if (_isSleeping && Energy.Current > Energy.SatisfiedLimit)
+                OnWakeUp?.Invoke();
         }
 
         void FixedUpdate()
@@ -278,6 +280,8 @@ namespace GlyphaeScripts
                 CalculateNeedFactors();
                 RecalculateNeeds();
                 CheckEvolution();
+                if (_isSleeping && Energy.Current > Energy.SatisfiedLimit)
+                    OnWakeUp?.Invoke();
             }
         }
 
@@ -292,6 +296,8 @@ namespace GlyphaeScripts
                 CalculateNeedFactors();
                 RecalculateNeeds();
                 CheckEvolution();
+                if (_isSleeping && Energy.Current > Energy.SatisfiedLimit)
+                    OnWakeUp?.Invoke();
             }
             else
             {
