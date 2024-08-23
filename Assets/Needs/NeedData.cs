@@ -219,7 +219,9 @@ namespace GlyphaeScripts
             {
                 _isCritical = false;
                 OnNeedCritical?.Invoke(this, _isCritical);
+                #if UNITY_ANDROID
                 notifications.ClearAllNotifications();
+                #endif
             }
         }
 

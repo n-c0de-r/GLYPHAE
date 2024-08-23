@@ -628,7 +628,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <link="https://campus.lamapoll.de/IMI-BA24_GLYPHAE-Post-Evaluation">Link
+  m_text: <link="https://campus.lamapoll.de/Post-Evaluation_IMI-BA24_RUSTIC">Link
     to GLYPHAE-Post-Evaluation survey</link>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
