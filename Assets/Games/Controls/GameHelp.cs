@@ -15,53 +15,6 @@ namespace GlyphaeScripts
         [Tooltip("Instructions how to play the game.")]
         [SerializeField] private TMP_Text instructions;
 
-
-        #endregion
-
-
-        #region Fields
-        
-        
-
-        #endregion
-
-
-        #region Events
-        
-        
-
-        #endregion
-
-
-        #region GetSets / Properties
-        
-        
-
-        #endregion
-
-
-        #region Unity Built-Ins
-
-        void Awake()
-        {
-            
-        }
-
-        void Start()
-        {
-            
-        }
-
-        void FixedUpdate()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
         #endregion
 
 
@@ -72,31 +25,6 @@ namespace GlyphaeScripts
             gameName.text = newName;
             description.text = newDescription;
             instructions.text = newInstcructions;
-        }
-
-        #endregion
-
-
-        #region Helpers
-
-        private void TemplateHelper(bool param)
-        {
-            
-        }
-
-        #endregion
-
-
-        #region Gizmos
-
-        private void OnDrawGizmos()
-        {
-            
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-             
         }
 
         #endregion

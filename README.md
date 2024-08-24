@@ -90,7 +90,19 @@ or
 
 ## :pray: Credits
 
-TODO
+[Ancient Egyptian Desert Music](https://assetstore.unity.com/packages/audio/music/ancient-egyptian-desert-music-free-pack-131425) - [Tyler Cunningham @ Unity Asset Store](https://assetstore.unity.com/publishers/31102)
+
+[Desert Theme](https://opengameart.org/content/desert-theme-1) - [ProjectHelmet @ OpenGameArt.org](https://opengameart.org/users/projecthelmet)
+
+[Fantasy Wooden GUI](https://assetstore.unity.com/packages/2d/gui/fantasy-wooden-gui-free-103811) - [Black Hammer @ Unity Asset Store](https://assetstore.unity.com/publishers/32893)
+
+[Link Handler Script](https://github.com/Maraakis/ChristinaCreatesGames) - [ChristinaCreatesGames @ GitHub.com](https://github.com/Maraakis/ChristinaCreatesGames)
+
+[Horus Symbol](https://commons.wikimedia.org/wiki/File:Horus_standing.svg) & [Sobek Symbol](https://commons.wikimedia.org/wiki/File:Sobek.svg) - [Jeff Dahl @ Wikimedia](https://commons.wikimedia.org/wiki/User:Jeff_Dahl)
+
+[Wadjet Symbol](https://commons.wikimedia.org/wiki/File:Wadjet_(Deity).png) & [Nekhbet Symbol](https://commons.wikimedia.org/wiki/File:Nekhbet_(Goddess).svg) - [EternalSpace @ Wikimedia](https://commons.wikimedia.org/wiki/User:Eternal_Space)
+
+[Emoji Icons by various artists @ OpenMoji.org](ttps://openmoji.org/)
 
 ## :busts_in_silhouette: Contributing
 
