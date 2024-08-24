@@ -102,7 +102,7 @@ or
 
 [Wadjet Symbol](https://commons.wikimedia.org/wiki/File:Wadjet_(Deity).png) & [Nekhbet Symbol](https://commons.wikimedia.org/wiki/File:Nekhbet_(Goddess).svg) - [EternalSpace @ Wikimedia](https://commons.wikimedia.org/wiki/User:Eternal_Space)
 
-[Emoji Icons by various artists @ OpenMoji.org](ttps://openmoji.org/)
+[Emoji Icons by various artists @ OpenMoji.org](https://openmoji.org/)
 
 ## :busts_in_silhouette: Contributing
 
