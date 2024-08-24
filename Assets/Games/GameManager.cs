@@ -97,7 +97,8 @@ namespace GlyphaeScripts
 
         public void StartGame()
         {
-            StartGame(minigames[Random.Range(1, (int)_pet.Level)]);
+            int index = Mathf.Clamp((int)_pet.Level + 1, 1, minigames.Count-1);
+            StartGame(minigames[Random.Range(1, index)]);
         }
 
         public void StartGame(Minigame picked)

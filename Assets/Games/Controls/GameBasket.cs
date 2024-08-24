@@ -27,7 +27,6 @@ namespace GlyphaeScripts
         #region Events
 
         public static event Action OnHidden;
-        public static event Action<bool> OnBasketPick;
 
         #endregion
 
@@ -70,7 +69,7 @@ namespace GlyphaeScripts
         {
             Vector3 initialPosition = movablePart.position;
 
-            yield return new WaitForSeconds(_delay / settings.AnimationSpeed);
+            yield return new WaitForSeconds(_delay);
 
             float timeTotal = 0;
 
@@ -113,6 +112,7 @@ namespace GlyphaeScripts
                 movablePart.position = Vector3.Lerp(currentPosition, initialPosition, timeTotal / _delay);
                 yield return null;
             }
+            yield return new WaitForSeconds(_delay / settings.AnimationSpeed);
 
             OnHidden?.Invoke();
         }
@@ -193,7 +193,6 @@ namespace GlyphaeScripts
 
                 yield return new WaitForSeconds(1 / settings.AnimationSpeed);
             }
-            OnBasketPick?.Invoke(_petSprite != null);
 
             timeTotal = 0;
 
