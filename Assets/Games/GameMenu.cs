@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GlyphaeScripts
 {
@@ -146,6 +147,8 @@ namespace GlyphaeScripts
             yield return new WaitForSeconds(1f / speedFactor);
 
             yield return flashOverlay.Flash(Color.clear, end, start, speedFactor);
+
+            if (settings.SelectedPet.Level == Evolutions.God) SceneManager.LoadScene("3_Finish");
         }
 
         private IEnumerator AnimateSleep(float start, float end, float speedFactor)

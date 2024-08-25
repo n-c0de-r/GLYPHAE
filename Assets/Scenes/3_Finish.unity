@@ -1562,12 +1562,14 @@ MonoBehaviour:
 
 
     If you just want to quit the game, click
-    the close button up right or shut down the App via the system (usually by swiping
-    it)
+    the close button up right or just shut down the App by swipe.
+
+    You can continue
+    playing when you restart the App.
 
 
-    If you have played enough, and want to take the second survey now,
-    click the text below:'
+    If you have played enough, and want to
+    take the second survey now, click the text below:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
