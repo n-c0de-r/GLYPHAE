@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GlyphaeScripts
 {
@@ -554,6 +556,8 @@ namespace GlyphaeScripts
         /// </summary>
         private void CheckEvolution()
         {
+            if (_level == Evolutions.God) return;
+
             if (!_isEvolving && _evolutionCalls >= Enum.GetValues(typeof(Evolutions)).Length)
             {
                 _isEvolving = true;
